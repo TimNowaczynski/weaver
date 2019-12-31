@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Weaver</string>
+
+    <string name="edit_campaign">EDIT</string>
+
+    <string name="campaign_list_add_campaign">Add Campaign</string>
 </resources>

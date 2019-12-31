@@ -21,6 +21,8 @@
 
         <activity android:name=".campaigns.CampaignListActivity" />
 
+        <activity android:name=".campaigns.CampaignActivity" />
+
     </application>
 
 </manifest>

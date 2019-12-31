@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/pitch_black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".campaigns.CampaignListActivity">
+    tools:context=".campaigns.CampaignActivity">
 
-</LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/campaign_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/campaign_list_add_campaign"
+        android:src="@drawable/ic_add"
+        app:fabSize="normal"
+        android:tint="@color/white"
+        app:useCompatPadding="true"
+        android:layout_gravity="bottom|end"
+        android:layout_width="56dp"
+        android:layout_height="56dp"/>
+
+</FrameLayout>
