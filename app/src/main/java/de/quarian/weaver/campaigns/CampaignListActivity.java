@@ -91,11 +91,13 @@ public class CampaignListActivity extends AppCompatActivity {
             }
             case R.id.menu_item_view_scheduled_to_delete: {
                 viewScheduledToDelete();
+                break;
             }
             case R.id.menu_item_developer_options: {
                 if (BuildConfig.DEBUG) {
                     goToDeveloperScreen();
                 }
+                break;
             }
         }
         return super.onOptionsItemSelected(item);
