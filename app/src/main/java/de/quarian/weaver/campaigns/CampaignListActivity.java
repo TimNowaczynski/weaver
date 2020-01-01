@@ -23,7 +23,7 @@ import de.quarian.weaver.R;
 import de.quarian.weaver.SettingsActivity;
 import de.quarian.weaver.assets.ViewScheduledToDeleteActivity;
 import de.quarian.weaver.namesets.ManageNameSetsActivity;
-import de.quarian.weaver.namesets.dev.DevelopFunctionsScreen;
+import de.quarian.weaver.dev.DeveloperFunctionsActivity;
 
 public class CampaignListActivity extends AppCompatActivity {
 
@@ -121,7 +121,7 @@ public class CampaignListActivity extends AppCompatActivity {
 
     private void goToDeveloperScreen() {
         final Context baseContext = getBaseContext();
-        final Intent intent = new Intent(baseContext, DevelopFunctionsScreen.class);
+        final Intent intent = new Intent(baseContext, DeveloperFunctionsActivity.class);
         startActivity(intent);
     }
 

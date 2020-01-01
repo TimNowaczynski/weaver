@@ -32,7 +32,7 @@
 
         <activity android:name=".assets.ViewScheduledToDeleteActivity" />
 
-        <activity android:name=".namesets.dev.DevelopFunctionsScreen" />
+        <activity android:name=".dev.DeveloperFunctionsActivity" />
 
     </application>
 
