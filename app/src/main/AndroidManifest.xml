@@ -20,9 +20,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".campaigns.CampaignListActivity" />
+        <activity
+            android:name=".campaigns.CampaignListActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".campaigns.CampaignActivity" />
+
+        <activity android:name=".SettingsActivity" />
+
+        <activity android:name=".namesets.ManageNameSetsActivity" />
+
+        <activity android:name=".assets.ViewScheduledToDeleteActivity" />
 
     </application>
 

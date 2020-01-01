@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -11,10 +14,14 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
+import de.quarian.weaver.SettingsActivity;
+import de.quarian.weaver.assets.ViewScheduledToDeleteActivity;
+import de.quarian.weaver.namesets.ManageNameSetsActivity;
 
 public class CampaignListActivity extends AppCompatActivity {
 
@@ -31,7 +38,7 @@ public class CampaignListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign_list);
-        setTitle(R.string.activity_title_campaign_screen);
+        setUpToolbar();
         setUpFloatingActionButton();
 
         final RecyclerView campaignList = findViewById(R.id.campaign_list);
@@ -44,9 +51,59 @@ public class CampaignListActivity extends AppCompatActivity {
         campaignListAdapter.setCampaignDisplayObjects(campaignDisplayObjects);
     }
 
+    private void setUpToolbar() {
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.activity_title_campaign_screen);
+    }
+
     private void setUpFloatingActionButton() {
         final View floatingActionButton = findViewById(R.id.campaign_list_add_campaign);
         floatingActionButton.setOnClickListener((view) -> NavigationController.getInstance().addCampaign(this));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        final MenuInflater menuInflater = new MenuInflater(getBaseContext());
+        menuInflater.inflate(R.menu.menu_campaign_list_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final int itemId = item.getItemId();
+        switch (itemId) {
+            case R.id.menu_item_app_settings: {
+                openAppSettings();
+                break;
+            }
+            case R.id.menu_item_manage_name_sets: {
+                manageNameSets();
+                break;
+            }
+            case R.id.menu_item_view_scheduled_to_delete: {
+                viewScheduledToDelete();
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void openAppSettings() {
+        final Context baseContext = getBaseContext();
+        final Intent intent = new Intent(baseContext, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    private void manageNameSets() {
+        final Context baseContext = getBaseContext();
+        final Intent intent = new Intent(baseContext, ManageNameSetsActivity.class);
+        startActivity(intent);
+    }
+
+    private void viewScheduledToDelete() {
+        final Context baseContext = getBaseContext();
+        final Intent intent = new Intent(baseContext, ViewScheduledToDeleteActivity.class);
+        startActivity(intent);
     }
 
     @Override

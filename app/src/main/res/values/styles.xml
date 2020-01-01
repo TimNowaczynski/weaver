@@ -6,11 +6,16 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/secondaryColor</item>
+        <item name="actionOverflowButtonStyle">@style/AppTheme.ActionOverflowButton</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.ActionOverflowButton">
+        <item name="srcCompat">@drawable/ic_settings</item>
     </style>
 
 </resources>
