@@ -32,6 +32,8 @@
 
         <activity android:name=".assets.ViewScheduledToDeleteActivity" />
 
+        <activity android:name=".namesets.dev.DevelopFunctionsScreen" />
+
     </application>
 
 </manifest>

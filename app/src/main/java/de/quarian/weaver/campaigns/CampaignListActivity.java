@@ -17,11 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import de.quarian.weaver.BuildConfig;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 import de.quarian.weaver.SettingsActivity;
 import de.quarian.weaver.assets.ViewScheduledToDeleteActivity;
 import de.quarian.weaver.namesets.ManageNameSetsActivity;
+import de.quarian.weaver.namesets.dev.DevelopFunctionsScreen;
 
 public class CampaignListActivity extends AppCompatActivity {
 
@@ -64,9 +66,15 @@ public class CampaignListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        final MenuInflater menuInflater = new MenuInflater(getBaseContext());
-        menuInflater.inflate(R.menu.menu_campaign_list_activity, menu);
-        return true;
+        if (BuildConfig.DEBUG) {
+            final MenuInflater menuInflater = new MenuInflater(getBaseContext());
+            menuInflater.inflate(R.menu.menu_campaign_list_activit_developer, menu);
+            return true;
+        } else {
+            final MenuInflater menuInflater = new MenuInflater(getBaseContext());
+            menuInflater.inflate(R.menu.menu_campaign_list_activity, menu);
+            return true;
+        }
     }
 
     @Override
@@ -83,6 +91,11 @@ public class CampaignListActivity extends AppCompatActivity {
             }
             case R.id.menu_item_view_scheduled_to_delete: {
                 viewScheduledToDelete();
+            }
+            case R.id.menu_item_developer_options: {
+                if (BuildConfig.DEBUG) {
+                    goToDeveloperScreen();
+                }
             }
         }
         return super.onOptionsItemSelected(item);
@@ -103,6 +116,12 @@ public class CampaignListActivity extends AppCompatActivity {
     private void viewScheduledToDelete() {
         final Context baseContext = getBaseContext();
         final Intent intent = new Intent(baseContext, ViewScheduledToDeleteActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToDeveloperScreen() {
+        final Context baseContext = getBaseContext();
+        final Intent intent = new Intent(baseContext, DevelopFunctionsScreen.class);
         startActivity(intent);
     }
 
