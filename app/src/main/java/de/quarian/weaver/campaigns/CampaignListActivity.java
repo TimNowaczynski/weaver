@@ -31,6 +31,7 @@ public class CampaignListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign_list);
+        setTitle(R.string.activity_title_campaign_screen);
         setUpFloatingActionButton();
 
         final RecyclerView campaignList = findViewById(R.id.campaign_list);
