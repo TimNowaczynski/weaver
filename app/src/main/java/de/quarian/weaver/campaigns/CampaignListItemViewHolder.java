@@ -22,7 +22,8 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
         this.activity = new WeakReference<>(activity);
         this.campaignName = itemView.findViewById(R.id.campaign_list_item_view);
         this.campaignName.setOnClickListener(this);
-        this.campaignName.setOnClickListener(this);
+        final TextView campaignSynopsis = itemView.findViewById(R.id.campaign_list_item_synopsis);
+        campaignSynopsis.setOnClickListener(this);
         final TextView editCampaignButton = itemView.findViewById(R.id.campaign_list_item_edit);
         editCampaignButton.setOnClickListener(this);
     }
@@ -45,6 +46,10 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
             case R.id.campaign_list_item_edit: {
                 NavigationController.getInstance().editCampaign(activity.get(), campaignDisplayObject.getId());
                 break;
+            }
+
+            case R.id.campaign_list_item_synopsis: {
+                NavigationController.getInstance().openSynopsis(activity.get(), campaignDisplayObject.getId());
             }
 
             default: {

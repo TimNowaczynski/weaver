@@ -3,6 +3,7 @@
 
     <string name="activity_title_campaign_screen">Campaigns</string>
     <string name="activity_title_view_campaign_screen">View Campaign</string>
+    <string name="activity_title_campaign_synopsis">Synopsis</string>
     <string name="activity_title_add_campaign_screen">Add Campaign</string>
     <string name="activity_title_edit_campaign_screen">Edit Campaign</string>
     <string name="activity_title_settings_screen">Settings</string>
@@ -16,6 +17,7 @@
     <string name="activity_campaign_list_menu_view_scheduled_to_delete">Scheduled to Delete</string>
     <string name="activity_campaign_list_menu_developer_options">Developer Options</string>
 
-    <string name="edit_campaign">EDIT</string>
+    <string name="campaign_list_item_edit">EDIT</string>
+    <string name="campaign_list_item_synopsis">SYNOPSIS</string>
 
 </resources>

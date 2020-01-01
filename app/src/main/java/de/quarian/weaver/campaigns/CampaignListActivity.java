@@ -20,10 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.BuildConfig;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
-import de.quarian.weaver.SettingsActivity;
-import de.quarian.weaver.assets.ViewScheduledToDeleteActivity;
-import de.quarian.weaver.namesets.ManageNameSetsActivity;
-import de.quarian.weaver.dev.DeveloperFunctionsActivity;
 
 public class CampaignListActivity extends AppCompatActivity {
 
@@ -41,7 +37,7 @@ public class CampaignListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign_list);
         setUpToolbar();
-        setUpFloatingActionButton();
+        setUpButtons();
 
         final RecyclerView campaignList = findViewById(R.id.campaign_list);
         final Context baseContext = getBaseContext();
@@ -57,6 +53,10 @@ public class CampaignListActivity extends AppCompatActivity {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.activity_title_campaign_screen);
+    }
+
+    private void setUpButtons() {
+        setUpFloatingActionButton();
     }
 
     private void setUpFloatingActionButton() {
@@ -102,27 +102,23 @@ public class CampaignListActivity extends AppCompatActivity {
     }
 
     private void openAppSettings() {
-        final Context baseContext = getBaseContext();
-        final Intent intent = new Intent(baseContext, SettingsActivity.class);
-        startActivity(intent);
+        final NavigationController navigationController = NavigationController.getInstance();
+        navigationController.manageSettings(this);
     }
 
     private void manageNameSets() {
-        final Context baseContext = getBaseContext();
-        final Intent intent = new Intent(baseContext, ManageNameSetsActivity.class);
-        startActivity(intent);
+        final NavigationController navigationController = NavigationController.getInstance();
+        navigationController.manageNameSets(this);
     }
 
     private void viewScheduledToDelete() {
-        final Context baseContext = getBaseContext();
-        final Intent intent = new Intent(baseContext, ViewScheduledToDeleteActivity.class);
-        startActivity(intent);
+        final NavigationController navigationController = NavigationController.getInstance();
+        navigationController.viewScheduledToDelete(this);
     }
 
     private void goToDeveloperScreen() {
-        final Context baseContext = getBaseContext();
-        final Intent intent = new Intent(baseContext, DeveloperFunctionsActivity.class);
-        startActivity(intent);
+        final NavigationController navigationController = NavigationController.getInstance();
+        navigationController.openDeveloperOptions(this);
     }
 
     @Override

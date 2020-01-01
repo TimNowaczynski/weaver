@@ -24,6 +24,8 @@
             android:name=".campaigns.CampaignListActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity android:name=".campaigns.CampaignSynopsisActivity"/>
+
         <activity android:name=".campaigns.CampaignActivity" />
 
         <activity android:name=".SettingsActivity" />
