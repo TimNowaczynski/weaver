@@ -17,7 +17,17 @@
     <string name="activity_campaign_list_menu_view_scheduled_to_delete">Scheduled to Delete</string>
     <string name="activity_campaign_list_menu_developer_options">Developer Options</string>
 
+    <string name="activity_player_character_list_character_name_hint">Character Name</string>
+    <string name="activity_player_character_list_player_name_hint">Player Name</string>
+    <string name="activity_player_character_list_example_placeholder">Example</string>
+    <string name="activity_player_character_list_example_text">%1$s (%2$s) betrayed her trust.</string>
+    <string name="activity_player_character_list_change_color_hint">Change color</string>
+    <string name="activity_player_character_list_add_character">Add Character</string>
+    <string name="activity_player_character_list_delete_character_cd">Delete Character</string>
+    <string name="activity_player_character_list_usage_hint">Player characters will be auto-completed while typing and also highlighted within texts.</string>
+
     <string name="campaign_list_item_edit">EDIT</string>
     <string name="campaign_list_item_synopsis">SYNOPSIS</string>
+    <string name="campaign_list_item_players">PLAYERS</string>
 
 </resources>

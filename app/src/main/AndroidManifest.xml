@@ -26,6 +26,8 @@
 
         <activity android:name=".campaigns.CampaignSynopsisActivity"/>
 
+        <activity android:name=".campaigns.PlayerCharacterListActivity"/>
+
         <activity android:name=".campaigns.CampaignActivity" />
 
         <activity android:name=".SettingsActivity" />

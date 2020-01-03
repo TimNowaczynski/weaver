@@ -6,6 +6,7 @@ import android.content.Intent;
 import de.quarian.weaver.assets.ViewScheduledToDeleteActivity;
 import de.quarian.weaver.campaigns.CampaignActivity;
 import de.quarian.weaver.campaigns.CampaignSynopsisActivity;
+import de.quarian.weaver.campaigns.PlayerCharacterListActivity;
 import de.quarian.weaver.dev.DeveloperFunctionsActivity;
 import de.quarian.weaver.namesets.ManageNameSetsActivity;
 
@@ -42,6 +43,12 @@ public class NavigationController {
     public void openSynopsis(final Activity activity, final int campaignId) {
         final Intent intent = new Intent(activity, CampaignSynopsisActivity.class);
         intent.putExtra(CampaignSynopsisActivity.EXTRA_CAMPAIGN_ID, campaignId);
+        activity.startActivity(intent);
+    }
+
+    public void managePlayerCharacters(final Activity activity, final int campaignId) {
+        final Intent intent = new Intent(activity, PlayerCharacterListActivity.class);
+        intent.putExtra(PlayerCharacterListActivity.EXTRA_CAMPAIGN_ID, campaignId);
         activity.startActivity(intent);
     }
 

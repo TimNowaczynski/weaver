@@ -26,6 +26,8 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
         campaignSynopsis.setOnClickListener(this);
         final TextView editCampaignButton = itemView.findViewById(R.id.campaign_list_item_edit);
         editCampaignButton.setOnClickListener(this);
+        final TextView managePlayerCharactersButton = itemView.findViewById(R.id.campaign_list_item_manage_player_characters);
+        managePlayerCharactersButton.setOnClickListener(this);
     }
 
     public void setCampaign(final CampaignDisplayObject campaignDisplayObject) {
@@ -50,6 +52,12 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
 
             case R.id.campaign_list_item_synopsis: {
                 NavigationController.getInstance().openSynopsis(activity.get(), campaignDisplayObject.getId());
+                break;
+            }
+
+            case R.id.campaign_list_item_manage_player_characters: {
+                NavigationController.getInstance().managePlayerCharacters(activity.get(), campaignDisplayObject.getId());
+                break;
             }
 
             default: {

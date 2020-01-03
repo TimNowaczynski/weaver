@@ -30,8 +30,18 @@
         android:id="@+id/campaign_list_item_synopsis"
         app:layout_constraintTop_toBottomOf="@id/campaign_list_item_edit"
         app:layout_constraintStart_toEndOf="@+id/campaign_list_item_view"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/campaign_list_item_manage_player_characters"
         android:text="@string/campaign_list_item_synopsis"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/campaign_list_item_manage_player_characters"
+        app:layout_constraintTop_toBottomOf="@id/campaign_list_item_synopsis"
+        app:layout_constraintStart_toEndOf="@+id/campaign_list_item_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/campaign_list_item_players"
         android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
