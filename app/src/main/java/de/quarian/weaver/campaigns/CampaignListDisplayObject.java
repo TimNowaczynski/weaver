@@ -1,11 +1,11 @@
 package de.quarian.weaver.campaigns;
 
-public class CampaignDisplayObject {
+public class CampaignListDisplayObject {
 
     private final int id;
     private final String name;
 
-    public CampaignDisplayObject(int id, String name) {
+    public CampaignListDisplayObject(int id, String name) {
         this.id = id;
         this.name = name;
     }

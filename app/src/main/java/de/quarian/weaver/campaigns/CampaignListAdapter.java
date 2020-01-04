@@ -16,14 +16,14 @@ import de.quarian.weaver.R;
 public class CampaignListAdapter extends RecyclerView.Adapter {
 
     private WeakReference<Activity> activity;
-    private List<CampaignDisplayObject> campaignDisplayObjects = new ArrayList<>();
+    private List<CampaignListDisplayObject> campaignListDisplayObjects = new ArrayList<>();
 
     public CampaignListAdapter(Activity activity) {
         this.activity = new WeakReference<>(activity);
     }
 
-    public void setCampaignDisplayObjects(List<CampaignDisplayObject> campaignDisplayObjects) {
-        this.campaignDisplayObjects.addAll(campaignDisplayObjects);
+    public void setCampaignListDisplayObjects(List<CampaignListDisplayObject> campaignListDisplayObjects) {
+        this.campaignListDisplayObjects.addAll(campaignListDisplayObjects);
     }
 
     @NonNull
@@ -37,12 +37,12 @@ public class CampaignListAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final CampaignListItemViewHolder viewHolder = (CampaignListItemViewHolder) holder;
-        final CampaignDisplayObject campaignDisplayObject = campaignDisplayObjects.get(position);
-        viewHolder.setCampaign(campaignDisplayObject);
+        final CampaignListDisplayObject campaignListDisplayObject = campaignListDisplayObjects.get(position);
+        viewHolder.setCampaign(campaignListDisplayObject);
     }
 
     @Override
     public int getItemCount() {
-        return campaignDisplayObjects.size();
+        return campaignListDisplayObjects.size();
     }
 }

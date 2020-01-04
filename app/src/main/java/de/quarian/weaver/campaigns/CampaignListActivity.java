@@ -23,13 +23,13 @@ import de.quarian.weaver.R;
 
 public class CampaignListActivity extends AppCompatActivity {
 
-    private List<CampaignDisplayObject> campaignDisplayObjects = new ArrayList<>();
+    private List<CampaignListDisplayObject> campaignListDisplayObjects = new ArrayList<>();
 
     public CampaignListActivity() {
         //TODO: replace dummy code
-        campaignDisplayObjects.add(new CampaignDisplayObject(1, "Campaign 1"));
-        campaignDisplayObjects.add(new CampaignDisplayObject(2, "Campaign 2"));
-        campaignDisplayObjects.add(new CampaignDisplayObject(3, "Campaign 3"));
+        campaignListDisplayObjects.add(new CampaignListDisplayObject(1, "Campaign 1"));
+        campaignListDisplayObjects.add(new CampaignListDisplayObject(2, "Campaign 2"));
+        campaignListDisplayObjects.add(new CampaignListDisplayObject(3, "Campaign 3"));
     }
 
     @Override
@@ -46,7 +46,7 @@ public class CampaignListActivity extends AppCompatActivity {
 
         final CampaignListAdapter campaignListAdapter = new CampaignListAdapter(this);
         campaignList.setAdapter(campaignListAdapter);
-        campaignListAdapter.setCampaignDisplayObjects(campaignDisplayObjects);
+        campaignListAdapter.setCampaignListDisplayObjects(campaignListDisplayObjects);
     }
 
     private void setUpToolbar() {
