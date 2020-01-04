@@ -1,4 +1,4 @@
-package de.quarian.weaver.campaigns;
+package de.quarian.weaver.theming;
 
 import android.os.Bundle;
 

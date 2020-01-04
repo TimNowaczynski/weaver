@@ -1,4 +1,4 @@
-package de.quarian.weaver.campaigns;
+package de.quarian.weaver.players;
 
 import android.graphics.Color;
 import android.os.Bundle;

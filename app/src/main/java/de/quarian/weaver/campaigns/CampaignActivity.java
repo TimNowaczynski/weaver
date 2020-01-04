@@ -58,11 +58,17 @@ public class CampaignActivity extends AppCompatActivity {
     private void setUpListeners() {
         if (mode != Mode.VIEW) {
             setUpSetThemeButton();
+            setUpSelectNameSetsButton();
         }
     }
 
     private void setUpSetThemeButton() {
-        final View setThemeButton = findViewById(R.id.set_theme_button);
+        final View setThemeButton = findViewById(R.id.set_theme_button_dummy);
         setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().setTheme(this, this.campaignID));
+    }
+
+    private void setUpSelectNameSetsButton() {
+        final View setThemeButton = findViewById(R.id.select_sets_button_dummy);
+        setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().selectNameSets(this, this.campaignID));
     }
 }

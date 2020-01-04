@@ -4,7 +4,7 @@
     android:background="@color/pitch_black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".campaigns.CampaignListActivity">
+    tools:context=".campaigns.CampaignSynopsisActivity">
 
     <TextView
         android:text="MODE: VIEW"

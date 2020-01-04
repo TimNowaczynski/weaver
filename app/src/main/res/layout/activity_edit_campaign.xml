@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:background="@color/pitch_black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".campaigns.CampaignListActivity">
+    tools:context=".campaigns.CampaignActivity">
 
     <TextView
         android:id="@+id/edit_campaign_mode_dummy"
@@ -14,7 +15,18 @@
         android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/set_theme_button"
+        android:id="@+id/set_theme_button_dummy"
+        android:backgroundTint="@color/primaryLightColor"
+        android:text="SET THEME"
+        android:textColor="@color/pitch_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/select_sets_button_dummy"
+        android:backgroundTint="@color/primaryLightColor"
+        android:text="SELECT SETS"
+        android:textColor="@color/pitch_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
