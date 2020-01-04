@@ -30,6 +30,8 @@
 
         <activity android:name=".campaigns.CampaignActivity" />
 
+        <activity android:name=".campaigns.SetThemeActivity" />
+
         <activity android:name=".SettingsActivity" />
 
         <activity android:name=".namesets.ManageNameSetsActivity" />

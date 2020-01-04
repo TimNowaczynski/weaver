@@ -8,13 +8,8 @@
 
     <TextView
         android:id="@+id/edit_campaign_mode_dummy"
-        android:text="MODE: EDIT/NEW"
+        android:text="Set Theme"
         android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/set_theme_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

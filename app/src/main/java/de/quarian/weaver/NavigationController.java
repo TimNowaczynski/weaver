@@ -7,6 +7,7 @@ import de.quarian.weaver.assets.ViewScheduledToDeleteActivity;
 import de.quarian.weaver.campaigns.CampaignActivity;
 import de.quarian.weaver.campaigns.CampaignSynopsisActivity;
 import de.quarian.weaver.campaigns.PlayerCharacterListActivity;
+import de.quarian.weaver.campaigns.SetThemeActivity;
 import de.quarian.weaver.dev.DeveloperFunctionsActivity;
 import de.quarian.weaver.namesets.ManageNameSetsActivity;
 
@@ -38,6 +39,12 @@ public class NavigationController {
         intent.putExtra(CampaignActivity.EXTRA_CAMPAIGN_ID, campaignId);
         intent.putExtra(CampaignActivity.EXTRA_MODE, CampaignActivity.Mode.EDIT.toString());
         activity.startActivityForResult(intent, CampaignActivity.REQUEST_CODE_MODIFY_CAMPAIGNS);
+    }
+
+    public void setTheme(final Activity activity, final int campaignId) {
+        final Intent intent = new Intent(activity, SetThemeActivity.class);
+        intent.putExtra(SetThemeActivity.EXTRA_CAMPAIGN_ID, campaignId);
+        activity.startActivity(intent);
     }
 
     public void openSynopsis(final Activity activity, final int campaignId) {
