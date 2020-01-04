@@ -24,11 +24,13 @@
             android:name=".campaigns.CampaignListActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity android:name=".characters.CharacterLibraryActivity"/>
+
         <activity android:name=".campaigns.CampaignSynopsisActivity"/>
 
         <activity android:name=".players.PlayerCharacterListActivity"/>
 
-        <activity android:name=".campaigns.CampaignActivity" />
+        <activity android:name=".campaigns.CampaignEditorActivity" />
 
         <activity android:name=".theming.SetThemeActivity" />
 

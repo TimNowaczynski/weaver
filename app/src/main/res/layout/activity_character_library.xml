@@ -4,10 +4,10 @@
     android:background="@color/pitch_black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".campaigns.CampaignSynopsisActivity">
+    tools:context=".characters.CharacterLibraryActivity">
 
     <TextView
-        android:text="MODE: VIEW"
+        android:text="CHARACTERS"
         android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

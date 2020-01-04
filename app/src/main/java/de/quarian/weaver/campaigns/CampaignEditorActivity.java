@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 
-public class CampaignActivity extends AppCompatActivity {
+public class CampaignEditorActivity extends AppCompatActivity {
 
     public static String EXTRA_CAMPAIGN_ID = "extra.campaignId";
     public static String EXTRA_MODE = "extra.mode";
@@ -20,7 +20,7 @@ public class CampaignActivity extends AppCompatActivity {
     private int campaignID;
 
     public enum Mode {
-        VIEW, EDIT, NEW
+        EDIT, NEW
     }
 
     @Override
@@ -41,11 +41,7 @@ public class CampaignActivity extends AppCompatActivity {
     private void determineMode() {
         final String modeString = getIntent().getStringExtra(EXTRA_MODE);
         mode = Mode.valueOf(modeString);
-        if (mode == Mode.VIEW) {
-            //TODO: Put campaign name into title as well
-            setTitle(R.string.activity_title_view_campaign_screen);
-            setContentView(R.layout.activity_view_campaign);
-        } else if(mode == Mode.NEW) {
+        if(mode == Mode.NEW) {
             setTitle(R.string.activity_title_add_campaign_screen);
             setContentView(R.layout.activity_edit_campaign);
         } else {
@@ -56,10 +52,8 @@ public class CampaignActivity extends AppCompatActivity {
     }
 
     private void setUpListeners() {
-        if (mode != Mode.VIEW) {
-            setUpSetThemeButton();
-            setUpSelectNameSetsButton();
-        }
+        setUpSetThemeButton();
+        setUpSelectNameSetsButton();
     }
 
     private void setUpSetThemeButton() {

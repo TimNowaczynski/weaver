@@ -126,7 +126,7 @@ public class CampaignListActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CampaignActivity.REQUEST_CODE_MODIFY_CAMPAIGNS && resultCode == Activity.RESULT_OK) {
+        if (requestCode == CampaignEditorActivity.REQUEST_CODE_MODIFY_CAMPAIGNS && resultCode == Activity.RESULT_OK) {
             refreshList();
         }
     }

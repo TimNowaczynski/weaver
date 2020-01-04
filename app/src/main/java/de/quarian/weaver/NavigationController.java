@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 
 import de.quarian.weaver.assets.ViewScheduledToDeleteActivity;
-import de.quarian.weaver.campaigns.CampaignActivity;
+import de.quarian.weaver.campaigns.CampaignEditorActivity;
 import de.quarian.weaver.campaigns.CampaignSynopsisActivity;
+import de.quarian.weaver.characters.CharacterLibraryActivity;
 import de.quarian.weaver.namesets.SelectNameSetsActivity;
 import de.quarian.weaver.players.PlayerCharacterListActivity;
 import de.quarian.weaver.theming.SetThemeActivity;
@@ -22,24 +23,23 @@ public class NavigationController {
         return instance;
     }
 
-    public void viewCampaign(final Activity activity, final int campaignId) {
-        final Intent intent = new Intent(activity, CampaignActivity.class);
-        intent.putExtra(CampaignActivity.EXTRA_CAMPAIGN_ID, campaignId);
-        intent.putExtra(CampaignActivity.EXTRA_MODE, CampaignActivity.Mode.VIEW.toString());
+    public void openCharacterLibrary(final Activity activity, final int campaignId) {
+        final Intent intent = new Intent(activity, CharacterLibraryActivity.class);
+        intent.putExtra(CharacterLibraryActivity.EXTRA_CAMPAIGN_ID, campaignId);
         activity.startActivity(intent);
     }
 
     public void addCampaign(final Activity activity) {
-        final Intent intent = new Intent(activity, CampaignActivity.class);
-        intent.putExtra(CampaignActivity.EXTRA_MODE, CampaignActivity.Mode.NEW.toString());
-        activity.startActivityForResult(intent, CampaignActivity.REQUEST_CODE_MODIFY_CAMPAIGNS);
+        final Intent intent = new Intent(activity, CampaignEditorActivity.class);
+        intent.putExtra(CampaignEditorActivity.EXTRA_MODE, CampaignEditorActivity.Mode.NEW.toString());
+        activity.startActivityForResult(intent, CampaignEditorActivity.REQUEST_CODE_MODIFY_CAMPAIGNS);
     }
 
     public void editCampaign(final Activity activity, final int campaignId) {
-        final Intent intent = new Intent(activity, CampaignActivity.class);
-        intent.putExtra(CampaignActivity.EXTRA_CAMPAIGN_ID, campaignId);
-        intent.putExtra(CampaignActivity.EXTRA_MODE, CampaignActivity.Mode.EDIT.toString());
-        activity.startActivityForResult(intent, CampaignActivity.REQUEST_CODE_MODIFY_CAMPAIGNS);
+        final Intent intent = new Intent(activity, CampaignEditorActivity.class);
+        intent.putExtra(CampaignEditorActivity.EXTRA_CAMPAIGN_ID, campaignId);
+        intent.putExtra(CampaignEditorActivity.EXTRA_MODE, CampaignEditorActivity.Mode.EDIT.toString());
+        activity.startActivityForResult(intent, CampaignEditorActivity.REQUEST_CODE_MODIFY_CAMPAIGNS);
     }
 
     public void setTheme(final Activity activity, final int campaignId) {

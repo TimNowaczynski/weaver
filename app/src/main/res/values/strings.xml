@@ -2,7 +2,7 @@
     <string name="app_name">Weaver</string>
 
     <string name="activity_title_campaign_screen">Campaigns</string>
-    <string name="activity_title_view_campaign_screen">View Campaign</string>
+    <string name="activity_title_character_library">Characters</string>
     <string name="activity_title_campaign_synopsis">Synopsis</string>
     <string name="activity_title_add_campaign_screen">Add Campaign</string>
     <string name="activity_title_edit_campaign_screen">Edit Campaign</string>

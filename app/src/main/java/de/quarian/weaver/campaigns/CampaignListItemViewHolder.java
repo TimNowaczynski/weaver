@@ -41,7 +41,7 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
         switch (id) {
 
             case R.id.campaign_list_item_view: {
-                NavigationController.getInstance().viewCampaign(activity.get(), campaignDisplayObject.getId());
+                NavigationController.getInstance().openCharacterLibrary(activity.get(), campaignDisplayObject.getId());
                 break;
             }
 

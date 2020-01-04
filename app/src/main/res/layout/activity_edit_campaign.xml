@@ -5,7 +5,7 @@
     android:background="@color/pitch_black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".campaigns.CampaignActivity">
+    tools:context=".campaigns.CampaignEditorActivity">
 
     <TextView
         android:id="@+id/edit_campaign_mode_dummy"
