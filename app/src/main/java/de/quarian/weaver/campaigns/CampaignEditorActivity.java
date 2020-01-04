@@ -12,9 +12,9 @@ public class CampaignEditorActivity extends AppCompatActivity {
 
     public static String EXTRA_CAMPAIGN_ID = "extra.campaignId";
     public static String EXTRA_MODE = "extra.mode";
-    public static int REQUEST_CODE_MODIFY_CAMPAIGNS = -1;
 
-    private static int NO_VALID_CAMPAIGN_ID = -2;
+    public static int REQUEST_CODE_MODIFY_CAMPAIGNS = -1;
+    private static int INVALID_CAMPAIGN_ID = -2;
 
     private Mode mode;
     private int campaignID;
@@ -26,16 +26,8 @@ public class CampaignEditorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        determineID();
         determineMode();
         setUpListeners();
-    }
-
-    private void determineID() {
-        campaignID = getIntent().getIntExtra(EXTRA_CAMPAIGN_ID, NO_VALID_CAMPAIGN_ID);
-        if (campaignID == NO_VALID_CAMPAIGN_ID) {
-            //TODO: show dialog (closing the activity) and log error
-        }
     }
 
     private void determineMode() {
@@ -46,8 +38,16 @@ public class CampaignEditorActivity extends AppCompatActivity {
             setContentView(R.layout.activity_edit_campaign);
         } else {
             //TODO: init with values (don't forget the title here as well)
+            determineID();
             setTitle(R.string.activity_title_edit_campaign_screen);
             setContentView(R.layout.activity_edit_campaign);
+        }
+    }
+
+    private void determineID() {
+        campaignID = getIntent().getIntExtra(EXTRA_CAMPAIGN_ID, INVALID_CAMPAIGN_ID);
+        if (campaignID == INVALID_CAMPAIGN_ID) {
+            //TODO: show dialog (closing the activity) and log error
         }
     }
 
