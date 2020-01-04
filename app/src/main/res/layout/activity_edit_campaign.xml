@@ -23,9 +23,9 @@
         android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/select_sets_button_dummy"
+        android:id="@+id/configure_name_sets_button_dummy"
         android:backgroundTint="@color/primaryLightColor"
-        android:text="SELECT SETS"
+        android:text="CONFIGURE SETS"
         android:textColor="@color/pitch_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

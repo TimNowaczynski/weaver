@@ -34,11 +34,11 @@
 
         <activity android:name=".theming.SetThemeActivity" />
 
-        <activity android:name=".namesets.SelectNameSetsActivity" />
+        <activity
+            android:name=".namesets.ConfigureNameSetsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".SettingsActivity" />
-
-        <activity android:name=".namesets.ManageNameSetsActivity" />
 
         <activity android:name=".assets.ViewScheduledToDeleteActivity" />
 

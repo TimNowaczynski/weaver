@@ -7,9 +7,10 @@
     <string name="activity_title_add_campaign_screen">Add Campaign</string>
     <string name="activity_title_edit_campaign_screen">Edit Campaign</string>
     <string name="activity_title_set_theme">Set Theme</string>
-    <string name="activity_title_select_name_sets">Select Name Sets</string>
+    <string name="activity_title_configure_name_sets">Configure Name Sets</string>
     <string name="activity_title_settings_screen">Settings</string>
-    <string name="activity_title_manage_name_sets">Manage Name Sets</string>
+    <string name="activity_title_manage_name_sets">Configure Name Sets</string>
+    <string name="activity_title_add_name_set">Add Name Set</string>
     <string name="activity_title_view_scheduled_to_delete">Scheduled to Delete</string>
     <string name="activity_title_developer_options">Developer Options</string>
 

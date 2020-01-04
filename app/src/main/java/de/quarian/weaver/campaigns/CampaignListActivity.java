@@ -68,7 +68,7 @@ public class CampaignListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         if (BuildConfig.DEBUG) {
             final MenuInflater menuInflater = new MenuInflater(getBaseContext());
-            menuInflater.inflate(R.menu.menu_campaign_list_activit_developer, menu);
+            menuInflater.inflate(R.menu.menu_campaign_list_activity_developer, menu);
             return true;
         } else {
             final MenuInflater menuInflater = new MenuInflater(getBaseContext());
@@ -83,10 +83,6 @@ public class CampaignListActivity extends AppCompatActivity {
         switch (itemId) {
             case R.id.menu_item_app_settings: {
                 openAppSettings();
-                break;
-            }
-            case R.id.menu_item_manage_name_sets: {
-                manageNameSets();
                 break;
             }
             case R.id.menu_item_view_scheduled_to_delete: {
@@ -106,11 +102,6 @@ public class CampaignListActivity extends AppCompatActivity {
     private void openAppSettings() {
         final NavigationController navigationController = NavigationController.getInstance();
         navigationController.manageSettings(this);
-    }
-
-    private void manageNameSets() {
-        final NavigationController navigationController = NavigationController.getInstance();
-        navigationController.manageNameSets(this);
     }
 
     private void viewScheduledToDelete() {

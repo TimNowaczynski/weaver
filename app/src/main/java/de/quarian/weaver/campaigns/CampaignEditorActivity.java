@@ -53,7 +53,7 @@ public class CampaignEditorActivity extends AppCompatActivity {
 
     private void setUpListeners() {
         setUpSetThemeButton();
-        setUpSelectNameSetsButton();
+        setUpConfigureNameSetsButton();
     }
 
     private void setUpSetThemeButton() {
@@ -61,8 +61,8 @@ public class CampaignEditorActivity extends AppCompatActivity {
         setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().setTheme(this, this.campaignID));
     }
 
-    private void setUpSelectNameSetsButton() {
-        final View setThemeButton = findViewById(R.id.select_sets_button_dummy);
-        setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().selectNameSets(this, this.campaignID));
+    private void setUpConfigureNameSetsButton() {
+        final View setThemeButton = findViewById(R.id.configure_name_sets_button_dummy);
+        setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().configureNameSets(this, this.campaignID));
     }
 }

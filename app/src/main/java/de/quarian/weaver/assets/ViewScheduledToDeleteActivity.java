@@ -11,7 +11,7 @@ public class ViewScheduledToDeleteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_name_sets);
+        setContentView(R.layout.activity_view_scheduled_to_delete);
         setTitle(R.string.activity_title_view_scheduled_to_delete);
     }
 }
