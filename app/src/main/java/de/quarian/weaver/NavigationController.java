@@ -39,7 +39,7 @@ public class NavigationController {
     public void addNewCharacter(final Activity activity) {
         final Intent intent = new Intent(activity, CharacterEditorActivity.class);
         intent.putExtra(CharacterEditorActivity.EXTRA_MODE, CharacterEditorActivity.Mode.NEW);
-        activity.startActivityForResult(intent, CharacterEditorActivity.REQUEST_CODE_MODIFY_CHARACTERS);
+        activity.startActivityForResult(intent, RequestCodes.MODIFY_CHARACTERS);
     }
 
     //TODO: add characterID
@@ -53,20 +53,20 @@ public class NavigationController {
         final Intent intent = new Intent(activity, CharacterEditorActivity.class);
         intent.putExtra(CharacterEditorActivity.EXTRA_MODE, CharacterEditorActivity.Mode.EDIT);
         intent.putExtra(CharacterEditorActivity.EXTRA_CHARACTER_ID, 100); // TODO: replace dummy ID
-        activity.startActivityForResult(intent, CharacterEditorActivity.REQUEST_CODE_MODIFY_CHARACTERS);
+        activity.startActivityForResult(intent, RequestCodes.MODIFY_CHARACTERS);
     }
 
     public void addCampaign(final Activity activity) {
         final Intent intent = new Intent(activity, CampaignEditorActivity.class);
         intent.putExtra(CampaignEditorActivity.EXTRA_MODE, CampaignEditorActivity.Mode.NEW.toString());
-        activity.startActivityForResult(intent, CampaignEditorActivity.REQUEST_CODE_MODIFY_CAMPAIGNS);
+        activity.startActivityForResult(intent, RequestCodes.MODIFY_CAMPAIGNS);
     }
 
     public void editCampaign(final Activity activity, final int campaignId) {
         final Intent intent = new Intent(activity, CampaignEditorActivity.class);
         intent.putExtra(CampaignEditorActivity.EXTRA_CAMPAIGN_ID, campaignId);
         intent.putExtra(CampaignEditorActivity.EXTRA_MODE, CampaignEditorActivity.Mode.EDIT.toString());
-        activity.startActivityForResult(intent, CampaignEditorActivity.REQUEST_CODE_MODIFY_CAMPAIGNS);
+        activity.startActivityForResult(intent, RequestCodes.MODIFY_CAMPAIGNS);
     }
 
     public void setTheme(final Activity activity, final int campaignId) {

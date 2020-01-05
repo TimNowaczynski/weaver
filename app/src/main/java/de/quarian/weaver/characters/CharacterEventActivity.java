@@ -8,8 +8,6 @@ import de.quarian.weaver.R;
 
 public class CharacterEventActivity extends AppCompatActivity {
 
-    public static int REQUEST_CODE_ADD_EVENT = 2;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

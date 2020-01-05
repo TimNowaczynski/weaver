@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.BuildConfig;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
+import de.quarian.weaver.RequestCodes;
 
 public class CampaignListActivity extends AppCompatActivity {
 
@@ -117,7 +118,7 @@ public class CampaignListActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CampaignEditorActivity.REQUEST_CODE_MODIFY_CAMPAIGNS && resultCode == Activity.RESULT_OK) {
+        if (requestCode == RequestCodes.MODIFY_CAMPAIGNS && resultCode == Activity.RESULT_OK) {
             refreshList();
         }
     }

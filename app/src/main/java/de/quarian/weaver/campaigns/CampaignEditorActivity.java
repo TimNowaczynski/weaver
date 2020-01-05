@@ -13,7 +13,6 @@ public class CampaignEditorActivity extends AppCompatActivity {
     public static String EXTRA_CAMPAIGN_ID = "extra.campaignId";
     public static String EXTRA_MODE = "extra.mode";
 
-    public static int REQUEST_CODE_MODIFY_CAMPAIGNS = -1;
     private static int INVALID_CAMPAIGN_ID = -2;
 
     private Mode mode;

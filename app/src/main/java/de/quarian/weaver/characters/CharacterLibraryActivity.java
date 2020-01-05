@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
+import de.quarian.weaver.RequestCodes;
 
 public class CharacterLibraryActivity extends AppCompatActivity {
 
@@ -35,7 +36,7 @@ public class CharacterLibraryActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == CharacterEditorActivity.REQUEST_CODE_MODIFY_CHARACTERS && resultCode == RESULT_OK) {
+        if (requestCode == RequestCodes.MODIFY_CHARACTERS && resultCode == RESULT_OK) {
             //TODO: refresh content
         }
         super.onActivityResult(requestCode, resultCode, data);

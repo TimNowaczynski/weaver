@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
+import de.quarian.weaver.RequestCodes;
 
 public class CharacterViewActivity extends AppCompatActivity {
 
@@ -31,7 +32,7 @@ public class CharacterViewActivity extends AppCompatActivity {
 
     private void addEvent() {
         final Intent intent = new Intent(getBaseContext(), CharacterEventActivity.class);
-        startActivityForResult(intent, CharacterEventActivity.REQUEST_CODE_ADD_EVENT);
+        startActivityForResult(intent, RequestCodes.ADD_EVENT);
     }
 
     // Menu
@@ -55,10 +56,10 @@ public class CharacterViewActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            if (requestCode == CharacterEditorActivity.REQUEST_CODE_MODIFY_CHARACTERS) {
+            if (requestCode == RequestCodes.MODIFY_CHARACTERS) {
                 //TODO: refresh view
             }
-            if (requestCode == CharacterEventActivity.REQUEST_CODE_ADD_EVENT) {
+            if (requestCode == RequestCodes.ADD_EVENT) {
                 //TODO: refresh view
             }
         }

@@ -10,7 +10,6 @@ import de.quarian.weaver.R;
 public class CharacterEditorActivity extends AppCompatActivity {
 
     public static String EXTRA_MODE = "extra.mode";
-    public static int REQUEST_CODE_MODIFY_CHARACTERS = 1;
 
     public static String EXTRA_CHARACTER_ID = "extra.characterID";
 
