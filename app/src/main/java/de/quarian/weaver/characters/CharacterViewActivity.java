@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 
 public class CharacterViewActivity extends AppCompatActivity {
@@ -40,10 +41,7 @@ public class CharacterViewActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         final int itemId = item.getItemId();
         if (itemId == R.id.menu_item_edit_character) {
-            final Intent intent = new Intent(getBaseContext(), CharacterEditorActivity.class);
-            intent.putExtra(CharacterEditorActivity.EXTRA_MODE, CharacterEditorActivity.Mode.EDIT);
-            intent.putExtra(CharacterEditorActivity.EXTRA_CHARACTER_ID, 100); // TODO: replace dummy ID
-            startActivityForResult(intent, CharacterEditorActivity.REQUEST_CODE_MODIFY_CHARACTERS);
+            NavigationController.getInstance().editCharacter(this);
         }
         return super.onOptionsItemSelected(item);
     }

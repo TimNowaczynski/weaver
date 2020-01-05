@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 
 public class CharacterLibraryActivity extends AppCompatActivity {
@@ -23,14 +24,11 @@ public class CharacterLibraryActivity extends AppCompatActivity {
     // Listeners
 
     public void onAddCharacterClicked(View view) {
-        final Intent intent = new Intent(getBaseContext(), CharacterEditorActivity.class);
-        intent.putExtra(CharacterEditorActivity.EXTRA_CHARACTER_ID, CharacterEditorActivity.Mode.NEW);
-        startActivityForResult(intent, CharacterEditorActivity.REQUEST_CODE_MODIFY_CHARACTERS);
+        NavigationController.getInstance().addNewCharacter(this);
     }
 
     public void onViewCharacterClicked(View view) {
-        final Intent intent = new Intent(getBaseContext(), CharacterViewActivity.class);
-        startActivity(intent);
+        NavigationController.getInstance().viewCharacter(this);
     }
 
     //TODO: Edit option for list items
