@@ -20,12 +20,18 @@ public class CharacterViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_character_view);
         setUpToolbar();
         //TODO: Override title with character name
+        findViewById(R.id.character_view_add_event).setOnClickListener((view) -> addEvent());
     }
 
     private void setUpToolbar() {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.activity_title_character_library_view);
+    }
+
+    private void addEvent() {
+        final Intent intent = new Intent(getBaseContext(), CharacterEventActivity.class);
+        startActivityForResult(intent, CharacterEventActivity.REQUEST_CODE_ADD_EVENT);
     }
 
     // Menu
@@ -48,8 +54,13 @@ public class CharacterViewActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == CharacterEditorActivity.REQUEST_CODE_MODIFY_CHARACTERS) {
-            //TODO: refresh view
+        if (resultCode == AppCompatActivity.RESULT_OK) {
+            if (requestCode == CharacterEditorActivity.REQUEST_CODE_MODIFY_CHARACTERS) {
+                //TODO: refresh view
+            }
+            if (requestCode == CharacterEventActivity.REQUEST_CODE_ADD_EVENT) {
+                //TODO: refresh view
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

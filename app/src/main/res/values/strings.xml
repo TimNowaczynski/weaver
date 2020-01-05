@@ -6,6 +6,7 @@
     <string name="activity_title_character_library_add">Add Character</string>
     <string name="activity_title_character_library_edit">Edit Character</string>
     <string name="activity_title_character_library_view">View Character</string>
+    <string name="activity_title_character_add_event">Add Event</string>
     <string name="activity_title_campaign_synopsis">Synopsis</string>
     <string name="activity_title_add_campaign_screen">Add Campaign</string>
     <string name="activity_title_edit_campaign_screen">Edit Campaign</string>
