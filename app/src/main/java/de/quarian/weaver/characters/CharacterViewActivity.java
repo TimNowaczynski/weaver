@@ -1,0 +1,58 @@
+package de.quarian.weaver.characters;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import de.quarian.weaver.R;
+
+public class CharacterViewActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_character_view);
+        setUpToolbar();
+        //TODO: Override title with character name
+    }
+
+    private void setUpToolbar() {
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.activity_title_character_library_view);
+    }
+
+    // Menu
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        final MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_character_view_activity, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == R.id.menu_item_edit_character) {
+            final Intent intent = new Intent(getBaseContext(), CharacterEditorActivity.class);
+            intent.putExtra(CharacterEditorActivity.EXTRA_MODE, CharacterEditorActivity.Mode.EDIT);
+            intent.putExtra(CharacterEditorActivity.EXTRA_CHARACTER_ID, 100); // TODO: replace dummy ID
+            startActivityForResult(intent, CharacterEditorActivity.REQUEST_CODE_MODIFY_CHARACTERS);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == CharacterEditorActivity.REQUEST_CODE_MODIFY_CHARACTERS) {
+            //TODO: refresh view
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+}

@@ -5,11 +5,13 @@
     tools:background="@color/pitch_black"
     android:minHeight="48dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:context=".players.PlayerCharacterListActivity">
 
     <ImageView
         android:id="@+id/player_character_list_character_icon"
         android:src="@drawable/ic_character_jcon_simple"
+        android:contentDescription="@string/cd_character_icon"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

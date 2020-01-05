@@ -5,7 +5,8 @@
     tools:background="@color/pitch_black"
     android:padding="4dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:context=".players.PlayerCharacterListActivity">
 
     <TextView
         android:background="@drawable/player_character_header_element_background"

@@ -1,6 +1,5 @@
 package de.quarian.weaver.players;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -12,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import de.quarian.weaver.R;
 
-public class PlayerCharacterListActivity extends AppCompatActivity implements View.OnClickListener {
+public class PlayerCharacterListActivity extends AppCompatActivity {
 
     public static String EXTRA_CAMPAIGN_ID = "extra.campaignId";
 
@@ -20,18 +19,9 @@ public class PlayerCharacterListActivity extends AppCompatActivity implements Vi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_character_list);
-        findViewById(R.id.player_character_list_pick_color).setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        final int id = v.getId();
-        if (id == R.id.player_character_list_pick_color) {
-            showColorPicker();
-        }
-    }
-
-    private void showColorPicker() {
+    public void onShowColorPickerClicked(View view) {
         final ColorPicker colorPicker = new ColorPicker(this, 255, 0, 0, 0);
         colorPicker.enableAutoClose();
         colorPicker.show();

@@ -26,6 +26,12 @@
 
         <activity android:name=".characters.CharacterLibraryActivity"/>
 
+        <activity android:name=".characters.CharacterEditorActivity"/>
+
+        <activity
+            android:name=".characters.CharacterViewActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity android:name=".campaigns.CampaignSynopsisActivity"/>
 
         <activity android:name=".players.PlayerCharacterListActivity"/>

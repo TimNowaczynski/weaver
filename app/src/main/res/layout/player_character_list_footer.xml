@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:background="@color/pitch_black"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:context=".players.PlayerCharacterListActivity">
 
     <ImageView
         tools:ignore="ContentDescription"
@@ -64,6 +65,7 @@
 
     <ImageView
         android:id="@+id/player_character_list_pick_color"
+        android:onClick="onShowColorPickerClicked"
         android:src="@drawable/ic_pick_color"
         android:contentDescription="@string/activity_player_character_list_change_color_hint"
         app:layout_constraintTop_toBottomOf="@id/player_character_list_divider"

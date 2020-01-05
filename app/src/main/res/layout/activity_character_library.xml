@@ -13,4 +13,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <Button
+        android:id="@+id/list_of_characters_view_character"
+        android:text="VIEW CHARACTER"
+        android:onClick="onViewCharacterClicked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/list_of_characters_new_character"
+        android:text="NEW CHARACTER"
+        android:onClick="onAddCharacterClicked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>
