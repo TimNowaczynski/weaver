@@ -23,7 +23,7 @@ public class AliasToCharacter {
     public static final String CHARACTER_ID = "fk_character_id";
 
     @ColumnInfo(name = "alias_to_character_jd")
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public long id;
 
     @ColumnInfo(name = ALIAS_ID)

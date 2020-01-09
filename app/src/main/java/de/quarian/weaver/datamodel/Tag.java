@@ -21,7 +21,7 @@ public class Tag {
     public static final String ID = "id";
     public static final String ROLEPLAYING_SYSTEM_ID = "fk_roleplaying_system_id";
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     public long id;
 

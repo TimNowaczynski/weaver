@@ -2,15 +2,15 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a535fa16ebf15863c948c2f0ab478260",
+    "identityHash": "3e2f841a58b4d82bb375d75df269352f",
     "entities": [
       {
         "tableName": "Alias",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `alias` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`alias_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `alias` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "alias_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -23,64 +23,64 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "alias_id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "AliasToCharacter",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `alias_id` INTEGER NOT NULL, `character_id` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`alias_to_character_jd` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_alias_id` INTEGER NOT NULL, `fk_character_id` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "alias_to_character_jd",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "alias_id",
-            "columnName": "alias_id",
+            "columnName": "fk_alias_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "character_id",
-            "columnName": "character_id",
+            "columnName": "fk_character_id",
             "affinity": "INTEGER",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "alias_to_character_jd"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "Campaign",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `roleplaying_system_id` INTEGER NOT NULL, `theme_id` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `campaign_name` TEXT NOT NULL, `synopsis` TEXT, `created` INTEGER NOT NULL, `last_used` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`campaign_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_roleplaying_system_id` INTEGER NOT NULL, `fk_theme_id` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `campaign_name` TEXT NOT NULL, `synopsis` TEXT, `created` INTEGER NOT NULL, `last_used` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "campaign_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "roleplayingSystemId",
-            "columnName": "roleplaying_system_id",
+            "columnName": "fk_roleplaying_system_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "themeId",
-            "columnName": "theme_id",
+            "columnName": "fk_theme_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -117,26 +117,26 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "campaign_id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "Character",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `campaign_id` INTEGER NOT NULL, `first_name` TEXT NOT NULL, `last_name` TEXT NOT NULL, `avatar_image_type` TEXT, `avatar` BLOB, `role` TEXT, `age` TEXT, `looks` TEXT, `miscellaneous` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`character_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_campaign_id` INTEGER NOT NULL, `first_name` TEXT NOT NULL, `last_name` TEXT NOT NULL, `avatar_image_type` TEXT, `avatar` BLOB, `role` TEXT, `age` TEXT, `looks` TEXT, `miscellaneous` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "character_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "campaignId",
-            "columnName": "campaign_id",
+            "columnName": "fk_campaign_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -191,20 +191,20 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "character_id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "Event",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `headline` TEXT NOT NULL, `text` TEXT, `image` BLOB, `image_type` TEXT, `file` BLOB, `file_type` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`event_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `headline` TEXT NOT NULL, `text` TEXT, `image` BLOB, `image_type` TEXT, `file` BLOB, `file_type` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "event_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -247,16 +247,16 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "event_id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "EventToCharacter",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `event_id` INTEGER NOT NULL, `character_id` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_event_id` INTEGER NOT NULL, `fk_character_id` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -266,13 +266,13 @@
           },
           {
             "fieldPath": "event_id",
-            "columnName": "event_id",
+            "columnName": "fk_event_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "character_id",
-            "columnName": "character_id",
+            "columnName": "fk_character_id",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -281,18 +281,18 @@
           "columnNames": [
             "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "Name",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `position` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `position` INTEGER NOT NULL, `name` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "name_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -311,20 +311,20 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "name_id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "NameSet",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name_set_name` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name_set_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name_set_name` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "name_set_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -337,16 +337,16 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "name_set_id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "NameSetToCampaign",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name_set_id` INTEGER NOT NULL, `campaign_id` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_name_set_id` INTEGER NOT NULL, `fk_campaign_id` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -356,13 +356,13 @@
           },
           {
             "fieldPath": "name_set_id",
-            "columnName": "name_set_id",
+            "columnName": "fk_name_set_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "campaign_id",
-            "columnName": "campaign_id",
+            "columnName": "fk_campaign_id",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -371,24 +371,24 @@
           "columnNames": [
             "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "PlayerCharacter",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `campaignId` INTEGER NOT NULL, `player_character_name` TEXT NOT NULL, `player_name` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`player_character_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_campaign_id` INTEGER NOT NULL, `player_character_name` TEXT NOT NULL, `player_name` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "player_character_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "campaign_id",
-            "columnName": "campaignId",
+            "columnName": "fk_campaign_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -407,16 +407,16 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "player_character_id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "PlayerCharacterToCampaign",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `player_character_id` INTEGER NOT NULL, `campaign_id` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_player_character_id` INTEGER NOT NULL, `fk_campaign_id` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -426,13 +426,13 @@
           },
           {
             "fieldPath": "player_character_id",
-            "columnName": "player_character_id",
+            "columnName": "fk_player_character_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "campaign_id",
-            "columnName": "campaign_id",
+            "columnName": "fk_campaign_id",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -441,18 +441,18 @@
           "columnNames": [
             "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "RoleplayingSystem",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `roleplaying_system_name` TEXT NOT NULL, `logo_image_type` TEXT, `logo` BLOB, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`roleplaying_system_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `roleplaying_system_name` TEXT NOT NULL, `logo_image_type` TEXT, `logo` BLOB)",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "roleplaying_system_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -477,16 +477,16 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "roleplaying_system_id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "Tag",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `roleplaying_system_id` INTEGER NOT NULL, `tag` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_roleplaying_system_id` INTEGER NOT NULL, `tag` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -496,7 +496,7 @@
           },
           {
             "fieldPath": "roleplaying_system_id",
-            "columnName": "roleplaying_system_id",
+            "columnName": "fk_roleplaying_system_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -511,50 +511,50 @@
           "columnNames": [
             "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "TagToCharacter",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `tagId` INTEGER NOT NULL, `characterId` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tag_to_character_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_tag_id` INTEGER NOT NULL, `fk_character_id` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "tag_to_character_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "tag_id",
-            "columnName": "tagId",
+            "columnName": "fk_tag_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "character_id",
-            "columnName": "characterId",
+            "columnName": "fk_character_id",
             "affinity": "INTEGER",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "tag_to_character_id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "Theme",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `preset_id` INTEGER NOT NULL DEFAULT 1, `font_id` INTEGER NOT NULL DEFAULT 1, `banner_background_image` BLOB, `banner_background_image_type` TEXT, `screen_background_color_a` INTEGER NOT NULL, `screen_background_color_r` INTEGER NOT NULL, `screen_background_color_g` INTEGER NOT NULL, `screen_background_color_b` INTEGER NOT NULL, `item_background_color_a` INTEGER NOT NULL, `item_background_color_r` INTEGER NOT NULL, `item_background_color_g` INTEGER NOT NULL, `item_background_color_b` INTEGER NOT NULL, `background_font_color_a` INTEGER NOT NULL, `background_font_color_r` INTEGER NOT NULL, `background_font_color_g` INTEGER NOT NULL, `background_font_color_b` INTEGER NOT NULL, `item_font_color_a` INTEGER NOT NULL, `item_font_color_r` INTEGER NOT NULL, `item_font_color_g` INTEGER NOT NULL, `item_font_color_b` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`theme_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `preset_id` INTEGER NOT NULL DEFAULT 1, `font_id` INTEGER NOT NULL DEFAULT 1, `banner_background_image` BLOB, `banner_background_image_type` TEXT, `screen_background_color_a` INTEGER NOT NULL, `screen_background_color_r` INTEGER NOT NULL, `screen_background_color_g` INTEGER NOT NULL, `screen_background_color_b` INTEGER NOT NULL, `item_background_color_a` INTEGER NOT NULL, `item_background_color_r` INTEGER NOT NULL, `item_background_color_g` INTEGER NOT NULL, `item_background_color_b` INTEGER NOT NULL, `background_font_color_a` INTEGER NOT NULL, `background_font_color_r` INTEGER NOT NULL, `background_font_color_g` INTEGER NOT NULL, `background_font_color_b` INTEGER NOT NULL, `item_font_color_a` INTEGER NOT NULL, `item_font_color_r` INTEGER NOT NULL, `item_font_color_g` INTEGER NOT NULL, `item_font_color_b` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "theme_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -683,9 +683,9 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "theme_id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -694,7 +694,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a535fa16ebf15863c948c2f0ab478260')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3e2f841a58b4d82bb375d75df269352f')"
     ]
   }
 }

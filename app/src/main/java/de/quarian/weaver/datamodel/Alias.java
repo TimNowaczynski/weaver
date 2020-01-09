@@ -11,7 +11,7 @@ public class Alias {
 
     public static final String ID = "alias_id";
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     public long id;
 

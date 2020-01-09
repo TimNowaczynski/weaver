@@ -36,27 +36,34 @@ public class CampaignDAOTest {
     }
 
     @Test
-    public void testEntityWriteAndRead() {
+    public void testEntityWriteAndReadList() {
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
 
         // Write
-        final RoleplayingSystem input = createEntity();
-        campaignDAO.insertRoleplayingSystem(input);
+        final RoleplayingSystem inputA = createEntity("Shadowrun");
+        final RoleplayingSystem inputB = createEntity("DSA");
+        campaignDAO.insertRoleplayingSystem(inputA);
+        campaignDAO.insertRoleplayingSystem(inputB);
 
         // Read
         final List<RoleplayingSystem> roleplayingSystems = campaignDAO.getRoleplayingSystems();
-        assertThat(roleplayingSystems.size(), is(1));
+        assertThat(roleplayingSystems.size(), is(2));
 
-        final RoleplayingSystem roleplayingSystem = roleplayingSystems.get(0);
-        assertThat(roleplayingSystem.id, notNullValue());
-        assertThat(roleplayingSystem.roleplayingSystemName, is("Shadowrun"));
-        assertThat(roleplayingSystem.logo, is("logo".getBytes()));
+        final RoleplayingSystem roleplayingSystemA = roleplayingSystems.get(0);
+        assertThat(roleplayingSystemA.id, notNullValue());
+        assertThat(roleplayingSystemA.roleplayingSystemName, is("Shadowrun"));
+        assertThat(roleplayingSystemA.logo, is(roleplayingSystemA.roleplayingSystemName.getBytes()));
+
+        final RoleplayingSystem roleplayingSystemB = roleplayingSystems.get(1);
+        assertThat(roleplayingSystemB.id, notNullValue());
+        assertThat(roleplayingSystemB.roleplayingSystemName, is("DSA"));
+        assertThat(roleplayingSystemB.logo, is(roleplayingSystemB.roleplayingSystemName.getBytes()));
     }
 
-    private RoleplayingSystem createEntity() {
+    private RoleplayingSystem createEntity(final String roleplayingSystemName) {
         final RoleplayingSystem shadowrun = new RoleplayingSystem();
-        shadowrun.roleplayingSystemName = "Shadowrun";
-        shadowrun.logo = "logo".getBytes();
+        shadowrun.roleplayingSystemName = roleplayingSystemName;
+        shadowrun.logo = roleplayingSystemName.getBytes();
         return shadowrun;
     }
 }

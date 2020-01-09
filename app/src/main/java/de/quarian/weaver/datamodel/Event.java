@@ -18,7 +18,7 @@ public class Event {
 
     public static final String ID = "event_id";
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     public long id;
 

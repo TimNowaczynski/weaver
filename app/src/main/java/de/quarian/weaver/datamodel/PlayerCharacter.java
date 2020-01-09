@@ -17,7 +17,7 @@ public class PlayerCharacter {
     public static final String ID = "player_character_id";
     public static final String FK_CAMPAIGN_ID = "fk_campaign_id";
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     public long id;
 

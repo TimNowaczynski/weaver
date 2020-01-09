@@ -12,7 +12,7 @@ public class RoleplayingSystem {
 
     public static final String ID = "roleplaying_system_id";
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     public long id;
 

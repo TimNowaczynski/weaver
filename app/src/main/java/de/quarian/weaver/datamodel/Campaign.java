@@ -24,7 +24,7 @@ public class Campaign {
     public static final String THEME_ID = "fk_theme_id";
 
     @ColumnInfo(name = ID)
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public long id;
 
     @ForeignKey(entity = RoleplayingSystem.class,

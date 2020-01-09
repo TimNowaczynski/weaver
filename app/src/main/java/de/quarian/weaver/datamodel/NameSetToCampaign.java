@@ -21,7 +21,7 @@ public class NameSetToCampaign {
     public static final String FK_NAME_SET_ID = "fk_name_set_id";
     public static final String FK_CAMPAIGN_ID = "fk_campaign_id";
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public long id;
 
     @ColumnInfo(name = FK_NAME_SET_ID)

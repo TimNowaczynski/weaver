@@ -21,7 +21,7 @@ public class TagToCharacter {
     public static final String TAG_ID = "fk_tag_id";
     public static final String CHARACTER_ID = "fk_character_id";
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tag_to_character_id")
     public long id;
 

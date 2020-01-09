@@ -15,7 +15,7 @@ public class Theme {
     private static final String DEFAULT_PRESET = "1";
 
     @ColumnInfo(name = ID)
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public long id;
 
     // Defaults to a constant, not a database ID

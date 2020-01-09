@@ -14,7 +14,7 @@ public class NameSet {
 
     public static final String ID = "name_set_id";
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     public long id;
 

@@ -22,7 +22,7 @@ public class Character {
     public static final String ID = "character_id";
     public static final String CAMPAIGN_ID = "fk_campaign_id";
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     public long id;
 

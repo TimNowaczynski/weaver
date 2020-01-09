@@ -14,7 +14,7 @@ public class Name {
 
     public static final String ID = "name_id";
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     public long id;
 

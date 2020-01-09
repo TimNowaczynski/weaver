@@ -22,7 +22,7 @@ public class PlayerCharacterToCampaign {
     public static final String PLAYER_CHARACTER_ID = "fk_player_character_id";
     public static final String CAMPAIGN_ID = "fk_campaign_id";
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public long id;
 
     @ColumnInfo(name = PLAYER_CHARACTER_ID)

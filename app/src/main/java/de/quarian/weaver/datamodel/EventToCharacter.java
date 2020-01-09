@@ -21,7 +21,7 @@ public class EventToCharacter {
     public static final String COLUMN_EVENT_ID = "fk_event_id";
     public static final String COLUMN_CHARACTER_ID = "fk_character_id";
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public long id;
 
     @ColumnInfo(name = COLUMN_EVENT_ID)
