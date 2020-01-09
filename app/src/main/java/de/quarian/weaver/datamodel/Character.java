@@ -33,6 +33,12 @@ public class Character {
             onDelete = ForeignKey.CASCADE)
     public long campaignId;
 
+    @ColumnInfo(name = "creation_date_millis")
+    public long creation_date_millis;
+
+    @ColumnInfo(name = "edit_date_millis")
+    public long edit_date_millis;
+
     @NonNull
     @ColumnInfo(name = "first_name")
     public String firstName = "";

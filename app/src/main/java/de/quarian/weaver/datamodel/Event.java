@@ -22,6 +22,9 @@ public class Event {
     @ColumnInfo(name = ID)
     public long id;
 
+    @ColumnInfo(name = "event_date_millis")
+    public long event_date_millis;
+
     @NonNull
     @ColumnInfo(name = "headline")
     public String headline = "";

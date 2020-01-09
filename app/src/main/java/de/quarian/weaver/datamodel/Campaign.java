@@ -41,6 +41,12 @@ public class Campaign {
     @ColumnInfo(name = THEME_ID)
     public long themeId;
 
+    @ColumnInfo(name = "creation_date_millis")
+    public long creation_date_millis;
+
+    @ColumnInfo(name = "edit_date_millis")
+    public long edit_date_millis;
+
     @ColumnInfo(name = "archived")
     public boolean archived;
 
