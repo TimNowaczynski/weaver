@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import de.quarian.weaver.database.CampaignDAO;
+import de.quarian.weaver.database.ThemeDAO;
 import de.quarian.weaver.database.WeaverDB;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -34,15 +34,15 @@ public class ThemeDAOTest {
     }
 
     @Test
-    public void testThemeEntityWriteAndRead() {
-        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+    public void testCreateAndReadThemeEntity() {
+        final ThemeDAO themeDAO = weaverDB.themeDAO();
 
         //Write
         final Theme input = createThemeEntity();
-        final long themeId = campaignDAO.insertTheme(input);
+        final long themeId = themeDAO.insertTheme(input);
 
         //Read
-        final Theme theme = campaignDAO.getTheme(themeId);
+        final Theme theme = themeDAO.getTheme(themeId);
         assertThat(theme.id, notNullValue());
         assertThat(theme.fontId, is(50));
         assertThat(theme.banner_background_image, is("bannerBackgroundImage".getBytes()));
@@ -86,4 +86,7 @@ public class ThemeDAOTest {
         theme.itemFontColorB = 16;
         return theme;
     }
+
+    //TODO: Test Update and Delete Theme
+
 }

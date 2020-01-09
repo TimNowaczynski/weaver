@@ -37,5 +37,7 @@ import de.quarian.weaver.datamodel.Theme;
 })
 public abstract class WeaverDB extends RoomDatabase {
 
+    public abstract RoleplayingSystemDAO roleplayingSystemDAO();
     public abstract CampaignDAO campaignDAO();
+    public abstract ThemeDAO themeDAO();
 }
