@@ -21,10 +21,10 @@ public class RoleplayingSystem {
     public String roleplayingSystemName = "";
 
     @Nullable
-    @ColumnInfo(name = "logo_image_type")
-    public String logo_image_type;
-
-    @Nullable
     @ColumnInfo(name = "logo")
     public byte[] logo;
+
+    @Nullable
+    @ColumnInfo(name = "logo_image_type")
+    public String logoImageType;
 }

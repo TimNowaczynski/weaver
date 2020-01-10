@@ -40,34 +40,34 @@ public class RoleplayingSystemDAOTest {
     public void testCreateAndReadRoleplayingSystem() {
         final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
 
-        // Write
+        // Create
         final RoleplayingSystem inputA = createRoleplayingSystemEntity("Shadowrun");
         final RoleplayingSystem inputB = createRoleplayingSystemEntity("DSA");
-        roleplayingSystemDAO.insertRoleplayingSystem(inputA);
-        roleplayingSystemDAO.insertRoleplayingSystem(inputB);
+        roleplayingSystemDAO.createRoleplayingSystem(inputA);
+        roleplayingSystemDAO.createRoleplayingSystem(inputB);
 
-        // Read
-        final List<RoleplayingSystem> roleplayingSystems = roleplayingSystemDAO.getRoleplayingSystems();
+        // Confirm
+        final List<RoleplayingSystem> roleplayingSystems = roleplayingSystemDAO.readRoleplayingSystems();
         assertThat(roleplayingSystems.size(), is(2));
 
         final RoleplayingSystem roleplayingSystemA = roleplayingSystems.get(0);
         assertThat(roleplayingSystemA.id, notNullValue());
         assertThat(roleplayingSystemA.roleplayingSystemName, is("Shadowrun"));
         assertThat(roleplayingSystemA.logo, is(roleplayingSystemA.roleplayingSystemName.getBytes()));
-        assertThat(roleplayingSystemA.logo_image_type, is("image/jpeg"));
+        assertThat(roleplayingSystemA.logoImageType, is("image/jpeg"));
 
         final RoleplayingSystem roleplayingSystemB = roleplayingSystems.get(1);
         assertThat(roleplayingSystemB.id, notNullValue());
         assertThat(roleplayingSystemB.roleplayingSystemName, is("DSA"));
         assertThat(roleplayingSystemB.logo, is(roleplayingSystemB.roleplayingSystemName.getBytes()));
-        assertThat(roleplayingSystemB.logo_image_type, is("image/jpeg"));
+        assertThat(roleplayingSystemB.logoImageType, is("image/jpeg"));
     }
 
     private RoleplayingSystem createRoleplayingSystemEntity(final String roleplayingSystemName) {
         final RoleplayingSystem shadowrun = new RoleplayingSystem();
         shadowrun.roleplayingSystemName = roleplayingSystemName;
         shadowrun.logo = roleplayingSystemName.getBytes();
-        shadowrun.logo_image_type = "image/jpeg";
+        shadowrun.logoImageType = "image/jpeg";
         return shadowrun;
     }
 
@@ -75,13 +75,16 @@ public class RoleplayingSystemDAOTest {
     public void testUpdateRoleplayingSystem() {
         final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
 
+        // Create
         final RoleplayingSystem input = createRoleplayingSystemEntity("Shadowrun");
-        input.id = roleplayingSystemDAO.insertRoleplayingSystem(input);
+        input.id = roleplayingSystemDAO.createRoleplayingSystem(input);
 
+        // Update
         input.roleplayingSystemName = "DSA";
         roleplayingSystemDAO.updateRoleplayingSystem(input);
 
-        final RoleplayingSystem output = roleplayingSystemDAO.getRoleplayingSystems().get(0);
+        // Confirm
+        final RoleplayingSystem output = roleplayingSystemDAO.readRoleplayingSystems().get(0);
         assertThat(output.roleplayingSystemName, is("DSA"));
     }
 
@@ -92,10 +95,10 @@ public class RoleplayingSystemDAOTest {
 
         // Write
         RoleplayingSystem shadowrun = createRoleplayingSystemEntity("Shadowrun");
-        roleplayingSystemDAO.insertRoleplayingSystem(shadowrun);
+        roleplayingSystemDAO.createRoleplayingSystem(shadowrun);
 
         // Confirm
-        final List<RoleplayingSystem> output = roleplayingSystemDAO.getRoleplayingSystems();
+        final List<RoleplayingSystem> output = roleplayingSystemDAO.readRoleplayingSystems();
         assertThat(output, hasSize(1));
         shadowrun = output.get(0);
 
@@ -103,6 +106,6 @@ public class RoleplayingSystemDAOTest {
         roleplayingSystemDAO.deleteRoleplayingSystem(shadowrun);
 
         // Confirm
-        assertThat(roleplayingSystemDAO.getRoleplayingSystems(), hasSize(0));
+        assertThat(roleplayingSystemDAO.readRoleplayingSystems(), hasSize(0));
     }
 }

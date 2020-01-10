@@ -29,12 +29,12 @@ public class EventToCharacter {
             parentColumns = Event.ID,
             childColumns = COLUMN_EVENT_ID,
             onDelete = ForeignKey.CASCADE)
-    public long event_id;
+    public long eventId;
 
     @ColumnInfo(name = COLUMN_CHARACTER_ID)
     @ForeignKey(entity = Character.class,
             parentColumns = Character.ID,
             childColumns = COLUMN_CHARACTER_ID,
             onDelete = ForeignKey.CASCADE)
-    public long character_id;
+    public long characterId;
 }

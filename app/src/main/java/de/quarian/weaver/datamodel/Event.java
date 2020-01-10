@@ -23,7 +23,7 @@ public class Event {
     public long id;
 
     @ColumnInfo(name = "event_date_millis")
-    public long event_date_millis;
+    public long eventDateMillis;
 
     @NonNull
     @ColumnInfo(name = "headline")
@@ -39,7 +39,7 @@ public class Event {
 
     @Nullable
     @ColumnInfo(name = "image_type")
-    public String image_type;
+    public String imageType;
 
     @Nullable
     @ColumnInfo(name = "file")
@@ -47,5 +47,5 @@ public class Event {
 
     @Nullable
     @ColumnInfo(name = "file_type")
-    public String file_type;
+    public String fileType;
 }

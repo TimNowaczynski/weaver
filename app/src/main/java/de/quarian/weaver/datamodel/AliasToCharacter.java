@@ -31,12 +31,12 @@ public class AliasToCharacter {
             parentColumns = Alias.ID,
             childColumns = ALIAS_ID,
             onDelete = ForeignKey.CASCADE)
-    public long alias_id;
+    public long aliasId;
 
     @ColumnInfo(name = CHARACTER_ID)
     @ForeignKey(entity = Character.class,
             parentColumns = Character.ID,
             childColumns = CHARACTER_ID,
             onDelete = ForeignKey.CASCADE)
-    public long character_id;
+    public long characterId;
 }

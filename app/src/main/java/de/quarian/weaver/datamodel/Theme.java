@@ -28,11 +28,11 @@ public class Theme {
 
     @Nullable
     @ColumnInfo(name = "banner_background_image")
-    public byte[] banner_background_image;
+    public byte[] bannerBackgroundImage;
 
     @Nullable
     @ColumnInfo(name = "banner_background_image_type")
-    public String banner_background_image_type;
+    public String bannerBackgroundImageType;
 
     @ColumnInfo(name = "screen_background_color_a")
     public int screenBackgroundColorA;

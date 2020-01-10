@@ -29,12 +29,12 @@ public class NameToNameSet {
             parentColumns = Name.ID,
             childColumns = FK_NAME_ID,
             onDelete = ForeignKey.CASCADE)
-    public long name_id;
+    public long nameId;
 
     @ColumnInfo(name = FK_NAME_SET_ID)
     @ForeignKey(entity = NameSet.class,
             parentColumns = NameSet.ID,
             childColumns = FK_NAME_SET_ID,
             onDelete = ForeignKey.CASCADE)
-    public long name_set_id;
+    public long nameSetId;
 }

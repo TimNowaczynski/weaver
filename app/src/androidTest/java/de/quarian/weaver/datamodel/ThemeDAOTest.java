@@ -39,13 +39,13 @@ public class ThemeDAOTest {
 
         //Write
         final Theme input = createThemeEntity();
-        final long themeId = themeDAO.insertTheme(input);
+        final long themeId = themeDAO.createTheme(input);
 
         //Read
-        final Theme theme = themeDAO.getTheme(themeId);
+        final Theme theme = themeDAO.readTheme(themeId);
         assertThat(theme.id, notNullValue());
         assertThat(theme.fontId, is(50));
-        assertThat(theme.banner_background_image, is("bannerBackgroundImage".getBytes()));
+        assertThat(theme.bannerBackgroundImage, is("bannerBackgroundImage".getBytes()));
         assertThat(theme.screenBackgroundColorA, is(1));
         assertThat(theme.screenBackgroundColorR, is(2));
         assertThat(theme.screenBackgroundColorG, is(3));
@@ -67,7 +67,7 @@ public class ThemeDAOTest {
     private Theme createThemeEntity() {
         final Theme theme = new Theme();
         theme.fontId = 50;
-        theme.banner_background_image = "bannerBackgroundImage".getBytes();
+        theme.bannerBackgroundImage = "bannerBackgroundImage".getBytes();
         theme.screenBackgroundColorA = 1;
         theme.screenBackgroundColorR = 2;
         theme.screenBackgroundColorG = 3;

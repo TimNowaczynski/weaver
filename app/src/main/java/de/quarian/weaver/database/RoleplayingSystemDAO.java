@@ -13,10 +13,10 @@ import de.quarian.weaver.datamodel.RoleplayingSystem;
 public interface RoleplayingSystemDAO {
 
     @Insert
-    long insertRoleplayingSystem(final RoleplayingSystem roleplayingSystem);
+    long createRoleplayingSystem(final RoleplayingSystem roleplayingSystem);
 
     @Query("SELECT * FROM RoleplayingSystem")
-    List<RoleplayingSystem> getRoleplayingSystems();
+    List<RoleplayingSystem> readRoleplayingSystems();
 
     @Update
     void updateRoleplayingSystem(final RoleplayingSystem roleplayingSystem);

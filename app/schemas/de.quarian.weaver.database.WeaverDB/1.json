@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "35d39503a8c7de629d56dce7097b1197",
+    "identityHash": "e6771e640fa159b233b263e6c47ed525",
     "entities": [
       {
         "tableName": "Alias",
@@ -41,13 +41,13 @@
             "notNull": true
           },
           {
-            "fieldPath": "alias_id",
+            "fieldPath": "aliasId",
             "columnName": "fk_alias_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "character_id",
+            "fieldPath": "characterId",
             "columnName": "fk_character_id",
             "affinity": "INTEGER",
             "notNull": true
@@ -85,13 +85,13 @@
             "notNull": true
           },
           {
-            "fieldPath": "creation_date_millis",
+            "fieldPath": "creationDateMillis",
             "columnName": "creation_date_millis",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "edit_date_millis",
+            "fieldPath": "editDateMillis",
             "columnName": "edit_date_millis",
             "affinity": "INTEGER",
             "notNull": true
@@ -153,13 +153,13 @@
             "notNull": true
           },
           {
-            "fieldPath": "creation_date_millis",
+            "fieldPath": "creationDateMillis",
             "columnName": "creation_date_millis",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "edit_date_millis",
+            "fieldPath": "editDateMillis",
             "columnName": "edit_date_millis",
             "affinity": "INTEGER",
             "notNull": true
@@ -177,7 +177,7 @@
             "notNull": true
           },
           {
-            "fieldPath": "avatar_image_type",
+            "fieldPath": "avatarImageType",
             "columnName": "avatar_image_type",
             "affinity": "TEXT",
             "notNull": false
@@ -233,7 +233,7 @@
             "notNull": true
           },
           {
-            "fieldPath": "event_date_millis",
+            "fieldPath": "eventDateMillis",
             "columnName": "event_date_millis",
             "affinity": "INTEGER",
             "notNull": true
@@ -257,7 +257,7 @@
             "notNull": false
           },
           {
-            "fieldPath": "image_type",
+            "fieldPath": "imageType",
             "columnName": "image_type",
             "affinity": "TEXT",
             "notNull": false
@@ -269,7 +269,7 @@
             "notNull": false
           },
           {
-            "fieldPath": "file_type",
+            "fieldPath": "fileType",
             "columnName": "file_type",
             "affinity": "TEXT",
             "notNull": false
@@ -295,13 +295,13 @@
             "notNull": true
           },
           {
-            "fieldPath": "event_id",
+            "fieldPath": "eventId",
             "columnName": "fk_event_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "character_id",
+            "fieldPath": "characterId",
             "columnName": "fk_character_id",
             "affinity": "INTEGER",
             "notNull": true
@@ -376,22 +376,22 @@
       },
       {
         "tableName": "NameSetToCampaign",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_name_set_id` INTEGER NOT NULL, `fk_campaign_id` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`nameSetToCampaignId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_name_set_id` INTEGER NOT NULL, `fk_campaign_id` INTEGER NOT NULL, FOREIGN KEY(`fk_name_set_id`) REFERENCES `NameSet`(`name_set_id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`fk_campaign_id`) REFERENCES `Campaign`(`campaign_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
-            "fieldPath": "id",
-            "columnName": "id",
+            "fieldPath": "nameSetToCampaignId",
+            "columnName": "nameSetToCampaignId",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "name_set_id",
+            "fieldPath": "nameSetId",
             "columnName": "fk_name_set_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "campaign_id",
+            "fieldPath": "campaignId",
             "columnName": "fk_campaign_id",
             "affinity": "INTEGER",
             "notNull": true
@@ -399,16 +399,39 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "nameSetToCampaignId"
           ],
           "autoGenerate": true
         },
         "indices": [],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "NameSet",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "fk_name_set_id"
+            ],
+            "referencedColumns": [
+              "name_set_id"
+            ]
+          },
+          {
+            "table": "Campaign",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "fk_campaign_id"
+            ],
+            "referencedColumns": [
+              "campaign_id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "PlayerCharacter",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`player_character_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_campaign_id` INTEGER NOT NULL, `player_character_name` TEXT NOT NULL, `player_name` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`player_character_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_campaign_id` INTEGER NOT NULL, `fk_roleplaying_system_id` INTEGER NOT NULL, `player_name` TEXT NOT NULL, `player_character_name` TEXT NOT NULL, `player_character_avatar_image_type` TEXT, `player_character_avatar` BLOB, `character_highlight_color_a` INTEGER NOT NULL, `character_highlight_color_r` INTEGER NOT NULL, `character_highlight_color_g` INTEGER NOT NULL, `character_highlight_color_b` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -417,21 +440,63 @@
             "notNull": true
           },
           {
-            "fieldPath": "campaign_id",
+            "fieldPath": "campaignId",
             "columnName": "fk_campaign_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "player_character_name",
+            "fieldPath": "roleplayingSystemId",
+            "columnName": "fk_roleplaying_system_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "playerName",
+            "columnName": "player_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "playerCharacterName",
             "columnName": "player_character_name",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "player_name",
-            "columnName": "player_name",
+            "fieldPath": "playerCharacterAvatarImageType",
+            "columnName": "player_character_avatar_image_type",
             "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "playerCharacterAvatar",
+            "columnName": "player_character_avatar",
+            "affinity": "BLOB",
+            "notNull": false
+          },
+          {
+            "fieldPath": "characterHighlightColorA",
+            "columnName": "character_highlight_color_a",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "characterHighlightColorR",
+            "columnName": "character_highlight_color_r",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "characterHighlightColorG",
+            "columnName": "character_highlight_color_g",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "characterHighlightColorB",
+            "columnName": "character_highlight_color_b",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -445,40 +510,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "PlayerCharacterToCampaign",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_player_character_id` INTEGER NOT NULL, `fk_campaign_id` INTEGER NOT NULL)",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "player_character_id",
-            "columnName": "fk_player_character_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "campaign_id",
-            "columnName": "fk_campaign_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "id"
-          ],
-          "autoGenerate": true
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
         "tableName": "RoleplayingSystem",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`roleplaying_system_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `roleplaying_system_name` TEXT NOT NULL, `logo_image_type` TEXT, `logo` BLOB)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`roleplaying_system_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `roleplaying_system_name` TEXT NOT NULL, `logo` BLOB, `logo_image_type` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -493,15 +526,15 @@
             "notNull": true
           },
           {
-            "fieldPath": "logo_image_type",
-            "columnName": "logo_image_type",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "logo",
             "columnName": "logo",
             "affinity": "BLOB",
+            "notNull": false
+          },
+          {
+            "fieldPath": "logoImageType",
+            "columnName": "logo_image_type",
+            "affinity": "TEXT",
             "notNull": false
           }
         ],
@@ -525,7 +558,7 @@
             "notNull": true
           },
           {
-            "fieldPath": "roleplaying_system_id",
+            "fieldPath": "roleplayingSystemId",
             "columnName": "fk_roleplaying_system_id",
             "affinity": "INTEGER",
             "notNull": true
@@ -557,13 +590,13 @@
             "notNull": true
           },
           {
-            "fieldPath": "tag_id",
+            "fieldPath": "tagId",
             "columnName": "fk_tag_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "character_id",
+            "fieldPath": "characterId",
             "columnName": "fk_character_id",
             "affinity": "INTEGER",
             "notNull": true
@@ -603,13 +636,13 @@
             "defaultValue": "1"
           },
           {
-            "fieldPath": "banner_background_image",
+            "fieldPath": "bannerBackgroundImage",
             "columnName": "banner_background_image",
             "affinity": "BLOB",
             "notNull": false
           },
           {
-            "fieldPath": "banner_background_image_type",
+            "fieldPath": "bannerBackgroundImageType",
             "columnName": "banner_background_image_type",
             "affinity": "TEXT",
             "notNull": false
@@ -724,7 +757,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '35d39503a8c7de629d56dce7097b1197')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e6771e640fa159b233b263e6c47ed525')"
     ]
   }
 }

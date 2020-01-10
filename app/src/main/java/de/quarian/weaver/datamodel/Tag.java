@@ -30,7 +30,7 @@ public class Tag {
             parentColumns = RoleplayingSystem.ID,
             childColumns = ROLEPLAYING_SYSTEM_ID,
             onDelete = ForeignKey.CASCADE)
-    public long roleplaying_system_id;
+    public long roleplayingSystemId;
 
     @NonNull
     @ColumnInfo(name = "tag")

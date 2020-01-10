@@ -13,7 +13,7 @@ import androidx.room.PrimaryKey;
  * A {@link Campaign} is associated
  * a) directly with a {@link RoleplayingSystem},
  * b) also directly with a {@link Theme} and
- * c) with n {@link PlayerCharacter}s through a mapping table {@link PlayerCharacterToCampaign}
+ * c) with a {@link PlayerCharacter}
  */
 @SuppressWarnings("WeakerAccess")
 @Entity
@@ -42,10 +42,10 @@ public class Campaign {
     public long themeId;
 
     @ColumnInfo(name = "creation_date_millis")
-    public long creation_date_millis;
+    public long creationDateMillis;
 
     @ColumnInfo(name = "edit_date_millis")
-    public long edit_date_millis;
+    public long editDateMillis;
 
     @ColumnInfo(name = "archived")
     public boolean archived;

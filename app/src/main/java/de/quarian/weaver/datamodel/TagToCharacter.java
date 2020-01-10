@@ -30,12 +30,12 @@ public class TagToCharacter {
             parentColumns = Tag.ID,
             childColumns = TAG_ID,
             onDelete = ForeignKey.CASCADE)
-    public long tag_id;
+    public long tagId;
 
     @ColumnInfo(name = CHARACTER_ID)
     @ForeignKey(entity = Character.class,
             parentColumns = Character.ID,
             childColumns = CHARACTER_ID,
             onDelete = ForeignKey.CASCADE)
-    public long character_id;
+    public long characterId;
 }

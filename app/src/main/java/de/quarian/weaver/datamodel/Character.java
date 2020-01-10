@@ -34,10 +34,10 @@ public class Character {
     public long campaignId;
 
     @ColumnInfo(name = "creation_date_millis")
-    public long creation_date_millis;
+    public long creationDateMillis;
 
     @ColumnInfo(name = "edit_date_millis")
-    public long edit_date_millis;
+    public long editDateMillis;
 
     @NonNull
     @ColumnInfo(name = "first_name")
@@ -49,7 +49,7 @@ public class Character {
 
     @Nullable
     @ColumnInfo(name = "avatar_image_type")
-    public String avatar_image_type;
+    public String avatarImageType;
 
     @ColumnInfo(name = "avatar")
     public byte[] avatar;

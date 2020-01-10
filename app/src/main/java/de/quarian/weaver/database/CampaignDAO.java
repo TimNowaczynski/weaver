@@ -13,10 +13,13 @@ import de.quarian.weaver.datamodel.Campaign;
 public interface CampaignDAO {
 
     @Insert
-    void insertCampaign(final Campaign campaign);
+    long createCampaign(final Campaign campaign);
 
     @Query("SELECT * FROM Campaign")
-    List<Campaign> getCampaigns();
+    List<Campaign> readCampaigns();
+
+    @Query("SELECT * FROM Campaign WHERE campaign_id IS :campaignId")
+    Campaign readCampaign(final long campaignId);
 
     @Update
     void updateCampaign(final Campaign campaign);

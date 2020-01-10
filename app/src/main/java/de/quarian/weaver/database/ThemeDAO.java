@@ -9,11 +9,11 @@ import de.quarian.weaver.datamodel.Theme;
 @Dao
 public interface ThemeDAO {
 
-    @Query("SELECT * FROM Theme WHERE theme_id IS :id")
-    Theme getTheme(final long id);
-
     @Insert
-    long insertTheme(final Theme theme);
+    long createTheme(final Theme theme);
+
+    @Query("SELECT * FROM Theme WHERE theme_id IS :id")
+    Theme readTheme(final long id);
 
     @Update
     void updateTheme(final Theme theme);
