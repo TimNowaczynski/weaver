@@ -14,27 +14,27 @@ import androidx.room.PrimaryKey;
  * When deleting an associated {@link Event} this entry will be removed as well
  * When deleting an associated {@link Character} this entry will be removed as well
  */
-@SuppressWarnings("WeakerAccess")
-@Entity
+@Entity(foreignKeys = {
+        @ForeignKey(entity = Event.class,
+                parentColumns = Event.ID,
+                childColumns = EventToCharacter.FK_EVENT_ID,
+                onDelete = ForeignKey.CASCADE),
+        @ForeignKey(entity = Character.class,
+                parentColumns = Character.ID,
+                childColumns = EventToCharacter.FK_CHARACTER_ID,
+                onDelete = ForeignKey.CASCADE)
+})
 public class EventToCharacter {
 
-    public static final String COLUMN_EVENT_ID = "fk_event_id";
-    public static final String COLUMN_CHARACTER_ID = "fk_character_id";
+    public static final String FK_EVENT_ID = "fk_event_id";
+    public static final String FK_CHARACTER_ID = "fk_character_id";
 
     @PrimaryKey(autoGenerate = true)
     public long id;
 
-    @ColumnInfo(name = COLUMN_EVENT_ID)
-    @ForeignKey(entity = Event.class,
-            parentColumns = Event.ID,
-            childColumns = COLUMN_EVENT_ID,
-            onDelete = ForeignKey.CASCADE)
+    @ColumnInfo(name = FK_EVENT_ID, index = true)
     public long eventId;
 
-    @ColumnInfo(name = COLUMN_CHARACTER_ID)
-    @ForeignKey(entity = Character.class,
-            parentColumns = Character.ID,
-            childColumns = COLUMN_CHARACTER_ID,
-            onDelete = ForeignKey.CASCADE)
+    @ColumnInfo(name = FK_CHARACTER_ID, index = true)
     public long characterId;
 }

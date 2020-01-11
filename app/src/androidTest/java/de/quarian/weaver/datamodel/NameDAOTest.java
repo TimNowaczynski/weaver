@@ -13,7 +13,6 @@ import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import de.quarian.weaver.database.CampaignDAO;
-import de.quarian.weaver.database.DebugDAO;
 import de.quarian.weaver.database.NameDAO;
 import de.quarian.weaver.database.WeaverDB;
 
@@ -33,6 +32,11 @@ public class NameDAOTest {
     public void setUpDatabase() {
         final Context applicationContext = ApplicationProvider.getApplicationContext();
         this.weaverDB = Room.inMemoryDatabaseBuilder(applicationContext, WeaverDB.class).build();
+        this.weaverDB.clearAllTables();
+        DatabaseTestUtils.setUpRoleplayingSystems(weaverDB);
+        DatabaseTestUtils.setUpThemes(weaverDB);
+        DatabaseTestUtils.setUpCampaigns(weaverDB);
+        DatabaseTestUtils.setUpNameSets(weaverDB);
     }
 
     @After
@@ -41,93 +45,70 @@ public class NameDAOTest {
     }
 
     @Test
-    public void testCreateAndReadNameSets() {
-        final NameDAO nameDAO = weaverDB.nameDAO();
-
-        // Create
-        final NameSet asia = createNameSetEntity("asia");
-        final NameSet europe = createNameSetEntity("europe");
-        nameDAO.createNameSet(asia);
-        nameDAO.createNameSet(europe);
-
+    public void testReadNameSets() {
         // Confirm
+        final NameDAO nameDAO = weaverDB.nameDAO();
         final List<NameSet> allNameSets = nameDAO.readNameSets();
-        assertThat(allNameSets.size(), is(2));
-        assertThat(allNameSets.get(0).nameSetName, is("asia"));
-        assertThat(allNameSets.get(1).nameSetName, is("europe"));
-    }
-
-    private NameSet createNameSetEntity(final String nameSetName) {
-        final NameSet nameSet = new NameSet();
-        nameSet.nameSetName = nameSetName;
-        return nameSet;
+        assertThat(allNameSets.size(), is(3));
+        assertThat(allNameSets.get(0).nameSetName, is("Shadowrun"));
+        assertThat(allNameSets.get(1).nameSetName, is("Vampire"));
+        assertThat(allNameSets.get(2).nameSetName, is("DSA"));
     }
 
     @Test
     public void testUpdateNameSet() {
         final NameDAO nameDAO = weaverDB.nameDAO();
 
-        // Create
-        final NameSet asia = createNameSetEntity("asia");
-        asia.id = nameDAO.createNameSet(asia);
+        // Read Name Set
+        final NameSet shadowrun = nameDAO.readNameSetByName("Shadowrun");
 
         // Update
-        asia.nameSetName = "europe";
-        nameDAO.updateNameSet(asia);
+        shadowrun.nameSetName = "Hunter";
+        nameDAO.updateNameSet(shadowrun);
 
         // Confirm
         final List<NameSet> allNameSets = nameDAO.readNameSets();
-        assertThat(allNameSets.size(), is(1));
-        assertThat(allNameSets.get(0).nameSetName, is("europe"));
+        assertThat(allNameSets.size(), is(3));
+        assertThat(allNameSets.get(0).nameSetName, is("Hunter"));
     }
 
     @Test
     public void testDeleteNameSet() {
         final NameDAO nameDAO = weaverDB.nameDAO();
 
-        // Create
-        final NameSet asia = createNameSetEntity("asia");
-        asia.id = nameDAO.createNameSet(asia);
-
         // Confirm
         List<NameSet> allNameSets = nameDAO.readNameSets();
-        assertThat(allNameSets.size(), is(1));
+        assertThat(allNameSets.size(), is(3));
 
         // Delete
         nameDAO.deleteNameSet(allNameSets.get(0));
 
         // Confirm
         allNameSets = nameDAO.readNameSets();
-        assertThat(allNameSets.size(), is(0));
+        assertThat(allNameSets.size(), is(2));
     }
 
     @Test
     public void testNameSetToCampaignMapping() {
-        // Create
-        final Campaign asiaCampaign = new Campaign();
-        asiaCampaign.campaignName = "Rising Dragon";
+        // Read campaigns
+        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+        final Campaign asiaCampaign = campaignDAO.readCampaignByName("Rising Dragon");
+        final Campaign europeCampaign = campaignDAO.readCampaignByName("Renaissance");
+        final Campaign aventurienCampaign = campaignDAO.readCampaignByName("Die Borbarad Kampagne");
 
-        final Campaign europeCampaign = new Campaign();
-        europeCampaign.campaignName = "Renaissance";
-
-        final Campaign usCampaign = new Campaign();
-        usCampaign.campaignName = "Liberty";
-
-        setUpNameSetToCampaignMapping(asiaCampaign, europeCampaign, usCampaign);
-
-        // Read
+        // Read name sets
         final NameDAO nameDAO = weaverDB.nameDAO();
         final List<NameSet> asiaNameSets = nameDAO.readNameSetsForCampaign(asiaCampaign.id);
         final List<NameSet> europeNameSets = nameDAO.readNameSetsForCampaign(europeCampaign.id);
-        final List<NameSet> usNameSets = nameDAO.readNameSetsForCampaign(usCampaign.id);
+        final List<NameSet> aventurienNameSets = nameDAO.readNameSetsForCampaign(aventurienCampaign.id);
 
         // Verify
         assertThat(asiaNameSets.size(), is(1));
-        assertThat(asiaNameSets.get(0).nameSetName, is("asia"));
+        assertThat(asiaNameSets.get(0).nameSetName, is("Shadowrun"));
         assertThat(europeNameSets.size(), is(1));
-        assertThat(europeNameSets.get(0).nameSetName, is("europe"));
-        assertThat(usNameSets.size(), is(1));
-        assertThat(usNameSets.get(0).nameSetName, is("us"));
+        assertThat(europeNameSets.get(0).nameSetName, is("Vampire"));
+        assertThat(aventurienNameSets.size(), is(1));
+        assertThat(aventurienNameSets.get(0).nameSetName, is("DSA"));
     }
 
     @Test
@@ -135,20 +116,9 @@ public class NameDAOTest {
         final NameDAO nameDAO = weaverDB.nameDAO();
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
 
-        // Create
-        final Campaign asiaCampaign = new Campaign();
-        asiaCampaign.campaignName = "Rising Dragon";
-
-        final Campaign europeCampaign = new Campaign();
-        europeCampaign.campaignName = "Renaissance";
-
-        final Campaign usCampaign = new Campaign();
-        usCampaign.campaignName = "Liberty";
-
-        setUpNameSetToCampaignMapping(asiaCampaign, europeCampaign, usCampaign);
-
         // Delete and Verify
-        campaignDAO.deleteCampaign(europeCampaign);
+        final Campaign risingDragon = campaignDAO.readCampaignByName("Rising Dragon");
+        campaignDAO.deleteCampaign(risingDragon);
         assertThat(campaignDAO.readCampaigns(), hasSize(2));
         assertThat(nameDAO.readNameSets(), hasSize(3));
     }
@@ -158,71 +128,18 @@ public class NameDAOTest {
         final NameDAO nameDAO = weaverDB.nameDAO();
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
 
-        // Create
-        final Campaign asiaCampaign = new Campaign();
-        asiaCampaign.campaignName = "Rising Dragon";
-
-        final Campaign europeCampaign = new Campaign();
-        europeCampaign.campaignName = "Renaissance";
-
-        final Campaign usCampaign = new Campaign();
-        usCampaign.campaignName = "Liberty";
-
-        final NameSet asiaNameSet = setUpNameSetToCampaignMapping(asiaCampaign, europeCampaign, usCampaign);
         final long asiaCampaignId = campaignDAO.readCampaigns().get(0).id;
         assertThat(nameDAO.readNameSets(), hasSize(3));
 
         // Delete and Verify
-        nameDAO.deleteNameSet(asiaNameSet);
+        final NameSet shadowrunNameSet = nameDAO.readNameSetsForCampaign(asiaCampaignId).get(0);
+        nameDAO.deleteNameSet(shadowrunNameSet);
         assertThat(campaignDAO.readCampaigns(), hasSize(3));
         assertThat(nameDAO.readNameSets(), hasSize(2));
-        assertThat(nameDAO.readNameSets().get(0).nameSetName, not(equalTo("Rising Dragon")));
-        assertThat(nameDAO.readNameSets().get(1).nameSetName, not(equalTo("Rising Dragon")));
+        assertThat(nameDAO.readNameSets().get(0).nameSetName, not(equalTo("Shadowrun")));
+        assertThat(nameDAO.readNameSets().get(1).nameSetName, not(equalTo("Shadowrun")));
 
-        assertThat(campaignDAO.readCampaign(asiaCampaignId), notNullValue());
+        assertThat(campaignDAO.readCampaignByID(asiaCampaignId), notNullValue());
         assertThat(nameDAO.readNameSetsForCampaign(asiaCampaignId), hasSize(1));
-    }
-
-    private NameSet setUpNameSetToCampaignMapping(final Campaign asiaCampaign, final Campaign europeCampaign, final Campaign usCampaign) {
-        final NameDAO nameDAO = weaverDB.nameDAO();
-        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
-        final DebugDAO debugDAO = weaverDB.debugDAO();
-
-        // Create Name Sets
-        final NameSet asiaNameSet = createNameSetEntity("asia");
-        asiaNameSet.id = nameDAO.createNameSet(asiaNameSet);
-
-        final NameSet europeNameSet = createNameSetEntity("europe");
-        europeNameSet.id = nameDAO.createNameSet(europeNameSet);
-
-        final NameSet usNameSet = createNameSetEntity("us");
-        usNameSet.id = nameDAO.createNameSet(usNameSet);
-
-        // Create Campaigns
-        asiaCampaign.id = campaignDAO.createCampaign(asiaCampaign);
-        europeCampaign.id = campaignDAO.createCampaign(europeCampaign);
-        usCampaign.id = campaignDAO.createCampaign(usCampaign);
-
-        // Create Mappings
-        final NameSetToCampaign asiaMapping = new NameSetToCampaign();
-        asiaMapping.nameSetId = asiaNameSet.id;
-        asiaMapping.campaignId = asiaCampaign.id;
-        nameDAO.createNameSetToCampaignMapping(asiaMapping);
-
-        final NameSetToCampaign europeMapping = new NameSetToCampaign();
-        europeMapping.nameSetId = europeNameSet.id;
-        europeMapping.campaignId = europeCampaign.id;
-        nameDAO.createNameSetToCampaignMapping(europeMapping);
-
-        final NameSetToCampaign usMapping = new NameSetToCampaign();
-        usMapping.nameSetId = usNameSet.id;
-        usMapping.campaignId = usCampaign.id;
-        nameDAO.createNameSetToCampaignMapping(usMapping);
-
-        // Verity
-        assertThat(campaignDAO.readCampaigns(), hasSize(3));
-        assertThat(nameDAO.readNameSets(), hasSize(3));
-
-        return asiaNameSet;
     }
 }

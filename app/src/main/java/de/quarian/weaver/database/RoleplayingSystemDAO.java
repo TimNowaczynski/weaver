@@ -18,6 +18,9 @@ public interface RoleplayingSystemDAO {
     @Query("SELECT * FROM RoleplayingSystem")
     List<RoleplayingSystem> readRoleplayingSystems();
 
+    @Query("SELECT * FROM RoleplayingSystem WHERE roleplaying_system_name LIKE :roleplayingSystemName")
+    RoleplayingSystem readRoleplayingSystemsByName(final String roleplayingSystemName);
+
     @Update
     void updateRoleplayingSystem(final RoleplayingSystem roleplayingSystem);
 

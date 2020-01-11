@@ -19,6 +19,12 @@ public interface NameDAO {
     @Insert
     void createNameSetToCampaignMapping(final NameSetToCampaign nameSetToCampaignMapping);
 
+    @Query("SELECT * FROM nameset WHERE name_set_id IS :nameSetId")
+    NameSet readNameSetsByID(final long nameSetId);
+
+    @Query("SELECT * FROM nameset WHERE name_set_name IS :nameSetName")
+    NameSet readNameSetByName(final String nameSetName);
+
     @Query("SELECT * FROM nameset")
     List<NameSet> readNameSets();
 

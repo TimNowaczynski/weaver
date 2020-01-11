@@ -17,7 +17,6 @@ import static de.quarian.weaver.datamodel.NameSetToCampaign.FK_NAME_SET_ID;
  * When deleting an associated {@link NameSet} this entry will be removed as well
  * When deleting an associated {@link Campaign} this entry will be removed as well
  */
-@SuppressWarnings("WeakerAccess")
 @Entity(foreignKeys = {
         @ForeignKey(entity = NameSet.class,
                 parentColumns = NameSet.ID,
@@ -36,9 +35,9 @@ public class NameSetToCampaign {
     @PrimaryKey(autoGenerate = true)
     public long nameSetToCampaignId;
 
-    @ColumnInfo(name = FK_NAME_SET_ID)
+    @ColumnInfo(name = FK_NAME_SET_ID, index = true)
     public long nameSetId;
 
-    @ColumnInfo(name = FK_CAMPAIGN_ID)
+    @ColumnInfo(name = FK_CAMPAIGN_ID, index = true)
     public long campaignId;
 }

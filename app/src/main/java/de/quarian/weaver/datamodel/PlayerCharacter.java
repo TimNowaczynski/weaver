@@ -7,12 +7,23 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import static de.quarian.weaver.datamodel.PlayerCharacter.FK_CAMPAIGN_ID;
+import static de.quarian.weaver.datamodel.PlayerCharacter.FK_ROLEPLAYING_SYSTEM_ID;
+
 /**
  * Represents a player character within a campaign.
  * When deleting the {@link RoleplayingSystem}, this entry will be removed as well.
  */
-@SuppressWarnings("WeakerAccess")
-@Entity
+@Entity(foreignKeys = {
+        @ForeignKey(entity = Campaign.class,
+                parentColumns = Campaign.ID,
+                childColumns = FK_CAMPAIGN_ID,
+                onDelete = ForeignKey.CASCADE),
+        @ForeignKey(entity = RoleplayingSystem.class,
+                parentColumns = RoleplayingSystem.ID,
+                childColumns = FK_ROLEPLAYING_SYSTEM_ID,
+                onDelete = ForeignKey.CASCADE)
+})
 public class PlayerCharacter {
 
     public static final String ID = "player_character_id";
@@ -23,21 +34,14 @@ public class PlayerCharacter {
     @ColumnInfo(name = ID)
     public long id;
 
-    @ColumnInfo(name = FK_CAMPAIGN_ID)
-    @ForeignKey(entity = Campaign.class,
-            parentColumns = Campaign.ID,
-            childColumns = FK_CAMPAIGN_ID)
+    @ColumnInfo(name = FK_CAMPAIGN_ID, index = true)
     public long campaignId;
 
     /**
      * This is basically just for ease of use,
      * so we can generate proper suggestions
      */
-    @ColumnInfo(name = FK_ROLEPLAYING_SYSTEM_ID)
-    @ForeignKey(entity = RoleplayingSystem.class,
-            parentColumns = RoleplayingSystem.ID,
-            childColumns = FK_CAMPAIGN_ID,
-            onDelete = ForeignKey.CASCADE)
+    @ColumnInfo(name = FK_ROLEPLAYING_SYSTEM_ID, index = true)
     public long roleplayingSystemId;
 
     @NonNull

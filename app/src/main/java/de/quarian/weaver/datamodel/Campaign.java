@@ -15,30 +15,30 @@ import androidx.room.PrimaryKey;
  * b) also directly with a {@link Theme} and
  * c) with a {@link PlayerCharacter}
  */
-@SuppressWarnings("WeakerAccess")
-@Entity
+@Entity(foreignKeys = {
+        @ForeignKey(entity = RoleplayingSystem.class,
+                parentColumns = RoleplayingSystem.ID,
+                childColumns = Campaign.FK_ROLEPLAYING_SYSTEM_ID,
+                onDelete = ForeignKey.RESTRICT),
+        @ForeignKey(entity = Theme.class,
+                parentColumns = Theme.ID,
+                childColumns = Campaign.FK_THEME_ID,
+                onDelete = ForeignKey.SET_DEFAULT)
+})
 public class Campaign {
 
     public static final String ID = "campaign_id";
-    public static final String ROLEPLAYING_SYSTEM_ID = "fk_roleplaying_system_id";
-    public static final String THEME_ID = "fk_theme_id";
+    public static final String FK_ROLEPLAYING_SYSTEM_ID = "fk_roleplaying_system_id";
+    public static final String FK_THEME_ID = "fk_theme_id";
 
     @ColumnInfo(name = ID)
     @PrimaryKey(autoGenerate = true)
     public long id;
 
-    @ForeignKey(entity = RoleplayingSystem.class,
-            parentColumns = RoleplayingSystem.ID,
-            childColumns = Campaign.ROLEPLAYING_SYSTEM_ID,
-            onDelete = ForeignKey.RESTRICT)
-    @ColumnInfo(name = ROLEPLAYING_SYSTEM_ID)
+    @ColumnInfo(name = FK_ROLEPLAYING_SYSTEM_ID, index = true)
     public long roleplayingSystemId;
 
-    @ForeignKey(entity = Theme.class,
-            parentColumns = Theme.ID,
-            childColumns = Campaign.THEME_ID,
-            onDelete = ForeignKey.RESTRICT)
-    @ColumnInfo(name = THEME_ID)
+    @ColumnInfo(name = FK_THEME_ID, index = true)
     public long themeId;
 
     @ColumnInfo(name = "creation_date_millis")

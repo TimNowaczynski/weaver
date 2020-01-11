@@ -15,22 +15,22 @@ import androidx.room.PrimaryKey;
  *
  * When deleting an associated {@link Campaign} this entry will be removed as well
  */
-@SuppressWarnings("WeakerAccess")
-@Entity
+@Entity(foreignKeys = {
+        @ForeignKey(entity = Campaign.class,
+                parentColumns = Campaign.ID,
+                childColumns = Character.FK_CAMPAIGN_ID,
+                onDelete = ForeignKey.CASCADE)
+})
 public class Character {
 
     public static final String ID = "character_id";
-    public static final String CAMPAIGN_ID = "fk_campaign_id";
+    public static final String FK_CAMPAIGN_ID = "fk_campaign_id";
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     public long id;
 
-    @ColumnInfo(name = CAMPAIGN_ID)
-    @ForeignKey(entity = Campaign.class,
-            parentColumns = Campaign.ID,
-            childColumns = CAMPAIGN_ID,
-            onDelete = ForeignKey.CASCADE)
+    @ColumnInfo(name = FK_CAMPAIGN_ID, index = true)
     public long campaignId;
 
     @ColumnInfo(name = "creation_date_millis")

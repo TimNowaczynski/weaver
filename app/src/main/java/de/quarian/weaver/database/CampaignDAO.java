@@ -19,7 +19,10 @@ public interface CampaignDAO {
     List<Campaign> readCampaigns();
 
     @Query("SELECT * FROM Campaign WHERE campaign_id IS :campaignId")
-    Campaign readCampaign(final long campaignId);
+    Campaign readCampaignByID(final long campaignId);
+
+    @Query("SELECT * FROM Campaign WHERE campaign_name LIKE :campaignName")
+    Campaign readCampaignByName(final String campaignName);
 
     @Update
     void updateCampaign(final Campaign campaign);

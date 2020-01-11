@@ -9,6 +9,8 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Theme {
 
+    //TODO: put default values for colors for on delete operations
+
     public static final String ID = "theme_id";
 
     // This is somewhat shitty, but there seems to be no way around a string constant

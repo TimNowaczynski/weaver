@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import static de.quarian.weaver.datamodel.Tag.FK_ROLEPLAYING_SYSTEM_ID;
+
 /**
  * [RELATIONS]
  *
@@ -14,22 +16,22 @@ import androidx.room.PrimaryKey;
  *
  * When deleting an associated {@link RoleplayingSystem} this entry will be removed as well
  */
-@SuppressWarnings("WeakerAccess")
-@Entity
+@Entity(foreignKeys = {
+        @ForeignKey(entity = RoleplayingSystem.class,
+                parentColumns = RoleplayingSystem.ID,
+                childColumns = FK_ROLEPLAYING_SYSTEM_ID,
+                onDelete = ForeignKey.CASCADE)
+})
 public class Tag {
 
     public static final String ID = "id";
-    public static final String ROLEPLAYING_SYSTEM_ID = "fk_roleplaying_system_id";
+    public static final String FK_ROLEPLAYING_SYSTEM_ID = "fk_roleplaying_system_id";
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     public long id;
 
-    @ColumnInfo(name = ROLEPLAYING_SYSTEM_ID)
-    @ForeignKey(entity = Tag.class,
-            parentColumns = RoleplayingSystem.ID,
-            childColumns = ROLEPLAYING_SYSTEM_ID,
-            onDelete = ForeignKey.CASCADE)
+    @ColumnInfo(name = FK_ROLEPLAYING_SYSTEM_ID, index = true)
     public long roleplayingSystemId;
 
     @NonNull

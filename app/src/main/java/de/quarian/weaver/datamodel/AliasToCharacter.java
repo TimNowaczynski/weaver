@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import static de.quarian.weaver.datamodel.AliasToCharacter.FK_CHARACTER_ID;
+
 /**
  * [RELATIONS]
  *
@@ -15,28 +17,28 @@ import androidx.room.PrimaryKey;
  * When deleting an associated {@link Alias} this entry will be removed as well
  * When deleting an associated {@link Character} this entry will be removed as well
  */
-@SuppressWarnings("WeakerAccess")
-@Entity
+@Entity(foreignKeys = {
+        @ForeignKey(entity = Alias.class,
+                parentColumns = Alias.ID,
+                childColumns = AliasToCharacter.FK_ALIAS_ID,
+                onDelete = ForeignKey.CASCADE),
+        @ForeignKey(entity = Character.class,
+                parentColumns = Character.ID,
+                childColumns = FK_CHARACTER_ID,
+                onDelete = ForeignKey.CASCADE)
+})
 public class AliasToCharacter {
 
-    public static final String ALIAS_ID = "fk_alias_id";
-    public static final String CHARACTER_ID = "fk_character_id";
+    public static final String FK_ALIAS_ID = "fk_alias_id";
+    public static final String FK_CHARACTER_ID = "fk_character_id";
 
     @ColumnInfo(name = "alias_to_character_jd")
     @PrimaryKey(autoGenerate = true)
     public long id;
 
-    @ColumnInfo(name = ALIAS_ID)
-    @ForeignKey(entity = Alias.class,
-            parentColumns = Alias.ID,
-            childColumns = ALIAS_ID,
-            onDelete = ForeignKey.CASCADE)
+    @ColumnInfo(name = FK_ALIAS_ID, index = true)
     public long aliasId;
 
-    @ColumnInfo(name = CHARACTER_ID)
-    @ForeignKey(entity = Character.class,
-            parentColumns = Character.ID,
-            childColumns = CHARACTER_ID,
-            onDelete = ForeignKey.CASCADE)
+    @ColumnInfo(name = FK_CHARACTER_ID, index = true)
     public long characterId;
 }
