@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "21cff24c0eb3b4b76539759023319cbe",
+    "identityHash": "6863fcd4a5b23eec198301cbe436b498",
     "entities": [
       {
         "tableName": "Alias",
@@ -104,7 +104,7 @@
       },
       {
         "tableName": "Campaign",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`campaign_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_roleplaying_system_id` INTEGER NOT NULL, `fk_theme_id` INTEGER NOT NULL, `creation_date_millis` INTEGER NOT NULL, `edit_date_millis` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `campaign_name` TEXT NOT NULL, `synopsis` TEXT, `created` INTEGER NOT NULL, `last_used` INTEGER NOT NULL, FOREIGN KEY(`fk_roleplaying_system_id`) REFERENCES `RoleplayingSystem`(`roleplaying_system_id`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`fk_theme_id`) REFERENCES `Theme`(`theme_id`) ON UPDATE NO ACTION ON DELETE SET DEFAULT )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`campaign_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_roleplaying_system_id` INTEGER NOT NULL, `fk_theme_id` INTEGER NOT NULL, `creation_date_millis` INTEGER NOT NULL, `edit_date_millis` INTEGER NOT NULL, `last_used_date_millis` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `campaign_name` TEXT NOT NULL, `synopsis` TEXT, FOREIGN KEY(`fk_roleplaying_system_id`) REFERENCES `RoleplayingSystem`(`roleplaying_system_id`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`fk_theme_id`) REFERENCES `Theme`(`theme_id`) ON UPDATE NO ACTION ON DELETE SET DEFAULT )",
         "fields": [
           {
             "fieldPath": "id",
@@ -137,6 +137,12 @@
             "notNull": true
           },
           {
+            "fieldPath": "lastUsedDataMillis",
+            "columnName": "last_used_date_millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "archived",
             "columnName": "archived",
             "affinity": "INTEGER",
@@ -153,18 +159,6 @@
             "columnName": "synopsis",
             "affinity": "TEXT",
             "notNull": false
-          },
-          {
-            "fieldPath": "created",
-            "columnName": "created",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "lastUsed",
-            "columnName": "last_used",
-            "affinity": "INTEGER",
-            "notNull": true
           }
         ],
         "primaryKey": {
@@ -1016,7 +1010,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '21cff24c0eb3b4b76539759023319cbe')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6863fcd4a5b23eec198301cbe436b498')"
     ]
   }
 }

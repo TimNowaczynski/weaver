@@ -29,6 +29,7 @@ public class RoleplayingSystemDAOTest {
     public void setUpDatabase() {
         final Context applicationContext = ApplicationProvider.getApplicationContext();
         this.weaverDB = Room.inMemoryDatabaseBuilder(applicationContext, WeaverDB.class).build();
+        DatabaseTestUtils.setUpRoleplayingSystems(weaverDB);
     }
 
     @After
@@ -37,75 +38,60 @@ public class RoleplayingSystemDAOTest {
     }
 
     @Test
-    public void testCreateAndReadRoleplayingSystem() {
+    public void testReadRoleplayingSystem() {
         final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
 
-        // Create
-        final RoleplayingSystem inputA = createRoleplayingSystemEntity("Shadowrun");
-        final RoleplayingSystem inputB = createRoleplayingSystemEntity("DSA");
-        roleplayingSystemDAO.createRoleplayingSystem(inputA);
-        roleplayingSystemDAO.createRoleplayingSystem(inputB);
-
-        // Confirm
         final List<RoleplayingSystem> roleplayingSystems = roleplayingSystemDAO.readRoleplayingSystems();
-        assertThat(roleplayingSystems.size(), is(2));
+        assertThat(roleplayingSystems.size(), is(3));
 
         final RoleplayingSystem roleplayingSystemA = roleplayingSystems.get(0);
         assertThat(roleplayingSystemA.id, notNullValue());
-        assertThat(roleplayingSystemA.roleplayingSystemName, is("Shadowrun"));
-        assertThat(roleplayingSystemA.logo, is(roleplayingSystemA.roleplayingSystemName.getBytes()));
-        assertThat(roleplayingSystemA.logoImageType, is("image/jpeg"));
+        assertThat(roleplayingSystemA.roleplayingSystemName, is(DatabaseTestConstants.RPS_NAME_SHADOWRUN));
+        assertThat(roleplayingSystemA.logo, is(DatabaseTestConstants.RPS_LOGO_SHADOWRUN));
+        assertThat(roleplayingSystemA.logoImageType, is(DatabaseTestConstants.RPS_LOGO_IMAGE_TYPE_SHADOWRUN));
 
         final RoleplayingSystem roleplayingSystemB = roleplayingSystems.get(1);
         assertThat(roleplayingSystemB.id, notNullValue());
-        assertThat(roleplayingSystemB.roleplayingSystemName, is("DSA"));
-        assertThat(roleplayingSystemB.logo, is(roleplayingSystemB.roleplayingSystemName.getBytes()));
-        assertThat(roleplayingSystemB.logoImageType, is("image/jpeg"));
-    }
+        assertThat(roleplayingSystemB.roleplayingSystemName, is(DatabaseTestConstants.RPS_NAME_DSA));
+        assertThat(roleplayingSystemB.logo, is(DatabaseTestConstants.RPS_LOGO_DSA));
+        assertThat(roleplayingSystemB.logoImageType, is(DatabaseTestConstants.RPS_LOGO_IMAGE_TYPE_DSA));
 
-    private RoleplayingSystem createRoleplayingSystemEntity(final String roleplayingSystemName) {
-        final RoleplayingSystem shadowrun = new RoleplayingSystem();
-        shadowrun.roleplayingSystemName = roleplayingSystemName;
-        shadowrun.logo = roleplayingSystemName.getBytes();
-        shadowrun.logoImageType = "image/jpeg";
-        return shadowrun;
+        final RoleplayingSystem roleplayingSystemC = roleplayingSystems.get(2);
+        assertThat(roleplayingSystemC.id, notNullValue());
+        assertThat(roleplayingSystemC.roleplayingSystemName, is(DatabaseTestConstants.RPS_NAME_VAMPIRE));
+        assertThat(roleplayingSystemC.logo, is(DatabaseTestConstants.RPS_LOGO_VAMPIRE));
+        assertThat(roleplayingSystemC.logoImageType, is(DatabaseTestConstants.RPS_LOGO_IMAGE_TYPE_VAMPIRE));
     }
 
     @Test
     public void testUpdateRoleplayingSystem() {
         final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
 
-        // Create
-        final RoleplayingSystem input = createRoleplayingSystemEntity("Shadowrun");
-        input.id = roleplayingSystemDAO.createRoleplayingSystem(input);
+        // Query
+        final RoleplayingSystem outputA = roleplayingSystemDAO.readRoleplayingSystemsByName(DatabaseTestConstants.RPS_NAME_SHADOWRUN);
 
         // Update
-        input.roleplayingSystemName = "DSA";
-        roleplayingSystemDAO.updateRoleplayingSystem(input);
+        outputA.roleplayingSystemName = "Hunter";
+        roleplayingSystemDAO.updateRoleplayingSystem(outputA);
 
         // Confirm
-        final RoleplayingSystem output = roleplayingSystemDAO.readRoleplayingSystems().get(0);
-        assertThat(output.roleplayingSystemName, is("DSA"));
+        final RoleplayingSystem outputB = roleplayingSystemDAO.readRoleplayingSystems().get(0);
+        assertThat(outputB.roleplayingSystemName, is("Hunter"));
     }
 
     @Test
     public void testDeleteRoleplayingSystem() {
-        //TODO: Test delete cascade
         final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
-
-        // Write
-        RoleplayingSystem shadowrun = createRoleplayingSystemEntity("Shadowrun");
-        roleplayingSystemDAO.createRoleplayingSystem(shadowrun);
 
         // Confirm
         final List<RoleplayingSystem> output = roleplayingSystemDAO.readRoleplayingSystems();
-        assertThat(output, hasSize(1));
-        shadowrun = output.get(0);
+        assertThat(output, hasSize(3));
 
         // Delete
+        final RoleplayingSystem shadowrun = roleplayingSystemDAO.readRoleplayingSystemsByName(DatabaseTestConstants.RPS_NAME_SHADOWRUN);
         roleplayingSystemDAO.deleteRoleplayingSystem(shadowrun);
 
         // Confirm
-        assertThat(roleplayingSystemDAO.readRoleplayingSystems(), hasSize(0));
+        assertThat(roleplayingSystemDAO.readRoleplayingSystems(), hasSize(2));
     }
 }

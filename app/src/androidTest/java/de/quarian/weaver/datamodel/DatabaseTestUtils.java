@@ -17,29 +17,39 @@ public final class DatabaseTestUtils {
 
         final RoleplayingSystem shadowrun = new RoleplayingSystem();
         shadowrun.roleplayingSystemName = RPS_NAME_SHADOWRUN;
-        shadowrun.logo = "shadowrun.jpg".getBytes();
-        shadowrun.logoImageType = "image/jpg";
+        shadowrun.logo = RPS_LOGO_SHADOWRUN;
+        shadowrun.logoImageType = RPS_LOGO_IMAGE_TYPE_SHADOWRUN;
         roleplayingSystemDAO.createRoleplayingSystem(shadowrun);
 
         final RoleplayingSystem dsa = new RoleplayingSystem();
         dsa.roleplayingSystemName = RPS_NAME_DSA;
-        dsa.logo = "dsa.png".getBytes();
-        dsa.logoImageType = "image/png";
+        dsa.logo = RPS_LOGO_DSA;
+        dsa.logoImageType = RPS_LOGO_IMAGE_TYPE_DSA;
         roleplayingSystemDAO.createRoleplayingSystem(dsa);
 
         final RoleplayingSystem vampire = new RoleplayingSystem();
         vampire.roleplayingSystemName = RPS_NAME_VAMPIRE;
-        vampire.logo = "vampire.png".getBytes();
-        vampire.logoImageType = "image/png";
+        vampire.logo = RPS_LOGO_VAMPIRE;
+        vampire.logoImageType = RPS_LOGO_IMAGE_TYPE_VAMPIRE;
         roleplayingSystemDAO.createRoleplayingSystem(vampire);
     }
 
+    /**
+     * This will insert a dummy theme with the ID of 1L. For real Theme testing see {@link ThemeDAOTest}.
+     * @param weaverDB Our target database
+     */
     public static void setUpThemes(final WeaverDB weaverDB) {
         final ThemeDAO themeDAO = weaverDB.themeDAO();
         final Theme theme = new Theme();
         themeDAO.createTheme(theme);
     }
 
+    /***
+     * Requires to run tbe following methods upfront
+     * (the order is of importance)
+     * 1) {@link DatabaseTestUtils}.setUpRoleplayingSystems()
+     * 2) {@link DatabaseTestUtils}.setUpThemes()
+     */
     public static void setUpCampaigns(final WeaverDB weaverDB) {
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
         final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
@@ -47,27 +57,27 @@ public final class DatabaseTestUtils {
         final Campaign asiaCampaign = new Campaign();
         final RoleplayingSystem shadowrun = roleplayingSystemDAO.readRoleplayingSystemsByName(RPS_NAME_SHADOWRUN);
         asiaCampaign.roleplayingSystemId = shadowrun.id;
-        asiaCampaign.campaignName = "Rising Dragon";
+        asiaCampaign.campaignName = CAMPAIGN_NAME_RISING_DRAGON;
         asiaCampaign.themeId = 1L;
         campaignDAO.createCampaign(asiaCampaign);
 
         final Campaign europeCampaign = new Campaign();
         final RoleplayingSystem vampire = roleplayingSystemDAO.readRoleplayingSystemsByName(RPS_NAME_VAMPIRE);
         europeCampaign.roleplayingSystemId = vampire.id;
-        europeCampaign.campaignName = "Renaissance";
+        europeCampaign.campaignName = CAMPAIGN_NAME_RENAISSANCE;
         europeCampaign.themeId = 1L;
         campaignDAO.createCampaign(europeCampaign);
 
         final Campaign aventurienCampaign = new Campaign();
         final RoleplayingSystem dsa = roleplayingSystemDAO.readRoleplayingSystemsByName(RPS_NAME_DSA);
         aventurienCampaign.roleplayingSystemId = dsa.id;
-        aventurienCampaign.campaignName = "Die Borbarad Kampagne";
+        aventurienCampaign.campaignName = CAMPAIGN_NAME_BORBARAD;
         aventurienCampaign.themeId = 1L;
         campaignDAO.createCampaign(aventurienCampaign);
     }
 
     /***
-     * Reqiures to run tbe following methods upfront
+     * Requires to run tbe following methods upfront
      * (the order is of importance)
      * 1) {@link DatabaseTestUtils}.setUpRoleplayingSystems()
      * 2) {@link DatabaseTestUtils}.setUpThemes()
@@ -75,14 +85,14 @@ public final class DatabaseTestUtils {
      */
     public static void setUpNameSets(final WeaverDB weaverDB) {
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
-        final long shadowrunCampaignId = campaignDAO.readCampaignByName("Rising Dragon").id;
-        final long vampireCampaignId = campaignDAO.readCampaignByName("Renaissance").id;
-        final long dsaCampaignId = campaignDAO.readCampaignByName("Die Borbarad Kampagne").id;
+        final long shadowrunCampaignId = campaignDAO.readCampaignByName(CAMPAIGN_NAME_RISING_DRAGON).id;
+        final long vampireCampaignId = campaignDAO.readCampaignByName(CAMPAIGN_NAME_RENAISSANCE).id;
+        final long dsaCampaignId = campaignDAO.readCampaignByName(CAMPAIGN_NAME_BORBARAD).id;
 
         final NameDAO nameDAO = weaverDB.nameDAO();
 
         final NameSet shadowrunNameSet = new NameSet();
-        shadowrunNameSet.nameSetName = "Shadowrun";
+        shadowrunNameSet.nameSetName = NAME_SET_NAME_SHADOWRUN;
         final long shadowrunNameSetId = nameDAO.createNameSet(shadowrunNameSet);
         final NameSetToCampaign shadowrunNameSetMapping = new NameSetToCampaign();
         shadowrunNameSetMapping.nameSetId = shadowrunNameSetId;
@@ -90,7 +100,7 @@ public final class DatabaseTestUtils {
         nameDAO.createNameSetToCampaignMapping(shadowrunNameSetMapping);
 
         final NameSet vampireNameSet = new NameSet();
-        vampireNameSet.nameSetName = "Vampire";
+        vampireNameSet.nameSetName = NAME_SET_NAME_VAMPIRE;
         final long vampireNameSetId = nameDAO.createNameSet(vampireNameSet);
         final NameSetToCampaign vampireNameSetToCampaignMapping = new NameSetToCampaign();
         vampireNameSetToCampaignMapping.nameSetId = vampireNameSetId;
@@ -98,7 +108,7 @@ public final class DatabaseTestUtils {
         nameDAO.createNameSetToCampaignMapping(vampireNameSetToCampaignMapping);
 
         final NameSet dsaNameSet = new NameSet();
-        dsaNameSet.nameSetName = "DSA";
+        dsaNameSet.nameSetName = NAME_SET_NAME_DSA;
         final long dsaNameSetId = nameDAO.createNameSet(dsaNameSet);
         final NameSetToCampaign dsaNameSetToCampaignMapping = new NameSetToCampaign();
         dsaNameSetToCampaignMapping.nameSetId = dsaNameSetId;

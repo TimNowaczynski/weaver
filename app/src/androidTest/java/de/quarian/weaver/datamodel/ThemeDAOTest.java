@@ -87,6 +87,26 @@ public class ThemeDAOTest {
         return theme;
     }
 
-    //TODO: Test Update and Delete Theme
+    @Test
+    public void updateThemeEntity() {
+        final ThemeDAO themeDAO = weaverDB.themeDAO();
 
+        // Write
+        final Theme input = createThemeEntity();
+        final long themeId = themeDAO.createTheme(input);
+
+        // Confirm
+        final Theme outputThemeA = themeDAO.readTheme(themeId);
+        assertThat(outputThemeA.fontId, is(50));
+
+        // Update
+        outputThemeA.fontId = 100;
+        themeDAO.updateTheme(outputThemeA);
+
+        // Confirm
+        final Theme outputThemeB = themeDAO.readTheme(themeId);
+        assertThat(outputThemeB.fontId, is(100));
+    }
+
+    // Delete Theme is via CASCADE from Campaigns
 }

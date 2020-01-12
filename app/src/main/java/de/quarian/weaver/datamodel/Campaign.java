@@ -47,6 +47,9 @@ public class Campaign {
     @ColumnInfo(name = "edit_date_millis")
     public long editDateMillis;
 
+    @ColumnInfo(name = "last_used_date_millis")
+    public long lastUsedDataMillis;
+
     @ColumnInfo(name = "archived")
     public boolean archived;
 
@@ -57,10 +60,4 @@ public class Campaign {
     @Nullable
     @ColumnInfo(name = "synopsis")
     public String synopsis;
-
-    @ColumnInfo(name = "created")
-    public long created;
-
-    @ColumnInfo(name = "last_used")
-    public long lastUsed;
 }
