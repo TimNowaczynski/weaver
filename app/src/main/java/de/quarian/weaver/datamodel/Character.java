@@ -44,6 +44,10 @@ public class Character {
     public String firstName = "";
 
     @NonNull
+    @ColumnInfo(name = "alias")
+    public String alias = "";
+
+    @NonNull
     @ColumnInfo(name = "last_name")
     public String lastName = "";
 

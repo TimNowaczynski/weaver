@@ -26,6 +26,20 @@ public final class DatabaseTestConstants {
     public static final String NAME_SET_NAME_DSA = "DSA Name Set";
     public static final String NAME_SET_NAME_VAMPIRE = "Vampire the Requiem Name Set";
 
+    public static final String LAST_NAME_SHADOWRUN = " > null";
+    public static final String LAST_NAME_VAMPIRE = "Smith";
+    public static final String LAST_NAME_DSA = "Larinow";
 
+    public static final String FIRST_NAME_SHADOWRUN_MALE = "Spike";
+    public static final String FIRST_NAME_SHADOWRUN_FEMALE = "Crash Burn";
+    public static final String FIRST_NAME_SHADOWRUN_UNISEX = "Dev";
+
+    public static final String FIRST_NAME_VAMPIRE_MALE = "Jakob";
+    public static final String FIRST_NAME_VAMPIRE_FEMALE = "Miranda";
+    public static final String FIRST_NAME_VAMPIRE_UNISEX = "Alex";
+
+    public static final String FIRST_NAME_DSA_MALE = "Travidan";
+    public static final String FIRST_NAME_DSA_FEMALE = "Alina";
+    public static final String FIRST_NAME_DSA_UNISEX = "Drew";
 
 }

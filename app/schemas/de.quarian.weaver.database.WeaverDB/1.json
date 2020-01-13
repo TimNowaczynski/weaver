@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6863fcd4a5b23eec198301cbe436b498",
+    "identityHash": "bf68d9b138f52f126f27bfc675a86ca1",
     "entities": [
       {
         "tableName": "Alias",
@@ -212,7 +212,7 @@
       },
       {
         "tableName": "Character",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`character_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_campaign_id` INTEGER NOT NULL, `creation_date_millis` INTEGER NOT NULL, `edit_date_millis` INTEGER NOT NULL, `first_name` TEXT NOT NULL, `last_name` TEXT NOT NULL, `avatar_image_type` TEXT, `avatar` BLOB, `role` TEXT, `age` TEXT, `looks` TEXT, `miscellaneous` TEXT, FOREIGN KEY(`fk_campaign_id`) REFERENCES `Campaign`(`campaign_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`character_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_campaign_id` INTEGER NOT NULL, `creation_date_millis` INTEGER NOT NULL, `edit_date_millis` INTEGER NOT NULL, `first_name` TEXT NOT NULL, `alias` TEXT NOT NULL, `last_name` TEXT NOT NULL, `avatar_image_type` TEXT, `avatar` BLOB, `role` TEXT, `age` TEXT, `looks` TEXT, `miscellaneous` TEXT, FOREIGN KEY(`fk_campaign_id`) REFERENCES `Campaign`(`campaign_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -241,6 +241,12 @@
           {
             "fieldPath": "firstName",
             "columnName": "first_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "alias",
+            "columnName": "alias",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -453,7 +459,7 @@
       },
       {
         "tableName": "Name",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `position` INTEGER NOT NULL, `name` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_name_set_id` INTEGER NOT NULL, `position` INTEGER NOT NULL, `gender` INTEGER NOT NULL, `name` TEXT NOT NULL, FOREIGN KEY(`fk_name_set_id`) REFERENCES `NameSet`(`name_set_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -462,8 +468,20 @@
             "notNull": true
           },
           {
+            "fieldPath": "nameSetId",
+            "columnName": "fk_name_set_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "position",
             "columnName": "position",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gender",
+            "columnName": "gender",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -480,8 +498,29 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "index_Name_fk_name_set_id",
+            "unique": false,
+            "columnNames": [
+              "fk_name_set_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Name_fk_name_set_id` ON `${TABLE_NAME}` (`fk_name_set_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "NameSet",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "fk_name_set_id"
+            ],
+            "referencedColumns": [
+              "name_set_id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "NameSet",
@@ -1010,7 +1049,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6863fcd4a5b23eec198301cbe436b498')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bf68d9b138f52f126f27bfc675a86ca1')"
     ]
   }
 }
