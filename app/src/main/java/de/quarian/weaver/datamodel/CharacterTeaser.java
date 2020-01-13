@@ -1,6 +1,5 @@
 package de.quarian.weaver.datamodel;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -43,18 +42,6 @@ public class CharacterTeaser {
 
     @ColumnInfo(name = FK_CHARACTER_ID, index = true)
     public long characterId;
-
-    @NonNull
-    @ColumnInfo(name = "first_name")
-    public String firstName = "";
-
-    @NonNull
-    @ColumnInfo(name = "alias")
-    public String alias = "";
-
-    @NonNull
-    @ColumnInfo(name = "last_name")
-    public String lastName = "";
 
     @Nullable
     @ColumnInfo(name = "small_avatar_image_type")
