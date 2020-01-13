@@ -71,6 +71,10 @@ public class Character {
     public String looks;
 
     @Nullable
+    @ColumnInfo(name = "background")
+    public String background;
+
+    @Nullable
     @ColumnInfo(name = "miscellaneous")
     public String miscellaneous;
 }

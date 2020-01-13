@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "bf68d9b138f52f126f27bfc675a86ca1",
+    "identityHash": "7ff8ffce867ef8516afc8707963d9ec3",
     "entities": [
       {
         "tableName": "Alias",
@@ -212,7 +212,7 @@
       },
       {
         "tableName": "Character",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`character_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_campaign_id` INTEGER NOT NULL, `creation_date_millis` INTEGER NOT NULL, `edit_date_millis` INTEGER NOT NULL, `first_name` TEXT NOT NULL, `alias` TEXT NOT NULL, `last_name` TEXT NOT NULL, `avatar_image_type` TEXT, `avatar` BLOB, `role` TEXT, `age` TEXT, `looks` TEXT, `miscellaneous` TEXT, FOREIGN KEY(`fk_campaign_id`) REFERENCES `Campaign`(`campaign_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`character_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_campaign_id` INTEGER NOT NULL, `creation_date_millis` INTEGER NOT NULL, `edit_date_millis` INTEGER NOT NULL, `first_name` TEXT NOT NULL, `alias` TEXT NOT NULL, `last_name` TEXT NOT NULL, `avatar_image_type` TEXT, `avatar` BLOB, `role` TEXT, `age` TEXT, `looks` TEXT, `background` TEXT, `miscellaneous` TEXT, FOREIGN KEY(`fk_campaign_id`) REFERENCES `Campaign`(`campaign_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -283,6 +283,12 @@
           {
             "fieldPath": "looks",
             "columnName": "looks",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "background",
+            "columnName": "background",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -779,6 +785,110 @@
         "foreignKeys": []
       },
       {
+        "tableName": "Roll",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`roll_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `roll_name` TEXT NOT NULL, `roll` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "roll_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rollName",
+            "columnName": "roll_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roll",
+            "columnName": "roll",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "roll_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "RollToCharacter",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tag_to_character_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_roll_id` INTEGER NOT NULL, `fk_character_id` INTEGER NOT NULL, FOREIGN KEY(`fk_roll_id`) REFERENCES `Roll`(`roll_id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`fk_character_id`) REFERENCES `Character`(`character_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "tag_to_character_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tagId",
+            "columnName": "fk_roll_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "characterId",
+            "columnName": "fk_character_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "tag_to_character_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_RollToCharacter_fk_roll_id",
+            "unique": false,
+            "columnNames": [
+              "fk_roll_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_RollToCharacter_fk_roll_id` ON `${TABLE_NAME}` (`fk_roll_id`)"
+          },
+          {
+            "name": "index_RollToCharacter_fk_character_id",
+            "unique": false,
+            "columnNames": [
+              "fk_character_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_RollToCharacter_fk_character_id` ON `${TABLE_NAME}` (`fk_character_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Roll",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "fk_roll_id"
+            ],
+            "referencedColumns": [
+              "roll_id"
+            ]
+          },
+          {
+            "table": "Character",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "fk_character_id"
+            ],
+            "referencedColumns": [
+              "character_id"
+            ]
+          }
+        ]
+      },
+      {
         "tableName": "Tag",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_roleplaying_system_id` INTEGER NOT NULL, `tag` TEXT NOT NULL, FOREIGN KEY(`fk_roleplaying_system_id`) REFERENCES `RoleplayingSystem`(`roleplaying_system_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
@@ -1049,7 +1159,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bf68d9b138f52f126f27bfc675a86ca1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7ff8ffce867ef8516afc8707963d9ec3')"
     ]
   }
 }

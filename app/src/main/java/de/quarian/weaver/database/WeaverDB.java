@@ -13,6 +13,8 @@ import de.quarian.weaver.datamodel.NameSet;
 import de.quarian.weaver.datamodel.NameSetToCampaign;
 import de.quarian.weaver.datamodel.PlayerCharacter;
 import de.quarian.weaver.datamodel.RoleplayingSystem;
+import de.quarian.weaver.datamodel.Roll;
+import de.quarian.weaver.datamodel.RollToCharacter;
 import de.quarian.weaver.datamodel.Tag;
 import de.quarian.weaver.datamodel.TagToCharacter;
 import de.quarian.weaver.datamodel.Theme;
@@ -29,6 +31,8 @@ import de.quarian.weaver.datamodel.Theme;
         NameSetToCampaign.class,
         PlayerCharacter.class,
         RoleplayingSystem.class,
+        Roll.class,
+        RollToCharacter.class,
         Tag.class,
         TagToCharacter.class,
         Theme.class
