@@ -18,8 +18,8 @@ import static de.quarian.weaver.datamodel.Name.FK_NAME_SET_ID;
         onDelete = ForeignKey.CASCADE))
 public class Name {
 
-    public static final String FK_NAME_SET_ID = "fk_name_set_id";
     public static final String ID = "name_id";
+    public static final String FK_NAME_SET_ID = "fk_name_set_id";
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)

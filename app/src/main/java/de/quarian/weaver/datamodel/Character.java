@@ -29,16 +29,4 @@ public class Character {
 
     @ColumnInfo(name = "edit_date_millis")
     public long editDateMillis;
-
-    @NonNull
-    @ColumnInfo(name = "first_name")
-    public String firstName = "";
-
-    @NonNull
-    @ColumnInfo(name = "alias")
-    public String alias = "";
-
-    @NonNull
-    @ColumnInfo(name = "last_name")
-    public String lastName = "";
 }

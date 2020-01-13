@@ -32,7 +32,6 @@ public class TagToCharacter {
     public static final String FK_CHARACTER_ID = "fk_character_id";
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "tag_to_character_id")
     public long id;
 
     @ColumnInfo(name = FK_TAG_ID, index = true)

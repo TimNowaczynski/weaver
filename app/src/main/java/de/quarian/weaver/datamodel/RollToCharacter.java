@@ -31,7 +31,6 @@ public class RollToCharacter {
     public static final String FK_CHARACTER_ID = "fk_character_id";
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "tag_to_character_id")
     public long id;
 
     @ColumnInfo(name = FK_ROLL_ID, index = true)
