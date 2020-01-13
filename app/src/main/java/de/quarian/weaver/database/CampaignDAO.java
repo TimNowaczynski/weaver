@@ -15,6 +15,8 @@ public interface CampaignDAO {
     @Insert
     long createCampaign(final Campaign campaign);
 
+    // TODO: NameSet For Campaign
+
     @Query("SELECT * FROM Campaign")
     List<Campaign> readCampaigns();
 

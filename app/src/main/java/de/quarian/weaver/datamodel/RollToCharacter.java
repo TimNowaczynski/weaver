@@ -5,8 +5,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import static de.quarian.weaver.datamodel.TagToCharacter.FK_CHARACTER_ID;
-//TODO: fix copy and paste
+import static de.quarian.weaver.datamodel.RollToCharacter.FK_CHARACTER_ID;
 /**
  * [RELATIONS]
  *
