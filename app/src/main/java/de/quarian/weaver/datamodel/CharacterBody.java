@@ -40,14 +40,6 @@ public class CharacterBody {
     public byte[] avatar;
 
     @Nullable
-    @ColumnInfo(name = "role")
-    public String role;
-
-    @Nullable
-    @ColumnInfo(name = "state")
-    public String state;
-
-    @Nullable
     @ColumnInfo(name = "age")
     public String age;
 

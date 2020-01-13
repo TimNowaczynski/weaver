@@ -51,4 +51,12 @@ public class CharacterHeader {
 
     @ColumnInfo(name = "small_avatar")
     public byte[] smallAvatar;
+
+    @Nullable
+    @ColumnInfo(name = "role")
+    public String role;
+
+    @Nullable
+    @ColumnInfo(name = "state")
+    public String state;
 }
