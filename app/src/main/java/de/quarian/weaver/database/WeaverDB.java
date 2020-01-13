@@ -6,8 +6,8 @@ import de.quarian.weaver.datamodel.Alias;
 import de.quarian.weaver.datamodel.AliasToCharacter;
 import de.quarian.weaver.datamodel.Campaign;
 import de.quarian.weaver.datamodel.Character;
-import de.quarian.weaver.datamodel.CharacterName;
-import de.quarian.weaver.datamodel.CharacterTeaser;
+import de.quarian.weaver.datamodel.CharacterHeader;
+import de.quarian.weaver.datamodel.CharacterBody;
 import de.quarian.weaver.datamodel.Event;
 import de.quarian.weaver.datamodel.EventToCharacter;
 import de.quarian.weaver.datamodel.Name;
@@ -26,8 +26,8 @@ import de.quarian.weaver.datamodel.Theme;
         AliasToCharacter.class,
         Campaign.class,
         Character.class,
-        CharacterTeaser.class,
-        CharacterName.class,
+        CharacterHeader.class,
+        CharacterBody.class,
         Event.class,
         EventToCharacter.class,
         Name.class,
