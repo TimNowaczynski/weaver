@@ -125,8 +125,8 @@ public interface NameDAO {
 
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT * FROM campaign " +
-            "LEFT JOIN namesettocampaign ON campaign.campaign_id = namesettocampaign.fk_campaign_id " +
-            "LEFT JOIN nameset ON namesettocampaign.fk_name_set_id = nameset.name_set_id " +
+            "INNER JOIN namesettocampaign ON campaign.campaign_id = namesettocampaign.fk_campaign_id " +
+            "INNER JOIN nameset ON namesettocampaign.fk_name_set_id = nameset.name_set_id " +
             "WHERE campaign.campaign_id = :campaignID")
     List<NameSet> readNameSetsForCampaign(final long campaignID);
 
