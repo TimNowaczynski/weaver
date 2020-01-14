@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
  * * [RELATIONS]
  *
  * A {@link Roll} is associated
- * a) indirectly with a {@link Character} through a Mapping Table {@link RollToCharacter}
+ * a) indirectly with a {@link CharacterHeader} through a Mapping Table {@link RollToCharacterHeader}
  */
 @SuppressWarnings({"WeakerAccess", "RedundantSuppression"})
 @Entity

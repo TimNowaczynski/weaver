@@ -11,27 +11,32 @@ import androidx.room.PrimaryKey;
  * * [RELATIONS]
  *
  * A {@link CharacterHeader} is associated
- * a) directly with a {@link Character}
+ * a) directly with a {@link CharacterBody}
  *
- * This entry will be delete when removing such a {@link Character}
  */
 @Entity(foreignKeys = {
-        @ForeignKey(entity = Character.class,
-                parentColumns = Character.ID,
-                childColumns = CharacterHeader.FK_CHARACTER_ID,
+        @ForeignKey(entity = Campaign.class,
+                parentColumns = Campaign.ID,
+                childColumns = CharacterHeader.FK_CAMPAIGN_ID,
                 onDelete = ForeignKey.CASCADE)
 })
 public class CharacterHeader {
 
     public static final String ID = "character_header_id";
-    public static final String FK_CHARACTER_ID = "fk_character_id";
+    public static final String FK_CAMPAIGN_ID = "fk_campaign_id";
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     public long id;
 
-    @ColumnInfo(name = FK_CHARACTER_ID, index = true)
-    public long characterId;
+    @ColumnInfo(name = FK_CAMPAIGN_ID, index = true)
+    public long campaignId;
+
+    @ColumnInfo(name = "creation_date_millis")
+    public long creationDateMillis;
+
+    @ColumnInfo(name = "edit_date_millis")
+    public long editDateMillis;
 
     @NonNull
     @ColumnInfo(name = "first_name")

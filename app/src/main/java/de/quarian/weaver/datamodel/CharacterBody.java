@@ -12,25 +12,25 @@ import androidx.room.PrimaryKey;
  * 1:1
  * Links a {@link CharacterBody} with a {@link Campaign}
  *
- * When deleting an associated {@link Character} this entry will be removed as well
+ * When deleting an associated {@link CharacterHeader} this entry will be removed as well
  */
 @Entity(foreignKeys = {
-        @ForeignKey(entity = Character.class,
-                parentColumns = Character.ID,
-                childColumns = CharacterBody.FK_CHARACTER_ID,
+        @ForeignKey(entity = CharacterHeader.class,
+                parentColumns = CharacterHeader.ID,
+                childColumns = CharacterBody.FK_CHARACTER_HEADER_ID,
                 onDelete = ForeignKey.CASCADE)
 })
 public class CharacterBody {
 
     public static final String ID = "character_body_id";
-    public static final String FK_CHARACTER_ID = "fk_character_id";
+    public static final String FK_CHARACTER_HEADER_ID = "fk_character_header_id";
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
     public long id;
 
-    @ColumnInfo(name = FK_CHARACTER_ID, index = true)
-    public long characterId;
+    @ColumnInfo(name = FK_CHARACTER_HEADER_ID, index = true)
+    public long characterHeaderId;
 
     @Nullable
     @ColumnInfo(name = "avatar_image_type")

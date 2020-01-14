@@ -24,7 +24,7 @@ import static de.quarian.weaver.datamodel.Tag.FK_ROLEPLAYING_SYSTEM_ID;
 })
 public class Tag {
 
-    public static final String ID = "id";
+    public static final String ID = "tag_id";
     public static final String FK_ROLEPLAYING_SYSTEM_ID = "fk_roleplaying_system_id";
 
     @PrimaryKey(autoGenerate = true)

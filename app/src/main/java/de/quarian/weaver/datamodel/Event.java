@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
  * [RELATIONS]
  *
  * 1:1
- * Is linked by {@link EventToCharacter} with a {@link Character}
+ * Is linked by {@link EventToCharacterHeader} with a {@link CharacterHeader}
  */
 @SuppressWarnings({"WeakerAccess", "RedundantSuppression"})
 @Entity
