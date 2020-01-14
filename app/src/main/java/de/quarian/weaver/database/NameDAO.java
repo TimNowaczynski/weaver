@@ -8,6 +8,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.RoomWarnings;
 import androidx.room.Update;
+import de.quarian.weaver.datamodel.Constants;
 import de.quarian.weaver.datamodel.Name;
 import de.quarian.weaver.datamodel.NameSet;
 import de.quarian.weaver.datamodel.NameSetToCampaign;
@@ -31,7 +32,7 @@ public interface NameDAO {
 
     /**
      * Used for picking random names without reading the whole table into memory
-     * See {@link de.quarian.weaver.datamodel.Constants.Gender} for hardcoded values 0 and 2
+     * See {@link Constants.NameGender} for hardcoded values 0 and 2
      * @param nameSetId ID of the {@link NameSet}
      * @param offset Should be the random roll with a index starting at 1
      * @param limit Should basically always be 1
@@ -56,7 +57,7 @@ public interface NameDAO {
 
     /**
      * Used for picking random names without reading the whole table into memory
-     * See {@link de.quarian.weaver.datamodel.Constants.Gender} for hardcoded values 1 and 2
+     * See {@link Constants.NameGender} for hardcoded values 1 and 2
      * @param nameSetId ID of the {@link NameSet}
      * @param offset Should be the random roll with a index starting at 1
      * @param limit Should basically always be 1
@@ -81,7 +82,7 @@ public interface NameDAO {
 
     /**
      * Used for picking random names without reading the whole table into memory
-     * See {@link de.quarian.weaver.datamodel.Constants.Gender} for hardcoded value 2
+     * See {@link Constants.NameGender} for hardcoded value 2
      * @param nameSetId ID of the {@link NameSet}
      * @param offset Should be the random roll with a index starting at 1
      * @param limit Should basically always be 1

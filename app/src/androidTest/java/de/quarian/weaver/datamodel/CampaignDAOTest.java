@@ -2,6 +2,7 @@ package de.quarian.weaver.datamodel;
 
 import android.content.Context;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,6 +28,11 @@ public class CampaignDAOTest {
         this.weaverDB = Room.inMemoryDatabaseBuilder(applicationContext, WeaverDB.class).build();
         DatabaseTestUtils.setUpRoleplayingSystems(this.weaverDB);
         DatabaseTestUtils.setUpThemes(this.weaverDB);
+    }
+
+    @After
+    public void closeDatabase() {
+        this.weaverDB.close();
     }
 
     @Test

@@ -23,6 +23,13 @@ public interface CharacterDAO {
     //TODO: ( ) Event
     //TODO: ( ) Roll
     //TODO: ( ) Tag
+    //TODO: Test all off this
+
+    /*
+    -------------------------------
+    ||  Start Character Section  ||
+    -------------------------------
+     */
 
     // Character - CREATE
 
@@ -59,6 +66,12 @@ public interface CharacterDAO {
     @Delete
     void deleteCharacterBody(final CharacterBody characterBody);
 
+    /*
+    ---------------------------
+    ||  Start Event Section  ||
+    ---------------------------
+     */
+
     // Event - CREATE
 
     @Insert
@@ -88,6 +101,12 @@ public interface CharacterDAO {
     @Delete
     void deleteEventToCharacter(final EventToCharacterHeader eventToCharacterHeader);
 
+    /*
+    --------------------------
+    ||  Start Roll Section  ||
+    --------------------------
+     */
+
     // Roll - CREATE
 
     @Insert
@@ -111,6 +130,12 @@ public interface CharacterDAO {
 
     @Delete
     void deleteRollToCharacterHeader(final RollToCharacterHeader rollToCharacterHeader);
+
+    /*
+    -------------------------
+    ||  Start Tag Section  ||
+    -------------------------
+     */
 
     // Tag - CREATE
 

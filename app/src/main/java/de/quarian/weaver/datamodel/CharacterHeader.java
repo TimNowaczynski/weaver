@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
  * * [RELATIONS]
  *
  * A {@link CharacterHeader} is associated
- * a) directly with a {@link CharacterBody}
+ * a) directly with a {@link Campaign}
  *
  */
 @Entity(foreignKeys = {
@@ -49,6 +49,9 @@ public class CharacterHeader {
     @NonNull
     @ColumnInfo(name = "last_name")
     public String lastName = "";
+
+    @ColumnInfo(name = "gender")
+    public int gender = Constants.CharacterGender.OTHER.getValue();
 
     @Nullable
     @ColumnInfo(name = "small_avatar_image_type")

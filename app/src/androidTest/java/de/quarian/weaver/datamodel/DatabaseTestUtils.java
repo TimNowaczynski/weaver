@@ -1,12 +1,55 @@
 package de.quarian.weaver.datamodel;
 
+import java.util.Date;
+
 import de.quarian.weaver.database.CampaignDAO;
+import de.quarian.weaver.database.CharacterDAO;
 import de.quarian.weaver.database.NameDAO;
 import de.quarian.weaver.database.RoleplayingSystemDAO;
 import de.quarian.weaver.database.ThemeDAO;
 import de.quarian.weaver.database.WeaverDB;
 
-import static de.quarian.weaver.datamodel.DatabaseTestConstants.*;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.CAMPAIGN_NAME_BORBARAD;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.CAMPAIGN_NAME_RENAISSANCE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_DSA_FEMALE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_DSA_MALE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_DSA_UNISEX;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_SHADOWRUN_FEMALE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_SHADOWRUN_MALE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_SHADOWRUN_UNISEX;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_VAMPIRE_FEMALE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_VAMPIRE_MALE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_VAMPIRE_UNISEX;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.LAST_NAME_DSA;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.LAST_NAME_SHADOWRUN;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.LAST_NAME_VAMPIRE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_AGE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_ALIAS;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_AVATAR;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_AVATAR_IMAGE_TYPE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_BACKGROUND;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_FIRST_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_GENDER;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_LAST_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_LOOKS;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_MISC;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_ROLE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_SMALL_AVATAR;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_SMALL_AVATAR_IMAGE_TYPE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_STATE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.NAME_SET_NAME_DSA;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.NAME_SET_NAME_SHADOWRUN;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.NAME_SET_NAME_VAMPIRE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.RPS_LOGO_DSA;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.RPS_LOGO_IMAGE_TYPE_DSA;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.RPS_LOGO_IMAGE_TYPE_SHADOWRUN;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.RPS_LOGO_IMAGE_TYPE_VAMPIRE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.RPS_LOGO_SHADOWRUN;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.RPS_LOGO_VAMPIRE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.RPS_NAME_DSA;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.RPS_NAME_SHADOWRUN;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.RPS_NAME_VAMPIRE;
 
 public final class DatabaseTestUtils {
 
@@ -127,28 +170,28 @@ public final class DatabaseTestUtils {
         final long nameSetIDShadowrun = nameDAO.readNameSetByName(NAME_SET_NAME_SHADOWRUN).id;
 
         final Name runnerLastName = new Name();
-        runnerLastName.gender = Constants.Gender.UNISEX.getValue();
+        runnerLastName.gender = Constants.NameGender.UNISEX.getValue();
         runnerLastName.position = Constants.NamePosition.LAST.getValue();
         runnerLastName.name = LAST_NAME_SHADOWRUN;
         runnerLastName.nameSetId = nameSetIDShadowrun;
         nameDAO.createName(runnerLastName);
 
         final Name runnerFirstNameMale = new Name();
-        runnerFirstNameMale.gender = Constants.Gender.MALE.getValue();
+        runnerFirstNameMale.gender = Constants.NameGender.MALE.getValue();
         runnerFirstNameMale.position = Constants.NamePosition.FIRST.getValue();
         runnerFirstNameMale.name = FIRST_NAME_SHADOWRUN_MALE;
         runnerFirstNameMale.nameSetId = nameSetIDShadowrun;
         nameDAO.createName(runnerFirstNameMale);
 
         final Name runnerFirstNameFemale = new Name();
-        runnerFirstNameFemale.gender = Constants.Gender.FEMALE.getValue();
+        runnerFirstNameFemale.gender = Constants.NameGender.FEMALE.getValue();
         runnerFirstNameFemale.position = Constants.NamePosition.FIRST.getValue();
         runnerFirstNameFemale.name = FIRST_NAME_SHADOWRUN_FEMALE;
         runnerFirstNameFemale.nameSetId = nameSetIDShadowrun;
         nameDAO.createName(runnerFirstNameFemale);
 
         final Name runnerFirstNameUnisex = new Name();
-        runnerFirstNameUnisex.gender = Constants.Gender.UNISEX.getValue();
+        runnerFirstNameUnisex.gender = Constants.NameGender.UNISEX.getValue();
         runnerFirstNameUnisex.position = Constants.NamePosition.FIRST.getValue();
         runnerFirstNameUnisex.name = FIRST_NAME_SHADOWRUN_UNISEX;
         runnerFirstNameUnisex.nameSetId = nameSetIDShadowrun;
@@ -158,28 +201,28 @@ public final class DatabaseTestUtils {
         final long nameSetIDVampire = nameDAO.readNameSetByName(NAME_SET_NAME_VAMPIRE).id;
 
         final Name vampireLastName = new Name();
-        vampireLastName.gender = Constants.Gender.UNISEX.getValue();
+        vampireLastName.gender = Constants.NameGender.UNISEX.getValue();
         vampireLastName.position = Constants.NamePosition.LAST.getValue();
         vampireLastName.name = LAST_NAME_VAMPIRE;
         vampireLastName.nameSetId = nameSetIDVampire;
         nameDAO.createName(vampireLastName);
 
         final Name vampireFirstNameMale = new Name();
-        vampireFirstNameMale.gender = Constants.Gender.MALE.getValue();
+        vampireFirstNameMale.gender = Constants.NameGender.MALE.getValue();
         vampireFirstNameMale.position = Constants.NamePosition.FIRST.getValue();
         vampireFirstNameMale.name = FIRST_NAME_VAMPIRE_MALE;
         vampireFirstNameMale.nameSetId = nameSetIDVampire;
         nameDAO.createName(vampireFirstNameMale);
 
         final Name vampireFirstNameFemale = new Name();
-        vampireFirstNameFemale.gender = Constants.Gender.FEMALE.getValue();
+        vampireFirstNameFemale.gender = Constants.NameGender.FEMALE.getValue();
         vampireFirstNameFemale.position = Constants.NamePosition.FIRST.getValue();
         vampireFirstNameFemale.name = FIRST_NAME_VAMPIRE_FEMALE;
         vampireFirstNameFemale.nameSetId = nameSetIDVampire;
         nameDAO.createName(vampireFirstNameFemale);
 
         final Name vampireFirstNameUnisex = new Name();
-        vampireFirstNameUnisex.gender = Constants.Gender.UNISEX.getValue();
+        vampireFirstNameUnisex.gender = Constants.NameGender.UNISEX.getValue();
         vampireFirstNameUnisex.position = Constants.NamePosition.FIRST.getValue();
         vampireFirstNameUnisex.name = FIRST_NAME_VAMPIRE_UNISEX;
         vampireFirstNameUnisex.nameSetId = nameSetIDVampire;
@@ -189,31 +232,72 @@ public final class DatabaseTestUtils {
         final long nameSetIDDSA = nameDAO.readNameSetByName(NAME_SET_NAME_DSA).id;
 
         final Name dsaLastName = new Name();
-        dsaLastName.gender = Constants.Gender.UNISEX.getValue();
+        dsaLastName.gender = Constants.NameGender.UNISEX.getValue();
         dsaLastName.position = Constants.NamePosition.LAST.getValue();
         dsaLastName.name = LAST_NAME_DSA;
         dsaLastName.nameSetId = nameSetIDDSA;
         nameDAO.createName(dsaLastName);
 
         final Name dsaFirstNameMale = new Name();
-        dsaFirstNameMale.gender = Constants.Gender.MALE.getValue();
+        dsaFirstNameMale.gender = Constants.NameGender.MALE.getValue();
         dsaFirstNameMale.position = Constants.NamePosition.FIRST.getValue();
         dsaFirstNameMale.name = FIRST_NAME_DSA_MALE;
         dsaFirstNameMale.nameSetId = nameSetIDDSA;
         nameDAO.createName(dsaFirstNameMale);
 
         final Name dsaFirstNameFemale = new Name();
-        dsaFirstNameFemale.gender = Constants.Gender.FEMALE.getValue();
+        dsaFirstNameFemale.gender = Constants.NameGender.FEMALE.getValue();
         dsaFirstNameFemale.position = Constants.NamePosition.FIRST.getValue();
         dsaFirstNameFemale.name = FIRST_NAME_DSA_FEMALE;
         dsaFirstNameFemale.nameSetId = nameSetIDDSA;
         nameDAO.createName(dsaFirstNameFemale);
 
         final Name dsaFirstNameUnisex = new Name();
-        dsaFirstNameUnisex.gender = Constants.Gender.UNISEX.getValue();
+        dsaFirstNameUnisex.gender = Constants.NameGender.UNISEX.getValue();
         dsaFirstNameUnisex.position = Constants.NamePosition.FIRST.getValue();
         dsaFirstNameUnisex.name = FIRST_NAME_DSA_UNISEX;
         dsaFirstNameUnisex.nameSetId = nameSetIDDSA;
         nameDAO.createName(dsaFirstNameUnisex);
+    }
+
+    /***
+     * Requires to run tbe following method upfront:
+     *  - {@link DatabaseTestUtils}.setUpRoleplayingSystems()
+     *  - {@link DatabaseTestUtils}.setUpThemes()
+     *  - {@link DatabaseTestUtils}.setUpCampaigns()
+     */
+    public static void setUpCharacters(final WeaverDB weaverDB) {
+        final CharacterHeader characterHeaderInput = new CharacterHeader();
+
+        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+        final Campaign campaign = campaignDAO.readCampaignByName(CAMPAIGN_NAME_RISING_DRAGON);
+        characterHeaderInput.campaignId = campaign.id;
+
+        final Date editDate = new Date();
+        final Date creationDate = new Date(editDate.getTime() - (1000L * 60L * 30L));
+        characterHeaderInput.creationDateMillis = creationDate.getTime();
+        characterHeaderInput.editDateMillis = editDate.getTime();
+        characterHeaderInput.firstName = MOONLIGHT_FIRST_NAME;
+        characterHeaderInput.alias = MOONLIGHT_ALIAS;
+        characterHeaderInput.lastName = MOONLIGHT_LAST_NAME;
+        characterHeaderInput.gender = MOONLIGHT_GENDER;
+        characterHeaderInput.smallAvatar = MOONLIGHT_SMALL_AVATAR;
+        characterHeaderInput.smallAvatarImageType = MOONLIGHT_SMALL_AVATAR_IMAGE_TYPE;
+        characterHeaderInput.role = MOONLIGHT_ROLE;
+        characterHeaderInput.state = MOONLIGHT_STATE;
+
+        final CharacterDAO characterDAO = weaverDB.characterDAO();
+        final long moonlightCharacterHeaderId = characterDAO.createCharacterHeader(characterHeaderInput);
+
+        final CharacterBody characterBodyInput = new CharacterBody();
+        characterBodyInput.characterHeaderId = moonlightCharacterHeaderId;
+        characterBodyInput.age = MOONLIGHT_AGE;
+        characterBodyInput.looks = MOONLIGHT_LOOKS;
+        characterBodyInput.background = MOONLIGHT_BACKGROUND;
+        characterBodyInput.miscellaneous = MOONLIGHT_MISC;
+        characterBodyInput.avatar = MOONLIGHT_AVATAR;
+        characterBodyInput.avatarImageType = MOONLIGHT_AVATAR_IMAGE_TYPE;
+
+        characterDAO.createCharacterBody(characterBodyInput);
     }
 }

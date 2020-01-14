@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
  * [RELATIONS]
  *
  * 1:1
- * Links a {@link CharacterBody} with a {@link Campaign}
+ * Links a {@link CharacterBody} with a {@link CharacterHeader}
  *
  * When deleting an associated {@link CharacterHeader} this entry will be removed as well
  */
