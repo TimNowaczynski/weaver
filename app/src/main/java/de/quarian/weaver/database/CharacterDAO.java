@@ -69,7 +69,7 @@ public interface CharacterDAO {
 
     // Event - READ
 
-    @Query("SELECT * FROM event " +
+    @Query("SELECT event_id, event_date_millis, headline, text, image, image_type, file, file_type FROM event " +
             "INNER JOIN eventtocharacterheader ON event.event_id = eventtocharacterheader.fk_event_id " +
             "INNER JOIN characterheader ON eventtocharacterheader.fk_character_header_id = characterheader.character_header_id " +
             "WHERE characterheader.character_header_id IS :characterHeaderId")
@@ -98,7 +98,7 @@ public interface CharacterDAO {
 
     // Roll - READ
 
-    @Query("SELECT * FROM roll " +
+    @Query("SELECT roll_id, roll_name, roll_roll FROM roll " +
             "INNER JOIN rolltocharacterheader ON roll.roll_id = rolltocharacterheader.fk_roll_id " +
             "INNER JOIN characterheader ON rolltocharacterheader.fk_character_header_id = characterheader.character_header_id " +
             "WHERE characterheader.character_header_id IS :characterHeaderId")
@@ -122,15 +122,17 @@ public interface CharacterDAO {
 
     // Tag - READ
 
-    @Query("SELECT * FROM tag " +
+    @Query("SELECT tag_id, fk_roleplaying_system_id, tag FROM tag " +
             "INNER JOIN tagtocharacterheader ON tag.tag_id = tagtocharacterheader.fk_tag_id " +
             "INNER JOIN characterheader ON tagtocharacterheader.fk_character_header_id = characterheader.character_header_id " +
             "WHERE characterheader.character_header_id IS :characterHeaderId")
-    List<Roll> readTagsForCharacterHeader(final long characterHeaderId);
+    List<Tag> readTagsForCharacterHeader(final long characterHeaderId);
 
     // Tag - DELETE
 
+    @Delete
     void deleteTag(final Tag tag);
 
+    @Delete
     void deleteTagToCharacterHeader(final TagToCharacterHeader tagToCharacterHeader);
 }

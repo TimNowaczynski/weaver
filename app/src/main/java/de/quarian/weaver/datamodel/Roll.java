@@ -26,6 +26,6 @@ public class Roll {
     public String rollName = "";
 
     @NonNull
-    @ColumnInfo(name = "roll")
+    @ColumnInfo(name = "roll_roll")
     public String roll = "";
 }
