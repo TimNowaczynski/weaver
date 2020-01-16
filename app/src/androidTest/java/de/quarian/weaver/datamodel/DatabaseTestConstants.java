@@ -46,6 +46,7 @@ public final class DatabaseTestConstants {
     public static final String MOONLIGHT_FIRST_NAME = "Amy";
     public static final String MOONLIGHT_ALIAS = "Moonlight";
     public static final String MOONLIGHT_LAST_NAME = "Jameson";
+    public static final String MOONLIGHT_PLAYER_NAME = "Tim";
     public static final String MOONLIGHT_RACE = "Elv";
     public static final int MOONLIGHT_GENDER = Constants.CharacterGender.FEMALE.getValue();
     public static final byte[] MOONLIGHT_SMALL_AVATAR = "smallAvatar".getBytes();

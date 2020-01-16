@@ -56,6 +56,7 @@ import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_GENDER
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_LAST_NAME;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_LOOKS;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_MISC;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_PLAYER_NAME;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_RACE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_ROLE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_SMALL_AVATAR;
@@ -305,6 +306,7 @@ public final class DatabaseTestUtils {
         moonlightCharacterHeaderInput.firstName = MOONLIGHT_FIRST_NAME;
         moonlightCharacterHeaderInput.alias = MOONLIGHT_ALIAS;
         moonlightCharacterHeaderInput.lastName = MOONLIGHT_LAST_NAME;
+        moonlightCharacterHeaderInput.playerName = MOONLIGHT_PLAYER_NAME;
         moonlightCharacterHeaderInput.race = MOONLIGHT_RACE;
         moonlightCharacterHeaderInput.gender = MOONLIGHT_GENDER;
         moonlightCharacterHeaderInput.smallAvatar = MOONLIGHT_SMALL_AVATAR;
