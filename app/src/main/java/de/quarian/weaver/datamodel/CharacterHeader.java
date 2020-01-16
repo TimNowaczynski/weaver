@@ -50,6 +50,10 @@ public class CharacterHeader {
     @ColumnInfo(name = "last_name")
     public String lastName = "";
 
+    @NonNull
+    @ColumnInfo(name = "race")
+    public String race = "";
+
     @ColumnInfo(name = "gender")
     public int gender = Constants.CharacterGender.OTHER.getValue();
 

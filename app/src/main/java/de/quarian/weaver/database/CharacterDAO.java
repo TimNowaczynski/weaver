@@ -19,11 +19,9 @@ import de.quarian.weaver.datamodel.TagToCharacterHeader;
 @Dao
 public interface CharacterDAO {
 
-    //TODO: Enforce N:1 Constraints in Code for
-    //TODO: ( ) Event
-    //TODO: ( ) Roll
-    //TODO: ( ) Tag
-    //TODO: Test all off this
+    //TODO: Enforce and Tests N:1 Constraints in Code for
+    //TODO: ( ) Events (for now)
+    //TODO: ( ) Rolls
 
     /*
     -------------------------------
@@ -46,6 +44,10 @@ public interface CharacterDAO {
 
     @Query("SELECT * FROM CharacterHeader WHERE character_header_id IS :characterHeaderId")
     CharacterHeader readCharacterHeaderById(final long characterHeaderId);
+
+    //This one is for testing:
+    @Query("SELECT * FROM CharacterHeader WHERE alias LIKE :alias")
+    CharacterHeader readCharacterHeaderByAlias(final String alias);
 
     @Query("SELECT * FROM CharacterBody WHERE fk_character_header_id IS :characterHeaderId")
     CharacterBody readCharacterBodyByCharacterHeaderId(final long characterHeaderId);
@@ -78,7 +80,7 @@ public interface CharacterDAO {
     long createEvent(final Event event);
 
     @Insert
-    long createEventToCharacter(final EventToCharacterHeader eventToCharacterHeader);
+    long createEventToCharacterHeader(final EventToCharacterHeader eventToCharacterHeader);
 
     // Event - READ
 
@@ -97,9 +99,6 @@ public interface CharacterDAO {
 
     @Delete
     void deleteEvent(final Event event);
-
-    @Delete
-    void deleteEventToCharacter(final EventToCharacterHeader eventToCharacterHeader);
 
     /*
     --------------------------
@@ -123,13 +122,15 @@ public interface CharacterDAO {
             "WHERE characterheader.character_header_id IS :characterHeaderId")
     List<Roll> readRollsForCharacterHeader(final long characterHeaderId);
 
+    // Roll - Update
+
+    @Update
+    void updateRoll(final Roll roll);
+
     // Roll - DELETE
 
     @Delete
     void deleteRoll(final Roll roll);
-
-    @Delete
-    void deleteRollToCharacterHeader(final RollToCharacterHeader rollToCharacterHeader);
 
     /*
     -------------------------
@@ -148,16 +149,17 @@ public interface CharacterDAO {
     // Tag - READ
 
     @Query("SELECT tag_id, fk_roleplaying_system_id, tag FROM tag " +
+            "WHERE fk_roleplaying_system_id IS :roleplayingSystemId")
+    List<Tag> readTagsForRoleplayingSystemId(final long roleplayingSystemId);
+
+    @Query("SELECT tag_id, fk_roleplaying_system_id, tag FROM tag " +
             "INNER JOIN tagtocharacterheader ON tag.tag_id = tagtocharacterheader.fk_tag_id " +
             "INNER JOIN characterheader ON tagtocharacterheader.fk_character_header_id = characterheader.character_header_id " +
             "WHERE characterheader.character_header_id IS :characterHeaderId")
-    List<Tag> readTagsForCharacterHeader(final long characterHeaderId);
+    List<Tag> readTagsForCharacterHeaderId(final long characterHeaderId);
 
     // Tag - DELETE
 
     @Delete
     void deleteTag(final Tag tag);
-
-    @Delete
-    void deleteTagToCharacterHeader(final TagToCharacterHeader tagToCharacterHeader);
 }

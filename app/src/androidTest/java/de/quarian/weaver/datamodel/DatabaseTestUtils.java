@@ -12,6 +12,28 @@ import de.quarian.weaver.database.WeaverDB;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.CAMPAIGN_NAME_BORBARAD;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.CAMPAIGN_NAME_RENAISSANCE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_AGE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_ALIAS;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_AVATAR;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_AVATAR_IMAGE_TYPE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_BACKGROUND;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_FIRST_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_GENDER;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_LAST_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_LOOKS;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_MISC;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_RACE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_ROLE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_SMALL_AVATAR;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_SMALL_AVATAR_IMAGE_TYPE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_STATE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.EVENT_DATE_MILLIS;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.EVENT_FILE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.EVENT_FILE_TYPE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.EVENT_HEADLINE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.EVENT_IMAGE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.EVENT_IMAGE_TYPE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.EVENT_TEXT;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_DSA_FEMALE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_DSA_MALE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_DSA_UNISEX;
@@ -34,6 +56,7 @@ import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_GENDER
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_LAST_NAME;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_LOOKS;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_MISC;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_RACE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_ROLE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_SMALL_AVATAR;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_SMALL_AVATAR_IMAGE_TYPE;
@@ -41,6 +64,8 @@ import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_STATE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.NAME_SET_NAME_DSA;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.NAME_SET_NAME_SHADOWRUN;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.NAME_SET_NAME_VAMPIRE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.ROLL;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.ROLL_NAME;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.RPS_LOGO_DSA;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.RPS_LOGO_IMAGE_TYPE_DSA;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.RPS_LOGO_IMAGE_TYPE_SHADOWRUN;
@@ -267,37 +292,134 @@ public final class DatabaseTestUtils {
      *  - {@link DatabaseTestUtils}.setUpCampaigns()
      */
     public static void setUpCharacters(final WeaverDB weaverDB) {
-        final CharacterHeader characterHeaderInput = new CharacterHeader();
+        final CharacterHeader moonlightCharacterHeaderInput = new CharacterHeader();
 
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
         final Campaign campaign = campaignDAO.readCampaignByName(CAMPAIGN_NAME_RISING_DRAGON);
-        characterHeaderInput.campaignId = campaign.id;
 
-        final Date editDate = new Date();
-        final Date creationDate = new Date(editDate.getTime() - (1000L * 60L * 30L));
-        characterHeaderInput.creationDateMillis = creationDate.getTime();
-        characterHeaderInput.editDateMillis = editDate.getTime();
-        characterHeaderInput.firstName = MOONLIGHT_FIRST_NAME;
-        characterHeaderInput.alias = MOONLIGHT_ALIAS;
-        characterHeaderInput.lastName = MOONLIGHT_LAST_NAME;
-        characterHeaderInput.gender = MOONLIGHT_GENDER;
-        characterHeaderInput.smallAvatar = MOONLIGHT_SMALL_AVATAR;
-        characterHeaderInput.smallAvatarImageType = MOONLIGHT_SMALL_AVATAR_IMAGE_TYPE;
-        characterHeaderInput.role = MOONLIGHT_ROLE;
-        characterHeaderInput.state = MOONLIGHT_STATE;
+        moonlightCharacterHeaderInput.campaignId = campaign.id;
+        final Date moonlightEditDate = new Date();
+        final Date moonlightCreationDate = new Date(moonlightEditDate.getTime() - (1000L * 60L * 30L));
+        moonlightCharacterHeaderInput.creationDateMillis = moonlightCreationDate.getTime();
+        moonlightCharacterHeaderInput.editDateMillis = moonlightEditDate.getTime();
+        moonlightCharacterHeaderInput.firstName = MOONLIGHT_FIRST_NAME;
+        moonlightCharacterHeaderInput.alias = MOONLIGHT_ALIAS;
+        moonlightCharacterHeaderInput.lastName = MOONLIGHT_LAST_NAME;
+        moonlightCharacterHeaderInput.race = MOONLIGHT_RACE;
+        moonlightCharacterHeaderInput.gender = MOONLIGHT_GENDER;
+        moonlightCharacterHeaderInput.smallAvatar = MOONLIGHT_SMALL_AVATAR;
+        moonlightCharacterHeaderInput.smallAvatarImageType = MOONLIGHT_SMALL_AVATAR_IMAGE_TYPE;
+        moonlightCharacterHeaderInput.role = MOONLIGHT_ROLE;
+        moonlightCharacterHeaderInput.state = MOONLIGHT_STATE;
+
+        final CharacterHeader devNullCharacterHeaderInput = new CharacterHeader();
+        final Date devNullEditDate = new Date();
+        final Date devNullCreationDate = new Date(devNullEditDate.getTime() - (1000L * 60L * 60L * 2L));
+        devNullCharacterHeaderInput.campaignId = campaign.id;
+        devNullCharacterHeaderInput.creationDateMillis = devNullCreationDate.getTime();
+        devNullCharacterHeaderInput.editDateMillis = devNullEditDate.getTime();
+        devNullCharacterHeaderInput.firstName = DEV_NULL_FIRST_NAME;
+        devNullCharacterHeaderInput.alias = DEV_NULL_ALIAS;
+        devNullCharacterHeaderInput.lastName = DEV_NULL_LAST_NAME;
+        devNullCharacterHeaderInput.race = DEV_NULL_RACE;
+        devNullCharacterHeaderInput.gender = DEV_NULL_GENDER;
+        devNullCharacterHeaderInput.smallAvatar = DEV_NULL_SMALL_AVATAR;
+        devNullCharacterHeaderInput.smallAvatarImageType = DEV_NULL_SMALL_AVATAR_IMAGE_TYPE;
+        devNullCharacterHeaderInput.role = DEV_NULL_ROLE;
+        devNullCharacterHeaderInput.state = DEV_NULL_STATE;
 
         final CharacterDAO characterDAO = weaverDB.characterDAO();
-        final long moonlightCharacterHeaderId = characterDAO.createCharacterHeader(characterHeaderInput);
+        final long moonlightCharacterHeaderId = characterDAO.createCharacterHeader(moonlightCharacterHeaderInput);
+        final long devNullCharacterHeaderId = characterDAO.createCharacterHeader(devNullCharacterHeaderInput);
 
-        final CharacterBody characterBodyInput = new CharacterBody();
-        characterBodyInput.characterHeaderId = moonlightCharacterHeaderId;
-        characterBodyInput.age = MOONLIGHT_AGE;
-        characterBodyInput.looks = MOONLIGHT_LOOKS;
-        characterBodyInput.background = MOONLIGHT_BACKGROUND;
-        characterBodyInput.miscellaneous = MOONLIGHT_MISC;
-        characterBodyInput.avatar = MOONLIGHT_AVATAR;
-        characterBodyInput.avatarImageType = MOONLIGHT_AVATAR_IMAGE_TYPE;
+        final CharacterBody moonlightCharacterBodyInput = new CharacterBody();
+        moonlightCharacterBodyInput.characterHeaderId = moonlightCharacterHeaderId;
+        moonlightCharacterBodyInput.age = MOONLIGHT_AGE;
+        moonlightCharacterBodyInput.looks = MOONLIGHT_LOOKS;
+        moonlightCharacterBodyInput.background = MOONLIGHT_BACKGROUND;
+        moonlightCharacterBodyInput.miscellaneous = MOONLIGHT_MISC;
+        moonlightCharacterBodyInput.avatar = MOONLIGHT_AVATAR;
+        moonlightCharacterBodyInput.avatarImageType = MOONLIGHT_AVATAR_IMAGE_TYPE;
 
-        characterDAO.createCharacterBody(characterBodyInput);
+        final CharacterBody devNullCharacterBodyInput = new CharacterBody();
+        devNullCharacterBodyInput.characterHeaderId = devNullCharacterHeaderId;
+        devNullCharacterBodyInput.age = DEV_NULL_AGE;
+        devNullCharacterBodyInput.looks = DEV_NULL_LOOKS;
+        devNullCharacterBodyInput.background = DEV_NULL_BACKGROUND;
+        devNullCharacterBodyInput.miscellaneous = DEV_NULL_MISC;
+        devNullCharacterBodyInput.avatar = DEV_NULL_AVATAR;
+        devNullCharacterBodyInput.avatarImageType = DEV_NULL_AVATAR_IMAGE_TYPE;
+
+        characterDAO.createCharacterBody(moonlightCharacterBodyInput);
+        characterDAO.createCharacterBody(devNullCharacterBodyInput);
+    }
+
+    /***
+     * Requires to run tbe follow                                                                                                                                                                                                            ing method upfront:
+     *  - {@link DatabaseTestUtils}.setUpRoleplayingSystems()
+     *  - {@link DatabaseTestUtils}.setUpThemes()
+     *  - {@link DatabaseTestUtils}.setUpCampaigns()
+     *  - {@link DatabaseTestUtils}.setUpCharacters()
+     */
+    public static void setUpTags(final WeaverDB weaverDB) {
+        final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
+        final Tag ucasTag = new Tag();
+        ucasTag.tag = "UCAS";
+        ucasTag.roleplayingSystemId = roleplayingSystemDAO.readRoleplayingSystemsByName(RPS_NAME_SHADOWRUN).id;
+
+        final CharacterDAO characterDAO = weaverDB.characterDAO();
+        final long ucasTagID = characterDAO.createTag(ucasTag);
+        final long characterHeaderID = characterDAO.readCharacterHeaderByAlias(MOONLIGHT_ALIAS).id;
+
+        final TagToCharacterHeader moonlightTagToCharacterHeader = new TagToCharacterHeader();
+        moonlightTagToCharacterHeader.tagId = ucasTagID;
+        moonlightTagToCharacterHeader.characterHeaderId = characterHeaderID;
+        characterDAO.createTagToCharacterHeader(moonlightTagToCharacterHeader);
+    }
+
+    /***
+     * Requires to run tbe follow                                                                                                                                                                                                            ing method upfront:
+     *  - {@link DatabaseTestUtils}.setUpRoleplayingSystems()
+     *  - {@link DatabaseTestUtils}.setUpThemes()
+     *  - {@link DatabaseTestUtils}.setUpCampaigns()
+     *  - {@link DatabaseTestUtils}.setUpCharacters()
+     */
+    public static void setUpEvents(final WeaverDB weaverDB) {
+        final CharacterDAO characterDAO = weaverDB.characterDAO();
+
+        final Event event = new Event();
+        event.eventDateMillis = EVENT_DATE_MILLIS;
+        event.headline = EVENT_HEADLINE;
+        event.text = EVENT_TEXT;
+        event.image = EVENT_IMAGE;
+        event.imageType = EVENT_IMAGE_TYPE;
+        event.file = EVENT_FILE;
+        event.fileType = EVENT_FILE_TYPE;
+
+        final EventToCharacterHeader eventToCharacterHeader = new EventToCharacterHeader();
+        final CharacterHeader moonlightCharacterHeader = weaverDB.characterDAO().readCharacterHeaderByAlias(MOONLIGHT_ALIAS);
+        eventToCharacterHeader.characterHeaderId = moonlightCharacterHeader.id;
+        eventToCharacterHeader.eventId = characterDAO.createEvent(event);
+        characterDAO.createEventToCharacterHeader(eventToCharacterHeader);
+    }
+
+    /***
+     * Requires to run tbe follow                                                                                                                                                                                                            ing method upfront:
+     *  - {@link DatabaseTestUtils}.setUpCharacters()
+     */
+    public static void setUpRolls(final WeaverDB weaverDB) {
+        final CharacterDAO characterDAO = weaverDB.characterDAO();
+
+        final Roll roll = new Roll();
+        roll.roll = ROLL;
+        roll.rollName = ROLL_NAME;
+
+        final long rollId = characterDAO.createRoll(roll);
+
+        final CharacterHeader moonlight = characterDAO.readCharacterHeaderByAlias(DatabaseTestConstants.MOONLIGHT_ALIAS);
+        final RollToCharacterHeader rollToCharacterHeader = new RollToCharacterHeader();
+        rollToCharacterHeader.rollId = rollId;
+        rollToCharacterHeader.characterHeaderId = moonlight.id;
+        characterDAO.createRollToCharacterHeader(rollToCharacterHeader);
     }
 }
