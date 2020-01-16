@@ -77,7 +77,6 @@ public class CharacterDAOTest {
         assertThat(characterHeader.firstName, is(DatabaseTestConstants.MOONLIGHT_FIRST_NAME));
         assertThat(characterHeader.alias, is(DatabaseTestConstants.MOONLIGHT_ALIAS));
         assertThat(characterHeader.lastName, is(DatabaseTestConstants.MOONLIGHT_LAST_NAME));
-        assertThat(characterHeader.playerName, is(DatabaseTestConstants.MOONLIGHT_PLAYER_NAME));
         assertThat(characterHeader.race, is(DatabaseTestConstants.MOONLIGHT_RACE));
         assertThat(characterHeader.gender, is(DatabaseTestConstants.MOONLIGHT_GENDER));
         assertThat(characterHeader.smallAvatar, is(DatabaseTestConstants.MOONLIGHT_SMALL_AVATAR));

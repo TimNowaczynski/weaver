@@ -19,7 +19,4 @@ public interface DebugDAO {
     @Query("SELECT * FROM nameset WHERE name_set_name IS :nameSetName")
     NameSet readNameSetByName(final String nameSetName);
 
-    @Query("SELECT COUNT(*) FROM event")
-    int getNumberOfTotalEvents();
-
 }

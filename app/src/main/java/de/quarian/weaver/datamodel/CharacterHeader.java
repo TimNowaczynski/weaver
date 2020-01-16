@@ -51,10 +51,6 @@ public class CharacterHeader {
     public String lastName = "";
 
     @NonNull
-    @ColumnInfo(name = "player_name")
-    public String playerName = "";
-
-    @NonNull
     @ColumnInfo(name = "race")
     public String race = "";
 
