@@ -30,7 +30,7 @@ public class NavigationController {
         activity.startActivity(intent);
     }
 
-    public void openCharacterLibrary(final Activity activity, final int campaignId) {
+    public void openCharacterLibrary(final Activity activity, final long campaignId) {
         final Intent intent = new Intent(activity, CharacterLibraryActivity.class);
         intent.putExtra(CharacterLibraryActivity.EXTRA_CAMPAIGN_ID, campaignId);
         activity.startActivity(intent);
@@ -62,32 +62,32 @@ public class NavigationController {
         activity.startActivityForResult(intent, RequestCodes.MODIFY_CAMPAIGNS);
     }
 
-    public void editCampaign(final Activity activity, final int campaignId) {
+    public void editCampaign(final Activity activity, final long campaignId) {
         final Intent intent = new Intent(activity, CampaignEditorActivity.class);
         intent.putExtra(CampaignEditorActivity.EXTRA_CAMPAIGN_ID, campaignId);
         intent.putExtra(CampaignEditorActivity.EXTRA_MODE, CampaignEditorActivity.Mode.EDIT.toString());
         activity.startActivityForResult(intent, RequestCodes.MODIFY_CAMPAIGNS);
     }
 
-    public void setTheme(final Activity activity, final int campaignId) {
+    public void setTheme(final Activity activity, final long campaignId) {
         final Intent intent = new Intent(activity, SetThemeActivity.class);
         intent.putExtra(SetThemeActivity.EXTRA_CAMPAIGN_ID, campaignId);
         activity.startActivity(intent);
     }
 
-    public void configureNameSets(final Activity activity, final int campaignId) {
+    public void configureNameSets(final Activity activity, final long campaignId) {
         final Intent intent = new Intent(activity, ConfigureNameSetsActivity.class);
         intent.putExtra(ConfigureNameSetsActivity.EXTRA_CAMPAIGN_ID, campaignId);
         activity.startActivity(intent);
     }
 
-    public void openSynopsis(final Activity activity, final int campaignId) {
+    public void openSynopsis(final Activity activity, final long campaignId) {
         final Intent intent = new Intent(activity, CampaignSynopsisActivity.class);
         intent.putExtra(CampaignSynopsisActivity.EXTRA_CAMPAIGN_ID, campaignId);
         activity.startActivity(intent);
     }
 
-    public void managePlayerCharacters(final Activity activity, final int campaignId) {
+    public void managePlayerCharacters(final Activity activity, final long campaignId) {
         final Intent intent = new Intent(activity, PlayerCharacterListActivity.class);
         intent.putExtra(PlayerCharacterListActivity.EXTRA_CAMPAIGN_ID, campaignId);
         activity.startActivity(intent);

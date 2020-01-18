@@ -96,14 +96,14 @@ public class CampaignDAOTest {
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
 
         // Read
-        List<Campaign> campaigns = campaignDAO.readCampaigns();
+        List<Campaign> campaigns = campaignDAO.readCampaignsOrderedByCreated();
         assertThat(campaigns, hasSize(3));
 
         // Delete
         campaignDAO.deleteCampaign(campaigns.get(0));
 
         // Confirm
-        campaigns = campaignDAO.readCampaigns();
+        campaigns = campaignDAO.readCampaignsOrderedByCreated();
         assertThat(campaigns, hasSize(2));
     }
 }

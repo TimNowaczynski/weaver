@@ -13,10 +13,10 @@ public class CampaignEditorActivity extends AppCompatActivity {
     public static String EXTRA_CAMPAIGN_ID = "extra.campaignId";
     public static String EXTRA_MODE = "extra.mode";
 
-    private static int INVALID_CAMPAIGN_ID = -2;
+    private static long INVALID_CAMPAIGN_ID = -2;
 
     private Mode mode;
-    private int campaignID;
+    private long campaignID;
 
     public enum Mode {
         EDIT, NEW
@@ -44,7 +44,7 @@ public class CampaignEditorActivity extends AppCompatActivity {
     }
 
     private void determineID() {
-        campaignID = getIntent().getIntExtra(EXTRA_CAMPAIGN_ID, INVALID_CAMPAIGN_ID);
+        campaignID = getIntent().getLongExtra(EXTRA_CAMPAIGN_ID, INVALID_CAMPAIGN_ID);
         if (campaignID == INVALID_CAMPAIGN_ID) {
             //TODO: show dialog (closing the activity) and log error
         }

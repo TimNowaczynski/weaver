@@ -21,6 +21,7 @@ import de.quarian.weaver.BuildConfig;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 import de.quarian.weaver.RequestCodes;
+import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 
 public class CampaignListActivity extends AppCompatActivity {
 
@@ -28,9 +29,18 @@ public class CampaignListActivity extends AppCompatActivity {
 
     public CampaignListActivity() {
         //TODO: replace dummy code
-        campaignListDisplayObjects.add(new CampaignListDisplayObject(1, "Campaign 1"));
-        campaignListDisplayObjects.add(new CampaignListDisplayObject(2, "Campaign 2"));
-        campaignListDisplayObjects.add(new CampaignListDisplayObject(3, "Campaign 3"));
+        final CampaignListDisplayObject campaignA = new CampaignListDisplayObject();
+        campaignA.setCampaignId(1L);
+        campaignA.setCampaignName("Campaign 1");
+        final CampaignListDisplayObject campaignB = new CampaignListDisplayObject();
+        campaignB.setCampaignName("Campaign 2");
+        campaignB.setCampaignId(2L);
+        final CampaignListDisplayObject campaignC = new CampaignListDisplayObject();
+        campaignC.setCampaignName("Campaign 3");
+        campaignC.setCampaignId(3L);
+        campaignListDisplayObjects.add(campaignA);
+        campaignListDisplayObjects.add(campaignB);
+        campaignListDisplayObjects.add(campaignC);
     }
 
     @Override

@@ -15,10 +15,23 @@ public interface CampaignDAO {
     @Insert
     long createCampaign(final Campaign campaign);
 
-    // TODO: NameSet For Campaign
+    @Query("SELECT * FROM Campaign ORDER BY Campaign.campaign_name ASC")
+    List<Campaign> readCampaignsOrderedByName();
 
-    @Query("SELECT * FROM Campaign")
-    List<Campaign> readCampaigns();
+    @Query("SELECT campaign_id, fk_roleplaying_system_id, fk_theme_id, creation_date_millis, edit_date_millis, last_used_date_millis, archived, campaign_name, synopsis " +
+            "FROM Campaign INNER JOIN RoleplayingSystem " +
+            "ON Campaign.fk_roleplaying_system_id IS RoleplayingSystem.roleplaying_system_id " +
+            "ORDER BY RoleplayingSystem.roleplaying_system_name ASC")
+    List<Campaign> readCampaignsOrderedBySystemName();
+
+    @Query("SELECT * FROM Campaign ORDER BY Campaign.last_used_date_millis ASC")
+    List<Campaign> readCampaignsOrderedByLastUsed();
+
+    @Query("SELECT * FROM Campaign ORDER BY Campaign.edit_date_millis ASC")
+    List<Campaign> readCampaignsOrderedByLastEdited();
+
+    @Query("SELECT * FROM Campaign ORDER BY Campaign.creation_date_millis ASC")
+    List<Campaign> readCampaignsOrderedByCreated();
 
     @Query("SELECT * FROM Campaign WHERE campaign_id IS :campaignId")
     Campaign readCampaignByID(final long campaignId);

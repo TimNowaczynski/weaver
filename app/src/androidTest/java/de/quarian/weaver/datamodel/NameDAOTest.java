@@ -167,7 +167,7 @@ public class NameDAOTest {
     public void testDeletingCampaignCascadesToMappingEntryButNotToNameSetTable() {
         // Verify initial state
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
-        assertThat(campaignDAO.readCampaigns(), hasSize(3));
+        assertThat(campaignDAO.readCampaignsOrderedByCreated(), hasSize(3));
         final NameDAO nameDAO = weaverDB.nameDAO();
         assertThat(nameDAO.readNameSets(), hasSize(3));
         final DebugDAO debugDAO = weaverDB.debugDAO();
@@ -178,7 +178,7 @@ public class NameDAOTest {
         campaignDAO.deleteCampaign(asiaCampaign);
 
         // Verify final state
-        assertThat(campaignDAO.readCampaigns(), hasSize(2));
+        assertThat(campaignDAO.readCampaignsOrderedByCreated(), hasSize(2));
         assertThat(nameDAO.readNameSets(), hasSize(3));
         assertThat(debugDAO.getNameSetToCampaignMappings(), hasSize(2));
     }
@@ -187,7 +187,7 @@ public class NameDAOTest {
     public void testDeletingNameSetCascadesToMappingEntryButNotToCampaignTable() {
         // Verify initial state
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
-        assertThat(campaignDAO.readCampaigns(), hasSize(3));
+        assertThat(campaignDAO.readCampaignsOrderedByCreated(), hasSize(3));
         final NameDAO nameDAO = weaverDB.nameDAO();
         assertThat(nameDAO.readNameSets(), hasSize(3));
         final DebugDAO debugDAO = weaverDB.debugDAO();
@@ -199,7 +199,7 @@ public class NameDAOTest {
         nameDAO.deleteNameSet(nameSets.get(0));
 
         // Verify final state
-        assertThat(campaignDAO.readCampaigns(), hasSize(3));
+        assertThat(campaignDAO.readCampaignsOrderedByCreated(), hasSize(3));
         assertThat(nameDAO.readNameSets(), hasSize(2));
         assertThat(debugDAO.getNameSetToCampaignMappings(), hasSize(2));
     }

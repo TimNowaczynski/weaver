@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
+import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 
 public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -32,7 +33,7 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
 
     public void setCampaign(final CampaignListDisplayObject campaignListDisplayObject) {
         this.campaignListDisplayObject = campaignListDisplayObject;
-        this.campaignName.setText(campaignListDisplayObject.getName());
+        this.campaignName.setText(campaignListDisplayObject.getCampaignName());
     }
 
     @Override
@@ -41,22 +42,22 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
         switch (id) {
 
             case R.id.campaign_list_item_view: {
-                NavigationController.getInstance().openCharacterLibrary(activity.get(), campaignListDisplayObject.getId());
+                NavigationController.getInstance().openCharacterLibrary(activity.get(), campaignListDisplayObject.getCampaignId());
                 break;
             }
 
             case R.id.campaign_list_item_edit: {
-                NavigationController.getInstance().editCampaign(activity.get(), campaignListDisplayObject.getId());
+                NavigationController.getInstance().editCampaign(activity.get(), campaignListDisplayObject.getCampaignId());
                 break;
             }
 
             case R.id.campaign_list_item_synopsis: {
-                NavigationController.getInstance().openSynopsis(activity.get(), campaignListDisplayObject.getId());
+                NavigationController.getInstance().openSynopsis(activity.get(), campaignListDisplayObject.getCampaignId());
                 break;
             }
 
             case R.id.campaign_list_item_manage_player_characters: {
-                NavigationController.getInstance().managePlayerCharacters(activity.get(), campaignListDisplayObject.getId());
+                NavigationController.getInstance().managePlayerCharacters(activity.get(), campaignListDisplayObject.getCampaignId());
                 break;
             }
 

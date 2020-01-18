@@ -12,6 +12,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.R;
+import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 
 public class CampaignListAdapter extends RecyclerView.Adapter {
 
