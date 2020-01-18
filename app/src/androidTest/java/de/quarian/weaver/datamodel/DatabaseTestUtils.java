@@ -122,11 +122,17 @@ public final class DatabaseTestUtils {
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
         final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
 
+        final long now = System.currentTimeMillis();
+        final long oneDay = 1000L * 60L * 60L * 24L;
+
         final Campaign asiaCampaign = new Campaign();
         final RoleplayingSystem shadowrun = roleplayingSystemDAO.readRoleplayingSystemsByName(RPS_NAME_SHADOWRUN);
         asiaCampaign.roleplayingSystemId = shadowrun.id;
         asiaCampaign.campaignName = CAMPAIGN_NAME_RISING_DRAGON;
         asiaCampaign.themeId = 1L;
+        asiaCampaign.creationDateMillis = now - (13L * oneDay);
+        asiaCampaign.editDateMillis = now - (6L * oneDay);
+        asiaCampaign.lastUsedDataMillis = now - (4L * oneDay);
         campaignDAO.createCampaign(asiaCampaign);
 
         final Campaign europeCampaign = new Campaign();
@@ -134,6 +140,9 @@ public final class DatabaseTestUtils {
         europeCampaign.roleplayingSystemId = vampire.id;
         europeCampaign.campaignName = CAMPAIGN_NAME_RENAISSANCE;
         europeCampaign.themeId = 1L;
+        europeCampaign.creationDateMillis = now - (11L * oneDay);
+        europeCampaign.editDateMillis = now - (7L * oneDay);
+        europeCampaign.lastUsedDataMillis = now - (3L * oneDay);
         campaignDAO.createCampaign(europeCampaign);
 
         final Campaign aventurienCampaign = new Campaign();
@@ -141,6 +150,9 @@ public final class DatabaseTestUtils {
         aventurienCampaign.roleplayingSystemId = dsa.id;
         aventurienCampaign.campaignName = CAMPAIGN_NAME_BORBARAD;
         aventurienCampaign.themeId = 1L;
+        aventurienCampaign.creationDateMillis = now - (12L * oneDay);
+        aventurienCampaign.editDateMillis = now - (8L * oneDay);
+        aventurienCampaign.lastUsedDataMillis = now - (2L * oneDay);
         campaignDAO.createCampaign(aventurienCampaign);
     }
 

@@ -90,6 +90,109 @@ public class CampaignDAOTest {
         assertThat(shadowrunCampaignOutput.archived, is(true));
     }
 
+    /**
+     * Order by name should be Die Borbarad Kampagne, Renaissance, Rising Dragon
+     */
+    @Test
+    public void testOrderByCampaignName() {
+        DatabaseTestUtils.setUpCampaigns(weaverDB);
+        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+
+        // Confirm
+        final List<Campaign> campaigns = campaignDAO.readCampaignsOrderedByName();
+        assertThat(campaigns.get(0).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_BORBARAD));
+        assertThat(campaigns.get(1).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_RENAISSANCE));
+        assertThat(campaigns.get(2).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON));
+    }
+
+    /**
+     * Order by name should be Die Borbarad Kampagne, Renaissance, Rising Dragon
+     */
+    @Test
+    public void testOrderBySystemName() {
+        DatabaseTestUtils.setUpCampaigns(weaverDB);
+        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+
+        // Confirm
+        final List<Campaign> campaigns = campaignDAO.readCampaignsOrderedBySystemName();
+        assertThat(campaigns.get(0).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_BORBARAD));
+        assertThat(campaigns.get(1).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON));
+        assertThat(campaigns.get(2).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_RENAISSANCE));
+    }
+
+    /**
+     * Order by created should be Renaissance, Die Borbarad Kampagne, Rising Dragon
+     */
+    @Test
+    public void testOrderByCreated() {
+        DatabaseTestUtils.setUpCampaigns(weaverDB);
+        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+
+        // Confirm
+        final List<Campaign> campaigns = campaignDAO.readCampaignsOrderedByCreated();
+        assertThat(campaigns.get(0).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_RENAISSANCE));
+        assertThat(campaigns.get(1).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_BORBARAD));
+        assertThat(campaigns.get(2).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON));
+    }
+
+    /**
+     * Order by last edited date should be Rising Dragon, Renaissance, Die Borbarad Kampagne
+     */
+    @Test
+    public void testOrderByLastEdited() {
+        DatabaseTestUtils.setUpCampaigns(weaverDB);
+        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+
+        // Confirm
+        final List<Campaign> campaigns = campaignDAO.readCampaignsOrderedByLastEdited();
+        assertThat(campaigns.get(0).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON));
+        assertThat(campaigns.get(1).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_RENAISSANCE));
+        assertThat(campaigns.get(2).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_BORBARAD));
+    }
+
+    /**
+     * Order by last used date should be Die Borbarad Kampagne, Renaissance, Rising Dragon
+     */
+    @Test
+    public void testOrderByLastUsed() {
+        DatabaseTestUtils.setUpCampaigns(weaverDB);
+        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+
+        // Confirm
+        final List<Campaign> campaigns = campaignDAO.readCampaignsOrderedByLastUsed();
+        assertThat(campaigns.get(0).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_BORBARAD));
+        assertThat(campaigns.get(1).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_RENAISSANCE));
+        assertThat(campaigns.get(2).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON));
+    }
+
+    /**
+     * Order by name would be Die Borbarad Kampagne, Renaissance, Rising Dragon
+     * Expected is Renaissance, Rising Dragon, Die Borbarad Kampagne
+     */
+    @Test
+    public void testArchiveCampaign() {
+        DatabaseTestUtils.setUpCampaigns(weaverDB);
+        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+
+        // Read
+        final Campaign dsaCampaignOutput = campaignDAO.readCampaignByName(DatabaseTestConstants.CAMPAIGN_NAME_BORBARAD);
+        assertThat(dsaCampaignOutput.archived, is(false));
+
+        // Update
+        final Campaign dsaCampaignInput = dsaCampaignOutput;
+        dsaCampaignInput.archived = true;
+        campaignDAO.updateCampaign(dsaCampaignInput);
+
+        // Confirm
+        final List<Campaign> campaigns = campaignDAO.readCampaignsOrderedByName();
+        assertThat(campaigns.get(0).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_RENAISSANCE));
+        assertThat(campaigns.get(0).archived, is(false));
+        assertThat(campaigns.get(1).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON));
+        assertThat(campaigns.get(1).archived, is(false));
+        assertThat(campaigns.get(2).campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_BORBARAD));
+        assertThat(campaigns.get(2).archived, is(true));
+    }
+
     @Test
     public void testDeleteCampaign() {
         DatabaseTestUtils.setUpCampaigns(weaverDB);
