@@ -1,20 +1,39 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <!-- modern application theme. -->
+    <style name="AppThemeModern" parent="Theme.AppCompat.Light">
         <item name="titleTextColor">@color/white</item>
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/secondaryColor</item>
-        <item name="actionOverflowButtonStyle">@style/AppTheme.ActionOverflowButton</item>
+        <item name="colorPrimary">@color/modernPrimaryColor</item>
+        <item name="colorPrimaryDark">@color/modernPrimaryDarkColor</item>
+        <item name="colorAccent">@color/modernSecondaryColor</item>
+        <item name="actionOverflowButtonStyle">@style/AppThemeModern.ActionOverflowButton</item>
     </style>
 
-    <style name="AppTheme.NoActionBar" parent="AppTheme">
+    <style name="AppThemeModern.NoActionBar" parent="AppThemeModern">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.ActionOverflowButton">
+    <style name="AppThemeModern.ActionOverflowButton">
+        <item name="srcCompat">@drawable/ic_settings</item>
+    </style>
+
+    <!-- fantasy application theme. -->
+
+    <style name="AppThemeFantasy" parent="Theme.AppCompat.Light">
+        <item name="titleTextColor">@color/pitch_black</item>
+        <item name="colorPrimary">@color/fantasyPrimaryColor</item>
+        <item name="colorPrimaryDark">@color/fantasyPrimaryDarkColor</item>
+        <item name="colorAccent">@color/fantasySecondaryColor</item>
+        <item name="actionOverflowButtonStyle">@style/AppThemeFantasy.ActionOverflowButton</item>
+    </style>
+
+    <style name="AppThemeFantasy.NoActionBar" parent="AppThemeModern">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppThemeFantasy.ActionOverflowButton">
         <item name="srcCompat">@drawable/ic_settings</item>
     </style>
 

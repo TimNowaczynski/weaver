@@ -144,10 +144,10 @@ public class CharacterDAOTest {
         final List<CharacterHeader> characterHeaders = characterDAO.readCharacterHeadersByCampaignId(targetCampaignId);
         final long characterHeaderId = characterHeaders.get(0).id;
 
-        Campaign targetCampaign = campaignDAO.readCampaignByID(targetCampaignId);
+        Campaign targetCampaign = campaignDAO.readCampaignByID(targetCampaignId).getValue();
         campaignDAO.deleteCampaign(targetCampaign);
 
-        targetCampaign = campaignDAO.readCampaignByID(targetCampaignId);
+        targetCampaign = campaignDAO.readCampaignByID(targetCampaignId).getValue();
         assertThat(targetCampaign, nullValue());
         final CharacterHeader characterHeader = characterDAO.readCharacterHeaderById(characterHeaderId);
         assertThat(characterHeader, nullValue());

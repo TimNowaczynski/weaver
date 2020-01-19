@@ -1,13 +1,23 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <resources>
-  <color name="primaryColor">#004d40</color>
-  <color name="primaryLightColor">#39796b</color>
-  <color name="primaryDarkColor">#00251a</color>
-  <color name="secondaryColor">#00796b</color>
-  <color name="secondaryLightColor">#48a999</color>
-  <color name="secondaryDarkColor">#004c40</color>
-  <color name="primaryTextColor">#ffffff</color>
-  <color name="secondaryTextColor">#ffffff</color>
+  <color name="modernPrimaryColor">#004d40</color>
+  <color name="modernPrimaryLightColor">#39796b</color>
+  <color name="modernPrimaryDarkColor">#00251a</color>
+  <color name="modernSecondaryColor">#00796b</color>
+  <color name="modernSecondaryLightColor">#48a999</color>
+  <color name="modernSecondaryDarkColor">#004c40</color>
+  <color name="modernPrimaryTextColor">#ffffff</color>
+  <color name="modernSecondaryTextColor">#ffffff</color>
+
+  <!-- TODO: values are for POC only -->
+  <color name="fantasyPrimaryColor">#d7c797</color>
+  <color name="fantasyPrimaryLightColor">#ead61c</color>
+  <color name="fantasyPrimaryDarkColor">#845422</color>
+  <color name="fantasySecondaryColor">#cd8500</color>
+  <color name="fantasySecondaryLightColor">#e7cfb4</color>
+  <color name="fantasySecondaryDarkColor">#84240c</color>
+  <color name="fantasyPrimaryTextColor">#ffffff</color>
+  <color name="fantasySecondaryTextColor">#000000</color>
 
   <color name="white">#FFFFFF</color>
   <color name="pitch_black">#000000</color>

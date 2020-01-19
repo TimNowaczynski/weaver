@@ -13,6 +13,9 @@ public class Theme {
 
     public static final String ID = "theme_id";
 
+    public static final int PRESET_ID_CUSTOM = 0;
+    public static final int PRESET_ID_FANTASY = 1;
+    public static final int PRESET_ID_MODERN = 2;
     // This is somewhat shitty, but there seems to be no way around a string constant
     private static final String DEFAULT_PRESET = "1";
 

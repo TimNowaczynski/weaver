@@ -42,7 +42,7 @@ public class ThemeDAOTest {
         final long themeId = themeDAO.createTheme(input);
 
         //Read
-        final Theme theme = themeDAO.readTheme(themeId);
+        final Theme theme = themeDAO.readTheme(themeId).getValue();
         assertThat(theme.id, notNullValue());
         assertThat(theme.fontId, is(50));
         assertThat(theme.bannerBackgroundImage, is("bannerBackgroundImage".getBytes()));
@@ -96,7 +96,7 @@ public class ThemeDAOTest {
         final long themeId = themeDAO.createTheme(input);
 
         // Confirm
-        final Theme outputThemeA = themeDAO.readTheme(themeId);
+        final Theme outputThemeA = themeDAO.readTheme(themeId).getValue();
         assertThat(outputThemeA.fontId, is(50));
 
         // Update
@@ -104,7 +104,7 @@ public class ThemeDAOTest {
         themeDAO.updateTheme(outputThemeA);
 
         // Confirm
-        final Theme outputThemeB = themeDAO.readTheme(themeId);
+        final Theme outputThemeB = themeDAO.readTheme(themeId).getValue();
         assertThat(outputThemeB.fontId, is(100));
     }
 

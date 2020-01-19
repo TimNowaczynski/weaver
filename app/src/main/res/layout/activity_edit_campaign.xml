@@ -16,7 +16,7 @@
 
     <Button
         android:id="@+id/set_theme_button_dummy"
-        android:backgroundTint="@color/primaryLightColor"
+        android:backgroundTint="@color/modernPrimaryLightColor"
         android:text="SET THEME"
         android:textColor="@color/pitch_black"
         android:layout_width="wrap_content"
@@ -24,7 +24,7 @@
 
     <Button
         android:id="@+id/configure_name_sets_button_dummy"
-        android:backgroundTint="@color/primaryLightColor"
+        android:backgroundTint="@color/modernPrimaryLightColor"
         android:text="CONFIGURE SETS"
         android:textColor="@color/pitch_black"
         android:layout_width="wrap_content"

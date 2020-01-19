@@ -10,7 +10,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:background="@color/primaryColor"
+        android:background="@color/modernPrimaryColor"
         app:titleTextColor="@color/white"
         android:paddingEnd="12dp"
         android:paddingStart="12dp"

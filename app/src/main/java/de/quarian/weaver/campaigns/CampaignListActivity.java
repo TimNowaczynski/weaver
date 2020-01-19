@@ -12,6 +12,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,8 +24,14 @@ import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 import de.quarian.weaver.RequestCodes;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
+import de.quarian.weaver.di.ApplicationContext;
 
 public class CampaignListActivity extends AppCompatActivity {
+
+    // TODO: possibly remove this later on, it's just meant as a POC
+    @Inject
+    @ApplicationContext
+    public Context applicationContext;
 
     private List<CampaignListDisplayObject> campaignListDisplayObjects = new ArrayList<>();
 

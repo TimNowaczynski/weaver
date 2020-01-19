@@ -8,11 +8,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppThemeModern">
 
         <activity
             android:name=".SplashScreenActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppThemeModern.NoActionBar"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,7 @@
 
         <activity
             android:name=".campaigns.CampaignListActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppThemeModern.NoActionBar"/>
 
         <activity android:name=".characters.CharacterLibraryActivity"/>
 
@@ -32,7 +32,7 @@
 
         <activity
             android:name=".characters.CharacterViewActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppThemeModern.NoActionBar"/>
 
         <activity android:name=".campaigns.CampaignSynopsisActivity"/>
 
@@ -44,7 +44,7 @@
 
         <activity
             android:name=".namesets.ConfigureNameSetsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppThemeModern.NoActionBar"/>
 
         <activity android:name=".SettingsActivity" />
 

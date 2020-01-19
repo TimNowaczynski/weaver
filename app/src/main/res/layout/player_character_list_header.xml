@@ -11,7 +11,7 @@
     <TextView
         android:background="@drawable/player_character_header_element_background"
         android:text="@string/activity_player_character_list_usage_hint"
-        android:textColor="@color/secondaryLightColor"
+        android:textColor="@color/modernSecondaryLightColor"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

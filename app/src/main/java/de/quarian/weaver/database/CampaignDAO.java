@@ -2,6 +2,7 @@ package de.quarian.weaver.database;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -34,7 +35,7 @@ public interface CampaignDAO {
     List<Campaign> readCampaignsOrderedByCreated();
 
     @Query("SELECT * FROM Campaign WHERE campaign_id IS :campaignId")
-    Campaign readCampaignByID(final long campaignId);
+    LiveData<Campaign> readCampaignByID(final long campaignId);
 
     @Query("SELECT * FROM Campaign WHERE campaign_name LIKE :campaignName")
     Campaign readCampaignByName(final String campaignName);

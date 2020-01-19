@@ -1,0 +1,21 @@
+package de.quarian.weaver.di;
+
+import javax.inject.Singleton;
+
+import dagger.Component;
+import de.quarian.weaver.campaigns.CampaignListActivity;
+import de.quarian.weaver.theming.SetThemeActivity;
+import de.quarian.weaver.theming.WeaverThemedActivity;
+
+@Component(modules = {
+        ApplicationModule.class,
+        SharedPreferencesModule.class
+})
+@Singleton
+public interface ApplicationComponent {
+
+    void inject(final WeaverThemedActivity  weaverThemedActivity);
+
+    void inject(final CampaignListActivity campaignListActivity);
+    void inject(final SetThemeActivity setThemeActivity);
+}
