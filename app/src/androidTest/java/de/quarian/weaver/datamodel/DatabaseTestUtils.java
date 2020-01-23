@@ -103,13 +103,53 @@ public final class DatabaseTestUtils {
     }
 
     /**
-     * This will insert a dummy theme with the ID of 1L. For real Theme testing see {@link ThemeDAOTest}.
+     * This will insert dummy themes. For real Theme a bit more intense testing see {@link ThemeDAOTest}.
      * @param weaverDB Our target database
      */
     public static void setUpThemes(final WeaverDB weaverDB) {
         final ThemeDAO themeDAO = weaverDB.themeDAO();
-        final Theme theme = new Theme();
-        themeDAO.createTheme(theme);
+
+        final Theme modernTheme = new Theme();
+        modernTheme.presetId = Theme.PRESET_ID_MODERN;
+        modernTheme.fontId = Theme.PRESET_ID_MODERN;
+        modernTheme.bannerBackgroundImage = "modern".getBytes();
+        modernTheme.bannerBackgroundImageType = "image/jpeg";
+
+        final Theme fantasyTheme = new Theme();
+        fantasyTheme.presetId = Theme.PRESET_ID_FANTASY;
+        fantasyTheme.fontId = Theme.PRESET_ID_FANTASY;
+        fantasyTheme.bannerBackgroundImage = "fantasy".getBytes();
+        fantasyTheme.bannerBackgroundImageType = "image/png";
+
+        final Theme customTheme = new Theme();
+        customTheme.presetId = Theme.PRESET_ID_CUSTOM;
+        customTheme.fontId = Theme.PRESET_ID_CUSTOM;
+        customTheme.bannerBackgroundImage = "custom".getBytes();
+        customTheme.bannerBackgroundImageType = "image/jpg";
+
+        customTheme.screenBackgroundColorA = 1;
+        customTheme.screenBackgroundColorR = 2;
+        customTheme.screenBackgroundColorG = 3;
+        customTheme.screenBackgroundColorB = 4;
+
+        customTheme.itemBackgroundColorA = 10;
+        customTheme.itemBackgroundColorR = 20;
+        customTheme.itemBackgroundColorG = 30;
+        customTheme.itemBackgroundColorB = 40;
+
+        customTheme.backgroundFontColorA = 100;
+        customTheme.backgroundFontColorR = 200;
+        customTheme.backgroundFontColorG = 300;
+        customTheme.backgroundFontColorB = 400;
+
+        customTheme.itemFontColorA = 1000;
+        customTheme.itemFontColorR = 2000;
+        customTheme.itemFontColorG = 3000;
+        customTheme.itemFontColorB = 4000;
+
+        themeDAO.createTheme(modernTheme);
+        themeDAO.createTheme(fantasyTheme);
+        themeDAO.createTheme(customTheme);
     }
 
     /***
@@ -117,9 +157,12 @@ public final class DatabaseTestUtils {
      * (the order is of importance)
      * 1) {@link DatabaseTestUtils}.setUpRoleplayingSystems()
      * 2) {@link DatabaseTestUtils}.setUpThemes()
+     *
+     * Themes are currently assigned a bit random (it's test data after all)
      */
     public static void setUpCampaigns(final WeaverDB weaverDB) {
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+        final ThemeDAO themeDAO = weaverDB.themeDAO();
         final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
 
         final long now = System.currentTimeMillis();
@@ -127,9 +170,10 @@ public final class DatabaseTestUtils {
 
         final Campaign asiaCampaign = new Campaign();
         final RoleplayingSystem shadowrun = roleplayingSystemDAO.readRoleplayingSystemsByName(RPS_NAME_SHADOWRUN);
+        final Theme shadowrunTheme = themeDAO.readThemeByID(1L);
         asiaCampaign.roleplayingSystemId = shadowrun.id;
+        asiaCampaign.themeId = shadowrunTheme.id;
         asiaCampaign.campaignName = CAMPAIGN_NAME_RISING_DRAGON;
-        asiaCampaign.themeId = 1L;
         asiaCampaign.creationDateMillis = now - (13L * oneDay);
         asiaCampaign.editDateMillis = now - (6L * oneDay);
         asiaCampaign.lastUsedDataMillis = now - (4L * oneDay);
@@ -137,9 +181,10 @@ public final class DatabaseTestUtils {
 
         final Campaign europeCampaign = new Campaign();
         final RoleplayingSystem vampire = roleplayingSystemDAO.readRoleplayingSystemsByName(RPS_NAME_VAMPIRE);
+        final Theme vampireTheme = themeDAO.readThemeByID(3L);
         europeCampaign.roleplayingSystemId = vampire.id;
+        europeCampaign.themeId = vampireTheme.id;
         europeCampaign.campaignName = CAMPAIGN_NAME_RENAISSANCE;
-        europeCampaign.themeId = 1L;
         europeCampaign.creationDateMillis = now - (11L * oneDay);
         europeCampaign.editDateMillis = now - (7L * oneDay);
         europeCampaign.lastUsedDataMillis = now - (3L * oneDay);
@@ -147,9 +192,10 @@ public final class DatabaseTestUtils {
 
         final Campaign aventurienCampaign = new Campaign();
         final RoleplayingSystem dsa = roleplayingSystemDAO.readRoleplayingSystemsByName(RPS_NAME_DSA);
+        final Theme dsaTheme = themeDAO.readThemeByID(2L);
         aventurienCampaign.roleplayingSystemId = dsa.id;
+        aventurienCampaign.themeId = dsaTheme.id;
         aventurienCampaign.campaignName = CAMPAIGN_NAME_BORBARAD;
-        aventurienCampaign.themeId = 1L;
         aventurienCampaign.creationDateMillis = now - (12L * oneDay);
         aventurienCampaign.editDateMillis = now - (8L * oneDay);
         aventurienCampaign.lastUsedDataMillis = now - (2L * oneDay);

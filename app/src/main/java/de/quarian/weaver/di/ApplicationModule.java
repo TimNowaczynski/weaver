@@ -1,6 +1,7 @@
 package de.quarian.weaver.di;
 
 import android.content.Context;
+import android.os.Handler;
 
 import javax.inject.Singleton;
 
@@ -14,9 +15,11 @@ import de.quarian.weaver.theming.ThemeProvider;
 public class ApplicationModule {
 
     private final Context applicationContext;
+    private final Handler globalHandler;
 
     public ApplicationModule(final Context applicationContext) {
         this.applicationContext = applicationContext;
+        this.globalHandler = new Handler();
     }
 
     @ApplicationContext
@@ -24,6 +27,13 @@ public class ApplicationModule {
     @Singleton
     public Context context() {
         return applicationContext;
+    }
+
+    @GlobalHandler
+    @Provides
+    @Singleton
+    public Handler globalHandler() {
+        return globalHandler;
     }
 
     @Provides

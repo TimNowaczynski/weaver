@@ -1,6 +1,7 @@
 package de.quarian.weaver.database;
 
-import androidx.lifecycle.LiveData;
+import java.util.List;
+
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -13,8 +14,11 @@ public interface ThemeDAO {
     @Insert
     long createTheme(final Theme theme);
 
+    @Query("SELECT * FROM Theme")
+    List<Theme> readThemes();
+
     @Query("SELECT * FROM Theme WHERE theme_id IS :id")
-    LiveData<Theme> readTheme(final long id);
+    Theme readThemeByID(final long id);
 
     @Update
     void updateTheme(final Theme theme);

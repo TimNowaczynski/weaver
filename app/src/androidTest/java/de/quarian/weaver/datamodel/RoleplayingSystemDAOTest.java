@@ -42,6 +42,7 @@ public class RoleplayingSystemDAOTest {
         final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
 
         final List<RoleplayingSystem> roleplayingSystems = roleplayingSystemDAO.readRoleplayingSystems();
+        assertThat(roleplayingSystems, notNullValue());
         assertThat(roleplayingSystems.size(), is(3));
 
         final RoleplayingSystem roleplayingSystemA = roleplayingSystems.get(0);
@@ -75,7 +76,9 @@ public class RoleplayingSystemDAOTest {
         roleplayingSystemDAO.updateRoleplayingSystem(outputA);
 
         // Confirm
-        final RoleplayingSystem outputB = roleplayingSystemDAO.readRoleplayingSystems().get(0);
+        final List<RoleplayingSystem> outputList = roleplayingSystemDAO.readRoleplayingSystems();
+        assertThat(outputList, notNullValue());
+        final RoleplayingSystem outputB = outputList.get(0);
         assertThat(outputB.roleplayingSystemName, is("Hunter"));
     }
 

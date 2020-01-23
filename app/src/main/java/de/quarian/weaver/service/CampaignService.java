@@ -20,5 +20,5 @@ public interface CampaignService {
         CREATED
     }
 
-    List<CampaignListDisplayObject> readCampaignListDisplayObjects(@NonNull final AppCompatActivity activity, @NonNull final SortOrder sortOrder);
+    List<CampaignListDisplayObject> readCampaignListDisplayObjects(@NonNull final SortOrder sortOrder);
 }

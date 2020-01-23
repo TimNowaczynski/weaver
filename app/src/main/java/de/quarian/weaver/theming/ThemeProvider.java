@@ -34,7 +34,7 @@ public class ThemeProvider {
 
     public void setThemeForCampaign(final long campaignId, final Theme theme) {
         final ThemeDAO themeDAO = weaverDB.themeDAO();
-        final Theme existingTheme = themeDAO.readTheme(theme.id).getValue();
+        final Theme existingTheme = themeDAO.readThemeByID(theme.id);
         if (existingTheme != null) {
             themeDAO.updateTheme(theme);
         } else {
@@ -44,11 +44,10 @@ public class ThemeProvider {
 
     private void createNewThemeForCampaign(long campaignId, @NonNull Theme theme) {
         final ThemeDAO themeDAO = weaverDB.themeDAO();
-        final long newTheme = themeDAO.createTheme(theme);
+        final long newThemeId = themeDAO.createTheme(theme);
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
-        final Campaign campaign = campaignDAO.readCampaignByID(campaignId).getValue();
-        //TODO: handle possible null pointer
-        campaign.themeId = newTheme;
+        final Campaign campaign = campaignDAO.readCampaignByID(campaignId);
+        campaign.themeId = newThemeId;
         campaignDAO.updateCampaign(campaign);
     }
 }

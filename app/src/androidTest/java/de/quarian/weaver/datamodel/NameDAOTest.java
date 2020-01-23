@@ -4,19 +4,24 @@ import android.content.Context;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
 import de.quarian.weaver.database.CampaignDAO;
 import de.quarian.weaver.database.DebugDAO;
 import de.quarian.weaver.database.NameDAO;
 import de.quarian.weaver.database.WeaverDB;
+import de.quarian.weaver.dev.DeveloperFunctionsActivity;
+import de.quarian.weaver.test.TestUtils;
 
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_VAMPIRE_FEMALE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_VAMPIRE_MALE;
@@ -30,11 +35,18 @@ import static org.hamcrest.Matchers.notNullValue;
 @RunWith(AndroidJUnit4.class)
 public class NameDAOTest {
 
+    @Rule
+    public ActivityTestRule<DeveloperFunctionsActivity> activityTestRule = new ActivityTestRule<>(DeveloperFunctionsActivity.class, true, true);
+
+    @Rule
+    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+
     private WeaverDB weaverDB;
 
     @Before
     public void setUpDatabase() {
         final Context applicationContext = ApplicationProvider.getApplicationContext();
+
         this.weaverDB = Room.inMemoryDatabaseBuilder(applicationContext, WeaverDB.class).build();
         DatabaseTestUtils.setUpRoleplayingSystems(weaverDB);
         DatabaseTestUtils.setUpThemes(weaverDB);
@@ -54,11 +66,12 @@ public class NameDAOTest {
     public void testReadNameSets() {
         // Confirm
         final NameDAO nameDAO = weaverDB.nameDAO();
-        final List<NameSet> allNameSets = nameDAO.readNameSets();
-        assertThat(allNameSets.size(), is(3));
-        assertThat(allNameSets.get(0).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_SHADOWRUN));
-        assertThat(allNameSets.get(1).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_VAMPIRE));
-        assertThat(allNameSets.get(2).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_DSA));
+
+        final List<NameSet> nameSets = nameDAO.readNameSets();
+        assertThat(nameSets, hasSize(3));
+        assertThat(nameSets.get(0).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_SHADOWRUN));
+        assertThat(nameSets.get(1).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_VAMPIRE));
+        assertThat(nameSets.get(2).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_DSA));
     }
 
     @Test
@@ -83,39 +96,48 @@ public class NameDAOTest {
         final NameDAO nameDAO = weaverDB.nameDAO();
         final DebugDAO debugDAO = weaverDB.debugDAO();
 
-        // Confirm
-        List<NameSet> allNameSets = nameDAO.readNameSets();
-        assertThat(allNameSets.size(), is(3));
-        final NameSet targetNameSet = allNameSets.get(0);
-        int numberOfNamesForNameSet = debugDAO.getNumberOfNamesForNameSetID(targetNameSet.id);
+        final TestUtils.ValueHolder<Long> idValueHolder = new TestUtils.ValueHolder<>();
+        List<NameSet> nameSets = nameDAO.readNameSets();
+
+        // Read
+        assertThat(nameSets, notNullValue());
+        assertThat(nameSets, hasSize(3));
+        idValueHolder.value = nameSets.get(0).id;
+
+        int numberOfNamesForNameSet = debugDAO.getNumberOfNamesForNameSetID(idValueHolder.value);
         assertThat(numberOfNamesForNameSet, is(4));
 
         // Delete
-        nameDAO.deleteNameSet(targetNameSet);
+        final NameSet nameSetToDelete = nameDAO.readNameSetByID(idValueHolder.value);
+        nameDAO.deleteNameSet(nameSetToDelete);
 
-        // Confirm
-        allNameSets = nameDAO.readNameSets();
-        assertThat(allNameSets.size(), is(2));
-        numberOfNamesForNameSet = debugDAO.getNumberOfNamesForNameSetID(targetNameSet.id);
+        nameSets = nameDAO.readNameSets();
+        assertThat(nameSets, notNullValue());
+        assertThat(nameSets.size(), is(2));
+
+        numberOfNamesForNameSet = debugDAO.getNumberOfNamesForNameSetID(idValueHolder.value);
         assertThat(numberOfNamesForNameSet, is(0));
     }
 
-    // Start NameSet to Name Relation Tests
+    // Start NameSet to Name Relation Test
 
     @Test
     public void testDeletingNameSetCascadesToName() {
         // Verify initial state
         final NameDAO nameDAO = weaverDB.nameDAO();
-        final NameSet dsaNameSet = nameDAO.readNameSetByName(DatabaseTestConstants.NAME_SET_NAME_DSA);
-        assertThat(nameDAO.readNameSets(), hasSize(3));
-        assertThat(nameDAO.readNumberOfNames(dsaNameSet.id), is(4L));
+        final NameSet nameSetToDelete = nameDAO.readNameSetByName(DatabaseTestConstants.NAME_SET_NAME_DSA);
+
+        assertThat(nameDAO.readNumberOfNames(nameSetToDelete.id), is(4L));
+        final List<NameSet> initialNameSets = nameDAO.readNameSets();
+        assertThat(initialNameSets, hasSize(3));
+        assertThat(nameDAO.readNumberOfNames(nameSetToDelete.id), is(4L));
 
         // Delete
-        nameDAO.deleteNameSet(dsaNameSet);
+        nameDAO.deleteNameSet(nameSetToDelete);
 
-        // Verify
-        assertThat(nameDAO.readNameSets(), hasSize(2));
-        assertThat(nameDAO.readNumberOfNames(dsaNameSet.id), is(0L));
+        final List<NameSet> resultingNameSets = nameDAO.readNameSets();
+        assertThat(resultingNameSets, hasSize(2));
+        assertThat(nameDAO.readNumberOfNames(nameSetToDelete.id), is(0L));
     }
 
     // Start Name to NameSet Relation Tests
@@ -155,10 +177,13 @@ public class NameDAOTest {
         final List<NameSet> aventurienNameSets = nameDAO.readNameSetsForCampaign(aventurienCampaign.id);
 
         // Verify
+        assertThat(asiaNameSets, notNullValue());
         assertThat(asiaNameSets.size(), is(1));
         assertThat(asiaNameSets.get(0).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_SHADOWRUN));
+        assertThat(europeNameSets, notNullValue());
         assertThat(europeNameSets.size(), is(1));
         assertThat(europeNameSets.get(0).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_VAMPIRE));
+        assertThat(aventurienNameSets, notNullValue());
         assertThat(aventurienNameSets.size(), is(1));
         assertThat(aventurienNameSets.get(0).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_DSA));
     }
@@ -167,19 +192,28 @@ public class NameDAOTest {
     public void testDeletingCampaignCascadesToMappingEntryButNotToNameSetTable() {
         // Verify initial state
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
-        assertThat(campaignDAO.readCampaignsOrderedByCreated(), hasSize(3));
+
+        List<Campaign> campaigns = campaignDAO.readCampaignsOrderedByCreated();
+        assertThat(campaigns, hasSize(3));
+
         final NameDAO nameDAO = weaverDB.nameDAO();
-        assertThat(nameDAO.readNameSets(), hasSize(3));
+        List<NameSet> nameSets = nameDAO.readNameSets();
+        assertThat(nameSets, hasSize(3));
         final DebugDAO debugDAO = weaverDB.debugDAO();
         assertThat(debugDAO.getNameSetToCampaignMappings(), hasSize(3));
 
         // Delete
         final Campaign asiaCampaign = campaignDAO.readCampaignByName(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON);
+        final long asiaCampaignId = asiaCampaign.id;
         campaignDAO.deleteCampaign(asiaCampaign);
 
         // Verify final state
-        assertThat(campaignDAO.readCampaignsOrderedByCreated(), hasSize(2));
-        assertThat(nameDAO.readNameSets(), hasSize(3));
+        campaigns = campaignDAO.readCampaignsOrderedByCreated();
+        assertThat(campaigns, hasSize(2));
+        final List<NameSet> allNameSets = nameDAO.readNameSets();
+        assertThat(allNameSets, hasSize(3));
+        nameSets = nameDAO.readNameSetsForCampaign(asiaCampaignId);
+        assertThat(nameSets, hasSize(0));
         assertThat(debugDAO.getNameSetToCampaignMappings(), hasSize(2));
     }
 
@@ -187,15 +221,18 @@ public class NameDAOTest {
     public void testDeletingNameSetCascadesToMappingEntryButNotToCampaignTable() {
         // Verify initial state
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
-        assertThat(campaignDAO.readCampaignsOrderedByCreated(), hasSize(3));
         final NameDAO nameDAO = weaverDB.nameDAO();
-        assertThat(nameDAO.readNameSets(), hasSize(3));
         final DebugDAO debugDAO = weaverDB.debugDAO();
+
+        final List<Campaign> campaigns = campaignDAO.readCampaignsOrderedByCreated();
+        assertThat(campaigns, hasSize(3));
+        assertThat(nameDAO.readNameSets(), hasSize(3));
         assertThat(debugDAO.getNameSetToCampaignMappings(), hasSize(3));
 
         // Delete
         final Campaign asiaCampaign = campaignDAO.readCampaignByName(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON);
         final List<NameSet> nameSets = nameDAO.readNameSetsForCampaign(asiaCampaign.id);
+        assertThat(nameSets, hasSize(1));
         nameDAO.deleteNameSet(nameSets.get(0));
 
         // Verify final state

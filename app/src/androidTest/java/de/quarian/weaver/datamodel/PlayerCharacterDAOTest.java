@@ -45,6 +45,7 @@ public class PlayerCharacterDAOTest {
         // Confirm
         final NameDAO nameDAO = weaverDB.nameDAO();
         final List<NameSet> allNameSets = nameDAO.readNameSets();
+        assertThat(allNameSets, notNullValue());
         assertThat(allNameSets.size(), is(3));
         assertThat(allNameSets.get(0).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_SHADOWRUN));
         assertThat(allNameSets.get(1).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_VAMPIRE));
@@ -73,6 +74,7 @@ public class PlayerCharacterDAOTest {
 
         // Confirm
         List<NameSet> allNameSets = nameDAO.readNameSets();
+        assertThat(allNameSets, notNullValue());
         assertThat(allNameSets.size(), is(3));
 
         // Delete
@@ -80,6 +82,7 @@ public class PlayerCharacterDAOTest {
 
         // Confirm
         allNameSets = nameDAO.readNameSets();
+        assertThat(allNameSets, notNullValue());
         assertThat(allNameSets.size(), is(2));
     }
 
@@ -98,10 +101,13 @@ public class PlayerCharacterDAOTest {
         final List<NameSet> aventurienNameSets = nameDAO.readNameSetsForCampaign(aventurienCampaign.id);
 
         // Verify
+        assertThat(asiaNameSets, notNullValue());
         assertThat(asiaNameSets.size(), is(1));
         assertThat(asiaNameSets.get(0).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_SHADOWRUN));
+        assertThat(europeNameSets, notNullValue());
         assertThat(europeNameSets.size(), is(1));
         assertThat(europeNameSets.get(0).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_VAMPIRE));
+        assertThat(aventurienNameSets, notNullValue());
         assertThat(aventurienNameSets.size(), is(1));
         assertThat(aventurienNameSets.get(0).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_DSA));
     }

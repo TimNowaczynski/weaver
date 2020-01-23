@@ -9,13 +9,13 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Theme {
 
-    //TODO: put default values for colors for on delete operations
+    //TODO: put default values for colors for on delete operations?
 
     public static final String ID = "theme_id";
 
-    public static final int PRESET_ID_CUSTOM = 0;
-    public static final int PRESET_ID_FANTASY = 1;
-    public static final int PRESET_ID_MODERN = 2;
+    public static final int PRESET_ID_CUSTOM = 1;
+    public static final int PRESET_ID_FANTASY = 2;
+    public static final int PRESET_ID_MODERN = 3;
     // This is somewhat shitty, but there seems to be no way around a string constant
     private static final String DEFAULT_PRESET = "1";
 
@@ -28,6 +28,7 @@ public class Theme {
     public int presetId;
 
     // Same here: this is a constant, not a database ID
+    // TODO: later on we could optionally enable custom fonts by adding an additional table
     @ColumnInfo(name = "font_id", defaultValue = DEFAULT_PRESET, typeAffinity = ColumnInfo.INTEGER)
     public int fontId;
 

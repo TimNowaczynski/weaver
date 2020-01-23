@@ -144,10 +144,10 @@ public class CharacterDAOTest {
         final List<CharacterHeader> characterHeaders = characterDAO.readCharacterHeadersByCampaignId(targetCampaignId);
         final long characterHeaderId = characterHeaders.get(0).id;
 
-        Campaign targetCampaign = campaignDAO.readCampaignByID(targetCampaignId).getValue();
+        Campaign targetCampaign = campaignDAO.readCampaignByID(targetCampaignId);
         campaignDAO.deleteCampaign(targetCampaign);
 
-        targetCampaign = campaignDAO.readCampaignByID(targetCampaignId).getValue();
+        targetCampaign = campaignDAO.readCampaignByID(targetCampaignId);
         assertThat(targetCampaign, nullValue());
         final CharacterHeader characterHeader = characterDAO.readCharacterHeaderById(characterHeaderId);
         assertThat(characterHeader, nullValue());
@@ -230,7 +230,7 @@ public class CharacterDAOTest {
     @Test
     public void testCreateAndReadEvent() {
         final long now = System.currentTimeMillis();
-        final long oneMinuteAgo = now - (1000L);
+        final long oneMinuteAgo = now - (1000L * 60L);
 
         final CharacterDAO characterDAO = weaverDB.characterDAO();
         final CharacterHeader moonlight = characterDAO.readCharacterHeaderByAlias(DatabaseTestConstants.MOONLIGHT_ALIAS);

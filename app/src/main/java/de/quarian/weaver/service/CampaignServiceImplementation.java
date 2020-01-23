@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import de.quarian.weaver.database.CampaignDAO;
 import de.quarian.weaver.database.RoleplayingSystemDAO;
 import de.quarian.weaver.database.ThemeDAO;
@@ -29,8 +27,9 @@ public class CampaignServiceImplementation implements CampaignService {
         themeDAO = weaverDB.themeDAO();
     }
 
+    //TODO: remove unused parameter (activity)
     @Override
-    public List<CampaignListDisplayObject> readCampaignListDisplayObjects(@NonNull final AppCompatActivity activity, @NonNull final SortOrder sortOrder) {
+    public List<CampaignListDisplayObject> readCampaignListDisplayObjects(@NonNull final SortOrder sortOrder) {
         final List<Campaign> campaigns = readCampaignsFromDB(sortOrder);
         final List<CampaignListDisplayObject> campaignListDisplayObjects = new ArrayList<>(campaigns.size());
         for (final Campaign campaign : campaigns) {
@@ -47,8 +46,7 @@ public class CampaignServiceImplementation implements CampaignService {
             displayObject.setLastEdited(new Date(campaign.editDateMillis));
             displayObject.setArchived(campaign.archived);
 
-            final LiveData<Theme> themeLiveData = themeDAO.readTheme(campaign.themeId);
-            final Theme theme = themeLiveData.getValue();
+            final Theme theme = themeDAO.readThemeByID(campaign.themeId);
             displayObject.setCampaignImage(theme.bannerBackgroundImage);
         }
         return campaignListDisplayObjects;
