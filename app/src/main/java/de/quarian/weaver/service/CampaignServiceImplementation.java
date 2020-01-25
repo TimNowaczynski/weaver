@@ -14,7 +14,6 @@ import de.quarian.weaver.datamodel.RoleplayingSystem;
 import de.quarian.weaver.datamodel.Theme;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 
-// TODO: Write Test
 public class CampaignServiceImplementation implements CampaignService {
 
     private final CampaignDAO campaignDAO;
@@ -27,9 +26,10 @@ public class CampaignServiceImplementation implements CampaignService {
         themeDAO = weaverDB.themeDAO();
     }
 
-    //TODO: remove unused parameter (activity)
+    /** TODO: We could theoretically optimize here a bit and use joined tables
+     *  TODO: via the @Embedded Annotation in Room. */
     @Override
-    public List<CampaignListDisplayObject> readCampaignListDisplayObjects(@NonNull final SortOrder sortOrder) {
+    public List<CampaignListDisplayObject> readCampaigns(@NonNull final SortOrder sortOrder) {
         final List<Campaign> campaigns = readCampaignsFromDB(sortOrder);
         final List<CampaignListDisplayObject> campaignListDisplayObjects = new ArrayList<>(campaigns.size());
         for (final Campaign campaign : campaigns) {
@@ -39,8 +39,9 @@ public class CampaignServiceImplementation implements CampaignService {
             final CampaignListDisplayObject displayObject = new CampaignListDisplayObject();
             displayObject.setCampaignId(campaign.id);
             displayObject.setRoleplayingSystemName(roleplayingSystem.roleplayingSystemName);
-            displayObject.setCampaignName(campaign.campaignName);
             displayObject.setRoleplayingSystemImage(roleplayingSystem.logo);
+            displayObject.setCampaignName(campaign.campaignName);
+            displayObject.setCampaignImage(campaign.campaignImage);
             displayObject.setCreated(new Date(campaign.creationDateMillis));
             displayObject.setLastUsed(new Date(campaign.lastUsedDataMillis));
             displayObject.setLastEdited(new Date(campaign.editDateMillis));
@@ -69,4 +70,18 @@ public class CampaignServiceImplementation implements CampaignService {
         }
     }
 
+    @Override
+    public long createCampaign(@NonNull Campaign campaign) {
+        return campaignDAO.createCampaign(campaign);
+    }
+
+    @Override
+    public void editCampaign(@NonNull Campaign campaign) {
+        campaignDAO.updateCampaign(campaign);
+    }
+
+    @Override
+    public void deleteCampaign(@NonNull Campaign campaign) {
+        campaignDAO.deleteCampaign(campaign);
+    }
 }

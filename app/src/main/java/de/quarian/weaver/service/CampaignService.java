@@ -3,13 +3,13 @@ package de.quarian.weaver.service;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import de.quarian.weaver.datamodel.Campaign;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 
 public interface CampaignService {
 
     /**
-     * Regardless of the chosen option,
+     * Regardless of the chosen sort option,
      * deactivated campaigns should show after the rest.
      */
     enum  SortOrder {
@@ -20,5 +20,12 @@ public interface CampaignService {
         CREATED
     }
 
-    List<CampaignListDisplayObject> readCampaignListDisplayObjects(@NonNull final SortOrder sortOrder);
+    long createCampaign(@NonNull Campaign campaign);
+
+    List<CampaignListDisplayObject> readCampaigns(@NonNull final SortOrder sortOrder);
+
+    void editCampaign(@NonNull Campaign campaign);
+
+    void deleteCampaign(@NonNull Campaign campaign);
+
 }

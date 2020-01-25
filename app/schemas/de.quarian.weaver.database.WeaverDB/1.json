@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "84260344820610108d92cb4843f5b3e7",
+    "identityHash": "dea01ffd52a0417b4450b272a1ea937a",
     "entities": [
       {
         "tableName": "Campaign",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`campaign_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_roleplaying_system_id` INTEGER NOT NULL, `fk_theme_id` INTEGER NOT NULL, `creation_date_millis` INTEGER NOT NULL, `edit_date_millis` INTEGER NOT NULL, `last_used_date_millis` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `campaign_name` TEXT NOT NULL, `synopsis` TEXT, FOREIGN KEY(`fk_roleplaying_system_id`) REFERENCES `RoleplayingSystem`(`roleplaying_system_id`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`fk_theme_id`) REFERENCES `Theme`(`theme_id`) ON UPDATE NO ACTION ON DELETE SET DEFAULT )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`campaign_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_roleplaying_system_id` INTEGER NOT NULL, `fk_theme_id` INTEGER NOT NULL, `creation_date_millis` INTEGER NOT NULL, `edit_date_millis` INTEGER NOT NULL, `last_used_date_millis` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `campaign_name` TEXT NOT NULL, `campaign_image` BLOB, `campaign_image_type` TEXT, `synopsis` TEXT, FOREIGN KEY(`fk_roleplaying_system_id`) REFERENCES `RoleplayingSystem`(`roleplaying_system_id`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`fk_theme_id`) REFERENCES `Theme`(`theme_id`) ON UPDATE NO ACTION ON DELETE SET DEFAULT )",
         "fields": [
           {
             "fieldPath": "id",
@@ -55,6 +55,18 @@
             "columnName": "campaign_name",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "campaignImage",
+            "columnName": "campaign_image",
+            "affinity": "BLOB",
+            "notNull": false
+          },
+          {
+            "fieldPath": "campaignImageType",
+            "columnName": "campaign_image_type",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "synopsis",
@@ -1138,7 +1150,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '84260344820610108d92cb4843f5b3e7')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dea01ffd52a0417b4450b272a1ea937a')"
     ]
   }
 }

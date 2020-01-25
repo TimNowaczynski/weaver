@@ -58,6 +58,14 @@ public class Campaign {
     public String campaignName = "";
 
     @Nullable
+    @ColumnInfo(name = "campaign_image")
+    public byte[] campaignImage;
+
+    @Nullable
+    @ColumnInfo(name = "campaign_image_type")
+    public String campaignImageType;
+
+    @Nullable
     @ColumnInfo(name = "synopsis")
     public String synopsis;
 }
