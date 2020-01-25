@@ -127,7 +127,7 @@ public class CampaignServiceImplementationUnitTest extends TestCase {
     @Test
     public void testEditCampaign() {
         final Campaign campaign = mock(Campaign.class);
-        campaignService.editCampaign(campaign);
+        campaignService.updateCampaign(campaign);
 
         verify(campaignDAOMock).updateCampaign(campaign);
     }

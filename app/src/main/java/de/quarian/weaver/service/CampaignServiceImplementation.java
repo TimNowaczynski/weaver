@@ -76,7 +76,7 @@ public class CampaignServiceImplementation implements CampaignService {
     }
 
     @Override
-    public void editCampaign(@NonNull Campaign campaign) {
+    public void updateCampaign(@NonNull Campaign campaign) {
         campaignDAO.updateCampaign(campaign);
     }
 

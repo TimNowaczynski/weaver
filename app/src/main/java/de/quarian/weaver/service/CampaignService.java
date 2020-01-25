@@ -24,7 +24,7 @@ public interface CampaignService {
 
     List<CampaignListDisplayObject> readCampaigns(@NonNull final SortOrder sortOrder);
 
-    void editCampaign(@NonNull Campaign campaign);
+    void updateCampaign(@NonNull Campaign campaign);
 
     void deleteCampaign(@NonNull Campaign campaign);
 

@@ -90,4 +90,34 @@ public final class DatabaseTestConstants {
 
     public static final String ROLL = "12/14/10 (12)";
     public static final String ROLL_NAME = "Perception";
+
+    // Partial Character Header - Alex "Magic" Warner
+    public static final String ALEX_MAGIC_WARNER_FIRST_NAME = "Alex";
+    public static final String ALEX_MAGIC_WARNER_ALIAS = "Magic";
+    public static final String ALEX_MAGIC_WARNER_LAST_NAME = "Warner";
+
+    // Partial Character Header - James "7 Lives" Luther
+    public static final String JAMES_7_LIVES_LUTHER_FIRST_NAME = "James";
+    public static final String JAMES_7_LIVES_LUTHER_ALIAS = "7 Lives";
+    public static final String JAMES_7_LIVES_LUTHER_LAST_NAME = "Luther";
+
+    // Partial Character Header - John "Priest" Luther
+    public static final String JOHN_PRIEST_LUTHER_FIRST_NAME = "John";
+    public static final String JOHN_PRIEST_LUTHER_ALIAS = "Priest";
+    public static final String JOHN_PRIEST_LUTHER_LAST_NAME = "Luther";
+
+    // Partial Character Header - John "Judge" Mason
+    public static final String JOHN_JUDGE_MASON_FIRST_NAME = "John";
+    public static final String JOHN_JUDGE_MASON_ALIAS = "Judge";
+    public static final String JOHN_JUDGE_MASON_LAST_NAME = "Mason";
+
+    // Partial Character Header - Judith "Reaver" Mason
+    public static final String JUDITH_REAVER_MASON_FIRST_NAME = "Judith";
+    public static final String JUDITH_REAVER_MASON_ALIAS = "Reaver";
+    public static final String JUDITH_REAVER_MASON_LAST_NAME = "Mason";
+
+    // Partial Character Header - Judith "Phantom" Miller
+    public static final String JUDITH_PHANTOM_MILLER_FIRST_NAME = "Judith";
+    public static final String JUDITH_PHANTOM_MILLER_ALIAS = "Phantom";
+    public static final String JUDITH_PHANTOM_MILLER_LAST_NAME = "Miller";
 }

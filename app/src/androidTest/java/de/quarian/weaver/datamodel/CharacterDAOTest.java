@@ -56,7 +56,7 @@ public class CharacterDAOTest {
         campaignDAO.readCampaignByName(DatabaseTestConstants.CAMPAIGN_NAME_BORBARAD);
 
         final CharacterDAO characterDAO = weaverDB.characterDAO();
-        final List<CharacterHeader> characterHeaders = characterDAO.readCharacterHeadersByCampaignId(targetCampaignId);
+        final List<CharacterHeader> characterHeaders = characterDAO.readCharacterHeadersByCampaignIdSortedByFirstName(targetCampaignId);
         assertThat(characterHeaders, hasSize(2));
         // Get the header again to test the readById method
         final long characterHeaderId = characterHeaders.get(0).id;
@@ -99,7 +99,7 @@ public class CharacterDAOTest {
         final long targetCampaignId = campaignDAO.readCampaignByName(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON).id;
 
         final CharacterDAO characterDAO = weaverDB.characterDAO();
-        final List<CharacterHeader> characterHeaders = characterDAO.readCharacterHeadersByCampaignId(targetCampaignId);
+        final List<CharacterHeader> characterHeaders = characterDAO.readCharacterHeadersByCampaignIdSortedByFirstName(targetCampaignId);
         final long characterHeaderId = characterHeaders.get(0).id;
 
         CharacterHeader characterHeader = characterDAO.readCharacterHeaderById(characterHeaderId);
@@ -122,7 +122,7 @@ public class CharacterDAOTest {
         final long targetCampaignId = campaignDAO.readCampaignByName(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON).id;
 
         final CharacterDAO characterDAO = weaverDB.characterDAO();
-        final List<CharacterHeader> characterHeaders = characterDAO.readCharacterHeadersByCampaignId(targetCampaignId);
+        final List<CharacterHeader> characterHeaders = characterDAO.readCharacterHeadersByCampaignIdSortedByFirstName(targetCampaignId);
         final long characterHeaderId = characterHeaders.get(0).id;
 
         CharacterHeader characterHeader = characterDAO.readCharacterHeaderById(characterHeaderId);
@@ -141,7 +141,7 @@ public class CharacterDAOTest {
         final CharacterDAO characterDAO = weaverDB.characterDAO();
 
         final long targetCampaignId = campaignDAO.readCampaignByName(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON).id;
-        final List<CharacterHeader> characterHeaders = characterDAO.readCharacterHeadersByCampaignId(targetCampaignId);
+        final List<CharacterHeader> characterHeaders = characterDAO.readCharacterHeadersByCampaignIdSortedByFirstName(targetCampaignId);
         final long characterHeaderId = characterHeaders.get(0).id;
 
         Campaign targetCampaign = campaignDAO.readCampaignByID(targetCampaignId);

@@ -9,6 +9,9 @@ import de.quarian.weaver.database.RoleplayingSystemDAO;
 import de.quarian.weaver.database.ThemeDAO;
 import de.quarian.weaver.database.WeaverDB;
 
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.ALEX_MAGIC_WARNER_ALIAS;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.ALEX_MAGIC_WARNER_FIRST_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.ALEX_MAGIC_WARNER_LAST_NAME;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.CAMPAIGN_NAME_BORBARAD;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.CAMPAIGN_NAME_RENAISSANCE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON;
@@ -43,6 +46,21 @@ import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_SHADO
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_VAMPIRE_FEMALE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_VAMPIRE_MALE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_VAMPIRE_UNISEX;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.JAMES_7_LIVES_LUTHER_ALIAS;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.JAMES_7_LIVES_LUTHER_FIRST_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.JAMES_7_LIVES_LUTHER_LAST_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.JOHN_JUDGE_MASON_ALIAS;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.JOHN_JUDGE_MASON_FIRST_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.JOHN_JUDGE_MASON_LAST_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.JOHN_PRIEST_LUTHER_ALIAS;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.JOHN_PRIEST_LUTHER_FIRST_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.JOHN_PRIEST_LUTHER_LAST_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.JUDITH_PHANTOM_MILLER_ALIAS;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.JUDITH_PHANTOM_MILLER_FIRST_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.JUDITH_PHANTOM_MILLER_LAST_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.JUDITH_REAVER_MASON_ALIAS;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.JUDITH_REAVER_MASON_FIRST_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.JUDITH_REAVER_MASON_LAST_NAME;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.LAST_NAME_DSA;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.LAST_NAME_SHADOWRUN;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.LAST_NAME_VAMPIRE;
@@ -79,6 +97,13 @@ import static de.quarian.weaver.datamodel.DatabaseTestConstants.RPS_NAME_VAMPIRE
 public final class DatabaseTestUtils {
 
     private DatabaseTestUtils() { }
+
+    private static final long now = System.currentTimeMillis();
+    private static final long oneDay = 1000L * 60L * 60L * 24L;
+
+    private static long xDaysAgo(int x) {
+        return now - (x * oneDay);
+    }
 
     public static void setUpRoleplayingSystems(final WeaverDB weaverDB) {
         final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
@@ -410,6 +435,101 @@ public final class DatabaseTestUtils {
 
         characterDAO.createCharacterBody(moonlightCharacterBodyInput);
         characterDAO.createCharacterBody(devNullCharacterBodyInput);
+    }
+
+    /***
+     * Requires to run tbe following method upfront:
+     *  - {@link DatabaseTestUtils}.setUpRoleplayingSystems()
+     *  - {@link DatabaseTestUtils}.setUpThemes()
+     *  - {@link DatabaseTestUtils}.setUpCampaigns()
+     *
+     *  Here we use a bunch of irrational dummy data, we just need
+     *  the names, alias and date sections to test sorting.
+     */
+    public static void setUpCharactersForSortingTests(final WeaverDB weaverDB) {
+        // We are only interested in sorting by names and dates, so we leave the rest as it is
+
+        final CharacterDAO characterDAO = weaverDB.characterDAO();
+        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+        final long campaignId = campaignDAO.readCampaignByName(CAMPAIGN_NAME_RISING_DRAGON).id;
+
+        final CharacterHeader alexWarner = new CharacterHeader();
+        alexWarner.firstName = ALEX_MAGIC_WARNER_FIRST_NAME;
+        alexWarner.alias = ALEX_MAGIC_WARNER_ALIAS;
+        alexWarner.lastName = ALEX_MAGIC_WARNER_LAST_NAME;
+        alexWarner.creationDateMillis = xDaysAgo(144);
+        alexWarner.editDateMillis = xDaysAgo(27);
+        alexWarner.campaignId = campaignId;
+        final long alexHunterCharacterHeaderId = characterDAO.createCharacterHeader(alexWarner);
+
+        final CharacterBody alexHunterCharacterBody = new CharacterBody();
+        alexHunterCharacterBody.characterHeaderId = alexHunterCharacterHeaderId;
+        characterDAO.createCharacterBody(alexHunterCharacterBody);
+
+        final CharacterHeader jamesLuther = new CharacterHeader();
+        jamesLuther.firstName = JAMES_7_LIVES_LUTHER_FIRST_NAME;
+        jamesLuther.alias = JAMES_7_LIVES_LUTHER_ALIAS;
+        jamesLuther.lastName = JAMES_7_LIVES_LUTHER_LAST_NAME;
+        jamesLuther.creationDateMillis = xDaysAgo(120);
+        jamesLuther.editDateMillis = xDaysAgo(60);
+        jamesLuther.campaignId = campaignId;
+        final long jamesLutherCharacterHeaderId = characterDAO.createCharacterHeader(jamesLuther);
+
+        final CharacterBody jamesLutherCharacterBody = new CharacterBody();
+        jamesLutherCharacterBody.characterHeaderId = jamesLutherCharacterHeaderId;
+        characterDAO.createCharacterBody(jamesLutherCharacterBody);
+
+        final CharacterHeader johnLuther = new CharacterHeader();
+        johnLuther.firstName = JOHN_PRIEST_LUTHER_FIRST_NAME;
+        johnLuther.alias = JOHN_PRIEST_LUTHER_ALIAS;
+        johnLuther.lastName = JOHN_PRIEST_LUTHER_LAST_NAME;
+        johnLuther.creationDateMillis = xDaysAgo(12);
+        johnLuther.editDateMillis = xDaysAgo(10);
+        johnLuther.campaignId = campaignId;
+        final long johnLutherCharacterHeaderId = characterDAO.createCharacterHeader(johnLuther);
+
+        final CharacterBody johnLutherCharacterBody = new CharacterBody();
+        johnLutherCharacterBody.characterHeaderId = johnLutherCharacterHeaderId;
+        characterDAO.createCharacterBody(johnLutherCharacterBody);
+
+        final CharacterHeader johnMason = new CharacterHeader();
+        johnMason.firstName = JOHN_JUDGE_MASON_FIRST_NAME;
+        johnMason.alias = JOHN_JUDGE_MASON_ALIAS;
+        johnMason.lastName = JOHN_JUDGE_MASON_LAST_NAME;
+        johnMason.creationDateMillis = xDaysAgo(23);
+        johnMason.editDateMillis = xDaysAgo(12);
+        johnMason.campaignId = campaignId;
+        final long johnMasonCharacterHeaderId = characterDAO.createCharacterHeader(johnMason);
+
+        final CharacterBody johnMasonCharacterBody = new CharacterBody();
+        johnMasonCharacterBody.characterHeaderId = johnMasonCharacterHeaderId;
+        characterDAO.createCharacterBody(johnMasonCharacterBody);
+
+        final CharacterHeader judithMason = new CharacterHeader();
+        judithMason.firstName = JUDITH_REAVER_MASON_FIRST_NAME;
+        judithMason.alias = JUDITH_REAVER_MASON_ALIAS;
+        judithMason.lastName = JUDITH_REAVER_MASON_LAST_NAME;
+        judithMason.creationDateMillis = xDaysAgo(122);
+        judithMason.editDateMillis = xDaysAgo(99);
+        judithMason.campaignId = campaignId;
+        final long judithMasonCharacterHeaderId = characterDAO.createCharacterHeader(judithMason);
+
+        final CharacterBody judithMasonCharacterBody = new CharacterBody();
+        judithMasonCharacterBody.characterHeaderId = judithMasonCharacterHeaderId;
+        characterDAO.createCharacterBody(judithMasonCharacterBody);
+
+        final CharacterHeader judithMiller = new CharacterHeader();
+        judithMiller.firstName = JUDITH_PHANTOM_MILLER_FIRST_NAME;
+        judithMiller.alias = JUDITH_PHANTOM_MILLER_ALIAS;
+        judithMiller.lastName = JUDITH_PHANTOM_MILLER_LAST_NAME;
+        judithMiller.campaignId = campaignId;
+        judithMiller.creationDateMillis = xDaysAgo(14);
+        judithMiller.editDateMillis = xDaysAgo(2);
+        final long judithMillerCharacterBodyId = characterDAO.createCharacterHeader(judithMiller);
+
+        final CharacterBody judithMillerCharacterBody = new CharacterBody();
+        judithMillerCharacterBody.characterHeaderId = judithMillerCharacterBodyId;
+        characterDAO.createCharacterBody(judithMillerCharacterBody);
     }
 
     /***

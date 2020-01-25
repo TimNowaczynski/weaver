@@ -19,7 +19,7 @@ import de.quarian.weaver.datamodel.TagToCharacterHeader;
 @Dao
 public interface CharacterDAO {
 
-    //TODO: Enforce and Tests N:1 Constraints in Code for
+    //TODO: Enforce and test N:1 Constraints in Code for
     //TODO: ( ) Events (for now)
     //TODO: ( ) Rolls
 
@@ -39,13 +39,75 @@ public interface CharacterDAO {
 
     // Character - READ
 
-    @Query("SELECT * FROM CharacterHeader WHERE fk_campaign_id IS :campaignId")
-    List<CharacterHeader> readCharacterHeadersByCampaignId(final long campaignId);
+    @Query("SELECT * FROM CharacterHeader " +
+            "WHERE fk_campaign_id IS :campaignId " +
+            "ORDER BY first_name ASC, last_name ASC")
+    List<CharacterHeader> readCharacterHeadersByCampaignIdSortedByFirstName(final long campaignId);
+
+    @Query("SELECT * FROM CharacterHeader " +
+            "WHERE fk_campaign_id IS :campaignId " +
+            "AND (first_name LIKE :filter " +
+            "OR last_name LIKE :filter " +
+            "OR alias LIKE :filter) " +
+            "ORDER BY first_name ASC, last_name ASC")
+    List<CharacterHeader> readFilteredCharacterHeadersByCampaignIdSortedByFirstName(final long campaignId, final String filter);
+
+    @Query("SELECT * FROM CharacterHeader " +
+            "WHERE fk_campaign_id IS :campaignId " +
+            "ORDER BY last_name ASC, first_name ASC")
+    List<CharacterHeader> readCharacterHeadersByCampaignIdSortedByLastName(final long campaignId);
+
+    @Query("SELECT * FROM CharacterHeader " +
+            "WHERE fk_campaign_id IS :campaignId " +
+            "AND (first_name LIKE :filter " +
+            "OR last_name LIKE :filter " +
+            "OR alias LIKE :filter) " +
+            "ORDER BY last_name ASC, first_name ASC")
+    List<CharacterHeader> readFilteredCharacterHeadersByCampaignIdSortedByLastName(final long campaignId, final String filter);
+
+    @Query("SELECT * FROM CharacterHeader " +
+            "WHERE fk_campaign_id IS :campaignId " +
+            "ORDER BY alias ASC")
+    List<CharacterHeader> readCharacterHeadersByCampaignIdSortedByAlias(final long campaignId);
+
+    @Query("SELECT * FROM CharacterHeader " +
+            "WHERE fk_campaign_id IS :campaignId " +
+            "AND (first_name LIKE :filter " +
+            "OR last_name LIKE :filter " +
+            "OR alias LIKE :filter) " +
+            "ORDER BY alias ASC")
+    List<CharacterHeader> readFilteredCharacterHeadersByCampaignIdSortedByAlias(final long campaignId, final String filter);
+
+    @Query("SELECT * FROM CharacterHeader " +
+            "WHERE fk_campaign_id IS :campaignId " +
+            "ORDER BY edit_date_millis DESC")
+    List<CharacterHeader> readCharacterHeadersByCampaignIdSortedByLastEdited(final long campaignId);
+
+    @Query("SELECT * FROM CharacterHeader " +
+            "WHERE fk_campaign_id IS :campaignId " +
+            "AND (first_name LIKE :filter " +
+            "OR last_name LIKE :filter " +
+            "OR alias LIKE :filter) " +
+            "ORDER BY edit_date_millis DESC")
+    List<CharacterHeader> readFilteredCharacterHeadersByCampaignIdSortedByLastEdited(final long campaignId, final String filter);
+
+    @Query("SELECT * FROM CharacterHeader " +
+            "WHERE fk_campaign_id IS :campaignId " +
+            "ORDER BY creation_date_millis DESC")
+    List<CharacterHeader> readCharacterHeadersByCampaignIdSortedByCreated(final long campaignId);
+
+    @Query("SELECT * FROM CharacterHeader " +
+            "WHERE fk_campaign_id IS :campaignId " +
+            "AND (first_name LIKE :filter " +
+            "OR last_name LIKE :filter " +
+            "OR alias LIKE :filter) " +
+            "ORDER BY creation_date_millis DESC")
+    List<CharacterHeader> readFilteredCharacterHeadersByCampaignIdSortedByCreated(final long campaignId, final String filter);
 
     @Query("SELECT * FROM CharacterHeader WHERE character_header_id IS :characterHeaderId")
     CharacterHeader readCharacterHeaderById(final long characterHeaderId);
 
-    //This one is for testing:
+    // This one is for testing:
     @Query("SELECT * FROM CharacterHeader WHERE alias LIKE :alias")
     CharacterHeader readCharacterHeaderByAlias(final String alias);
 
