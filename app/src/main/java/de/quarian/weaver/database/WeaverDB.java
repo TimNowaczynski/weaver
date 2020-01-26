@@ -44,6 +44,7 @@ public abstract class WeaverDB extends RoomDatabase {
     public abstract ThemeDAO themeDAO();
     public abstract NameDAO nameDAO();
     public abstract CharacterDAO characterDAO();
+    public abstract PlayerCharacterDAO playerCharacterDAO();
 
     public abstract DebugDAO debugDAO();
 }
