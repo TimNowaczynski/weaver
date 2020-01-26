@@ -1,7 +1,5 @@
 package de.quarian.weaver.service;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CampaignServiceImplementationUnitTest extends TestCase {
+public class CampaignServiceImplementationUnitTest {
 
     private CampaignService campaignService;
 
@@ -42,8 +40,7 @@ public class CampaignServiceImplementationUnitTest extends TestCase {
     private ThemeDAO themeDAOMock;
 
     @Before
-    public void setUp() throws Exception {
-        super.setUp();
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         campaignService = new CampaignServiceImplementation(weaverDBMock);
         when(weaverDBMock.roleplayingSystemDAO()).thenReturn(roleplayingSystemDAOMock);

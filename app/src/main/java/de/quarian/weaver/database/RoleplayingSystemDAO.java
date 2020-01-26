@@ -21,6 +21,7 @@ public interface RoleplayingSystemDAO {
     @Query("SELECT * FROM RoleplayingSystem WHERE roleplaying_system_id LIKE :roleplayingSystemId")
     RoleplayingSystem readRoleplayingSystemsById(final long roleplayingSystemId);
 
+    // TODO: check if we really need this
     @Query("SELECT * FROM RoleplayingSystem WHERE roleplaying_system_name LIKE :roleplayingSystemName")
     RoleplayingSystem readRoleplayingSystemsByName(final String roleplayingSystemName);
 

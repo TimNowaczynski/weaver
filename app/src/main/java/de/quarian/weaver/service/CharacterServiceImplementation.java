@@ -13,12 +13,12 @@ public class CharacterServiceImplementation implements CharacterService {
 
     private final CharacterDAO characterDAO;
 
-    public CharacterServiceImplementation(@NonNull WeaverDB weaverDB) {
+    public CharacterServiceImplementation(@NonNull final WeaverDB weaverDB) {
         characterDAO = weaverDB.characterDAO();
     }
 
     @Override
-    public long createCharacter(@NonNull CharacterHeader characterHeader, @NonNull CharacterBody characterBody) {
+    public long createCharacter(@NonNull final CharacterHeader characterHeader, @NonNull final CharacterBody characterBody) {
         final long characterHeaderId = characterDAO.createCharacterHeader(characterHeader);
         characterBody.characterHeaderId = characterHeaderId;
         characterDAO.createCharacterBody(characterBody);
@@ -26,7 +26,7 @@ public class CharacterServiceImplementation implements CharacterService {
     }
 
     @Override
-    public List<CharacterHeader> readCharacterHeadersByCampaignId(@NonNull SortOrder sortOrder, @NonNull String filter, long campaignId) {
+    public List<CharacterHeader> readCharacterHeadersByCampaignId(@NonNull final SortOrder sortOrder, @NonNull final String filter, long campaignId) {
         List<CharacterHeader> items = Collections.emptyList();
         switch (sortOrder) {
             case CREATED: {
@@ -74,7 +74,7 @@ public class CharacterServiceImplementation implements CharacterService {
     }
 
     @Override
-    public CharacterHeader readCharacterHeaderById(long characterHeaderId) {
+    public CharacterHeader readCharacterHeaderById(final long characterHeaderId) {
         return characterDAO.readCharacterHeaderById(characterHeaderId);
     }
 
@@ -84,13 +84,13 @@ public class CharacterServiceImplementation implements CharacterService {
     }
 
     @Override
-    public void updateCharacter(@NonNull CharacterHeader characterHeader, @NonNull CharacterBody characterBody) {
+    public void updateCharacter(@NonNull final CharacterHeader characterHeader, @NonNull final CharacterBody characterBody) {
         characterDAO.updateCharacterHeader(characterHeader);
         characterDAO.updateCharacterBody(characterBody);
     }
 
     @Override
-    public void deleteCharacter(@NonNull CharacterHeader characterHeader) {
+    public void deleteCharacter(@NonNull final CharacterHeader characterHeader) {
         final CharacterBody characterBody = characterDAO.readCharacterBodyByCharacterHeaderId(characterHeader.id);
         characterDAO.deleteCharacterBody(characterBody);
         characterDAO.deleteCharacterHeader(characterHeader);

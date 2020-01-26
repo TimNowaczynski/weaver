@@ -16,16 +16,16 @@ public interface CharacterService {
         CREATED
     }
 
-    long createCharacter(@NonNull CharacterHeader characterHeader, @NonNull CharacterBody characterBody);
+    long createCharacter(@NonNull final CharacterHeader characterHeader, @NonNull final CharacterBody characterBody);
 
-    List<CharacterHeader> readCharacterHeadersByCampaignId(@NonNull final SortOrder sortOrder, @NonNull String filter, long campaignId);
+    List<CharacterHeader> readCharacterHeadersByCampaignId(@NonNull final SortOrder sortOrder, @NonNull final String filter, final long campaignId);
 
-    CharacterHeader readCharacterHeaderById(long characterHeaderId);
+    CharacterHeader readCharacterHeaderById(final long characterHeaderId);
 
     CharacterBody readCharacterBodyForCharacterHeader(final CharacterHeader characterHeader);
 
-    void updateCharacter(@NonNull CharacterHeader characterHeader, @NonNull CharacterBody characterBody);
+    void updateCharacter(@NonNull final CharacterHeader characterHeader, @NonNull final CharacterBody characterBody);
 
-    void deleteCharacter(@NonNull CharacterHeader characterHeader);
+    void deleteCharacter(@NonNull final CharacterHeader characterHeader);
 
 }
