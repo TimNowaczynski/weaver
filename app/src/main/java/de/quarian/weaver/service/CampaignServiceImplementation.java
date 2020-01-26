@@ -26,8 +26,10 @@ public class CampaignServiceImplementation implements CampaignService {
         themeDAO = weaverDB.themeDAO();
     }
 
-    /** TODO: We could theoretically optimize here a bit and use joined tables
-     *  TODO: via the @Embedded Annotation in Room. */
+    /**
+     * TODO: We could theoretically optimize here a bit and use joined tables
+     *  via the @Embedded Annotation in Room.
+     *  */
     @Override
     public List<CampaignListDisplayObject> readCampaigns(@NonNull final SortOrder sortOrder) {
         final List<Campaign> campaigns = readCampaignsFromDB(sortOrder);
