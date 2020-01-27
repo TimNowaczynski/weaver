@@ -8,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -27,7 +28,6 @@ import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_VAMPI
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_VAMPIRE_MALE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_VAMPIRE_UNISEX;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -127,38 +127,21 @@ public class NameDAOTest {
         final NameDAO nameDAO = weaverDB.nameDAO();
         final NameSet nameSetToDelete = nameDAO.readNameSetByName(DatabaseTestConstants.NAME_SET_NAME_DSA);
 
-        assertThat(nameDAO.readNumberOfNames(nameSetToDelete.id), is(4L));
+        assertThat(nameDAO.readNumberOfNames(nameSetToDelete.id), is(4));
         final List<NameSet> initialNameSets = nameDAO.readNameSets();
         assertThat(initialNameSets, hasSize(3));
-        assertThat(nameDAO.readNumberOfNames(nameSetToDelete.id), is(4L));
+        assertThat(nameDAO.readNumberOfNames(nameSetToDelete.id), is(4));
 
         // Delete
         nameDAO.deleteNameSet(nameSetToDelete);
 
         final List<NameSet> resultingNameSets = nameDAO.readNameSets();
         assertThat(resultingNameSets, hasSize(2));
-        assertThat(nameDAO.readNumberOfNames(nameSetToDelete.id), is(0L));
+        assertThat(nameDAO.readNumberOfNames(nameSetToDelete.id), is(0));
     }
 
-    // Start Name to NameSet Relation Tests
-
-    @Test
-    public void testDeletingNameDoesNotCascadeToNameSet() {
-        final NameDAO nameDAO = weaverDB.nameDAO();
-        final NameSet nameSet = nameDAO.readNameSetByName(DatabaseTestConstants.NAME_SET_NAME_SHADOWRUN);
-
-        // Verify
-        long numberOfNames = nameDAO.readNumberOfNames(nameSet.id);
-        assertThat(numberOfNames, is(4L));
-
-        // Delete
-        final Name nameToDelete = nameDAO.readFemaleFirstName(nameSet.id,0L, 1L);
-        nameDAO.deleteName(nameToDelete);
-
-        // Verify
-        numberOfNames = nameDAO.readNumberOfNames(nameSet.id);
-        assertThat(numberOfNames, is(3L));
-    }
+    // Don't start Name to NameSet Relation Tests, because:
+    // There is no use in deleting Names on their own
 
     // Start NameSet to Campaign Relation Tests
 
@@ -247,55 +230,61 @@ public class NameDAOTest {
     public void testCreateAndReadName() {
         final NameDAO nameDAO = weaverDB.nameDAO();
         final NameSet shadowrunNameSet = nameDAO.readNameSetByName(DatabaseTestConstants.NAME_SET_NAME_SHADOWRUN);
-        final Name shadowrunUnisexName = nameDAO.readUnisexFirstName(shadowrunNameSet.id, 0L, 1L);
+        final Name shadowrunUnisexName = nameDAO.readRandomName(shadowrunNameSet.id, Constants.NamePosition.FIRST.getValue(), Collections.singletonList(Constants.NameGender.UNISEX.getValue()), 0);
         assertThat(shadowrunUnisexName.name, is(DatabaseTestConstants.FIRST_NAME_SHADOWRUN_UNISEX));
     }
 
-    // NO UPDATE NAME
-    // NO DELETE NAME (IT'S DONE VIA DELETING WHOLE NAME SETS)
-
     @Test
-    public void testGetRandomUnisexName() {
+    public void testReadRandomUnisexName() {
         final NameDAO nameDAO = weaverDB.nameDAO();
         final NameSet vampireNameSet = nameDAO.readNameSetByName(DatabaseTestConstants.NAME_SET_NAME_VAMPIRE);
-        final long bound = nameDAO.readNumberOfUnisexFirstNames(vampireNameSet.id);
+        final List<Integer> nameGenders = Collections.singletonList(Constants.NameGender.UNISEX.getValue());
+        final long bound = nameDAO.readNumberOfNames(vampireNameSet.id, Constants.NamePosition.FIRST.getValue(), nameGenders);
 
         int run = 0;
         while (run < 100) {
             run++;
             final long randomIndex = ThreadLocalRandom.current().nextLong(bound);
-            final Name generatedName = nameDAO.readUnisexFirstName(vampireNameSet.id, randomIndex, 1L);
+            final Name generatedName = nameDAO.readRandomName(vampireNameSet.id, Constants.NamePosition.FIRST.getValue(), nameGenders, randomIndex);
+            assertThat(generatedName, notNullValue());
             assertThat(generatedName.name, is(FIRST_NAME_VAMPIRE_UNISEX));
         }
     }
 
     @Test
-    public void testGetRandomMaleName() {
+    public void testReadRandomFemaleName() {
         final NameDAO nameDAO = weaverDB.nameDAO();
         final NameSet vampireNameSet = nameDAO.readNameSetByName(DatabaseTestConstants.NAME_SET_NAME_VAMPIRE);
-        final long bound = nameDAO.readNumberOfMaleFirstNames(vampireNameSet.id);
+        final List<Integer> nameGenders = Collections.singletonList(Constants.NameGender.FEMALE.getValue());
+        final long bound = nameDAO.readNumberOfNames(vampireNameSet.id, Constants.NamePosition.FIRST.getValue(), nameGenders);
 
         int run = 0;
         while (run < 100) {
             run++;
             final long randomIndex = ThreadLocalRandom.current().nextLong(bound);
-            final Name generatedName = nameDAO.readMaleFirstName(vampireNameSet.id, randomIndex, 1L);
-            assertThat(generatedName.name, anyOf(is(FIRST_NAME_VAMPIRE_MALE), is(FIRST_NAME_VAMPIRE_UNISEX)));
+            final Name generatedName = nameDAO.readRandomName(vampireNameSet.id, Constants.NamePosition.FIRST.getValue(), nameGenders, randomIndex);
+            assertThat(generatedName, notNullValue());
+            assertThat(generatedName.name, is(FIRST_NAME_VAMPIRE_FEMALE));
         }
     }
 
     @Test
-    public void testGetRandomFemaleName() {
+    public void testReadRandomMaleName() {
         final NameDAO nameDAO = weaverDB.nameDAO();
         final NameSet vampireNameSet = nameDAO.readNameSetByName(DatabaseTestConstants.NAME_SET_NAME_VAMPIRE);
-        final long bound = nameDAO.readNumberOfFemaleFirstNames(vampireNameSet.id);
+        final List<Integer> nameGenders = Collections.singletonList(Constants.NameGender.MALE.getValue());
+        final long bound = nameDAO.readNumberOfNames(vampireNameSet.id, Constants.NamePosition.FIRST.getValue(), nameGenders);
 
         int run = 0;
         while (run < 100) {
             run++;
             final long randomIndex = ThreadLocalRandom.current().nextLong(bound);
-            final Name generatedName = nameDAO.readFemaleFirstName(vampireNameSet.id, randomIndex, 1L);
-            assertThat(generatedName.name, anyOf(is(FIRST_NAME_VAMPIRE_FEMALE), is(FIRST_NAME_VAMPIRE_UNISEX)));
+            final Name generatedName = nameDAO.readRandomName(vampireNameSet.id, Constants.NamePosition.FIRST.getValue(), nameGenders, randomIndex);
+            assertThat(generatedName, notNullValue());
+            assertThat(generatedName.name, is(FIRST_NAME_VAMPIRE_MALE));
         }
     }
+
+    // NO UPDATE NAME
+    // NO DELETE NAME (IT'S DONE VIA DELETING WHOLE NAME SETS)
 }

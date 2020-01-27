@@ -28,4 +28,6 @@ public interface CampaignService {
 
     void deleteCampaign(@NonNull Campaign campaign);
 
+    //TODO: theme
+
 }

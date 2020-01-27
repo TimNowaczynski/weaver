@@ -1,6 +1,7 @@
 package de.quarian.weaver.datamodel;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -39,4 +40,14 @@ public class Name {
     @NonNull
     @ColumnInfo(name = "name")
     public String name = "";
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (!(obj instanceof Name)) {
+            return false;
+        }
+
+        final Name comparedName = (Name) obj;
+        return comparedName.name.equals(this.name);
+    }
 }

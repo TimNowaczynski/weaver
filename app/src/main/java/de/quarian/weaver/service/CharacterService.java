@@ -28,4 +28,8 @@ public interface CharacterService {
 
     void deleteCharacter(@NonNull final CharacterHeader characterHeader);
 
+    // TODO: rolls
+    // TODO: tags
+    // TODO: events
+
 }

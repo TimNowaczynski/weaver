@@ -8,6 +8,6 @@ import java.lang.annotation.Target;
 /**
  * For gender see {@link Constants.NameGender}.
  */
-@Target({ElementType.FIELD, ElementType.METHOD})
+@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.SOURCE)
 public @interface NameGender { }
