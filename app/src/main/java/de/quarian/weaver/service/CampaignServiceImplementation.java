@@ -86,4 +86,24 @@ public class CampaignServiceImplementation implements CampaignService {
     public void deleteCampaign(@NonNull Campaign campaign) {
         campaignDAO.deleteCampaign(campaign);
     }
+
+    @Override
+    public long createTheme(@NonNull Theme theme) {
+        return themeDAO.createTheme(theme);
+    }
+
+    @Override
+    public Theme readThemeForCampaign(@NonNull Campaign campaign) {
+        return themeDAO.readThemeByID(campaign.themeId);
+    }
+
+    @Override
+    public void updateTheme(@NonNull Theme theme) {
+        themeDAO.updateTheme(theme);
+    }
+
+    @Override
+    public void deleteTheme(@NonNull Theme theme) {
+        themeDAO.deleteTheme(theme);
+    }
 }

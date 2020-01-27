@@ -3,6 +3,7 @@ package de.quarian.weaver.database;
 import java.util.List;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -22,4 +23,11 @@ public interface ThemeDAO {
 
     @Update
     void updateTheme(final Theme theme);
+
+    /**
+     * Should only be used when also deleting the associated campaign
+     * @param theme The theme to delete
+     */
+    @Delete
+    void deleteTheme(final Theme theme);
 }

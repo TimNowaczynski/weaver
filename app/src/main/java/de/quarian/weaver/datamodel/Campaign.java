@@ -38,7 +38,7 @@ public class Campaign {
     @ColumnInfo(name = FK_ROLEPLAYING_SYSTEM_ID, index = true)
     public long roleplayingSystemId;
 
-    @ColumnInfo(name = FK_THEME_ID, index = true)
+    @ColumnInfo(name = FK_THEME_ID, index = true, defaultValue = "0")
     public long themeId;
 
     @ColumnInfo(name = "creation_date_millis")

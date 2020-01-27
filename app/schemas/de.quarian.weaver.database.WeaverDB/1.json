@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "dea01ffd52a0417b4450b272a1ea937a",
+    "identityHash": "9eddd953ef89f2b112502dd883e3bfee",
     "entities": [
       {
         "tableName": "Campaign",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`campaign_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_roleplaying_system_id` INTEGER NOT NULL, `fk_theme_id` INTEGER NOT NULL, `creation_date_millis` INTEGER NOT NULL, `edit_date_millis` INTEGER NOT NULL, `last_used_date_millis` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `campaign_name` TEXT NOT NULL, `campaign_image` BLOB, `campaign_image_type` TEXT, `synopsis` TEXT, FOREIGN KEY(`fk_roleplaying_system_id`) REFERENCES `RoleplayingSystem`(`roleplaying_system_id`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`fk_theme_id`) REFERENCES `Theme`(`theme_id`) ON UPDATE NO ACTION ON DELETE SET DEFAULT )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`campaign_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_roleplaying_system_id` INTEGER NOT NULL, `fk_theme_id` INTEGER NOT NULL DEFAULT 0, `creation_date_millis` INTEGER NOT NULL, `edit_date_millis` INTEGER NOT NULL, `last_used_date_millis` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `campaign_name` TEXT NOT NULL, `campaign_image` BLOB, `campaign_image_type` TEXT, `synopsis` TEXT, FOREIGN KEY(`fk_roleplaying_system_id`) REFERENCES `RoleplayingSystem`(`roleplaying_system_id`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`fk_theme_id`) REFERENCES `Theme`(`theme_id`) ON UPDATE NO ACTION ON DELETE SET DEFAULT )",
         "fields": [
           {
             "fieldPath": "id",
@@ -24,7 +24,8 @@
             "fieldPath": "themeId",
             "columnName": "fk_theme_id",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": true,
+            "defaultValue": "0"
           },
           {
             "fieldPath": "creationDateMillis",
@@ -1150,7 +1151,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dea01ffd52a0417b4450b272a1ea937a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9eddd953ef89f2b112502dd883e3bfee')"
     ]
   }
 }

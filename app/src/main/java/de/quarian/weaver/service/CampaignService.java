@@ -4,6 +4,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import de.quarian.weaver.datamodel.Campaign;
+import de.quarian.weaver.datamodel.Theme;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 
 public interface CampaignService {
@@ -28,6 +29,12 @@ public interface CampaignService {
 
     void deleteCampaign(@NonNull Campaign campaign);
 
-    //TODO: theme
+    long createTheme(@NonNull Theme theme);
+
+    Theme readThemeForCampaign(@NonNull Campaign campaign);
+
+    void updateTheme(@NonNull Theme theme);
+
+    void deleteTheme(@NonNull Theme theme);
 
 }

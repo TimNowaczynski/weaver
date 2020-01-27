@@ -18,6 +18,8 @@ import de.quarian.weaver.datamodel.Campaign;
 import de.quarian.weaver.datamodel.RoleplayingSystem;
 import de.quarian.weaver.datamodel.Theme;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -135,5 +137,43 @@ public class CampaignServiceImplementationUnitTest {
         campaignService.deleteCampaign(campaign);
 
         verify(campaignDAOMock).deleteCampaign(campaign);
+    }
+
+    @Test
+    public void testCreateTheme() {
+        final Theme theme = mock(Theme.class);
+        campaignService.createTheme(theme);
+
+        verify(themeDAOMock).createTheme(theme);
+    }
+
+    @Test
+    public void testReadTheme() {
+        final Campaign campaign = new Campaign();
+        campaign.themeId = 2L;
+
+        final Theme themeMock = mock(Theme.class);
+        when(themeDAOMock.readThemeByID(2L)).thenReturn(themeMock);
+
+        final Theme themeOut = campaignService.readThemeForCampaign(campaign);
+        assertThat(themeOut, is(themeMock));
+    }
+
+    @Test
+    public void testUpdateTheme() {
+        final Theme themeMock = mock(Theme.class);
+
+        campaignService.updateTheme(themeMock);
+
+        verify(themeDAOMock).updateTheme(themeMock);
+    }
+
+    @Test
+    public void testDeleteTheme() {
+        final Theme themeMock = mock(Theme.class);
+
+        campaignService.deleteTheme(themeMock);
+
+        verify(themeDAOMock).deleteTheme(themeMock);
     }
 }
