@@ -114,6 +114,15 @@ public interface CharacterDAO {
     @Query("SELECT * FROM CharacterBody WHERE fk_character_header_id IS :characterHeaderId")
     CharacterBody readCharacterBodyByCharacterHeaderId(final long characterHeaderId);
 
+    @Query("SELECT character_header_id, fk_campaign_id, creation_date_millis, " +
+            "edit_date_millis, first_name, alias, last_name, race, gender, " +
+            "small_avatar_image_type, small_avatar, role, state FROM tag " +
+            "INNER JOIN tagtocharacterheader ON tag.tag_id = tagtocharacterheader.fk_tag_id " +
+            "INNER JOIN characterheader ON tagtocharacterheader.fk_character_header_id = characterheader.character_header_id " +
+            "WHERE tag.tag_id IS :tagId AND fk_campaign_id IS :campaignId " +
+            "ORDER BY first_name ASC, last_name ASC")
+    List<CharacterHeader> readCharacterHeadersByTagId(final long campaignId, final long tagId);
+
     // Character - UPDATE
 
     @Update
@@ -150,7 +159,7 @@ public interface CharacterDAO {
             "INNER JOIN eventtocharacterheader ON event.event_id = eventtocharacterheader.fk_event_id " +
             "INNER JOIN characterheader ON eventtocharacterheader.fk_character_header_id = characterheader.character_header_id " +
             "WHERE characterheader.character_header_id IS :characterHeaderId")
-    List<Event> readEventsForCharacterHeader(final long characterHeaderId);
+    List<Event> readEventsForCharacterHeaderId(final long characterHeaderId);
 
     // Event - UPDATE
 
@@ -182,7 +191,7 @@ public interface CharacterDAO {
             "INNER JOIN rolltocharacterheader ON roll.roll_id = rolltocharacterheader.fk_roll_id " +
             "INNER JOIN characterheader ON rolltocharacterheader.fk_character_header_id = characterheader.character_header_id " +
             "WHERE characterheader.character_header_id IS :characterHeaderId")
-    List<Roll> readRollsForCharacterHeader(final long characterHeaderId);
+    List<Roll> readRollsForCharacterHeaderId(final long characterHeaderId);
 
     // Roll - Update
 
@@ -210,6 +219,9 @@ public interface CharacterDAO {
 
     // Tag - READ
 
+    @Query("SELECT COUNT(*) FROM tagtocharacterheader WHERE fk_tag_id IS :tagId")
+    long countTagOccurrences(final long tagId);
+
     @Query("SELECT tag_id, fk_roleplaying_system_id, tag FROM tag " +
             "WHERE fk_roleplaying_system_id IS :roleplayingSystemId")
     List<Tag> readTagsForRoleplayingSystemId(final long roleplayingSystemId);
@@ -220,7 +232,16 @@ public interface CharacterDAO {
             "WHERE characterheader.character_header_id IS :characterHeaderId")
     List<Tag> readTagsForCharacterHeaderId(final long characterHeaderId);
 
+    @Query("SELECT tag_id, fk_roleplaying_system_id, tag FROM tag " +
+            "WHERE tag LIKE :tagName")
+    Tag readTagByName(final String tagName);
+
     // Tag - DELETE
+
+    @Query("DELETE FROM tagtocharacterheader WHERE " +
+            "fk_character_header_id IS :characterId AND " +
+            "fk_tag_id IS :tagId")
+    void removeTagFromCharacter(final long characterId, final long tagId);
 
     @Delete
     void deleteTag(final Tag tag);

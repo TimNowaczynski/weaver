@@ -2,16 +2,31 @@ package de.quarian.weaver.service;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import de.quarian.weaver.database.CharacterDAO;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.CharacterBody;
 import de.quarian.weaver.datamodel.CharacterHeader;
+import de.quarian.weaver.datamodel.Event;
+import de.quarian.weaver.datamodel.RoleplayingSystem;
+import de.quarian.weaver.datamodel.Roll;
+import de.quarian.weaver.datamodel.RollToCharacterHeader;
+import de.quarian.weaver.datamodel.Tag;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -114,12 +129,195 @@ public class CharacterServiceImplementationUnitTest {
     public void testDeleteCharacter() {
         final CharacterHeader characterHeader = mock(CharacterHeader.class);
         characterHeader.id = 1L;
+
         final CharacterBody characterBody = mock(CharacterBody.class);
-        when(characterDAO.readCharacterBodyByCharacterHeaderId(1L)).thenReturn(characterBody);
+        when(characterDAO.readCharacterBodyByCharacterHeaderId(characterHeader.id)).thenReturn(characterBody);
+
+        final List<Roll> rolls = new ArrayList<>(2);
+        final Roll rollA = mock(Roll.class);
+        final Roll rollB = mock(Roll.class);
+        rolls.add(rollA);
+        rolls.add(rollB);
+        when(characterDAO.readRollsForCharacterHeaderId(characterHeader.id)).thenReturn(rolls);
+
+        final List<Event> events = new ArrayList<>(2);
+        final Event eventA = mock(Event.class);
+        final Event eventB = mock(Event.class);
+        events.add(eventA);
+        events.add(eventB);
+        when(characterDAO.readEventsForCharacterHeaderId(characterHeader.id)).thenReturn(events);
 
         characterService.deleteCharacter(characterHeader);
 
         verify(characterDAO).deleteCharacterHeader(characterHeader);
         verify(characterDAO).deleteCharacterBody(characterBody);
+        verify(characterDAO).deleteRoll(rollA);
+        verify(characterDAO).deleteRoll(rollB);
+        verify(characterDAO).deleteEvent(eventA);
+        verify(characterDAO).deleteEvent(eventB);
+
+        // Tags are shared between characters,
+        // so we it's easier to delete them in a clean-up job style
+    }
+
+    @Test
+    public void testCreateRoll() {
+        final CharacterHeader characterHeader = mock(CharacterHeader.class);
+        characterHeader.id = 1L;
+        when(characterDAO.createRoll(any(Roll.class))).thenReturn(20L);
+
+        final Roll roll = mock(Roll.class);
+        characterService.createRoll(characterHeader, roll);
+
+        verify(characterDAO).createRoll(roll);
+
+        final ArgumentCaptor<RollToCharacterHeader> captor = ArgumentCaptor.forClass(RollToCharacterHeader.class);
+        verify(characterDAO).createRollToCharacterHeader(captor.capture());
+        assertThat(captor.getValue().characterHeaderId, is(1L));
+        assertThat(captor.getValue().rollId, is(20L));
+    }
+
+    @Test
+    public void testReadRolls() {
+        final Roll roll = mock(Roll.class);
+        when(characterDAO.readRollsForCharacterHeaderId(1L)).thenReturn(Collections.singletonList(roll));
+
+        final CharacterHeader characterHeader = new CharacterHeader();
+        characterHeader.id = 1L;
+
+        final List<Roll> rolls = characterService.readRolls(characterHeader);
+        assertThat(rolls.size(), is(1));
+        assertThat(rolls.get(0), is(roll));
+    }
+
+    @Test
+    public void testUpdateRoll() {
+        final Roll roll = mock(Roll.class);
+        characterService.updateRoll(roll);
+        verify(characterDAO).updateRoll(roll);
+    }
+
+    @Test
+    public void testDeleteRoll() {
+        final Roll roll = mock(Roll.class);
+        characterService.deleteRoll(roll);
+        verify(characterDAO).deleteRoll(roll);
+    }
+
+    @Test
+    public void testCreateTagIfNotExisting() {
+        final CharacterHeader characterHeader = new CharacterHeader();
+        characterHeader.id = 1L;
+
+        final Tag tag = new Tag();
+        tag.tag = "TestTag";
+        when(characterDAO.readTagByName(tag.tag)).thenReturn(null);
+
+        characterService.createAndAssignTag(characterHeader, tag);
+        verify(characterDAO).createTag(tag);
+    }
+
+    @Test
+    public void testReadTagsForRoleplayingSystem() {
+        final RoleplayingSystem roleplayingSystem = mock(RoleplayingSystem.class);
+        roleplayingSystem.id = 1L;
+
+        final Tag tag = mock(Tag.class);
+        final List<Tag> tagsIn = new ArrayList<>(1);
+        tagsIn.add(tag);
+        when(characterDAO.readTagsForRoleplayingSystemId(1L)).thenReturn(tagsIn);
+
+        final List<Tag> tagsOut = characterService.readTags(roleplayingSystem);
+        assertThat(tagsOut, notNullValue());
+        assertThat(tagsOut.size(), is(1));
+        verify(characterDAO).readTagsForRoleplayingSystemId(1L);
+    }
+
+    @Test
+    public void testReadTagForCharacter() {
+        final Tag tag = mock(Tag.class);
+        final List<Tag> characterTag = new ArrayList<>(1);
+        characterTag.add(tag);
+
+        final CharacterHeader characterHeader = new CharacterHeader();
+        characterHeader.id = 1L;
+        when(characterDAO.readTagsForCharacterHeaderId(characterHeader.id)).thenReturn(characterTag);
+
+        final List<Tag> tags = characterService.readTags(characterHeader);
+        assertThat(tags, notNullValue());
+        assertThat(tags.size(), is(1));
+    }
+
+    @Test
+    public void testAssignAndReadCharactersByTag() {
+        final CharacterHeader characterHeader = new CharacterHeader();
+        characterHeader.id = 1L;
+
+        final Tag tag = mock(Tag.class);
+        tag.tag = "TestTag";
+        when(characterDAO.readTagByName("TestTag")).thenReturn(tag);
+        when(characterDAO.readTagsForCharacterHeaderId(1L)).thenReturn(Collections.singletonList(tag));
+        characterService.createAndAssignTag(characterHeader, tag);
+
+        verify(characterDAO).readTagByName("TestTag");
+
+        final List<CharacterHeader> dummyList = Collections.emptyList();
+        when(characterDAO.readCharacterHeadersByTagId(2L, 3L)).thenReturn(dummyList);
+        final List<CharacterHeader> characterHeaders = characterService.readCharacterHeadersByTagId(2L, 3L);
+        assertThat(characterHeaders, is(dummyList));
+    }
+
+    @Test
+    public void testDoNotDeleteTagIfFurtherReferencesExist() {
+        final CharacterHeader characterHeader = mock(CharacterHeader.class);
+        final Tag tag = new Tag();
+        tag.id = 1L;
+
+        when(characterDAO.countTagOccurrences(1L)).thenReturn(1L);
+        characterService.removeTag(characterHeader, tag);
+        verify(characterDAO, never()).deleteTag(tag);
+    }
+
+    @Test
+    public void testDeleteTagIfNoFurtherReferencesExist() {
+        final CharacterHeader characterHeader = mock(CharacterHeader.class);
+        final Tag tag = new Tag();
+        tag.id = 1L;
+
+        when(characterDAO.countTagOccurrences(0L)).thenReturn(1L);
+        characterService.removeTag(characterHeader, tag);
+        verify(characterDAO).deleteTag(tag);
+    }
+
+    @Test
+    public void testCreateAndReadEvent() {
+        final CharacterHeader characterHeader = mock(CharacterHeader.class);
+        final Event event = new Event();
+
+        characterService.createEvent(characterHeader, event);
+        verify(characterDAO).createEvent(event);
+        verify(characterDAO, times(1)).createEventToCharacterHeader(any());
+
+        when(characterDAO.readEventsForCharacterHeaderId(1L)).thenReturn(Collections.singletonList(event));
+        final List<Event> events = characterDAO.readEventsForCharacterHeaderId(1L);
+        assertThat(events, notNullValue());
+        assertThat(events.size(), is(1));
+        assertThat(events.get(0), is(event));
+    }
+
+    @Test
+    public void testUpdateEvent() {
+        final Event event = new Event();
+        characterService.updateEvent(event);
+
+        verify(characterDAO).updateEvent(event);
+    }
+
+    @Test
+    public void testDeleteEvent() {
+        final Event event = new Event();
+        characterService.deleteEvent(event);
+
+        verify(characterDAO).deleteEvent(event);
     }
 }

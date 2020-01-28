@@ -156,12 +156,29 @@ public class CharacterDAOTest {
     }
 
     @Test
+    public void testCountTagOccurrences() {
+        final CharacterDAO characterDAO = weaverDB.characterDAO();
+        final CharacterHeader moonlightCharacterHeader = characterDAO.readCharacterHeaderByAlias(DatabaseTestConstants.MOONLIGHT_ALIAS);
+        final List<Tag> tags = characterDAO.readTagsForCharacterHeaderId(moonlightCharacterHeader.id);
+        final long tagOccurrences = characterDAO.countTagOccurrences(tags.get(0).id);
+        assertThat(tagOccurrences, is(1L));
+    }
+
+    @Test
     public void testCreateAndReadTags() {
         final CharacterDAO characterDAO = weaverDB.characterDAO();
         final CharacterHeader moonlightCharacterHeader = characterDAO.readCharacterHeaderByAlias(DatabaseTestConstants.MOONLIGHT_ALIAS);
         final List<Tag> tags = characterDAO.readTagsForCharacterHeaderId(moonlightCharacterHeader.id);
         assertThat(tags, hasSize(1));
         assertThat(tags.get(0).tag, is("UCAS"));
+    }
+
+    @Test
+    public void testReadTagByName() {
+        final CharacterDAO characterDAO = weaverDB.characterDAO();
+        final Tag tag = characterDAO.readTagByName("UCAS");
+        assertThat(tag, notNullValue());
+        assertThat(tag.tag, is("UCAS"));
     }
 
     @Test
@@ -172,6 +189,23 @@ public class CharacterDAOTest {
         final List<Tag> tags = characterDAO.readTagsForRoleplayingSystemId(shadowrunId);
         assertThat(tags, hasSize(1));
         assertThat(tags.get(0).tag, is("UCAS"));
+    }
+
+    @Test
+    public void testReadCharacterHeadersForTag() {
+        final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
+        final long shadowrunId = roleplayingSystemDAO.readRoleplayingSystemsByName(DatabaseTestConstants.RPS_NAME_SHADOWRUN).id;
+        final CharacterDAO characterDAO = weaverDB.characterDAO();
+        final List<Tag> tags = characterDAO.readTagsForRoleplayingSystemId(shadowrunId);
+
+        assertThat(tags, hasSize(1));
+        final Tag tag = tags.get(0);
+        assertThat(tag, notNullValue());
+
+        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+        final Campaign campaign = campaignDAO.readCampaignByName(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON);
+        final List<CharacterHeader> characterHeaders = characterDAO.readCharacterHeadersByTagId(tag.id, campaign.id);
+        assertThat(characterHeaders, hasSize(1));
     }
 
     // There is no Update Operation on Tags or TagToCharacterHeaders
@@ -234,7 +268,7 @@ public class CharacterDAOTest {
 
         final CharacterDAO characterDAO = weaverDB.characterDAO();
         final CharacterHeader moonlight = characterDAO.readCharacterHeaderByAlias(DatabaseTestConstants.MOONLIGHT_ALIAS);
-        final List<Event> events = characterDAO.readEventsForCharacterHeader(moonlight.id);
+        final List<Event> events = characterDAO.readEventsForCharacterHeaderId(moonlight.id);
 
         assertThat(events, hasSize(1));
         final Event event = events.get(0);
@@ -252,7 +286,7 @@ public class CharacterDAOTest {
     public void testUpdateEvent() {
         final CharacterDAO characterDAO = weaverDB.characterDAO();
         final CharacterHeader moonlight = characterDAO.readCharacterHeaderByAlias(DatabaseTestConstants.MOONLIGHT_ALIAS);
-        List<Event> events = characterDAO.readEventsForCharacterHeader(moonlight.id);
+        List<Event> events = characterDAO.readEventsForCharacterHeaderId(moonlight.id);
 
         final String updatedHeadline = "Updated Event";
         assertThat(events, hasSize(1));
@@ -260,7 +294,7 @@ public class CharacterDAOTest {
         eventToUpdate.headline = updatedHeadline;
         characterDAO.updateEvent(eventToUpdate);
 
-        events = characterDAO.readEventsForCharacterHeader(moonlight.id);
+        events = characterDAO.readEventsForCharacterHeaderId(moonlight.id);
         final Event updatedEvent = events.get(0);
         assertThat(updatedEvent.headline, is(updatedHeadline));
     }
@@ -269,13 +303,13 @@ public class CharacterDAOTest {
     public void testDeleteEvent() {
         final CharacterDAO characterDAO = weaverDB.characterDAO();
         final CharacterHeader moonlight = characterDAO.readCharacterHeaderByAlias(DatabaseTestConstants.MOONLIGHT_ALIAS);
-        List<Event> events = characterDAO.readEventsForCharacterHeader(moonlight.id);
+        List<Event> events = characterDAO.readEventsForCharacterHeaderId(moonlight.id);
 
         assertThat(events, hasSize(1));
         final Event eventToDelete = events.get(0);
         characterDAO.deleteEvent(eventToDelete);
 
-        events = characterDAO.readEventsForCharacterHeader(moonlight.id);
+        events = characterDAO.readEventsForCharacterHeaderId(moonlight.id);
         assertThat(events, hasSize(0));
     }
 
@@ -283,12 +317,12 @@ public class CharacterDAOTest {
     public void testDeleteEventByDeletingCharacterHeader() {
         final CharacterDAO characterDAO = weaverDB.characterDAO();
         final CharacterHeader moonlight = characterDAO.readCharacterHeaderByAlias(DatabaseTestConstants.MOONLIGHT_ALIAS);
-        List<Event> events = characterDAO.readEventsForCharacterHeader(moonlight.id);
+        List<Event> events = characterDAO.readEventsForCharacterHeaderId(moonlight.id);
 
         assertThat(events, hasSize(1));
         characterDAO.deleteCharacterHeader(moonlight);
 
-        events = characterDAO.readEventsForCharacterHeader(moonlight.id);
+        events = characterDAO.readEventsForCharacterHeaderId(moonlight.id);
         assertThat(events, hasSize(0));
 
         /*
@@ -311,7 +345,7 @@ public class CharacterDAOTest {
     public void testCreateRollAndReadRollsForCharacterId() {
         final CharacterDAO characterDAO = weaverDB.characterDAO();
         final CharacterHeader moonlight = characterDAO.readCharacterHeaderByAlias(MOONLIGHT_ALIAS);
-        final List<Roll> rolls = characterDAO.readRollsForCharacterHeader(moonlight.id);
+        final List<Roll> rolls = characterDAO.readRollsForCharacterHeaderId(moonlight.id);
         assertThat(rolls, hasSize(1));
         final Roll rollFromDatabase = rolls.get(0);
         assertThat(rollFromDatabase.roll, is("12/14/10 (12)"));
@@ -323,13 +357,13 @@ public class CharacterDAOTest {
         final CharacterDAO characterDAO = weaverDB.characterDAO();
         final CharacterHeader moonlight = characterDAO.readCharacterHeaderByAlias(MOONLIGHT_ALIAS);
 
-        List<Roll> rolls = characterDAO.readRollsForCharacterHeader(moonlight.id);
+        List<Roll> rolls = characterDAO.readRollsForCharacterHeaderId(moonlight.id);
         final Roll roll = rolls.get(0);
         roll.rollName = "Persuade";
         roll.roll = "13/40/10 + 12";
         characterDAO.updateRoll(roll);
 
-        rolls = characterDAO.readRollsForCharacterHeader(moonlight.id);
+        rolls = characterDAO.readRollsForCharacterHeaderId(moonlight.id);
         final Roll updatedRoll = rolls.get(0);
         assertThat(updatedRoll.rollName, is("Persuade"));
         assertThat(updatedRoll.roll, is("13/40/10 + 12"));
@@ -340,11 +374,11 @@ public class CharacterDAOTest {
         final CharacterDAO characterDAO = weaverDB.characterDAO();
         final CharacterHeader moonlight = characterDAO.readCharacterHeaderByAlias(MOONLIGHT_ALIAS);
 
-        List<Roll> rolls = characterDAO.readRollsForCharacterHeader(moonlight.id);
+        List<Roll> rolls = characterDAO.readRollsForCharacterHeaderId(moonlight.id);
         final Roll roll = rolls.get(0);
         characterDAO.deleteRoll(roll);
 
-        rolls = characterDAO.readRollsForCharacterHeader(moonlight.id);
+        rolls = characterDAO.readRollsForCharacterHeaderId(moonlight.id);
         assertThat(rolls, hasSize(0));
     }
 

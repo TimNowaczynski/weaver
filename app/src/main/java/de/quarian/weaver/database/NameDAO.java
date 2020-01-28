@@ -8,7 +8,6 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.RoomWarnings;
 import androidx.room.Update;
-import de.quarian.weaver.datamodel.Constants;
 import de.quarian.weaver.datamodel.Name;
 import de.quarian.weaver.datamodel.NameSet;
 import de.quarian.weaver.datamodel.NameSetToCampaign;
