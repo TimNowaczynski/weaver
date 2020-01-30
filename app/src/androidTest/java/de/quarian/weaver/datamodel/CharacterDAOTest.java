@@ -278,8 +278,8 @@ public class CharacterDAOTest {
         assertThat(event.text, is(DatabaseTestConstants.EVENT_TEXT));
         assertThat(event.image, is(DatabaseTestConstants.EVENT_IMAGE));
         assertThat(event.imageType, is(DatabaseTestConstants.EVENT_IMAGE_TYPE));
-        assertThat(event.file, is(DatabaseTestConstants.EVENT_FILE));
-        assertThat(event.fileType, is(DatabaseTestConstants.EVENT_FILE_TYPE));
+        assertThat(event.attachment, is(DatabaseTestConstants.EVENT_FILE));
+        assertThat(event.attachmentType, is(DatabaseTestConstants.EVENT_FILE_TYPE));
     }
 
     @Test

@@ -1,6 +1,9 @@
 -- insert into campaign
+-- insert into playerCharacter
 -- insert into character header
 -- insert into character body
+-- insert into nameSet and nameSetToCampaign
+-- insert into name
 
 insert into Campaign (fk_roleplaying_system_id, fk_theme_id, creation_date_millis, edit_date_millis, last_used_date_millis, archived, campaign_name, synopsis)
     values (
@@ -51,6 +54,95 @@ insert into Campaign (fk_roleplaying_system_id, fk_theme_id, creation_date_milli
          yesterday and you''ve been chatting for hours on the phone. Time flew by,
          in fact you didn''t notice that you''re battery has been drained minutes
          ago...'
+    );
+
+-- shadowrun player characters
+-- todo: define colors when the time has come
+insert into PlayerCharacter (fk_campaign_id, fk_roleplaying_system_id, player_name, player_character_name, player_character_avatar_image_type, player_character_avatar, characterHighlightColorA, characterHighlightColorR, characterHighlightColorG, characterHighlightColorB)
+    values (
+        '1',
+        '1',
+        'Sascha',
+        'Dev > null',
+        'image/png',
+        '',
+        '',
+        '',
+        '',
+        ''
+
+    );
+
+insert into PlayerCharacter (fk_campaign_id, fk_roleplaying_system_id, player_name, player_character_name, player_character_avatar_image_type, player_character_avatar, characterHighlightColorA, characterHighlightColorR, characterHighlightColorG, characterHighlightColorB)
+    values (
+        '1',
+        '1',
+        'Max',
+        'return void',
+        'image/png',
+        '',
+        '',
+        '',
+        '',
+        ''
+    );
+
+-- DnD player characters
+insert into PlayerCharacter (fk_campaign_id, fk_roleplaying_system_id, player_name, player_character_name, player_character_avatar_image_type, player_character_avatar, characterHighlightColorA, characterHighlightColorR, characterHighlightColorG, characterHighlightColorB)
+    values (
+        '2',
+        '2',
+        'Conny',
+        'Loken',
+        'image/png',
+        '',
+        '',
+        '',
+        '',
+        ''
+    );
+
+insert into PlayerCharacter (fk_campaign_id, fk_roleplaying_system_id, player_name, player_character_name, player_character_avatar_image_type, player_character_avatar, characterHighlightColorA, characterHighlightColorR, characterHighlightColorG, characterHighlightColorB)
+    values (
+        '2',
+        '2',
+        'Tim',
+        'Kira',
+        'image/png',
+        '',
+        '',
+        '',
+        '',
+        ''
+    );
+
+-- hunter player characters
+insert into PlayerCharacter (fk_campaign_id, fk_roleplaying_system_id, player_name, player_character_name, player_character_avatar_image_type, player_character_avatar, characterHighlightColorA, characterHighlightColorR, characterHighlightColorG, characterHighlightColorB)
+    values (
+        '3',
+        '3',
+        'Max',
+        'Derek',
+        'image/png',
+        '',
+        '',
+        '',
+        '',
+        ''
+    );
+
+insert into PlayerCharacter (fk_campaign_id, fk_roleplaying_system_id, player_name, player_character_name, player_character_avatar_image_type, player_character_avatar, characterHighlightColorA, characterHighlightColorR, characterHighlightColorG, characterHighlightColorB)
+    values (
+        '3',
+        '3',
+        'Sascha',
+        'Dean',
+        'image/png',
+        '',
+        '',
+        '',
+        '',
+        ''
     );
 
 -- shadowrun character headers

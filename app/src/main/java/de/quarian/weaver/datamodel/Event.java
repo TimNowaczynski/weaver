@@ -42,10 +42,10 @@ public class Event {
     public String imageType;
 
     @Nullable
-    @ColumnInfo(name = "file")
-    public byte[] file;
+    @ColumnInfo(name = "attachment")
+    public byte[] attachment;
 
     @Nullable
-    @ColumnInfo(name = "file_type")
-    public String fileType;
+    @ColumnInfo(name = "attachment_type")
+    public String attachmentType;
 }

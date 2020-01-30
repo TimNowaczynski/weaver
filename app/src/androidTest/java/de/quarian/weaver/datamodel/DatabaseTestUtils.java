@@ -571,8 +571,8 @@ public final class DatabaseTestUtils {
         event.text = EVENT_TEXT;
         event.image = EVENT_IMAGE;
         event.imageType = EVENT_IMAGE_TYPE;
-        event.file = EVENT_FILE;
-        event.fileType = EVENT_FILE_TYPE;
+        event.attachment = EVENT_FILE;
+        event.attachmentType = EVENT_FILE_TYPE;
 
         final EventToCharacterHeader eventToCharacterHeader = new EventToCharacterHeader();
         final CharacterHeader moonlightCharacterHeader = weaverDB.characterDAO().readCharacterHeaderByAlias(MOONLIGHT_ALIAS);

@@ -155,7 +155,7 @@ public interface CharacterDAO {
 
     // Event - READ
 
-    @Query("SELECT event_id, event_date_millis, headline, text, image, image_type, file, file_type FROM event " +
+    @Query("SELECT event_id, event_date_millis, headline, text, image, image_type, attachment, attachment_type FROM event " +
             "INNER JOIN eventtocharacterheader ON event.event_id = eventtocharacterheader.fk_event_id " +
             "INNER JOIN characterheader ON eventtocharacterheader.fk_character_header_id = characterheader.character_header_id " +
             "WHERE characterheader.character_header_id IS :characterHeaderId")
