@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9eddd953ef89f2b112502dd883e3bfee",
+    "identityHash": "814960a4b38f4cffaa2e96ee8e28f1e2",
     "entities": [
       {
         "tableName": "Campaign",
@@ -127,7 +127,7 @@
       },
       {
         "tableName": "CharacterHeader",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`character_header_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_campaign_id` INTEGER NOT NULL, `creation_date_millis` INTEGER NOT NULL, `edit_date_millis` INTEGER NOT NULL, `first_name` TEXT NOT NULL, `alias` TEXT NOT NULL, `last_name` TEXT NOT NULL, `race` TEXT NOT NULL, `gender` INTEGER NOT NULL, `small_avatar_image_type` TEXT, `small_avatar` BLOB, `role` TEXT, `state` TEXT, FOREIGN KEY(`fk_campaign_id`) REFERENCES `Campaign`(`campaign_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`character_header_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_campaign_id` INTEGER NOT NULL, `creation_date_millis` INTEGER NOT NULL, `edit_date_millis` INTEGER NOT NULL, `first_name` TEXT NOT NULL, `character_alias` TEXT NOT NULL, `last_name` TEXT NOT NULL, `race` TEXT NOT NULL, `gender` INTEGER NOT NULL, `small_avatar_image_type` TEXT, `small_avatar` BLOB, `character_role` TEXT, `state` TEXT, FOREIGN KEY(`fk_campaign_id`) REFERENCES `Campaign`(`campaign_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -160,8 +160,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "alias",
-            "columnName": "alias",
+            "fieldPath": "character_alias",
+            "columnName": "character_alias",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -196,8 +196,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "role",
-            "columnName": "role",
+            "fieldPath": "character_role",
+            "columnName": "character_role",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -1151,7 +1151,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9eddd953ef89f2b112502dd883e3bfee')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '814960a4b38f4cffaa2e96ee8e28f1e2')"
     ]
   }
 }

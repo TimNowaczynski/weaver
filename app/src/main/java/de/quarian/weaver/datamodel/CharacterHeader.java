@@ -43,8 +43,8 @@ public class CharacterHeader {
     public String firstName = "";
 
     @NonNull
-    @ColumnInfo(name = "alias")
-    public String alias = "";
+    @ColumnInfo(name = "character_alias")
+    public String character_alias = "";
 
     @NonNull
     @ColumnInfo(name = "last_name")
@@ -65,8 +65,8 @@ public class CharacterHeader {
     public byte[] smallAvatar;
 
     @Nullable
-    @ColumnInfo(name = "role")
-    public String role;
+    @ColumnInfo(name = "character_role")
+    public String character_role;
 
     @Nullable
     @ColumnInfo(name = "state")

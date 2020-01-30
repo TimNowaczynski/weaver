@@ -75,13 +75,13 @@ public class CharacterDAOTest {
 
         assertThat(characterHeader.campaignId, is(targetCampaignId));
         assertThat(characterHeader.firstName, is(DatabaseTestConstants.MOONLIGHT_FIRST_NAME));
-        assertThat(characterHeader.alias, is(DatabaseTestConstants.MOONLIGHT_ALIAS));
+        assertThat(characterHeader.character_alias, is(DatabaseTestConstants.MOONLIGHT_ALIAS));
         assertThat(characterHeader.lastName, is(DatabaseTestConstants.MOONLIGHT_LAST_NAME));
         assertThat(characterHeader.race, is(DatabaseTestConstants.MOONLIGHT_RACE));
         assertThat(characterHeader.gender, is(DatabaseTestConstants.MOONLIGHT_GENDER));
         assertThat(characterHeader.smallAvatar, is(DatabaseTestConstants.MOONLIGHT_SMALL_AVATAR));
         assertThat(characterHeader.smallAvatarImageType, is(DatabaseTestConstants.MOONLIGHT_SMALL_AVATAR_IMAGE_TYPE));
-        assertThat(characterHeader.role, is(DatabaseTestConstants.MOONLIGHT_ROLE));
+        assertThat(characterHeader.character_role, is(DatabaseTestConstants.MOONLIGHT_ROLE));
         assertThat(characterHeader.state, is(DatabaseTestConstants.MOONLIGHT_STATE));
 
         assertThat(characterBody.characterHeaderId, is(characterHeader.id));

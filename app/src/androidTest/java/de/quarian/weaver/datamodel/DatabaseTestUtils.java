@@ -386,13 +386,13 @@ public final class DatabaseTestUtils {
         moonlightCharacterHeaderInput.creationDateMillis = moonlightCreationDate.getTime();
         moonlightCharacterHeaderInput.editDateMillis = moonlightEditDate.getTime();
         moonlightCharacterHeaderInput.firstName = MOONLIGHT_FIRST_NAME;
-        moonlightCharacterHeaderInput.alias = MOONLIGHT_ALIAS;
+        moonlightCharacterHeaderInput.character_alias = MOONLIGHT_ALIAS;
         moonlightCharacterHeaderInput.lastName = MOONLIGHT_LAST_NAME;
         moonlightCharacterHeaderInput.race = MOONLIGHT_RACE;
         moonlightCharacterHeaderInput.gender = MOONLIGHT_GENDER;
         moonlightCharacterHeaderInput.smallAvatar = MOONLIGHT_SMALL_AVATAR;
         moonlightCharacterHeaderInput.smallAvatarImageType = MOONLIGHT_SMALL_AVATAR_IMAGE_TYPE;
-        moonlightCharacterHeaderInput.role = MOONLIGHT_ROLE;
+        moonlightCharacterHeaderInput.character_role = MOONLIGHT_ROLE;
         moonlightCharacterHeaderInput.state = MOONLIGHT_STATE;
 
         final CharacterHeader devNullCharacterHeaderInput = new CharacterHeader();
@@ -402,13 +402,13 @@ public final class DatabaseTestUtils {
         devNullCharacterHeaderInput.creationDateMillis = devNullCreationDate.getTime();
         devNullCharacterHeaderInput.editDateMillis = devNullEditDate.getTime();
         devNullCharacterHeaderInput.firstName = DEV_NULL_FIRST_NAME;
-        devNullCharacterHeaderInput.alias = DEV_NULL_ALIAS;
+        devNullCharacterHeaderInput.character_alias = DEV_NULL_ALIAS;
         devNullCharacterHeaderInput.lastName = DEV_NULL_LAST_NAME;
         devNullCharacterHeaderInput.race = DEV_NULL_RACE;
         devNullCharacterHeaderInput.gender = DEV_NULL_GENDER;
         devNullCharacterHeaderInput.smallAvatar = DEV_NULL_SMALL_AVATAR;
         devNullCharacterHeaderInput.smallAvatarImageType = DEV_NULL_SMALL_AVATAR_IMAGE_TYPE;
-        devNullCharacterHeaderInput.role = DEV_NULL_ROLE;
+        devNullCharacterHeaderInput.character_role = DEV_NULL_ROLE;
         devNullCharacterHeaderInput.state = DEV_NULL_STATE;
 
         final CharacterDAO characterDAO = weaverDB.characterDAO();
@@ -455,7 +455,7 @@ public final class DatabaseTestUtils {
 
         final CharacterHeader alexWarner = new CharacterHeader();
         alexWarner.firstName = ALEX_MAGIC_WARNER_FIRST_NAME;
-        alexWarner.alias = ALEX_MAGIC_WARNER_ALIAS;
+        alexWarner.character_alias = ALEX_MAGIC_WARNER_ALIAS;
         alexWarner.lastName = ALEX_MAGIC_WARNER_LAST_NAME;
         alexWarner.creationDateMillis = xDaysAgo(144);
         alexWarner.editDateMillis = xDaysAgo(27);
@@ -468,7 +468,7 @@ public final class DatabaseTestUtils {
 
         final CharacterHeader jamesLuther = new CharacterHeader();
         jamesLuther.firstName = JAMES_7_LIVES_LUTHER_FIRST_NAME;
-        jamesLuther.alias = JAMES_7_LIVES_LUTHER_ALIAS;
+        jamesLuther.character_alias = JAMES_7_LIVES_LUTHER_ALIAS;
         jamesLuther.lastName = JAMES_7_LIVES_LUTHER_LAST_NAME;
         jamesLuther.creationDateMillis = xDaysAgo(120);
         jamesLuther.editDateMillis = xDaysAgo(60);
@@ -481,7 +481,7 @@ public final class DatabaseTestUtils {
 
         final CharacterHeader johnLuther = new CharacterHeader();
         johnLuther.firstName = JOHN_PRIEST_LUTHER_FIRST_NAME;
-        johnLuther.alias = JOHN_PRIEST_LUTHER_ALIAS;
+        johnLuther.character_alias = JOHN_PRIEST_LUTHER_ALIAS;
         johnLuther.lastName = JOHN_PRIEST_LUTHER_LAST_NAME;
         johnLuther.creationDateMillis = xDaysAgo(12);
         johnLuther.editDateMillis = xDaysAgo(10);
@@ -494,7 +494,7 @@ public final class DatabaseTestUtils {
 
         final CharacterHeader johnMason = new CharacterHeader();
         johnMason.firstName = JOHN_JUDGE_MASON_FIRST_NAME;
-        johnMason.alias = JOHN_JUDGE_MASON_ALIAS;
+        johnMason.character_alias = JOHN_JUDGE_MASON_ALIAS;
         johnMason.lastName = JOHN_JUDGE_MASON_LAST_NAME;
         johnMason.creationDateMillis = xDaysAgo(23);
         johnMason.editDateMillis = xDaysAgo(12);
@@ -507,7 +507,7 @@ public final class DatabaseTestUtils {
 
         final CharacterHeader judithMason = new CharacterHeader();
         judithMason.firstName = JUDITH_REAVER_MASON_FIRST_NAME;
-        judithMason.alias = JUDITH_REAVER_MASON_ALIAS;
+        judithMason.character_alias = JUDITH_REAVER_MASON_ALIAS;
         judithMason.lastName = JUDITH_REAVER_MASON_LAST_NAME;
         judithMason.creationDateMillis = xDaysAgo(122);
         judithMason.editDateMillis = xDaysAgo(99);
@@ -520,7 +520,7 @@ public final class DatabaseTestUtils {
 
         final CharacterHeader judithMiller = new CharacterHeader();
         judithMiller.firstName = JUDITH_PHANTOM_MILLER_FIRST_NAME;
-        judithMiller.alias = JUDITH_PHANTOM_MILLER_ALIAS;
+        judithMiller.character_alias = JUDITH_PHANTOM_MILLER_ALIAS;
         judithMiller.lastName = JUDITH_PHANTOM_MILLER_LAST_NAME;
         judithMiller.campaignId = campaignId;
         judithMiller.creationDateMillis = xDaysAgo(14);

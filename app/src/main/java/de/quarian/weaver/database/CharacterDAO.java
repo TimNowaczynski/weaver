@@ -48,7 +48,7 @@ public interface CharacterDAO {
             "WHERE fk_campaign_id IS :campaignId " +
             "AND (first_name LIKE :filter " +
             "OR last_name LIKE :filter " +
-            "OR alias LIKE :filter) " +
+            "OR character_alias LIKE :filter) " +
             "ORDER BY first_name ASC, last_name ASC")
     List<CharacterHeader> readFilteredCharacterHeadersByCampaignIdSortedByFirstName(final long campaignId, final String filter);
 
@@ -61,21 +61,21 @@ public interface CharacterDAO {
             "WHERE fk_campaign_id IS :campaignId " +
             "AND (first_name LIKE :filter " +
             "OR last_name LIKE :filter " +
-            "OR alias LIKE :filter) " +
+            "OR character_alias LIKE :filter) " +
             "ORDER BY last_name ASC, first_name ASC")
     List<CharacterHeader> readFilteredCharacterHeadersByCampaignIdSortedByLastName(final long campaignId, final String filter);
 
     @Query("SELECT * FROM CharacterHeader " +
             "WHERE fk_campaign_id IS :campaignId " +
-            "ORDER BY alias ASC")
+            "ORDER BY character_alias ASC")
     List<CharacterHeader> readCharacterHeadersByCampaignIdSortedByAlias(final long campaignId);
 
     @Query("SELECT * FROM CharacterHeader " +
             "WHERE fk_campaign_id IS :campaignId " +
             "AND (first_name LIKE :filter " +
             "OR last_name LIKE :filter " +
-            "OR alias LIKE :filter) " +
-            "ORDER BY alias ASC")
+            "OR character_alias LIKE :filter) " +
+            "ORDER BY character_alias ASC")
     List<CharacterHeader> readFilteredCharacterHeadersByCampaignIdSortedByAlias(final long campaignId, final String filter);
 
     @Query("SELECT * FROM CharacterHeader " +
@@ -87,7 +87,7 @@ public interface CharacterDAO {
             "WHERE fk_campaign_id IS :campaignId " +
             "AND (first_name LIKE :filter " +
             "OR last_name LIKE :filter " +
-            "OR alias LIKE :filter) " +
+            "OR character_alias LIKE :filter) " +
             "ORDER BY edit_date_millis DESC")
     List<CharacterHeader> readFilteredCharacterHeadersByCampaignIdSortedByLastEdited(final long campaignId, final String filter);
 
@@ -100,7 +100,7 @@ public interface CharacterDAO {
             "WHERE fk_campaign_id IS :campaignId " +
             "AND (first_name LIKE :filter " +
             "OR last_name LIKE :filter " +
-            "OR alias LIKE :filter) " +
+            "OR character_alias LIKE :filter) " +
             "ORDER BY creation_date_millis DESC")
     List<CharacterHeader> readFilteredCharacterHeadersByCampaignIdSortedByCreated(final long campaignId, final String filter);
 
@@ -108,15 +108,15 @@ public interface CharacterDAO {
     CharacterHeader readCharacterHeaderById(final long characterHeaderId);
 
     // This one is for testing:
-    @Query("SELECT * FROM CharacterHeader WHERE alias LIKE :alias")
+    @Query("SELECT * FROM CharacterHeader WHERE character_alias LIKE :alias")
     CharacterHeader readCharacterHeaderByAlias(final String alias);
 
     @Query("SELECT * FROM CharacterBody WHERE fk_character_header_id IS :characterHeaderId")
     CharacterBody readCharacterBodyByCharacterHeaderId(final long characterHeaderId);
 
     @Query("SELECT character_header_id, fk_campaign_id, creation_date_millis, " +
-            "edit_date_millis, first_name, alias, last_name, race, gender, " +
-            "small_avatar_image_type, small_avatar, role, state FROM tag " +
+            "edit_date_millis, first_name, character_alias, last_name, race, gender, " +
+            "small_avatar_image_type, small_avatar, character_role, state FROM tag " +
             "INNER JOIN tagtocharacterheader ON tag.tag_id = tagtocharacterheader.fk_tag_id " +
             "INNER JOIN characterheader ON tagtocharacterheader.fk_character_header_id = characterheader.character_header_id " +
             "WHERE tag.tag_id IS :tagId AND fk_campaign_id IS :campaignId " +

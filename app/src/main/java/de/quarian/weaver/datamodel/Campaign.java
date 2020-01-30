@@ -57,6 +57,7 @@ public class Campaign {
     @ColumnInfo(name = "campaign_name")
     public String campaignName = "";
 
+    // TODO remove campaign image and campaign image type
     @Nullable
     @ColumnInfo(name = "campaign_image")
     public byte[] campaignImage;
