@@ -42,8 +42,6 @@ public class CampaignServiceImplementation implements CampaignService {
             displayObject.setCampaignId(campaign.id);
             displayObject.setRoleplayingSystemName(roleplayingSystem.roleplayingSystemName);
             displayObject.setRoleplayingSystemImage(roleplayingSystem.logo);
-            displayObject.setCampaignName(campaign.campaignName);
-            displayObject.setCampaignImage(campaign.campaignImage);
             displayObject.setCreated(new Date(campaign.creationDateMillis));
             displayObject.setLastUsed(new Date(campaign.lastUsedDataMillis));
             displayObject.setLastEdited(new Date(campaign.editDateMillis));
@@ -51,6 +49,9 @@ public class CampaignServiceImplementation implements CampaignService {
 
             final Theme theme = themeDAO.readThemeByID(campaign.themeId);
             displayObject.setCampaignImage(theme.bannerBackgroundImage);
+            // TODO: set from theme
+            //displayObject.setCampaignName(campaign.campaignName);
+            //displayObject.setCampaignImage(campaign.campaignImage);
         }
         return campaignListDisplayObjects;
     }

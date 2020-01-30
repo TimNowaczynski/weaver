@@ -47,8 +47,6 @@ public class CampaignDAOTest {
         shadowrunCampaignInput.campaignName = DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON;
         shadowrunCampaignInput.archived = true;
         shadowrunCampaignInput.synopsis = DatabaseTestConstants.CAMPAIGN_SYNOPSIS_RISING_DRAGON;
-        shadowrunCampaignInput.campaignImage = "image".getBytes();
-        shadowrunCampaignInput.campaignImageType = "image/gif";
 
         final long timestamp = System.currentTimeMillis();
         final long created = timestamp - 50000L;
@@ -68,8 +66,6 @@ public class CampaignDAOTest {
         assertThat(shadowrunCampaignOutput.campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON));
         assertThat(shadowrunCampaignOutput.archived, is(true));
         assertThat(shadowrunCampaignOutput.synopsis, is(DatabaseTestConstants.CAMPAIGN_SYNOPSIS_RISING_DRAGON));
-        assertThat(shadowrunCampaignOutput.campaignImage, is("image".getBytes()));
-        assertThat(shadowrunCampaignOutput.campaignImageType, is("image/gif"));
         assertThat(shadowrunCampaignOutput.creationDateMillis, is(created));
         assertThat(shadowrunCampaignOutput.editDateMillis, is(edited));
         assertThat(shadowrunCampaignOutput.lastUsedDataMillis, is(lastUsed));

@@ -18,7 +18,7 @@ public interface CampaignDAO {
     @Query("SELECT * FROM Campaign ORDER BY Campaign.archived ASC, Campaign.campaign_name ASC")
     List<Campaign> readCampaignsOrderedByName();
 
-    @Query("SELECT campaign_id, fk_roleplaying_system_id, fk_theme_id, creation_date_millis, edit_date_millis, last_used_date_millis, archived, campaign_name, campaign_image, campaign_image_type, synopsis " +
+    @Query("SELECT campaign_id, fk_roleplaying_system_id, fk_theme_id, creation_date_millis, edit_date_millis, last_used_date_millis, archived, campaign_name, synopsis " +
             "FROM Campaign INNER JOIN RoleplayingSystem " +
             "ON Campaign.fk_roleplaying_system_id IS RoleplayingSystem.roleplaying_system_id " +
             "ORDER BY Campaign.archived ASC, RoleplayingSystem.roleplaying_system_name ASC")
