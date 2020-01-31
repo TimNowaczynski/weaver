@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="test"
+            type="Long" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/pitch_black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".dev.DeveloperFunctionsActivity">
+
+        <!-- TODO: make this less ugly and don't hardcode the string -->
+        <Button
+            android:id="@+id/developer_functions_set_db_demo_state_button"
+            android:text="Set Database Demo State"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

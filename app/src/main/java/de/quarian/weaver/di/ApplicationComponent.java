@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import de.quarian.weaver.WeaverApplication;
 import de.quarian.weaver.campaigns.CampaignListActivity;
+import de.quarian.weaver.dev.DeveloperFunctionsActivity;
 import de.quarian.weaver.theming.SetThemeActivity;
 import de.quarian.weaver.theming.WeaverThemedActivity;
 
@@ -19,4 +20,5 @@ public interface ApplicationComponent {
     void inject(final WeaverThemedActivity  weaverThemedActivity);
     void inject(final CampaignListActivity campaignListActivity);
     void inject(final SetThemeActivity setThemeActivity);
+    void inject(final DeveloperFunctionsActivity developerFunctionsActivity);
 }

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6ade07f1fa5ac4613bebef8ebbdacc50",
+    "identityHash": "b3476eb449419d63b4d7b5ca0daab79d",
     "entities": [
       {
         "tableName": "Campaign",
@@ -311,7 +311,7 @@
       },
       {
         "tableName": "Event",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`event_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `event_date_millis` INTEGER NOT NULL, `headline` TEXT NOT NULL, `text` TEXT, `image` BLOB, `image_type` TEXT, `file` BLOB, `file_type` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`event_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `event_date_millis` INTEGER NOT NULL, `headline` TEXT NOT NULL, `text` TEXT, `image` BLOB, `image_type` TEXT, `attachment` BLOB, `attachment_type` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -350,14 +350,14 @@
             "notNull": false
           },
           {
-            "fieldPath": "file",
-            "columnName": "file",
+            "fieldPath": "attachment",
+            "columnName": "attachment",
             "affinity": "BLOB",
             "notNull": false
           },
           {
-            "fieldPath": "fileType",
-            "columnName": "file_type",
+            "fieldPath": "attachmentType",
+            "columnName": "attachment_type",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -1139,7 +1139,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6ade07f1fa5ac4613bebef8ebbdacc50')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b3476eb449419d63b4d7b5ca0daab79d')"
     ]
   }
 }

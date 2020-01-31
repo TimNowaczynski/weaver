@@ -3,13 +3,14 @@ package de.quarian.weaver.campaigns;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -23,8 +24,13 @@ import de.quarian.weaver.BuildConfig;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 import de.quarian.weaver.RequestCodes;
+import de.quarian.weaver.database.CampaignDAO;
+import de.quarian.weaver.database.WeaverDB;
+import de.quarian.weaver.datamodel.Campaign;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 import de.quarian.weaver.di.ApplicationContext;
+import de.quarian.weaver.di.ApplicationModule;
+import de.quarian.weaver.di.DaggerApplicationComponent;
 
 public class CampaignListActivity extends AppCompatActivity {
 
@@ -33,39 +39,27 @@ public class CampaignListActivity extends AppCompatActivity {
     @ApplicationContext
     public Context applicationContext;
 
-    private List<CampaignListDisplayObject> campaignListDisplayObjects = new ArrayList<>();
+    @Inject
+    public WeaverDB weaverDB;
 
-    public CampaignListActivity() {
-        //TODO: replace dummy code
-        final CampaignListDisplayObject campaignA = new CampaignListDisplayObject();
-        campaignA.setCampaignId(1L);
-        campaignA.setCampaignName("Campaign 1");
-        final CampaignListDisplayObject campaignB = new CampaignListDisplayObject();
-        campaignB.setCampaignName("Campaign 2");
-        campaignB.setCampaignId(2L);
-        final CampaignListDisplayObject campaignC = new CampaignListDisplayObject();
-        campaignC.setCampaignName("Campaign 3");
-        campaignC.setCampaignId(3L);
-        campaignListDisplayObjects.add(campaignA);
-        campaignListDisplayObjects.add(campaignB);
-        campaignListDisplayObjects.add(campaignC);
-    }
+    private CampaignListAdapter campaignListAdapter = new CampaignListAdapter(this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign_list);
+        injectDependencies();
+
         setUpToolbar();
         setUpButtons();
+        setUpRecyclerView();
+    }
 
-        final RecyclerView campaignList = findViewById(R.id.campaign_list);
-        final Context baseContext = getBaseContext();
-        campaignList.setLayoutManager(new LinearLayoutManager(baseContext));
-        campaignList.setHasFixedSize(true);
-
-        final CampaignListAdapter campaignListAdapter = new CampaignListAdapter(this);
-        campaignList.setAdapter(campaignListAdapter);
-        campaignListAdapter.setCampaignListDisplayObjects(campaignListDisplayObjects);
+    private void injectDependencies() {
+        DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(getApplicationContext()))
+                .build()
+                .inject(this);
     }
 
     private void setUpToolbar() {
@@ -81,6 +75,41 @@ public class CampaignListActivity extends AppCompatActivity {
     private void setUpFloatingActionButton() {
         final View floatingActionButton = findViewById(R.id.campaign_list_add_campaign);
         floatingActionButton.setOnClickListener((view) -> NavigationController.getInstance().addCampaign(this));
+    }
+
+    private void setUpRecyclerView() {
+        final RecyclerView campaignList = findViewById(R.id.campaign_list);
+        final Context baseContext = getBaseContext();
+        campaignList.setLayoutManager(new LinearLayoutManager(baseContext));
+        campaignList.setHasFixedSize(true);
+        campaignList.setAdapter(campaignListAdapter);
+        queryDisplayObjects();
+    }
+
+    private void queryDisplayObjects() {
+        AsyncTask.execute(() -> {
+            final List<CampaignListDisplayObject> displayObjects = readCampaignListDisplayObjectsFromDB();
+            campaignListAdapter.setCampaignListDisplayObjects(displayObjects);
+            runOnUiThread(() -> campaignListAdapter.notifyDataSetChanged());
+        });
+    }
+
+    // TODO: implement order
+    private List<CampaignListDisplayObject> readCampaignListDisplayObjectsFromDB() {
+        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+        final List<CampaignListDisplayObject> displayObjects = new LinkedList<>();
+        final List<Campaign> campaigns = campaignDAO.readCampaignsOrderedByLastUsed();
+        for (final Campaign campaign : campaigns) {
+            displayObjects.add(CampaignListDisplayObject.createFrom(campaign));
+        }
+        return displayObjects;
+    }
+
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            campaignListAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

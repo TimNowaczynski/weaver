@@ -2,10 +2,26 @@ package de.quarian.weaver.datamodel.ddo;
 
 import java.util.Date;
 
+import androidx.annotation.NonNull;
+import de.quarian.weaver.datamodel.Campaign;
+
 /**
  * Used to display Campaigns. Sorting in a List is done via SQL query.
  */
 public class CampaignListDisplayObject {
+
+    public static CampaignListDisplayObject createFrom(@NonNull final Campaign campaign) {
+        final CampaignListDisplayObject displayObject = new CampaignListDisplayObject();
+        displayObject.setRoleplayingSystemName(null); // TODO: this
+        displayObject.setCampaignId(campaign.id);
+        displayObject.setCampaignName(campaign.campaignName);
+        displayObject.setRoleplayingSystemImage(null); // TODO: this
+        displayObject.setCampaignImage(null); // TODO: this
+        displayObject.setCreated(new Date(campaign.creationDateMillis));
+        displayObject.setLastUsed(new Date(campaign.lastUsedDataMillis));
+        displayObject.setLastEdited(new Date(campaign.editDateMillis));
+        return displayObject;
+    }
 
     private long campaignId;
     private String roleplayingSystemName;

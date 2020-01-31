@@ -9,6 +9,7 @@ import androidx.room.Room;
 import dagger.Module;
 import dagger.Provides;
 import de.quarian.weaver.database.WeaverDB;
+import de.quarian.weaver.dev.DemoDataSetInjector;
 import de.quarian.weaver.theming.ThemeProvider;
 
 @Module
@@ -47,6 +48,12 @@ public class ApplicationModule {
     @Singleton
     public ThemeProvider themeProvider() {
         return new ThemeProvider(weaverDB());
+    }
+
+    @Provides
+    @Singleton
+    public DemoDataSetInjector demoDataSetInjector() {
+        return new DemoDataSetInjector(applicationContext);
     }
 
 }

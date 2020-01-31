@@ -16,7 +16,7 @@
     <string name="activity_title_manage_name_sets">Configure Name Sets</string>
     <string name="activity_title_add_name_set">Add Name Set</string>
     <string name="activity_title_view_scheduled_to_delete">Scheduled to Delete</string>
-    <string name="activity_title_developer_options">Developer Options</string>
+    <string name="activity_title_developer_functions">Developer Functions</string>
 
     <string name="activity_campaign_list_add_campaign">Add Campaign</string>
     <string name="activity_campaign_list_menu_manage_name_sets">Name Sets</string>
