@@ -1,13 +1,19 @@
 package de.quarian.weaver.dev;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
+import de.quarian.weaver.R;
 import de.quarian.weaver.database.CampaignDAO;
+import de.quarian.weaver.database.DBConverters;
 import de.quarian.weaver.database.RoleplayingSystemDAO;
 import de.quarian.weaver.database.ThemeDAO;
 import de.quarian.weaver.database.WeaverDB;
@@ -53,6 +59,15 @@ public class DemoDataSetInjector {
         final long[] themeIDs = new long[3];
 
         final Theme srTheme = new Theme();
+
+        final Drawable srBanner = context.getResources().getDrawable(R.drawable.shadowrun_banner, null);
+        final Bitmap srBannerBitmap = ((BitmapDrawable) srBanner).getBitmap();
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        srBannerBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        final DBConverters.ImageBlobConverter converter = new DBConverters.ImageBlobConverter();
+        srTheme.bannerBackgroundImage = converter.convertPrimitiveToBytes(outputStream.toByteArray());
+        srTheme.bannerBackgroundImageType = "image/jpeg";
+
         themeIDs[0] = themeDAO.createTheme(srTheme);
         //TODO: define theme values
         return themeIDs;

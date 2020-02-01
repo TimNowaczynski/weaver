@@ -34,7 +34,7 @@ public class Theme {
 
     @Nullable
     @ColumnInfo(name = "banner_background_image")
-    public byte[] bannerBackgroundImage;
+    public Byte[] bannerBackgroundImage;
 
     @Nullable
     @ColumnInfo(name = "banner_background_image_type")

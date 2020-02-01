@@ -4,6 +4,7 @@ import java.util.Date;
 
 import de.quarian.weaver.database.CampaignDAO;
 import de.quarian.weaver.database.CharacterDAO;
+import de.quarian.weaver.database.DBConverters;
 import de.quarian.weaver.database.NameDAO;
 import de.quarian.weaver.database.RoleplayingSystemDAO;
 import de.quarian.weaver.database.ThemeDAO;
@@ -133,23 +134,24 @@ public final class DatabaseTestUtils {
      */
     public static void setUpThemes(final WeaverDB weaverDB) {
         final ThemeDAO themeDAO = weaverDB.themeDAO();
+        final DBConverters.ImageBlobConverter imageBlobConverter = new DBConverters.ImageBlobConverter();
 
         final Theme modernTheme = new Theme();
         modernTheme.presetId = Theme.PRESET_ID_MODERN;
         modernTheme.fontId = Theme.PRESET_ID_MODERN;
-        modernTheme.bannerBackgroundImage = "modern".getBytes();
+        modernTheme.bannerBackgroundImage = imageBlobConverter.convertPrimitiveToBytes("modern".getBytes());
         modernTheme.bannerBackgroundImageType = "image/jpeg";
 
         final Theme fantasyTheme = new Theme();
         fantasyTheme.presetId = Theme.PRESET_ID_FANTASY;
         fantasyTheme.fontId = Theme.PRESET_ID_FANTASY;
-        fantasyTheme.bannerBackgroundImage = "fantasy".getBytes();
+        fantasyTheme.bannerBackgroundImage = imageBlobConverter.convertPrimitiveToBytes("fantasy".getBytes());
         fantasyTheme.bannerBackgroundImageType = "image/png";
 
         final Theme customTheme = new Theme();
         customTheme.presetId = Theme.PRESET_ID_CUSTOM;
         customTheme.fontId = Theme.PRESET_ID_CUSTOM;
-        customTheme.bannerBackgroundImage = "custom".getBytes();
+        customTheme.bannerBackgroundImage = imageBlobConverter.convertPrimitiveToBytes("custom".getBytes());
         customTheme.bannerBackgroundImageType = "image/jpg";
 
         customTheme.screenBackgroundColorA = 1;

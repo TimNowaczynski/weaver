@@ -105,6 +105,6 @@ public class NavigationController {
 
     public void openDeveloperOptions(final Activity activity) {
         final Intent intent = new Intent(activity, DeveloperFunctionsActivity.class);
-        activity.startActivityForResult(intent, DeveloperFunctionsActivity.REQUEST_CODE_REFRESH_CONTENT);
+        activity.startActivityForResult(intent, RequestCodes.RESTART_ACTIVITY);
     }
 }

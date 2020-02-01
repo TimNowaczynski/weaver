@@ -14,8 +14,6 @@ import de.quarian.weaver.di.DaggerApplicationComponent;
 
 public class DeveloperFunctionsActivity extends AppCompatActivity {
 
-    public static final int REQUEST_CODE_REFRESH_CONTENT = 1;
-
     @Inject
     public DemoDataSetInjector demoDataSetInjector;
 

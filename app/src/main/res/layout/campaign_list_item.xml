@@ -3,10 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:background="@color/pitch_black"
+    android:maxHeight="200dp"
     android:id="@+id/campaign_list_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".campaigns.CampaignListActivity">
+
+    <ImageView
+        android:id="@+id/campaign_list_item_banner"
+        tools:src="@drawable/shadowrun_banner"
+        android:scaleType="centerCrop"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+    <View
+        android:background="@drawable/campaign_list_item_border"
+        app:layout_constraintTop_toTopOf="@id/campaign_list_item_banner"
+        app:layout_constraintStart_toStartOf="@id/campaign_list_item_banner"
+        app:layout_constraintEnd_toEndOf="@id/campaign_list_item_banner"
+        app:layout_constraintBottom_toBottomOf="@id/campaign_list_item_banner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
 
     <TextView
         android:id="@+id/campaign_list_item_view"

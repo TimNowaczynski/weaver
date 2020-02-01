@@ -12,6 +12,7 @@ import java.util.List;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import de.quarian.weaver.database.DBConverters;
 import de.quarian.weaver.database.ThemeDAO;
 import de.quarian.weaver.database.WeaverDB;
 
@@ -96,7 +97,8 @@ public class ThemeDAOTest {
     // It's a bit shitty because I wanted to re-use some test code
     private Theme createThemeEntity() {
         final Theme theme = new Theme();
-        theme.bannerBackgroundImage = "modern".getBytes();
+        final DBConverters.ImageBlobConverter imageBlobConverter = new DBConverters.ImageBlobConverter();
+        theme.bannerBackgroundImage = imageBlobConverter.convertPrimitiveToBytes("modern".getBytes());
         theme.bannerBackgroundImageType = "image/jpeg";
         theme.presetId = Theme.PRESET_ID_MODERN;
         theme.fontId = Theme.PRESET_ID_MODERN;

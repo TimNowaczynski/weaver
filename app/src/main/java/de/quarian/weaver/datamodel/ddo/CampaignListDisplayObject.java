@@ -4,19 +4,22 @@ import java.util.Date;
 
 import androidx.annotation.NonNull;
 import de.quarian.weaver.datamodel.Campaign;
+import de.quarian.weaver.datamodel.Theme;
 
 /**
  * Used to display Campaigns. Sorting in a List is done via SQL query.
  */
 public class CampaignListDisplayObject {
 
-    public static CampaignListDisplayObject createFrom(@NonNull final Campaign campaign) {
+    public static CampaignListDisplayObject createFrom(@NonNull final Campaign campaign, @NonNull final Theme theme) {
         final CampaignListDisplayObject displayObject = new CampaignListDisplayObject();
         displayObject.setRoleplayingSystemName(null); // TODO: this
         displayObject.setCampaignId(campaign.id);
         displayObject.setCampaignName(campaign.campaignName);
         displayObject.setRoleplayingSystemImage(null); // TODO: this
-        displayObject.setCampaignImage(null); // TODO: this
+        if (theme.bannerBackgroundImage != null) {
+            displayObject.setCampaignImage(theme.bannerBackgroundImage);
+        }
         displayObject.setCreated(new Date(campaign.creationDateMillis));
         displayObject.setLastUsed(new Date(campaign.lastUsedDataMillis));
         displayObject.setLastEdited(new Date(campaign.editDateMillis));
@@ -27,7 +30,7 @@ public class CampaignListDisplayObject {
     private String roleplayingSystemName;
     private String campaignName;
     private byte[] roleplayingSystemImage;
-    private byte[] campaignImage;
+    private Byte[] campaignImage;
     private Date created;
     private Date lastUsed;
     private Date lastEdited;
@@ -71,11 +74,11 @@ public class CampaignListDisplayObject {
         this.roleplayingSystemImage = roleplayingSystemImage;
     }
 
-    public byte[] getCampaignImage() {
+    public Byte[] getCampaignImage() {
         return campaignImage;
     }
 
-    public void setCampaignImage(byte[] campaignImage) {
+    public void setCampaignImage(Byte[] campaignImage) {
         this.campaignImage = campaignImage;
     }
 

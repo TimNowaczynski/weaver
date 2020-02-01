@@ -25,8 +25,10 @@ import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 import de.quarian.weaver.RequestCodes;
 import de.quarian.weaver.database.CampaignDAO;
+import de.quarian.weaver.database.ThemeDAO;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.Campaign;
+import de.quarian.weaver.datamodel.Theme;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 import de.quarian.weaver.di.ApplicationContext;
 import de.quarian.weaver.di.ApplicationModule;
@@ -97,10 +99,12 @@ public class CampaignListActivity extends AppCompatActivity {
     // TODO: implement order
     private List<CampaignListDisplayObject> readCampaignListDisplayObjectsFromDB() {
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+        final ThemeDAO themeDAO = weaverDB.themeDAO();
         final List<CampaignListDisplayObject> displayObjects = new LinkedList<>();
         final List<Campaign> campaigns = campaignDAO.readCampaignsOrderedByLastUsed();
         for (final Campaign campaign : campaigns) {
-            displayObjects.add(CampaignListDisplayObject.createFrom(campaign));
+            final Theme theme = themeDAO.readThemeByID(campaign.themeId);
+            displayObjects.add(CampaignListDisplayObject.createFrom(campaign, theme));
         }
         return displayObjects;
     }
@@ -167,6 +171,10 @@ public class CampaignListActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RequestCodes.MODIFY_CAMPAIGNS && resultCode == Activity.RESULT_OK) {
             refreshList();
+        } else if (requestCode == RequestCodes.RESTART_ACTIVITY && resultCode == Activity.RESULT_OK) {
+            final Intent intent = new Intent(getBaseContext(), CampaignListActivity.class);
+            finish();
+            startActivity(intent);
         }
     }
 
