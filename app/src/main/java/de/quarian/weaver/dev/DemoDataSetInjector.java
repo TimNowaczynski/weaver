@@ -11,6 +11,7 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
+import androidx.annotation.DrawableRes;
 import de.quarian.weaver.R;
 import de.quarian.weaver.database.CampaignDAO;
 import de.quarian.weaver.database.DBConverters;
@@ -48,8 +49,9 @@ public class DemoDataSetInjector {
 
         final RoleplayingSystem sr = new RoleplayingSystem();
         sr.roleplayingSystemName = "Shadowrun";
+        sr.logoImage = convertDrawableResToBytes(R.drawable.sr_dice);
+        sr.logoImageType = "image/jpeg";
         ids[0] = roleplayingSystemDAO.createRoleplayingSystem(sr);
-        // TODO: inject a demo resource logo and set image type
 
         return ids;
     }
@@ -60,12 +62,7 @@ public class DemoDataSetInjector {
 
         final Theme srTheme = new Theme();
 
-        final Drawable srBanner = context.getResources().getDrawable(R.drawable.shadowrun_banner, null);
-        final Bitmap srBannerBitmap = ((BitmapDrawable) srBanner).getBitmap();
-        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        srBannerBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-        final DBConverters.ImageBlobConverter converter = new DBConverters.ImageBlobConverter();
-        srTheme.bannerBackgroundImage = converter.convertPrimitiveToBytes(outputStream.toByteArray());
+        srTheme.bannerBackgroundImage = convertDrawableResToBytes(R.drawable.shadowrun_banner);
         srTheme.bannerBackgroundImageType = "image/jpeg";
 
         themeIDs[0] = themeDAO.createTheme(srTheme);
@@ -95,5 +92,14 @@ public class DemoDataSetInjector {
                 "avoid getting struck down in the emerging power struggle.";
         campaignIds[0] = campaignDAO.createCampaign(risingDragon);
         return campaignIds;
+    }
+
+    private Byte[] convertDrawableResToBytes(@DrawableRes final int drawableRes) {
+        final Drawable srBanner = context.getResources().getDrawable(drawableRes, null);
+        final Bitmap srBannerBitmap = ((BitmapDrawable) srBanner).getBitmap();
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        srBannerBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        final DBConverters.ImageBlobConverter converter = new DBConverters.ImageBlobConverter();
+        return converter.convertPrimitiveToBytes(outputStream.toByteArray());
     }
 }

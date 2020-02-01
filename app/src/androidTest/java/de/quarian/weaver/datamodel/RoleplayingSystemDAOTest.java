@@ -48,19 +48,19 @@ public class RoleplayingSystemDAOTest {
         final RoleplayingSystem roleplayingSystemA = roleplayingSystems.get(0);
         assertThat(roleplayingSystemA.id, notNullValue());
         assertThat(roleplayingSystemA.roleplayingSystemName, is(DatabaseTestConstants.RPS_NAME_SHADOWRUN));
-        assertThat(roleplayingSystemA.logo, is(DatabaseTestConstants.RPS_LOGO_SHADOWRUN));
+        assertThat(roleplayingSystemA.logoImage, is(DatabaseTestConstants.RPS_LOGO_SHADOWRUN));
         assertThat(roleplayingSystemA.logoImageType, is(DatabaseTestConstants.RPS_LOGO_IMAGE_TYPE_SHADOWRUN));
 
         final RoleplayingSystem roleplayingSystemB = roleplayingSystems.get(1);
         assertThat(roleplayingSystemB.id, notNullValue());
         assertThat(roleplayingSystemB.roleplayingSystemName, is(DatabaseTestConstants.RPS_NAME_DSA));
-        assertThat(roleplayingSystemB.logo, is(DatabaseTestConstants.RPS_LOGO_DSA));
+        assertThat(roleplayingSystemB.logoImage, is(DatabaseTestConstants.RPS_LOGO_DSA));
         assertThat(roleplayingSystemB.logoImageType, is(DatabaseTestConstants.RPS_LOGO_IMAGE_TYPE_DSA));
 
         final RoleplayingSystem roleplayingSystemC = roleplayingSystems.get(2);
         assertThat(roleplayingSystemC.id, notNullValue());
         assertThat(roleplayingSystemC.roleplayingSystemName, is(DatabaseTestConstants.RPS_NAME_VAMPIRE));
-        assertThat(roleplayingSystemC.logo, is(DatabaseTestConstants.RPS_LOGO_VAMPIRE));
+        assertThat(roleplayingSystemC.logoImage, is(DatabaseTestConstants.RPS_LOGO_VAMPIRE));
         assertThat(roleplayingSystemC.logoImageType, is(DatabaseTestConstants.RPS_LOGO_IMAGE_TYPE_VAMPIRE));
     }
 

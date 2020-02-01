@@ -21,14 +21,17 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
     private final DBConverters.ImageBlobConverter imageBlobConverter = new DBConverters.ImageBlobConverter();
     private final WeakReference<Activity> activity;
     private CampaignListDisplayObject campaignListDisplayObject;
+    private TextView rpsName;
     private TextView campaignName;
     private WeakReference<ImageView> campaignBanner;
+    private WeakReference<ImageView> rpsImageView;
 
     public CampaignListItemViewHolder(@NonNull Activity activity, @NonNull View itemView) {
         super(itemView);
+        itemView.setOnClickListener(this);
         this.activity = new WeakReference<>(activity);
-        this.campaignName = itemView.findViewById(R.id.campaign_list_item_view);
-        this.campaignName.setOnClickListener(this);
+        this.rpsName = itemView.findViewById(R.id.campaign_list_item_rps_name);
+        this.campaignName = itemView.findViewById(R.id.campaign_list_item_name);
         final TextView campaignSynopsis = itemView.findViewById(R.id.campaign_list_item_synopsis);
         campaignSynopsis.setOnClickListener(this);
         final TextView editCampaignButton = itemView.findViewById(R.id.campaign_list_item_edit);
@@ -37,10 +40,13 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
         managePlayerCharactersButton.setOnClickListener(this);
         final ImageView campaignBanner = itemView.findViewById(R.id.campaign_list_item_banner);
         this.campaignBanner = new WeakReference<>(campaignBanner);
+        final ImageView rpsImageView = itemView.findViewById(R.id.campaign_list_item_rps_image);
+        this.rpsImageView = new WeakReference<>(rpsImageView);
     }
 
     public void setCampaign(final CampaignListDisplayObject campaignListDisplayObject) {
         this.campaignListDisplayObject = campaignListDisplayObject;
+        this.rpsName.setText(campaignListDisplayObject.getRoleplayingSystemName());
         this.campaignName.setText(campaignListDisplayObject.getCampaignName());
 
         final Byte[] campaignImageBytes = campaignListDisplayObject.getCampaignImage();
@@ -52,6 +58,16 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
                 imageView.setImageBitmap(campaignImage);
             }
         }
+
+        final Byte[] rpsImageBytes = campaignListDisplayObject.getRoleplayingSystemImage();
+        if (rpsImageBytes != null && rpsImageBytes.length > 0) {
+            final byte[] rpsImageBytesPrimitive = imageBlobConverter.convertBytesToPrimitive(rpsImageBytes);
+            final Bitmap rpsImage = BitmapFactory.decodeByteArray(rpsImageBytesPrimitive, 0, rpsImageBytes.length);
+            final ImageView imageView = rpsImageView.get();
+            if (imageView != null) {
+                imageView.setImageBitmap(rpsImage);
+            }
+        }
     }
 
     @Override
@@ -59,7 +75,7 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
         final int id = v.getId();
         switch (id) {
 
-            case R.id.campaign_list_item_view: {
+            case R.id.campaign_list_item: {
                 NavigationController.getInstance().openCharacterLibrary(activity.get(), campaignListDisplayObject.getCampaignId());
                 break;
             }

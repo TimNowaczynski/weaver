@@ -1,17 +1,20 @@
 package de.quarian.weaver.datamodel;
 
+import de.quarian.weaver.database.DBConverters;
+
 public final class DatabaseTestConstants {
 
     public static final String RPS_NAME_SHADOWRUN = "Shadowrun";
-    public static final byte[] RPS_LOGO_SHADOWRUN = "shadowrun.jpg".getBytes();
+    public static final Byte[] RPS_LOGO_SHADOWRUN = DBConverters.getImageBlobConverter().convertPrimitiveToBytes("shadowrun.jpg".getBytes());
+
     public static final String RPS_LOGO_IMAGE_TYPE_SHADOWRUN = "image/jpg";
 
     public static final String RPS_NAME_DSA = "DSA";
-    public static final byte[] RPS_LOGO_DSA = "dsa.png".getBytes();
+    public static final Byte[] RPS_LOGO_DSA = DBConverters.getImageBlobConverter().convertPrimitiveToBytes("dsa.png".getBytes());
     public static final String RPS_LOGO_IMAGE_TYPE_DSA = "image/png";
 
     public static final String RPS_NAME_VAMPIRE = "Vampire the Requiem";
-    public static final byte[] RPS_LOGO_VAMPIRE = "vampire.png".getBytes();
+    public static final Byte[] RPS_LOGO_VAMPIRE = DBConverters.getImageBlobConverter().convertPrimitiveToBytes("vampire.png".getBytes());
     public static final String RPS_LOGO_IMAGE_TYPE_VAMPIRE = "image/png";
 
     public static final String CAMPAIGN_NAME_RISING_DRAGON = "Rising Dragon";

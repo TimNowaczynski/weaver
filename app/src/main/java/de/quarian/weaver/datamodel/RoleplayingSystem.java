@@ -22,7 +22,7 @@ public class RoleplayingSystem {
 
     @Nullable
     @ColumnInfo(name = "logo")
-    public byte[] logo;
+    public Byte[] logoImage;
 
     @Nullable
     @ColumnInfo(name = "logo_image_type")

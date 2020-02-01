@@ -106,24 +106,25 @@ public final class DatabaseTestUtils {
         return now - (x * oneDay);
     }
 
+    //TODO: fix this (what did I mean by "this"?)
     public static void setUpRoleplayingSystems(final WeaverDB weaverDB) {
         final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
 
         final RoleplayingSystem shadowrun = new RoleplayingSystem();
         shadowrun.roleplayingSystemName = RPS_NAME_SHADOWRUN;
-        shadowrun.logo = RPS_LOGO_SHADOWRUN;
+        shadowrun.logoImage = RPS_LOGO_SHADOWRUN;
         shadowrun.logoImageType = RPS_LOGO_IMAGE_TYPE_SHADOWRUN;
         roleplayingSystemDAO.createRoleplayingSystem(shadowrun);
 
         final RoleplayingSystem dsa = new RoleplayingSystem();
         dsa.roleplayingSystemName = RPS_NAME_DSA;
-        dsa.logo = RPS_LOGO_DSA;
+        dsa.logoImage = RPS_LOGO_DSA;
         dsa.logoImageType = RPS_LOGO_IMAGE_TYPE_DSA;
         roleplayingSystemDAO.createRoleplayingSystem(dsa);
 
         final RoleplayingSystem vampire = new RoleplayingSystem();
         vampire.roleplayingSystemName = RPS_NAME_VAMPIRE;
-        vampire.logo = RPS_LOGO_VAMPIRE;
+        vampire.logoImage = RPS_LOGO_VAMPIRE;
         vampire.logoImageType = RPS_LOGO_IMAGE_TYPE_VAMPIRE;
         roleplayingSystemDAO.createRoleplayingSystem(vampire);
     }

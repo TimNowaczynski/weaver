@@ -4,6 +4,16 @@ import androidx.room.TypeConverter;
 
 public class DBConverters {
 
+    private static ImageBlobConverter imageBlobConverter;
+
+    // Meant for testing
+    public static ImageBlobConverter getImageBlobConverter() {
+        if (imageBlobConverter == null) {
+            imageBlobConverter = new ImageBlobConverter();
+        }
+        return imageBlobConverter;
+    }
+
     public static class ImageBlobConverter {
 
         @TypeConverter

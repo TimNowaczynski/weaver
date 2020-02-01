@@ -10,6 +10,8 @@ import dagger.Module;
 import dagger.Provides;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.dev.DemoDataSetInjector;
+import de.quarian.weaver.service.CampaignService;
+import de.quarian.weaver.service.CampaignServiceImplementation;
 import de.quarian.weaver.theming.ThemeProvider;
 
 @Module
@@ -42,6 +44,12 @@ public class ApplicationModule {
     public WeaverDB weaverDB() {
         return Room.databaseBuilder(applicationContext, WeaverDB.class, WeaverDB.DATABASE_FILE_NAME)
                 .build();
+    }
+
+    @Provides
+    @Singleton
+    public CampaignService campaignService(final WeaverDB weaverDB) {
+        return new CampaignServiceImplementation(weaverDB);
     }
 
     @Provides

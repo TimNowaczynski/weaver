@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -24,15 +23,12 @@ import de.quarian.weaver.BuildConfig;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 import de.quarian.weaver.RequestCodes;
-import de.quarian.weaver.database.CampaignDAO;
-import de.quarian.weaver.database.ThemeDAO;
 import de.quarian.weaver.database.WeaverDB;
-import de.quarian.weaver.datamodel.Campaign;
-import de.quarian.weaver.datamodel.Theme;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 import de.quarian.weaver.di.ApplicationContext;
 import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerApplicationComponent;
+import de.quarian.weaver.service.CampaignService;
 
 public class CampaignListActivity extends AppCompatActivity {
 
@@ -43,6 +39,9 @@ public class CampaignListActivity extends AppCompatActivity {
 
     @Inject
     public WeaverDB weaverDB;
+
+    @Inject
+    public CampaignService campaignService;
 
     private CampaignListAdapter campaignListAdapter = new CampaignListAdapter(this);
 
@@ -88,25 +87,13 @@ public class CampaignListActivity extends AppCompatActivity {
         queryDisplayObjects();
     }
 
+    // TODO: implement order
     private void queryDisplayObjects() {
         AsyncTask.execute(() -> {
-            final List<CampaignListDisplayObject> displayObjects = readCampaignListDisplayObjectsFromDB();
+            final List<CampaignListDisplayObject> displayObjects = campaignService.readCampaigns(CampaignService.SortOrder.CAMPAIGN_NAME);
             campaignListAdapter.setCampaignListDisplayObjects(displayObjects);
             runOnUiThread(() -> campaignListAdapter.notifyDataSetChanged());
         });
-    }
-
-    // TODO: implement order
-    private List<CampaignListDisplayObject> readCampaignListDisplayObjectsFromDB() {
-        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
-        final ThemeDAO themeDAO = weaverDB.themeDAO();
-        final List<CampaignListDisplayObject> displayObjects = new LinkedList<>();
-        final List<Campaign> campaigns = campaignDAO.readCampaignsOrderedByLastUsed();
-        for (final Campaign campaign : campaigns) {
-            final Theme theme = themeDAO.readThemeByID(campaign.themeId);
-            displayObjects.add(CampaignListDisplayObject.createFrom(campaign, theme));
-        }
-        return displayObjects;
     }
 
     @Override
