@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/player_character_list_character_icon"
         android:src="@drawable/ic_character_jcon_simple"
-        android:contentDescription="@string/cd_character_icon"
+        android:contentDescription="@string/cd_manage_player_characters"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -32,9 +32,9 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
         this.activity = new WeakReference<>(activity);
         this.rpsName = itemView.findViewById(R.id.campaign_list_item_rps_name);
         this.campaignName = itemView.findViewById(R.id.campaign_list_item_name);
-        final TextView campaignSynopsis = itemView.findViewById(R.id.campaign_list_item_synopsis);
+        final ImageView campaignSynopsis = itemView.findViewById(R.id.campaign_list_item_synopsis);
         campaignSynopsis.setOnClickListener(this);
-        final TextView editCampaignButton = itemView.findViewById(R.id.campaign_list_item_edit);
+        final ImageView editCampaignButton = itemView.findViewById(R.id.campaign_list_item_edit_campaign);
         editCampaignButton.setOnClickListener(this);
         final TextView managePlayerCharactersButton = itemView.findViewById(R.id.campaign_list_item_manage_player_characters);
         managePlayerCharactersButton.setOnClickListener(this);
@@ -80,7 +80,7 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
                 break;
             }
 
-            case R.id.campaign_list_item_edit: {
+            case R.id.campaign_list_item_edit_campaign: {
                 NavigationController.getInstance().editCampaign(activity.get(), campaignListDisplayObject.getCampaignId());
                 break;
             }
