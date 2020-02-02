@@ -29,17 +29,23 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
     public CampaignListItemViewHolder(@NonNull Activity activity, @NonNull View itemView) {
         super(itemView);
         itemView.setOnClickListener(this);
+
         this.activity = new WeakReference<>(activity);
         this.rpsName = itemView.findViewById(R.id.campaign_list_item_rps_name);
         this.campaignName = itemView.findViewById(R.id.campaign_list_item_name);
+
         final ImageView campaignSynopsis = itemView.findViewById(R.id.campaign_list_item_synopsis);
         campaignSynopsis.setOnClickListener(this);
+
         final ImageView editCampaignButton = itemView.findViewById(R.id.campaign_list_item_edit_campaign);
         editCampaignButton.setOnClickListener(this);
+
         final TextView managePlayerCharactersButton = itemView.findViewById(R.id.campaign_list_item_manage_player_characters);
         managePlayerCharactersButton.setOnClickListener(this);
+
         final ImageView campaignBanner = itemView.findViewById(R.id.campaign_list_item_banner);
         this.campaignBanner = new WeakReference<>(campaignBanner);
+
         final ImageView rpsImageView = itemView.findViewById(R.id.campaign_list_item_rps_image);
         this.rpsImageView = new WeakReference<>(rpsImageView);
     }
