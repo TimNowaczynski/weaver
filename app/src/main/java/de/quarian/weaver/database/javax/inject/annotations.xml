@@ -1,0 +1,5 @@
+<root>
+    <item name='javax.inject.Named'>
+        <annotation name='java.lang.Deprecated' />
+    </item>
+</root>
