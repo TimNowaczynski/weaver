@@ -59,6 +59,12 @@ public class DemoDataSetInjector {
         dsa.logoImageType = "image/jpeg";
         ids[1] = roleplayingSystemDAO.createRoleplayingSystem(dsa);
 
+        final RoleplayingSystem hunter = new RoleplayingSystem();
+        hunter.roleplayingSystemName = "Hunter";
+        hunter.logoImage = convertDrawableResToBytes(R.drawable.wod_hunter_logo);
+        hunter.logoImageType = "image/jpeg";
+        ids[2] = roleplayingSystemDAO.createRoleplayingSystem(hunter);
+
         return ids;
     }
 
@@ -74,8 +80,13 @@ public class DemoDataSetInjector {
         dsaTheme.bannerBackgroundImage = convertDrawableResToBytes(R.drawable.g7_banner);
         dsaTheme.bannerBackgroundImageType = "image/jpeg";
 
+        final Theme hunterTheme = new Theme();
+        hunterTheme.bannerBackgroundImage = convertDrawableResToBytes(R.drawable.wod_hunter_banner);
+        hunterTheme.bannerBackgroundImageType = "image/jpeg";
+
         themeIDs[0] = themeDAO.createTheme(srTheme);
         themeIDs[1] = themeDAO.createTheme(dsaTheme);
+        themeIDs[2] = themeDAO.createTheme(hunterTheme);
         //TODO: define theme values
         return themeIDs;
     }
@@ -107,21 +118,47 @@ public class DemoDataSetInjector {
         final Date twelveDaysAgo = new Date(today.getTime() - 1000L * 60L * 60L * 12L);
         final Date aWeekAgo = new Date(today.getTime() - 1000L * 60L * 60L * 7L);
 
-        final Campaign borbarad = new Campaign();
-        borbarad.archived = false;
-        borbarad.roleplayingSystemId = roleplayingSystemIDs[1];
-        borbarad.themeId = themeIds[1];
-        borbarad.creationDateMillis = fourteenMonthAgo.getTime();
-        borbarad.editDateMillis = twelveDaysAgo.getTime();
-        borbarad.lastUsedDataMillis = aWeekAgo.getTime();
-        borbarad.campaignName = "Die 7 Gezeichneten";
-        borbarad.synopsis = "Things are usually rather relaxed during the festive days in early " +
+        final Campaign g7Campaign = new Campaign();
+        g7Campaign.archived = true;
+        g7Campaign.roleplayingSystemId = roleplayingSystemIDs[1];
+        g7Campaign.themeId = themeIds[1];
+        g7Campaign.creationDateMillis = fourteenMonthAgo.getTime();
+        g7Campaign.editDateMillis = twelveDaysAgo.getTime();
+        g7Campaign.lastUsedDataMillis = aWeekAgo.getTime();
+        g7Campaign.campaignName = "Die 7 Gezeichneten";
+        g7Campaign.synopsis = "Things are usually rather relaxed during the festive days in early " +
                 "summer. But there are powers struggling to bring back an ancient sorcerer who " +
                 "is hungry for power and won't stop to sacrifice anything in his way. So the " +
                 "burden of stopping him falls upon an unlucky group of adventurers, chosen by " +
                 "manifestations of certain marks of old times which are neither magical or holy " +
                 "by nature but will grant them otherworldly powers so far unknown.";
-        campaignIds[1] = campaignDAO.createCampaign(borbarad);
+        campaignIds[1] = campaignDAO.createCampaign(g7Campaign);
+
+        final Date fiftyDaysAgo = new Date(today.getTime() - 1000L * 60L * 60L * 24L * 50L);
+        final Date fourteenDaysAgo = new Date(today.getTime() - 1000L * 60L * 60L * 24L * 14L);
+        final Date seventyTwoHoursAgo = new Date(today.getTime() - 1000L * 60L * 60L * 72L);
+
+        final Campaign hunterCampaign = new Campaign();
+        hunterCampaign.archived = false;
+        hunterCampaign.roleplayingSystemId = roleplayingSystemIDs[2];
+        hunterCampaign.themeId = themeIds[2];
+        hunterCampaign.creationDateMillis = fiftyDaysAgo.getTime();
+        hunterCampaign.editDateMillis = fourteenDaysAgo.getTime();
+        hunterCampaign.lastUsedDataMillis = seventyTwoHoursAgo.getTime();
+        hunterCampaign.campaignName = "Night Train";
+        hunterCampaign.synopsis = "About three month ago you moved into the city, it was time " +
+                "for a change. After things went nuclear with your partner, there hasn't been " +
+                "anything holding you back. And you have never been one to be picky about jobs " +
+                "so you applied for doing the night shift in a video store. After hours of " +
+                "handing out questionable porn movies to a bunch of creeps and splatter stuff " +
+                "to slightly nervous teens you finally close the store. Only a few hours left " +
+                "till dawn. You board the train, basically all by yourself if hadn't been for " +
+                "the guy sleeping on the bench. Then suddenly you saw... something... move " +
+                "in the corner of your eye. Your brain kinda blacked out, all you remember is " +
+                "hearing people approaching screaming at you: \"Duck down, dummy\". That was the " +
+                "night when the world stopped being what you thought it has been.";
+        campaignIds[2] = campaignDAO.createCampaign(hunterCampaign);
+
         return campaignIds;
     }
 
