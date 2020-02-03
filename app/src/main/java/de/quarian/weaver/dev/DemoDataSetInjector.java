@@ -45,32 +45,38 @@ public class DemoDataSetInjector {
 
     private long[] setUpRoleplayingSystems(final WeaverDB weaverDB) {
         final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
-        final long[] ids = new long[3];
+        final long[] ids = new long[4];
 
         final RoleplayingSystem sr = new RoleplayingSystem();
         sr.roleplayingSystemName = "Shadowrun";
         sr.logoImage = convertDrawableResToBytes(R.drawable.shadowrun_logo);
-        sr.logoImageType = "image/jpeg";
+        sr.logoImageType = "image/jpg";
         ids[0] = roleplayingSystemDAO.createRoleplayingSystem(sr);
 
         final RoleplayingSystem dsa = new RoleplayingSystem();
         dsa.roleplayingSystemName = "DSA 4.0";
         dsa.logoImage = convertDrawableResToBytes(R.drawable.dsa_logo);
-        dsa.logoImageType = "image/jpeg";
+        dsa.logoImageType = "image/jpg";
         ids[1] = roleplayingSystemDAO.createRoleplayingSystem(dsa);
 
         final RoleplayingSystem hunter = new RoleplayingSystem();
         hunter.roleplayingSystemName = "Hunter";
         hunter.logoImage = convertDrawableResToBytes(R.drawable.wod_hunter_logo);
-        hunter.logoImageType = "image/jpeg";
+        hunter.logoImageType = "image/png";
         ids[2] = roleplayingSystemDAO.createRoleplayingSystem(hunter);
+
+        final RoleplayingSystem dnd = new RoleplayingSystem();
+        dnd.roleplayingSystemName = "DnD";
+        dnd.logoImage = convertDrawableResToBytes(R.drawable.dnd_logo);
+        dnd.logoImageType = "image/jpg";
+        ids[3] = roleplayingSystemDAO.createRoleplayingSystem(dnd);
 
         return ids;
     }
 
     private long[] setUpThemes(final WeaverDB weaverDB) {
         final ThemeDAO themeDAO = weaverDB.themeDAO();
-        final long[] themeIDs = new long[3];
+        final long[] themeIDs = new long[4];
 
         final Theme srTheme = new Theme();
         srTheme.bannerBackgroundImage = convertDrawableResToBytes(R.drawable.shadowrun_banner);
@@ -78,22 +84,27 @@ public class DemoDataSetInjector {
 
         final Theme dsaTheme = new Theme();
         dsaTheme.bannerBackgroundImage = convertDrawableResToBytes(R.drawable.g7_banner);
-        dsaTheme.bannerBackgroundImageType = "image/jpeg";
+        dsaTheme.bannerBackgroundImageType = "image/png";
 
         final Theme hunterTheme = new Theme();
         hunterTheme.bannerBackgroundImage = convertDrawableResToBytes(R.drawable.wod_hunter_banner);
-        hunterTheme.bannerBackgroundImageType = "image/jpeg";
+        hunterTheme.bannerBackgroundImageType = "image/jpg";
+
+        final Theme dnDTheme = new Theme();
+        dnDTheme.bannerBackgroundImage = convertDrawableResToBytes(R.drawable.dnd_banner);
+        dnDTheme.bannerBackgroundImageType = "image/jpeg";
 
         themeIDs[0] = themeDAO.createTheme(srTheme);
         themeIDs[1] = themeDAO.createTheme(dsaTheme);
         themeIDs[2] = themeDAO.createTheme(hunterTheme);
+        themeIDs[3] = themeDAO.createTheme(dnDTheme);
         //TODO: define theme values
         return themeIDs;
     }
 
     private long[] setUpCampaigns(final WeaverDB weaverDB, final long[] roleplayingSystemIDs, final long[] themeIds) {
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
-        final long[] campaignIds = new long[3];
+        final long[] campaignIds = new long[4];
         final Date today = new Date();
 
         final Date fiveMinutesAgo = new Date(today.getTime() - 1000L * 60L * 5L);
@@ -158,6 +169,29 @@ public class DemoDataSetInjector {
                 "hearing people approaching screaming at you: \"Duck down, dummy\". That was the " +
                 "night when the world stopped being what you thought it has been.";
         campaignIds[2] = campaignDAO.createCampaign(hunterCampaign);
+
+        final Date aMonthAgo = new Date(today.getTime() - 1000L * 60L * 60L * 24L * 30L);
+        final Date eightDaysAgo = new Date(today.getTime() - 1000L * 60L * 60L * 24L * 8L);
+        final Date twelveMinutesAgo = new Date(today.getTime() - 1000L * 60L * 12L);
+
+        final Campaign dnDCampaign = new Campaign();
+        dnDCampaign.archived = false;
+        dnDCampaign.roleplayingSystemId = roleplayingSystemIDs[3];
+        dnDCampaign.themeId = themeIds[3];
+        dnDCampaign.creationDateMillis = aMonthAgo.getTime();
+        dnDCampaign.editDateMillis = eightDaysAgo.getTime();
+        dnDCampaign.lastUsedDataMillis = twelveMinutesAgo.getTime();
+        dnDCampaign.campaignName = "Bad Blood";
+        dnDCampaign.synopsis = "Your families property is not huge, but nonetheless you need " +
+                "a few days to cross it all the way down along the coastline. In the past " +
+                "there was always a bit trouble with bandits, but during your childhood " +
+                "things were quite calm. You enjoyed the life of a relatively wealthy offspring " +
+                "as one of the local rulers. But over the years trouble starts to erupt " +
+                "and you were trained to deal with trouble - in whatever way seems to fit " +
+                "the circumstances. So you gather a few people to investigate the situation " +
+                "and start to travel down south. But instead of finding a bunch of rebels you " +
+                "stumble upon something which will challenge your loyalty to the family.";
+        campaignIds[3] = campaignDAO.createCampaign(dnDCampaign);
 
         return campaignIds;
     }
