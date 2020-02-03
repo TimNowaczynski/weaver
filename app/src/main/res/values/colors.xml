@@ -1,5 +1,7 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <resources>
+  <color name="dark_eighty_percent">#9A000000</color>
+
   <color name="modernPrimaryColor">#004d40</color>
   <color name="modernPrimaryLightColor">#39796b</color>
   <color name="modernPrimaryDarkColor">#00251a</color>

@@ -73,48 +73,60 @@
         android:layout_height="wrap_content"/>
 
     <LinearLayout
-        android:id="@+id/campaign_list_item_info_section"
-        android:paddingEnd="12dp"
-        android:paddingStart="12dp"
-        android:paddingBottom="12dp"
-        app:layout_constraintEnd_toStartOf="@id/campaign_list_item_rps_image"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/campaign_list_item_info_background"
+        android:paddingTop="4dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/campaign_list_item_rps_name"
-            tools:text="Shadowrun 5e"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:layout_gravity="end"
+        <LinearLayout
+            android:id="@+id/campaign_list_item_info_section"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/campaign_list_item_name"
-            tools:text="Campaign Name"
-            android:textSize="22sp"
-            android:textColor="@color/white"
-            android:layout_gravity="end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/campaign_list_item_rps_name"
+                tools:text="Shadowrun 5e"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/campaign_list_item_name"
+                tools:text="Campaign Name"
+                android:textSize="22sp"
+                android:textColor="@color/white"
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/campaign_list_item_rps_image"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="12dp"
+            tools:src="@drawable/shadowrun_logo"
+            android:scaleType="centerInside"
+            app:layout_constraintTop_toTopOf="@id/campaign_list_item_info_section"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="48dp"
+            android:layout_height="0dp"
+            tools:ignore="ContentDescription" />
+
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/campaign_list_item_rps_image"
-        android:layout_marginEnd="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="12dp"
-        tools:src="@drawable/shadowrun_logo"
-        android:scaleType="centerInside"
-        app:layout_constraintTop_toTopOf="@id/campaign_list_item_info_section"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="48dp"
-        android:layout_height="0dp"
-        tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
