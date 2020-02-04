@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,6 +34,7 @@ import de.quarian.weaver.di.ApplicationContext;
 import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.CampaignListOrderPreferences;
 import de.quarian.weaver.di.DaggerApplicationComponent;
+import de.quarian.weaver.di.GlobalHandler;
 import de.quarian.weaver.service.CampaignService;
 
 public class CampaignListActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -41,6 +43,10 @@ public class CampaignListActivity extends AppCompatActivity implements AdapterVi
     @Inject
     @ApplicationContext
     public Context applicationContext;
+
+    @Inject
+    @GlobalHandler
+    public Handler globalHandler;
 
     @Inject
     @CampaignListOrderPreferences
@@ -139,7 +145,7 @@ public class CampaignListActivity extends AppCompatActivity implements AdapterVi
         AsyncTask.execute(() -> {
             final List<CampaignListDisplayObject> displayObjects = campaignService.readCampaignsWithOrderFromPreferences();
             campaignListAdapter.setCampaignListDisplayObjects(displayObjects);
-            runOnUiThread(() -> campaignListAdapter.notifyDataSetChanged());
+            globalHandler.post(() -> campaignListAdapter.notifyDataSetChanged());
         });
     }
 
@@ -147,7 +153,7 @@ public class CampaignListActivity extends AppCompatActivity implements AdapterVi
         AsyncTask.execute(() -> {
             final List<CampaignListDisplayObject> displayObjects = campaignService.readCampaigns(sortOrder);
             campaignListAdapter.setCampaignListDisplayObjects(displayObjects);
-            runOnUiThread(() -> campaignListAdapter.notifyDataSetChanged());
+            globalHandler.post(() -> campaignListAdapter.notifyDataSetChanged());
         });
     }
 
