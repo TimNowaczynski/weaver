@@ -1,9 +1,13 @@
 package de.quarian.weaver.campaigns;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +29,7 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
     private TextView campaignName;
     private WeakReference<ImageView> campaignBanner;
     private WeakReference<ImageView> rpsImageView;
+    private FrameLayout deactivationOverlay;
 
     public CampaignListItemViewHolder(@NonNull Activity activity, @NonNull View itemView) {
         super(itemView);
@@ -48,6 +53,8 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
 
         final ImageView rpsImageView = itemView.findViewById(R.id.campaign_list_item_rps_image);
         this.rpsImageView = new WeakReference<>(rpsImageView);
+
+        this.deactivationOverlay = itemView.findViewById(R.id.campaign_list_item_deactivation_overlay);
     }
 
     public void setCampaign(final CampaignListDisplayObject campaignListDisplayObject) {
@@ -74,6 +81,19 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
                 imageView.setImageBitmap(rpsImage);
             }
         }
+
+        final Activity activity = this.activity.get();
+        if (activity != null) {
+            if (campaignListDisplayObject.isArchived()) {
+                final Context baseContext = activity.getBaseContext();
+                final Resources resources = baseContext.getResources();
+                final int overlayColor = resources.getColor(R.color.dark_fifty_percent);
+                this.deactivationOverlay.setBackgroundColor(overlayColor);
+            } else {
+                this.deactivationOverlay.setBackgroundColor(Color.TRANSPARENT);
+            }
+        }
+
     }
 
     @Override
