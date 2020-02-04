@@ -9,6 +9,8 @@ import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 
 public interface CampaignService {
 
+    String CAMPAIGN_LIST_ORDER_SP_KEY = "order";
+
     /**
      * Regardless of the chosen sort option,
      * deactivated campaigns should show after the rest.
@@ -22,6 +24,8 @@ public interface CampaignService {
     }
 
     long createCampaign(@NonNull Campaign campaign);
+
+    List<CampaignListDisplayObject> readCampaignsWithOrderFromPreferences();
 
     List<CampaignListDisplayObject> readCampaigns(@NonNull final SortOrder sortOrder);
 

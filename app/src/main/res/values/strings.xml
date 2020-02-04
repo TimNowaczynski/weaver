@@ -18,6 +18,7 @@
     <string name="activity_title_view_scheduled_to_delete">Scheduled to Delete</string>
     <string name="activity_title_developer_functions">Developer Functions</string>
 
+    <string name="activity_campaign_list_select_sort_order">Sort Order</string>
     <string name="activity_campaign_list_add_campaign">Add Campaign</string>
     <string name="activity_campaign_list_menu_manage_name_sets">Name Sets</string>
     <string name="activity_campaign_list_menu_settings">Settings</string>
@@ -42,5 +43,13 @@
     <string name="cd_manage_player_characters">Manage Player Characters</string>
     <string name="cd_edit_campaign">Edit Campaign</string>
     <string name="cd_synopsis">Synopsis</string>
+
+    <string-array name="activity_campaign_list_sort_order_spinner_options">
+        <item>Campaign Name</item>
+        <item>System Name</item>
+        <item>Last Used</item>
+        <item>Last Edited</item>
+        <item>Created</item>
+    </string-array>
 
 </resources>

@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerApplicationComponent;
 import de.quarian.weaver.di.GlobalHandler;
+import de.quarian.weaver.di.SharedPreferencesModule;
 
 public class WeaverApplication extends Application {
 
@@ -23,9 +24,11 @@ public class WeaverApplication extends Application {
 
     private void injectDependencies() {
         final ApplicationModule applicationModule = new ApplicationModule(this);
+        final SharedPreferencesModule sharedPreferencesModule = new SharedPreferencesModule();
 
         DaggerApplicationComponent.builder()
                 .applicationModule(applicationModule)
+                .sharedPreferencesModule(sharedPreferencesModule)
                 .build()
                 .inject(this);
     }

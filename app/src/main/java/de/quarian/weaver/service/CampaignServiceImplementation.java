@@ -1,5 +1,7 @@
 package de.quarian.weaver.service;
 
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,17 +15,30 @@ import de.quarian.weaver.datamodel.Campaign;
 import de.quarian.weaver.datamodel.RoleplayingSystem;
 import de.quarian.weaver.datamodel.Theme;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
+import de.quarian.weaver.di.CampaignListOrderPreferences;
 
 public class CampaignServiceImplementation implements CampaignService {
+
+    private static final String SP_CURRENT_ORDER = "campaignService.currentOrder";
 
     private final CampaignDAO campaignDAO;
     private final RoleplayingSystemDAO roleplayingSystemDAO;
     private final ThemeDAO themeDAO;
+    private final SharedPreferences orderPreferences;
 
-    public CampaignServiceImplementation(@NonNull WeaverDB weaverDB) {
-        campaignDAO = weaverDB.campaignDAO();
-        roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
-        themeDAO = weaverDB.themeDAO();
+    public CampaignServiceImplementation(@NonNull WeaverDB weaverDB,
+                                         @NonNull @CampaignListOrderPreferences SharedPreferences orderPreferences) {
+        this.campaignDAO = weaverDB.campaignDAO();
+        this.roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
+        this.themeDAO = weaverDB.themeDAO();
+        this.orderPreferences = orderPreferences;
+    }
+
+    @Override
+    public List<CampaignListDisplayObject> readCampaignsWithOrderFromPreferences() {
+        final String rawValue = orderPreferences.getString(SP_CURRENT_ORDER, SortOrder.CREATED.name());
+        final SortOrder sortOrder = SortOrder.valueOf(rawValue);
+        return readCampaigns(sortOrder);
     }
 
     /**

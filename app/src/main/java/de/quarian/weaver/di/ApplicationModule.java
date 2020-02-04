@@ -1,6 +1,7 @@
 package de.quarian.weaver.di;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 
 import javax.inject.Singleton;
@@ -48,8 +49,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public CampaignService campaignService(final WeaverDB weaverDB) {
-        return new CampaignServiceImplementation(weaverDB);
+    public CampaignService campaignService(final WeaverDB weaverDB, @CampaignListOrderPreferences SharedPreferences sharedPreferences) {
+        return new CampaignServiceImplementation(weaverDB, sharedPreferences);
     }
 
     @Provides

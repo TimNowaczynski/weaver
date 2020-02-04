@@ -17,6 +17,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        android:paddingBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/campaign_list_sort_order_headline"
+            android:text="@string/activity_campaign_list_select_sort_order"
+            android:textColor="@color/modernPrimaryTextColor"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/campaign_list_sort_order_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- I have no idea why background="@color/white" fixes the spacing issue from end to end of parent -->
+        <Spinner
+            android:id="@+id/campaign_list_sort_order_spinner"
+            android:background="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/campaign_list_sort_order_headline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

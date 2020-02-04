@@ -1,23 +1,20 @@
 package de.quarian.weaver.di;
 
 import android.content.Context;
-
-import javax.inject.Inject;
+import android.content.SharedPreferences;
 
 import dagger.Module;
+import dagger.Provides;
 
 @Module
 public class SharedPreferencesModule {
 
-    @Inject
-    public Context applicationContext;
+    private static final String CAMPAIGN_LIST_ORDER_PREFERENCES = "sharedPreferences.campaignListOrder";
 
-    /* I leave this here as an example for now
-        @ThemePreferences
-        @Provides
-        public SharedPreferences themePreferences() {
-            return applicationContext.getSharedPreferences(SHARED_PREFERENCES_THEME, Context.MODE_PRIVATE);
-        }
-     */
+    @CampaignListOrderPreferences
+    @Provides
+    public SharedPreferences campaignListOrderPreferences(@ApplicationContext final Context context) {
+        return context.getSharedPreferences(CAMPAIGN_LIST_ORDER_PREFERENCES, Context.MODE_PRIVATE);
+    }
 
 }

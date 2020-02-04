@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:text="Campaigns"
+    android:background="@drawable/campaign_list_sort_order_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:textSize="18sp"
+    android:textColor="@color/white"
+    android:gravity="center_vertical"
+    android:singleLine="true"
+    android:ellipsize="marquee"
+    />

@@ -24,6 +24,7 @@ public class CampaignListAdapter extends RecyclerView.Adapter {
     }
 
     public void setCampaignListDisplayObjects(List<CampaignListDisplayObject> campaignListDisplayObjects) {
+        this.campaignListDisplayObjects.clear();
         this.campaignListDisplayObjects.addAll(campaignListDisplayObjects);
     }
 
