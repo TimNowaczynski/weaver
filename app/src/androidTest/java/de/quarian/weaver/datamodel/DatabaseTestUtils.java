@@ -6,6 +6,7 @@ import de.quarian.weaver.database.CampaignDAO;
 import de.quarian.weaver.database.CharacterDAO;
 import de.quarian.weaver.database.DBConverters;
 import de.quarian.weaver.database.NameDAO;
+import de.quarian.weaver.database.PlayerCharacterDAO;
 import de.quarian.weaver.database.RoleplayingSystemDAO;
 import de.quarian.weaver.database.ThemeDAO;
 import de.quarian.weaver.database.WeaverDB;
@@ -602,5 +603,28 @@ public final class DatabaseTestUtils {
         rollToCharacterHeader.rollId = rollId;
         rollToCharacterHeader.characterHeaderId = moonlight.id;
         characterDAO.createRollToCharacterHeader(rollToCharacterHeader);
+    }
+
+    public static void setUpPlayerCharacters(final WeaverDB weaverDB) {
+        final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
+        final RoleplayingSystem shadowrun = roleplayingSystemDAO.readRoleplayingSystemsByName(RPS_NAME_SHADOWRUN);
+
+        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+        final long shadowrunCampaignId = campaignDAO.readCampaignByName(CAMPAIGN_NAME_RISING_DRAGON).id;
+
+        final PlayerCharacter amanda = new PlayerCharacter();
+        amanda.campaignId = shadowrunCampaignId;
+        amanda.roleplayingSystemId = shadowrun.id;
+        amanda.playerName = "Tim";
+        amanda.playerCharacterName = "Amanda";
+        amanda.playerCharacterAvatarImageType = "image/jpeg";
+        amanda.playerCharacterAvatar = "avatar".getBytes();
+        amanda.characterHighlightColorA = 1;
+        amanda.characterHighlightColorR = 2;
+        amanda.characterHighlightColorG = 3;
+        amanda.characterHighlightColorB = 4;
+
+        final PlayerCharacterDAO playerCharacterDAO = weaverDB.playerCharacterDAO();
+        playerCharacterDAO.createPlayerCharacter(amanda);
     }
 }

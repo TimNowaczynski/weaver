@@ -13,12 +13,12 @@ import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import de.quarian.weaver.database.CampaignDAO;
-import de.quarian.weaver.database.NameDAO;
+import de.quarian.weaver.database.PlayerCharacterDAO;
+import de.quarian.weaver.database.RoleplayingSystemDAO;
 import de.quarian.weaver.database.WeaverDB;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
 
 @RunWith(AndroidJUnit4.class)
 public class PlayerCharacterDAOTest {
@@ -32,7 +32,7 @@ public class PlayerCharacterDAOTest {
         DatabaseTestUtils.setUpRoleplayingSystems(weaverDB);
         DatabaseTestUtils.setUpThemes(weaverDB);
         DatabaseTestUtils.setUpCampaigns(weaverDB);
-        DatabaseTestUtils.setUpNameSets(weaverDB);
+        DatabaseTestUtils.setUpPlayerCharacters(weaverDB);
     }
 
     @After
@@ -41,74 +41,78 @@ public class PlayerCharacterDAOTest {
     }
 
     @Test
-    public void testReadNameSets() {
+    public void testReadPlayerCharacters() {
         // Confirm
-        final NameDAO nameDAO = weaverDB.nameDAO();
-        final List<NameSet> allNameSets = nameDAO.readNameSets();
-        assertThat(allNameSets, notNullValue());
-        assertThat(allNameSets.size(), is(3));
-        assertThat(allNameSets.get(0).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_SHADOWRUN));
-        assertThat(allNameSets.get(1).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_VAMPIRE));
-        assertThat(allNameSets.get(2).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_DSA));
-    }
+        final RoleplayingSystemDAO roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
+        final RoleplayingSystem sr = roleplayingSystemDAO.readRoleplayingSystemsByName(DatabaseTestConstants.RPS_NAME_SHADOWRUN);
 
-    @Test
-    public void testUpdateNameSet() {
-        final NameDAO nameDAO = weaverDB.nameDAO();
+        final PlayerCharacterDAO playerCharacterDAO = weaverDB.playerCharacterDAO();
 
-        // Read Name Set
-        final NameSet shadowrun = nameDAO.readNameSetByName(DatabaseTestConstants.NAME_SET_NAME_SHADOWRUN);
+        final List<PlayerCharacter> playerCharactersForRPS = playerCharacterDAO.readPlayerCharactersForRoleplayingSystem(sr.id);
+        assertThat(playerCharactersForRPS.size(), is(1));
 
-        // Update
-        shadowrun.nameSetName = "Hunter";
-        nameDAO.updateNameSet(shadowrun);
-
-        // Confirm
-        final NameSet updatedNameSet = nameDAO.readNameSetByName("Hunter");
-        assertThat(updatedNameSet, notNullValue());
-    }
-
-    @Test
-    public void testDeleteNameSet() {
-        final NameDAO nameDAO = weaverDB.nameDAO();
-
-        // Confirm
-        List<NameSet> allNameSets = nameDAO.readNameSets();
-        assertThat(allNameSets, notNullValue());
-        assertThat(allNameSets.size(), is(3));
-
-        // Delete
-        nameDAO.deleteNameSet(allNameSets.get(0));
-
-        // Confirm
-        allNameSets = nameDAO.readNameSets();
-        assertThat(allNameSets, notNullValue());
-        assertThat(allNameSets.size(), is(2));
-    }
-
-    @Test
-    public void testNameSetToCampaignMapping() {
-        // Read campaigns
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
-        final Campaign asiaCampaign = campaignDAO.readCampaignByName(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON);
-        final Campaign europeCampaign = campaignDAO.readCampaignByName(DatabaseTestConstants.CAMPAIGN_NAME_RENAISSANCE);
-        final Campaign aventurienCampaign = campaignDAO.readCampaignByName(DatabaseTestConstants.CAMPAIGN_NAME_BORBARAD);
+        final Campaign risingDragon = campaignDAO.readCampaignByName(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON);
 
-        // Read name sets
-        final NameDAO nameDAO = weaverDB.nameDAO();
-        final List<NameSet> asiaNameSets = nameDAO.readNameSetsForCampaign(asiaCampaign.id);
-        final List<NameSet> europeNameSets = nameDAO.readNameSetsForCampaign(europeCampaign.id);
-        final List<NameSet> aventurienNameSets = nameDAO.readNameSetsForCampaign(aventurienCampaign.id);
+        final List<PlayerCharacter> playerCharactersForCampaign = playerCharacterDAO.readPlayerCharactersForCampaign(risingDragon.id);
+        assertThat(playerCharactersForCampaign.size(), is(1));
 
-        // Verify
-        assertThat(asiaNameSets, notNullValue());
-        assertThat(asiaNameSets.size(), is(1));
-        assertThat(asiaNameSets.get(0).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_SHADOWRUN));
-        assertThat(europeNameSets, notNullValue());
-        assertThat(europeNameSets.size(), is(1));
-        assertThat(europeNameSets.get(0).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_VAMPIRE));
-        assertThat(aventurienNameSets, notNullValue());
-        assertThat(aventurienNameSets.size(), is(1));
-        assertThat(aventurienNameSets.get(0).nameSetName, is(DatabaseTestConstants.NAME_SET_NAME_DSA));
+        final PlayerCharacter playerCharacter = playerCharactersForCampaign.get(0);
+        assertThat(playerCharacter.campaignId, is(risingDragon.id));
+        assertThat(playerCharacter.roleplayingSystemId, is(sr.id));
+        assertThat(playerCharacter.playerName, is("Tim"));
+        assertThat(playerCharacter.playerCharacterName, is("Amanda"));
+        assertThat(playerCharacter.playerCharacterAvatarImageType, is("image/jpeg"));
+        assertThat(playerCharacter.playerCharacterAvatar, is("avatar".getBytes()));
+        assertThat(playerCharacter.characterHighlightColorA, is(1));
+        assertThat(playerCharacter.characterHighlightColorR, is(2));
+        assertThat(playerCharacter.characterHighlightColorG, is(3));
+        assertThat(playerCharacter.characterHighlightColorB, is(4));
+    }
+
+    @Test
+    public void testReadPlayerCharactersCount() {
+        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+        final Campaign risingDragon = campaignDAO.readCampaignByName(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON);
+
+        final PlayerCharacterDAO playerCharacterDAO = weaverDB.playerCharacterDAO();
+        final long numberOfPlayerCharacters = playerCharacterDAO.readNumberOfPlayerCharactersForCampaign(risingDragon.id);
+
+        assertThat(numberOfPlayerCharacters, is(1L));
+    }
+
+    @Test
+    public void testUpdatePlayerCharacter() {
+        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+        final Campaign risingDragon = campaignDAO.readCampaignByName(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON);
+
+        final PlayerCharacterDAO playerCharacterDAO = weaverDB.playerCharacterDAO();
+        final List<PlayerCharacter> playerCharactersOutA = playerCharacterDAO.readPlayerCharactersForCampaign(risingDragon.id);
+        assertThat(playerCharactersOutA.size(), is(1));
+
+        final PlayerCharacter playerCharacterOutA = playerCharactersOutA.get(0);
+        assertThat(playerCharacterOutA.playerName, is("Tim"));
+
+        playerCharacterOutA.playerName = "Kathrin";
+        playerCharacterDAO.updatePlayerCharacter(playerCharacterOutA);
+
+        final List<PlayerCharacter> playerCharactersOutB = playerCharacterDAO.readPlayerCharactersForCampaign(risingDragon.id);
+        final PlayerCharacter playerCharacterOutB = playerCharactersOutB.get(0);
+        assertThat(playerCharacterOutB.playerName, is("Kathrin"));
+    }
+
+    @Test
+    public void testDeletePlayerCharacter() {
+        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+        final Campaign risingDragon = campaignDAO.readCampaignByName(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON);
+
+        final PlayerCharacterDAO playerCharacterDAO = weaverDB.playerCharacterDAO();
+        List<PlayerCharacter> playerCharactersOutA = playerCharacterDAO.readPlayerCharactersForCampaign(risingDragon.id);
+        assertThat(playerCharactersOutA.size(), is(1));
+
+        playerCharacterDAO.deletePlayerCharacter(playerCharactersOutA.get(0));
+
+        playerCharactersOutA = playerCharacterDAO.readPlayerCharactersForCampaign(risingDragon.id);
+        assertThat(playerCharactersOutA.size(), is(0));
     }
 }

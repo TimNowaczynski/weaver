@@ -26,6 +26,9 @@ public interface PlayerCharacterDAO {
     @Query("SELECT * FROM playercharacter WHERE fk_campaign_id is :campaignId")
     List<PlayerCharacter> readPlayerCharactersForCampaign(final long campaignId);
 
+    @Query("SELECT COUNT(*) FROM playercharacter WHERE fk_campaign_id is :campaignId")
+    long readNumberOfPlayerCharactersForCampaign(final long campaignId);
+
     @Update
     void updatePlayerCharacter(final PlayerCharacter playerCharacter);
 
