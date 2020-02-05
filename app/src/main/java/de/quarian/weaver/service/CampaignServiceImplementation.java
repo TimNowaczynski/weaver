@@ -8,6 +8,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import de.quarian.weaver.database.CampaignDAO;
+import de.quarian.weaver.database.PlayerCharacterDAO;
 import de.quarian.weaver.database.RoleplayingSystemDAO;
 import de.quarian.weaver.database.ThemeDAO;
 import de.quarian.weaver.database.WeaverDB;
@@ -23,6 +24,7 @@ public class CampaignServiceImplementation implements CampaignService {
 
     private final CampaignDAO campaignDAO;
     private final RoleplayingSystemDAO roleplayingSystemDAO;
+    private final PlayerCharacterDAO playerCharacterDAO;
     private final ThemeDAO themeDAO;
     private final SharedPreferences orderPreferences;
 
@@ -30,6 +32,7 @@ public class CampaignServiceImplementation implements CampaignService {
                                          @NonNull @CampaignListOrderPreferences SharedPreferences orderPreferences) {
         this.campaignDAO = weaverDB.campaignDAO();
         this.roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
+        this.playerCharacterDAO = weaverDB.playerCharacterDAO();
         this.themeDAO = weaverDB.themeDAO();
         this.orderPreferences = orderPreferences;
     }
@@ -56,11 +59,13 @@ public class CampaignServiceImplementation implements CampaignService {
         for (final Campaign campaign : campaigns) {
             final RoleplayingSystem roleplayingSystem = roleplayingSystemDAO.readRoleplayingSystemsById(campaign.roleplayingSystemId);
             assert roleplayingSystem != null;
+            final long numberOfPlayerCharacters = playerCharacterDAO.readNumberOfPlayerCharactersForCampaign(campaign.id);
 
             final CampaignListDisplayObject displayObject = new CampaignListDisplayObject();
             displayObject.setCampaignId(campaign.id);
             displayObject.setRoleplayingSystemName(roleplayingSystem.roleplayingSystemName);
             displayObject.setCampaignName(campaign.campaignName);
+            displayObject.setNumberOfPlayerCharacters(numberOfPlayerCharacters);
             displayObject.setRoleplayingSystemImage(roleplayingSystem.logoImage);
             displayObject.setCreated(new Date(campaign.creationDateMillis));
             displayObject.setLastUsed(new Date(campaign.lastUsedDataMillis));

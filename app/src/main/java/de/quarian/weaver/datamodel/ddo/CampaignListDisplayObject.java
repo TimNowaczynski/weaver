@@ -10,6 +10,7 @@ public class CampaignListDisplayObject {
     private long campaignId;
     private String roleplayingSystemName;
     private String campaignName;
+    private long numberOfPlayerCharacters;
     private Byte[] roleplayingSystemImage;
     private Byte[] campaignImage;
     private Date created;
@@ -45,6 +46,14 @@ public class CampaignListDisplayObject {
 
     public void setCampaignName(String campaignName) {
         this.campaignName = campaignName;
+    }
+
+    public long getNumberOfPlayerCharacters() {
+        return numberOfPlayerCharacters;
+    }
+
+    public void setNumberOfPlayerCharacters(long numberOfPlayerCharacters) {
+        this.numberOfPlayerCharacters = numberOfPlayerCharacters;
     }
 
     public Byte[] getRoleplayingSystemImage() {

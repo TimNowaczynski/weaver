@@ -25,6 +25,7 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
     private final DBConverters.ImageBlobConverter imageBlobConverter = new DBConverters.ImageBlobConverter();
     private final WeakReference<Activity> activity;
     private CampaignListDisplayObject campaignListDisplayObject;
+    private TextView managePlayerCharactersButton;
     private TextView rpsName;
     private TextView campaignName;
     private WeakReference<ImageView> campaignBanner;
@@ -45,7 +46,7 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
         final ImageView editCampaignButton = itemView.findViewById(R.id.campaign_list_item_edit_campaign);
         editCampaignButton.setOnClickListener(this);
 
-        final TextView managePlayerCharactersButton = itemView.findViewById(R.id.campaign_list_item_manage_player_characters);
+        managePlayerCharactersButton = itemView.findViewById(R.id.campaign_list_item_manage_player_characters);
         managePlayerCharactersButton.setOnClickListener(this);
 
         final ImageView campaignBanner = itemView.findViewById(R.id.campaign_list_item_banner);
@@ -59,6 +60,8 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
 
     public void setCampaign(final CampaignListDisplayObject campaignListDisplayObject) {
         this.campaignListDisplayObject = campaignListDisplayObject;
+        final long numberOfPlayerCharacters = campaignListDisplayObject.getNumberOfPlayerCharacters();
+        this.managePlayerCharactersButton.setText(String.valueOf(numberOfPlayerCharacters));
         this.rpsName.setText(campaignListDisplayObject.getRoleplayingSystemName());
         this.campaignName.setText(campaignListDisplayObject.getCampaignName());
 
