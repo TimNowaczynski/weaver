@@ -25,6 +25,8 @@ public class CharacterLibraryActivity extends AppCompatActivity {
     @Inject
     public WeaverDB weaverDB;
 
+    private long campaignId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,11 +34,12 @@ public class CharacterLibraryActivity extends AppCompatActivity {
         setTitle(R.string.activity_title_character_library);
         injectDependencies();
 
-        final long campaignId = getIntent().getLongExtra(EXTRA_CAMPAIGN_ID, -1L);
+        campaignId = getIntent().getLongExtra(EXTRA_CAMPAIGN_ID, -1L);
         if (campaignId < 0) {
             throw new IllegalArgumentException("Campaign ID not provided in extras");
         }
 
+        setResult(RESULT_OK);
         AsyncTask.execute(() -> {
             final CampaignDAO campaignDAO = weaverDB.campaignDAO();
             final Campaign campaign = campaignDAO.readCampaignByID(campaignId);
@@ -49,6 +52,17 @@ public class CharacterLibraryActivity extends AppCompatActivity {
                 .applicationModule(new ApplicationModule(getApplicationContext()))
                 .build()
                 .inject(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AsyncTask.execute(() -> {
+            final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+            final Campaign campaign = campaignDAO.readCampaignByID(campaignId);
+            campaign.lastUsedDataMillis = System.currentTimeMillis();
+            campaignDAO.updateCampaign(campaign);
+        });
     }
 
     // Listeners

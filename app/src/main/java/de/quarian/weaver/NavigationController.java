@@ -33,7 +33,9 @@ public class NavigationController {
     public void openCharacterLibrary(final Activity activity, final long campaignId) {
         final Intent intent = new Intent(activity, CharacterLibraryActivity.class);
         intent.putExtra(CharacterLibraryActivity.EXTRA_CAMPAIGN_ID, campaignId);
-        activity.startActivity(intent);
+        // That's because the last-used timestamp changes as well
+        // and therefore possibly the sort order
+        activity.startActivityForResult(intent, RequestCodes.MODIFY_CAMPAIGNS);
     }
 
     public void addNewCharacter(final Activity activity) {

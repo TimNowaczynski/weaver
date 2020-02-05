@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -36,6 +35,9 @@ import de.quarian.weaver.di.CampaignListOrderPreferences;
 import de.quarian.weaver.di.DaggerApplicationComponent;
 import de.quarian.weaver.di.GlobalHandler;
 import de.quarian.weaver.service.CampaignService;
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class CampaignListActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -142,26 +144,25 @@ public class CampaignListActivity extends AppCompatActivity implements AdapterVi
     }
 
     private void queryDisplayObjects() {
-        AsyncTask.execute(() -> {
-            final List<CampaignListDisplayObject> displayObjects = campaignService.readCampaignsWithOrderFromPreferences();
-            campaignListAdapter.setCampaignListDisplayObjects(displayObjects);
-            globalHandler.post(() -> campaignListAdapter.notifyDataSetChanged());
-        });
+        final Disposable disposable = Observable.just(campaignService)
+                .subscribeOn(Schedulers.io())
+                .subscribe((campaignService) -> {
+                    final List<CampaignListDisplayObject> displayObjects = campaignService.readCampaignsWithOrderFromPreferences();
+                    campaignListAdapter.setCampaignListDisplayObjects(displayObjects);
+                    globalHandler.post(campaignListAdapter::notifyDataSetChanged);
+                });
+        globalHandler.postDelayed(disposable::dispose, 100L);
     }
 
     private void queryDisplayObjects(final CampaignService.SortOrder sortOrder) {
-        AsyncTask.execute(() -> {
-            final List<CampaignListDisplayObject> displayObjects = campaignService.readCampaigns(sortOrder);
-            campaignListAdapter.setCampaignListDisplayObjects(displayObjects);
-            globalHandler.post(() -> campaignListAdapter.notifyDataSetChanged());
-        });
-    }
-
-    @Override
-    public void onActivityReenter(int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            campaignListAdapter.notifyDataSetChanged();
-        }
+        final Disposable disposable = Observable.just(campaignService)
+                .subscribeOn(Schedulers.io())
+                .subscribe((campaignService) -> {
+                    final List<CampaignListDisplayObject> displayObjects = campaignService.readCampaigns(sortOrder);
+                    campaignListAdapter.setCampaignListDisplayObjects(displayObjects);
+                    globalHandler.post(campaignListAdapter::notifyDataSetChanged);
+                });
+        globalHandler.postDelayed(disposable::dispose, 100L);
     }
 
     @Override
@@ -257,19 +258,11 @@ public class CampaignListActivity extends AppCompatActivity implements AdapterVi
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RequestCodes.MODIFY_CAMPAIGNS && resultCode == Activity.RESULT_OK) {
-            refreshList();
+            queryDisplayObjects();
         } else if (requestCode == RequestCodes.RESTART_ACTIVITY && resultCode == Activity.RESULT_OK) {
             final Intent intent = new Intent(getBaseContext(), CampaignListActivity.class);
             finish();
             startActivity(intent);
-        }
-    }
-
-    private void refreshList() {
-        final RecyclerView campaignList = findViewById(R.id.campaign_list);
-        final RecyclerView.Adapter adapter = campaignList.getAdapter();
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
         }
     }
 }

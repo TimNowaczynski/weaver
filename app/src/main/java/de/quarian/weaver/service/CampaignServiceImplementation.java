@@ -47,6 +47,10 @@ public class CampaignServiceImplementation implements CampaignService {
      *  */
     @Override
     public List<CampaignListDisplayObject> readCampaigns(@NonNull final SortOrder sortOrder) {
+        orderPreferences.edit()
+                .putString(SP_CURRENT_ORDER, sortOrder.name())
+                .apply();
+
         final List<Campaign> campaigns = readCampaignsFromDB(sortOrder);
         final List<CampaignListDisplayObject> campaignListDisplayObjects = new ArrayList<>(campaigns.size());
         for (final Campaign campaign : campaigns) {
