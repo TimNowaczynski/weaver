@@ -25,7 +25,9 @@
             android:name=".campaigns.CampaignListActivity"
             android:theme="@style/AppThemeModern.NoActionBar"/>
 
-        <activity android:name=".characters.CharacterLibraryActivity"/>
+        <activity
+            android:name=".characters.CharacterLibraryActivity"
+            android:theme="@style/AppThemeModern.NoActionBar"/>
 
         <activity android:name=".characters.CharacterEditorActivity"/>
 

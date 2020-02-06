@@ -27,6 +27,11 @@
 
     <string name="activity_campaign_list_cd_manage_player_characters">Manage Player Characters</string>
 
+    <string name="activity_character_library_deactivate_campaign">Deactivate Campaign</string>
+    <string name="activity_character_library_campaign_deactivated">Campaign deactivated</string>
+    <string name="activity_character_library_activate_campaign">Activate Campaign</string>
+    <string name="activity_character_library_campaign_activated">Campaign reactivated</string>
+
     <string name="activity_character_view_menu_edit_character">Edit Character</string>
 
     <string name="activity_player_character_list_character_name_hint">Character Name</string>
