@@ -23,7 +23,7 @@ import de.quarian.weaver.di.DaggerApplicationComponent;
 
 public abstract class WeaverThemedActivity extends AppCompatActivity {
 
-    public class ActivityDependencies {
+    public static class ActivityDependencies {
 
         @Inject
         @Nullable
