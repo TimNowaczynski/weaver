@@ -97,6 +97,7 @@
 
     <TextView
         android:id="@+id/player_character_list_add_character"
+        android:onClick="onAddPlayerCharacterClicked"
         android:background="@drawable/player_character_footer_element_background_hollow"
         android:textColor="@color/white"
         android:text="@string/activity_player_character_list_add_character"

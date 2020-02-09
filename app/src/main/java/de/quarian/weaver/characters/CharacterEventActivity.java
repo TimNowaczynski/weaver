@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import de.quarian.weaver.R;
 
+// TODO: extend themed activity
 public class CharacterEventActivity extends AppCompatActivity {
 
     @Override

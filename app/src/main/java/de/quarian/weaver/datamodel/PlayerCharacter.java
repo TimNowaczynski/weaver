@@ -1,5 +1,7 @@
 package de.quarian.weaver.datamodel;
 
+import android.graphics.Color;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
@@ -29,6 +31,8 @@ public class PlayerCharacter {
     public static final String ID = "player_character_id";
     public static final String FK_CAMPAIGN_ID = "fk_campaign_id";
     public static final String FK_ROLEPLAYING_SYSTEM_ID = "fk_roleplaying_system_id";
+
+    private static final String WHITE_ARGB = "255";
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
@@ -60,15 +64,15 @@ public class PlayerCharacter {
     @ColumnInfo(name = "player_character_avatar")
     public byte[] playerCharacterAvatar;
 
-    @ColumnInfo(name = "character_highlight_color_a")
+    @ColumnInfo(name = "character_highlight_color_a", defaultValue = WHITE_ARGB)
     public int characterHighlightColorA;
 
-    @ColumnInfo(name = "character_highlight_color_r")
-    public int characterHighlightColorR;
+    @ColumnInfo(name = "character_highlight_color_r", defaultValue = WHITE_ARGB)
+    public int characterHighlightColorR = Color.red(Color.WHITE);
 
-    @ColumnInfo(name = "character_highlight_color_g")
-    public int characterHighlightColorG;
+    @ColumnInfo(name = "character_highlight_color_g", defaultValue = WHITE_ARGB)
+    public int characterHighlightColorG = Color.green(Color.WHITE);
 
-    @ColumnInfo(name = "character_highlight_color_b")
-    public int characterHighlightColorB;
+    @ColumnInfo(name = "character_highlight_color_b", defaultValue = WHITE_ARGB)
+    public int characterHighlightColorB = Color.blue(Color.WHITE);
 }

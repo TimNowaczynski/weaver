@@ -78,27 +78,77 @@ public class DemoDataSetInjector {
         final ThemeDAO themeDAO = weaverDB.themeDAO();
         final long[] themeIDs = new long[4];
 
+        // TODO: define themes
         final Theme srTheme = new Theme();
         srTheme.bannerBackgroundImage = convertDrawableResToBytes(R.drawable.shadowrun_banner);
         srTheme.bannerBackgroundImageType = "image/jpeg";
+
+        // Black
+        srTheme.screenBackgroundColorA = 255;
+        srTheme.screenBackgroundColorR = 0;
+        srTheme.screenBackgroundColorG = 0;
+        srTheme.screenBackgroundColorB = 0;
+
+        // Red, dunno why
+        srTheme.backgroundFontColorA = 255;
+        srTheme.backgroundFontColorR = 255;
+        srTheme.backgroundFontColorG = 0;
+        srTheme.backgroundFontColorB = 0;
 
         final Theme dsaTheme = new Theme();
         dsaTheme.bannerBackgroundImage = convertDrawableResToBytes(R.drawable.g7_banner);
         dsaTheme.bannerBackgroundImageType = "image/png";
 
+        // Black
+        dsaTheme.screenBackgroundColorA = 255;
+        dsaTheme.screenBackgroundColorR = 0;
+        dsaTheme.screenBackgroundColorG = 0;
+        dsaTheme.screenBackgroundColorB = 0;
+
+        // Red, dunno why
+        dsaTheme.backgroundFontColorA = 255;
+        dsaTheme.backgroundFontColorR = 255;
+        dsaTheme.backgroundFontColorG = 0;
+        dsaTheme.backgroundFontColorB = 0;
+
         final Theme hunterTheme = new Theme();
         hunterTheme.bannerBackgroundImage = convertDrawableResToBytes(R.drawable.wod_hunter_banner);
         hunterTheme.bannerBackgroundImageType = "image/jpg";
+        hunterTheme.bannerBackgroundImageType = "image/png";
+
+        // Black
+        hunterTheme.screenBackgroundColorA = 255;
+        hunterTheme.screenBackgroundColorR = 0;
+        hunterTheme.screenBackgroundColorG = 0;
+        hunterTheme.screenBackgroundColorB = 0;
+
+        // Red, dunno why
+        hunterTheme.backgroundFontColorA = 255;
+        hunterTheme.backgroundFontColorR = 255;
+        hunterTheme.backgroundFontColorG = 0;
+        hunterTheme.backgroundFontColorB = 0;
 
         final Theme dnDTheme = new Theme();
         dnDTheme.bannerBackgroundImage = convertDrawableResToBytes(R.drawable.dnd_banner);
         dnDTheme.bannerBackgroundImageType = "image/jpeg";
+        dnDTheme.bannerBackgroundImageType = "image/png";
+
+        // Black
+        dnDTheme.screenBackgroundColorA = 255;
+        dnDTheme.screenBackgroundColorR = 0;
+        dnDTheme.screenBackgroundColorG = 0;
+        dnDTheme.screenBackgroundColorB = 0;
+
+        // Red, dunno why
+        dnDTheme.backgroundFontColorA = 255;
+        dnDTheme.backgroundFontColorR = 255;
+        dnDTheme.backgroundFontColorG = 0;
+        dnDTheme.backgroundFontColorB = 0;
 
         themeIDs[0] = themeDAO.createTheme(srTheme);
         themeIDs[1] = themeDAO.createTheme(dsaTheme);
         themeIDs[2] = themeDAO.createTheme(hunterTheme);
         themeIDs[3] = themeDAO.createTheme(dnDTheme);
-        //TODO: define theme values
         return themeIDs;
     }
 

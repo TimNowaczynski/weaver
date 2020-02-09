@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import de.quarian.weaver.R;
 
+// TODO: extend themed activity
 public class CharacterEditorActivity extends AppCompatActivity {
 
     public static String EXTRA_MODE = "extra.mode";

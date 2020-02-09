@@ -13,6 +13,7 @@ import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 import de.quarian.weaver.RequestCodes;
 
+// TODO: extend themed activity
 public class CharacterViewActivity extends AppCompatActivity {
 
     @Override

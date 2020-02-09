@@ -92,7 +92,7 @@ public class NavigationController {
     public void managePlayerCharacters(final Activity activity, final long campaignId) {
         final Intent intent = new Intent(activity, PlayerCharacterListActivity.class);
         intent.putExtra(PlayerCharacterListActivity.EXTRA_CAMPAIGN_ID, campaignId);
-        activity.startActivity(intent);
+        activity.startActivityForResult(intent, RequestCodes.MODIFY_PLAYER_CHARACTERS);
     }
 
     public void manageSettings(final Activity activity) {

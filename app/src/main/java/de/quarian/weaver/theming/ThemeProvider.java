@@ -16,20 +16,11 @@ public class ThemeProvider {
     private final WeaverDB weaverDB;
 
     public Theme getThemeForCampaign(final long campaignID) {
-        //TODO: implement demo data, currently campaign AND theme are null
-        /*
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
-        final Campaign campaign = campaignDAO.readCampaignByID(campaignID).getValue();
+        final Campaign campaign = campaignDAO.readCampaignByID(campaignID);
         final ThemeDAO themeDAO = weaverDB.themeDAO();
         //TODO: handle possible null pointer
-        return themeDAO.readTheme(campaign.themeId).getValue();
-         */
-        final Theme theme = new Theme();
-        theme.backgroundFontColorA = 255;
-        theme.backgroundFontColorR = 255;
-        theme.backgroundFontColorG = 0;
-        theme.backgroundFontColorB = 0;
-        return theme;
+        return themeDAO.readThemeByID(campaign.themeId);
     }
 
     public void setThemeForCampaign(final long campaignId, final Theme theme) {

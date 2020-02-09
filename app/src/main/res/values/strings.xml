@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Weaver</string>
+    <string name="generic_okay">Okay</string>
+
+    <string name="themed_activity_invalid_id_error_title">Error opening theme for campaign</string>
+    <string name="themed_activity_invalid_id_error_text">Sorry, something went wrong. We will work on fixing this in an upcoming version.</string>
 
     <string name="activity_title_campaign_screen">Campaigns</string>
     <string name="activity_title_character_library">Characters</string>
@@ -24,16 +28,23 @@
     <string name="activity_campaign_list_menu_settings">Settings</string>
     <string name="activity_campaign_list_menu_view_scheduled_to_delete">Scheduled to Delete</string>
     <string name="activity_campaign_list_menu_developer_options">Developer Options</string>
-
     <string name="activity_campaign_list_cd_manage_player_characters">Manage Player Characters</string>
+
+    <string name="activity_edit_campaign_invalid_id_error_title">Error opening campaign</string>
+    <string name="activity_edit_campaign_invalid_id_error_text">Sorry, something went wrong when trying to open the campaign. We will work on fixing this in an upcoming version.</string>
 
     <string name="activity_character_library_deactivate_campaign">Deactivate Campaign</string>
     <string name="activity_character_library_campaign_deactivated">Campaign deactivated</string>
     <string name="activity_character_library_activate_campaign">Activate Campaign</string>
     <string name="activity_character_library_campaign_activated">Campaign reactivated</string>
 
+    <string name="activity_set_theme_invalid_id_error_title">Error editing theme</string>
+    <string name="activity_set_theme_invalid_id_error_text">Sorry, something went wrong when trying to edit the theme. We will work on fixing this in an upcoming version.</string>
+
     <string name="activity_character_view_menu_edit_character">Edit Character</string>
 
+    <string name="activity_player_character_list_invalid_id_error_title">Error managing player characters</string>
+    <string name="activity_player_character_list_invalid_id_error_text">Sorry, something went wrong when trying to manage player characters. We will work on fixing this in an upcoming version.</string>
     <string name="activity_player_character_list_character_name_hint">Character Name</string>
     <string name="activity_player_character_list_player_name_hint">Player Name</string>
     <string name="activity_player_character_list_example_placeholder">Example</string>

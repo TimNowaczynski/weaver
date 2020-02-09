@@ -3,20 +3,33 @@ package de.quarian.weaver.campaigns;
 import android.os.Bundle;
 import android.view.View;
 
+import javax.inject.Inject;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
+import de.quarian.weaver.di.ActivityModule;
+import de.quarian.weaver.di.DaggerActivityComponent;
 
 public class CampaignEditorActivity extends AppCompatActivity {
 
-    public static String EXTRA_CAMPAIGN_ID = "extra.campaignId";
-    public static String EXTRA_MODE = "extra.mode";
+    public static class ActivityDependencies {
 
-    private static long INVALID_CAMPAIGN_ID = -2;
+        @Inject
+        @Nullable
+        public ActivityPreconditionErrorHandler errorHandler;
 
+    }
+
+    private static final long INVALID_CAMPAIGN_ID = -2;
+    public static final String EXTRA_CAMPAIGN_ID = "extra.campaignId";
+    public static final String EXTRA_MODE = "extra.mode";
+
+    private final ActivityDependencies activityDependencies = new ActivityDependencies();
     private Mode mode;
-    private long campaignID;
+    private long campaignId = INVALID_CAMPAIGN_ID;
 
     public enum Mode {
         EDIT, NEW
@@ -25,8 +38,16 @@ public class CampaignEditorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        injectDependencies();
         determineMode();
         setUpListeners();
+    }
+
+    private void injectDependencies() {
+        DaggerActivityComponent.builder()
+                .activityModule(new ActivityModule(this))
+                .build()
+                .inject(this.activityDependencies);
     }
 
     private void determineMode() {
@@ -37,16 +58,18 @@ public class CampaignEditorActivity extends AppCompatActivity {
             setContentView(R.layout.activity_edit_campaign);
         } else {
             //TODO: init with values (don't forget the title here as well)
-            determineID();
+            requireId();
             setTitle(R.string.activity_title_edit_campaign_screen);
             setContentView(R.layout.activity_edit_campaign);
         }
     }
 
-    private void determineID() {
-        campaignID = getIntent().getLongExtra(EXTRA_CAMPAIGN_ID, INVALID_CAMPAIGN_ID);
-        if (campaignID == INVALID_CAMPAIGN_ID) {
-            //TODO: show dialog (closing the activity) and log error
+    private void requireId() {
+        campaignId = getIntent().getLongExtra(EXTRA_CAMPAIGN_ID, INVALID_CAMPAIGN_ID);
+        if (activityDependencies.errorHandler != null) {
+            activityDependencies.errorHandler.requireOrFinish(() -> campaignId != INVALID_CAMPAIGN_ID, R.string.activity_edit_campaign_invalid_id_error_title, R.string.activity_edit_campaign_invalid_id_error_text);
+        } else {
+            finish(); // Should basically never happen
         }
     }
 
@@ -57,11 +80,11 @@ public class CampaignEditorActivity extends AppCompatActivity {
 
     private void setUpSetThemeButton() {
         final View setThemeButton = findViewById(R.id.set_theme_button_dummy);
-        setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().setTheme(this, this.campaignID));
+        setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().setTheme(this, this.campaignId));
     }
 
     private void setUpConfigureNameSetsButton() {
         final View setThemeButton = findViewById(R.id.configure_name_sets_button_dummy);
-        setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().configureNameSets(this, this.campaignID));
+        setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().configureNameSets(this, this.campaignId));
     }
 }

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.R;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 
-public class CampaignListAdapter extends RecyclerView.Adapter {
+public class CampaignListAdapter extends RecyclerView.Adapter<CampaignListItemViewHolder> {
 
     private WeakReference<Activity> activity;
     private List<CampaignListDisplayObject> campaignListDisplayObjects = new ArrayList<>();
@@ -30,17 +30,16 @@ public class CampaignListAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CampaignListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         final View campaignListItemView = layoutInflater.inflate(R.layout.campaign_list_item, parent, false);
         return new CampaignListItemViewHolder(activity.get(), campaignListItemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final CampaignListItemViewHolder viewHolder = (CampaignListItemViewHolder) holder;
+    public void onBindViewHolder(@NonNull CampaignListItemViewHolder holder, int position) {
         final CampaignListDisplayObject campaignListDisplayObject = campaignListDisplayObjects.get(position);
-        viewHolder.setCampaign(campaignListDisplayObject);
+        holder.setCampaign(campaignListDisplayObject);
     }
 
     @Override

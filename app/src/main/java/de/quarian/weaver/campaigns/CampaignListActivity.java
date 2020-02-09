@@ -39,6 +39,7 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+// TODO: Investigate the odd delay when querying campaigns
 public class CampaignListActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     // TODO: possibly remove this later on, it's just meant as a POC
@@ -257,7 +258,8 @@ public class CampaignListActivity extends AppCompatActivity implements AdapterVi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RequestCodes.MODIFY_CAMPAIGNS && resultCode == Activity.RESULT_OK) {
+        if ((requestCode == RequestCodes.MODIFY_CAMPAIGNS || requestCode == RequestCodes.MODIFY_PLAYER_CHARACTERS)
+                && resultCode == Activity.RESULT_OK) {
             queryDisplayObjects();
         } else if (requestCode == RequestCodes.RESTART_ACTIVITY && resultCode == Activity.RESULT_OK) {
             final Intent intent = new Intent(getBaseContext(), CampaignListActivity.class);

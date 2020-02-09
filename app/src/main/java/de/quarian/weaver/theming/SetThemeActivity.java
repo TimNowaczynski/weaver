@@ -6,14 +6,28 @@ import android.os.Bundle;
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
+import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.R;
 import de.quarian.weaver.datamodel.Theme;
+import de.quarian.weaver.di.ActivityModule;
 import de.quarian.weaver.di.ApplicationModule;
+import de.quarian.weaver.di.DaggerActivityComponent;
 import de.quarian.weaver.di.DaggerApplicationComponent;
 
 public class SetThemeActivity extends WeaverThemedActivity {
 
+    public static class ActivityDependencies {
+
+        @Inject
+        @Nullable
+        public ActivityPreconditionErrorHandler errorHandler;
+
+    }
+
+    private static final long INVALID_CAMPAIGN_ID = -2;
     public static String EXTRA_CAMPAIGN_ID = "extra.campaignId";
+
+    private final ActivityDependencies activityDependencies = new ActivityDependencies();
 
     @Inject
     public ThemeProvider themeProvider;
@@ -29,7 +43,6 @@ public class SetThemeActivity extends WeaverThemedActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         injectDependencies();
-        readThemeForCampaign();
     }
 
     private void injectDependencies() {
@@ -40,16 +53,10 @@ public class SetThemeActivity extends WeaverThemedActivity {
                 .applicationModule(applicationModule)
                 .build()
                 .inject(this);
-    }
 
-    private void readThemeForCampaign() {
-        final long campaignId = getIntent().getLongExtra(EXTRA_CAMPAIGN_ID, -1L);
-        if (campaignId > 0) {
-            theme = themeProvider.getThemeForCampaign(campaignId);
-            setTitle(R.string.activity_title_set_theme);
-        } else {
-            //TODO: log error
-            finish();
-        }
+        DaggerActivityComponent.builder()
+                .activityModule(new ActivityModule(this))
+                .build()
+                .inject(this.activityDependencies);
     }
 }
