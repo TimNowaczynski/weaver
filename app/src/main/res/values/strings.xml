@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Weaver</string>
     <string name="generic_okay">Okay</string>
+    <string name="generic_error_required_field">This field is required</string>
 
     <string name="themed_activity_invalid_id_error_title">Error opening theme for campaign</string>
     <string name="themed_activity_invalid_id_error_text">Sorry, something went wrong. We will work on fixing this in an upcoming version.</string>
@@ -47,7 +48,7 @@
     <string name="activity_player_character_list_invalid_id_error_text">Sorry, something went wrong when trying to manage player characters. We will work on fixing this in an upcoming version.</string>
     <string name="activity_player_character_list_character_name_hint">Character Name</string>
     <string name="activity_player_character_list_player_name_hint">Player Name</string>
-    <string name="activity_player_character_list_example_placeholder">Example</string>
+    <string name="activity_player_character_list_pick_color_hint">Pick Color</string>
     <string name="activity_player_character_list_example_text">%1$s (%2$s) betrayed her trust.</string>
     <string name="activity_player_character_list_change_color_hint">Change color</string>
     <string name="activity_player_character_list_add_character">Add Character</string>

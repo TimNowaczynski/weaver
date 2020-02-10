@@ -1,11 +1,16 @@
 package de.quarian.weaver.players;
 
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 
 import java.util.List;
@@ -13,6 +18,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,8 +35,10 @@ import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerActivityComponent;
 import de.quarian.weaver.di.DaggerApplicationComponent;
 
+// TODO: 1st thing: think about (and implement if necessary) a sort order (so you can close the ticket)
+
 // TODO: extend themed activity
-//TODO: avatars? not sure if that's a must for players
+// TODO: avatars? not sure if that's a must for players
 public class PlayerCharacterListActivity extends AppCompatActivity {
 
     public static class ActivityDependencies {
@@ -118,14 +126,14 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
         colorPicker.show();
         colorPicker.setCallback((@ColorInt int colorInt) -> {
             this.highlightColor = colorInt;
-            final TextView example = findViewById(R.id.player_character_list_character_text_example);
+            final TextView example = findViewById(R.id.player_character_list_character_text_hint);
             example.setTextColor(colorInt);
         });
     }
 
     public void onAddPlayerCharacterClicked(View view) {
-        final TextView characterName = findViewById(R.id.player_character_list_character_name);
-        final TextView playerName = findViewById(R.id.player_character_list_player_name);
+        final TextInputEditText characterName = findViewById(R.id.player_character_list_character_name);
+        final TextInputEditText playerName = findViewById(R.id.player_character_list_player_name);
         final PlayerCharacter playerCharacter = new PlayerCharacter();
         playerCharacter.campaignId = campaignId;
         playerCharacter.roleplayingSystemId = this.roleplayingSystemId;
@@ -139,13 +147,47 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
         playerCharacter.characterHighlightColorB = colorARGB[3];
 
         AsyncTask.execute(() -> {
-            playerCharacterDAO.createPlayerCharacter(playerCharacter);
-            final List<PlayerCharacter> playerCharacters = playerCharacterDAO.readPlayerCharactersForCampaign(campaignId);
-            playerCharacterAdapter.refreshPlayerCharacters(playerCharacters);
-            runOnUiThread(playerCharacterAdapter::notifyDataSetChanged);
+            final boolean requiredInputFields = requireInputFields(characterName, playerName);
+            if (requiredInputFields) {
+                playerCharacterDAO.createPlayerCharacter(playerCharacter);
+                final List<PlayerCharacter> playerCharacters = playerCharacterDAO.readPlayerCharactersForCampaign(campaignId);
+                playerCharacterAdapter.refreshPlayerCharacters(playerCharacters);
+                runOnUiThread(() -> {
+                    playerCharacterAdapter.notifyDataSetChanged();
+                    characterName.setText("");
+                    playerName.setText("");
+                    setResult(RESULT_OK);
+                });
+            }
         });
+    }
 
-        setResult(RESULT_OK);
+    private boolean requireInputFields(final TextInputEditText... editTexts) {
+        boolean inputIsValid = true;
+        for (final TextInputEditText editText : editTexts) {
+            final String text = String.valueOf(editText.getText());
+            if (text.trim().length() == 0) {
+                markInvalidInput(editText);
+                inputIsValid = false;
+            } else {
+                runOnUiThread(() -> editText.setError(null));
+            }
+        }
+        return inputIsValid;
+    }
+
+    private void markInvalidInput(@NonNull final TextInputEditText editText) {
+        final Resources resources = getResources();
+        final String htmlPreset = "<font color='red'>%s</font>";
+        final String error = resources.getString(R.string.generic_error_required_field);
+        final String htmlError = String.format(htmlPreset, error);
+        final Spanned errorSpanned;
+        if (Build.VERSION.SDK_INT >= 24) {
+            errorSpanned = Html.fromHtml(htmlError, 0);
+        } else {
+            errorSpanned = Html.fromHtml(htmlError);
+        }
+        runOnUiThread(() -> editText.setError(errorSpanned));
     }
 
     private int[] toColorARGB(@ColorInt final int color) {

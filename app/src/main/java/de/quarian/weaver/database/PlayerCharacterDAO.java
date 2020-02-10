@@ -23,7 +23,7 @@ public interface PlayerCharacterDAO {
     @Query("SELECT * FROM playercharacter WHERE fk_roleplaying_system_id IS :roleplayingSystemId")
     List<PlayerCharacter> readPlayerCharactersForRoleplayingSystem(final long roleplayingSystemId);
 
-    @Query("SELECT * FROM playercharacter WHERE fk_campaign_id is :campaignId")
+    @Query("SELECT * FROM playercharacter WHERE fk_campaign_id is :campaignId ORDER BY Playercharacter.player_character_name ASC")
     List<PlayerCharacter> readPlayerCharactersForCampaign(final long campaignId);
 
     @Query("SELECT COUNT(*) FROM playercharacter WHERE fk_campaign_id is :campaignId")
