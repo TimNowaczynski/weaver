@@ -17,7 +17,7 @@ public class Theme {
     public static final int PRESET_ID_FANTASY = 2;
     public static final int PRESET_ID_MODERN = 3;
     // This is somewhat shitty, but there seems to be no way around a string constant
-    private static final String DEFAULT_PRESET = "1";
+    private static final String DEFAULT_PRESET = "2";
 
     @ColumnInfo(name = ID)
     @PrimaryKey(autoGenerate = true)
