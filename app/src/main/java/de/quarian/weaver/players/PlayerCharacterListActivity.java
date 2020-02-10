@@ -35,8 +35,6 @@ import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerActivityComponent;
 import de.quarian.weaver.di.DaggerApplicationComponent;
 
-// TODO: 1st thing: think about (and implement if necessary) a sort order (so you can close the ticket)
-
 // TODO: extend themed activity
 // TODO: avatars? not sure if that's a must for players
 public class PlayerCharacterListActivity extends AppCompatActivity {
