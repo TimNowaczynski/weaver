@@ -16,7 +16,7 @@
 
         <TextView
             android:text="Background Text"
-            android:textColor="@color/pitch_black"
+            android:textColor="@color/fantasyPrimaryTextColor"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="100dp"/>
@@ -29,7 +29,7 @@
             <TextView
                 android:background="@color/fantasyPrimaryDarkColor"
                 android:text="Item Text"
-                android:textColor="@color/white"
+                android:textColor="@color/fantasySecondaryTextColor"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
@@ -48,7 +48,7 @@
 
         <TextView
             android:text="Background Text"
-            android:textColor="@color/white"
+            android:textColor="@color/modernPrimaryTextColor"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="100dp"/>
@@ -61,7 +61,7 @@
             <TextView
                 android:background="@color/modernSecondaryLightColor"
                 android:text="Item Text"
-                android:textColor="@color/pitch_black"
+                android:textColor="@color/modernSecondaryTextColor"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
