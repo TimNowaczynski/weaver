@@ -39,8 +39,17 @@
     <string name="activity_character_library_activate_campaign">Activate Campaign</string>
     <string name="activity_character_library_campaign_activated">Campaign reactivated</string>
 
+    <string name="activity_set_theme_apply_fantasy_preset">Fantasy Preset</string>
+    <string name="activity_set_theme_apply_modern_preset">Modern Preset</string>
     <string name="activity_set_theme_invalid_id_error_title">Error editing theme</string>
     <string name="activity_set_theme_invalid_id_error_text">Sorry, something went wrong when trying to edit the theme. We will work on fixing this in an upcoming version.</string>
+    <string name="activity_set_theme_customize_headline">Customize</string>
+    <string name="activity_set_theme_background_color">Background Color</string>
+    <string name="activity_set_theme_item_color">Item Color</string>
+    <string name="activity_set_theme_background_text_color">Background Text Color</string>
+    <string name="activity_set_theme_item_text_color">Item Text Color</string>
+    <string name="activity_set_theme_preview_text">ABC</string>
+    <string name="activity_set_theme_cd_apply">Apply</string>
 
     <string name="activity_character_view_menu_edit_character">Edit Character</string>
 

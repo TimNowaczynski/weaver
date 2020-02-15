@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ee6ba9f15b730828e89cef1fa2322f1d",
+    "identityHash": "9e28fe748077811764a239e8c0cb72bb",
     "entities": [
       {
         "tableName": "Campaign",
@@ -999,7 +999,7 @@
       },
       {
         "tableName": "Theme",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`theme_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `preset_id` INTEGER NOT NULL DEFAULT 1, `font_id` INTEGER NOT NULL DEFAULT 1, `banner_background_image` BLOB, `banner_background_image_type` TEXT, `screen_background_color_a` INTEGER NOT NULL, `screen_background_color_r` INTEGER NOT NULL, `screen_background_color_g` INTEGER NOT NULL, `screen_background_color_b` INTEGER NOT NULL, `item_background_color_a` INTEGER NOT NULL, `item_background_color_r` INTEGER NOT NULL, `item_background_color_g` INTEGER NOT NULL, `item_background_color_b` INTEGER NOT NULL, `background_font_color_a` INTEGER NOT NULL, `background_font_color_r` INTEGER NOT NULL, `background_font_color_g` INTEGER NOT NULL, `background_font_color_b` INTEGER NOT NULL, `item_font_color_a` INTEGER NOT NULL, `item_font_color_r` INTEGER NOT NULL, `item_font_color_g` INTEGER NOT NULL, `item_font_color_b` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`theme_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `preset_id` INTEGER NOT NULL DEFAULT 2, `font_id` INTEGER NOT NULL DEFAULT 2, `banner_background_image` BLOB, `banner_background_image_type` TEXT, `screen_background_color_a` INTEGER NOT NULL, `screen_background_color_r` INTEGER NOT NULL, `screen_background_color_g` INTEGER NOT NULL, `screen_background_color_b` INTEGER NOT NULL, `item_background_color_a` INTEGER NOT NULL, `item_background_color_r` INTEGER NOT NULL, `item_background_color_g` INTEGER NOT NULL, `item_background_color_b` INTEGER NOT NULL, `background_font_color_a` INTEGER NOT NULL, `background_font_color_r` INTEGER NOT NULL, `background_font_color_g` INTEGER NOT NULL, `background_font_color_b` INTEGER NOT NULL, `item_font_color_a` INTEGER NOT NULL, `item_font_color_r` INTEGER NOT NULL, `item_font_color_g` INTEGER NOT NULL, `item_font_color_b` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -1012,14 +1012,14 @@
             "columnName": "preset_id",
             "affinity": "INTEGER",
             "notNull": true,
-            "defaultValue": "1"
+            "defaultValue": "2"
           },
           {
             "fieldPath": "fontId",
             "columnName": "font_id",
             "affinity": "INTEGER",
             "notNull": true,
-            "defaultValue": "1"
+            "defaultValue": "2"
           },
           {
             "fieldPath": "bannerBackgroundImage",
@@ -1143,7 +1143,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ee6ba9f15b730828e89cef1fa2322f1d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9e28fe748077811764a239e8c0cb72bb')"
     ]
   }
 }

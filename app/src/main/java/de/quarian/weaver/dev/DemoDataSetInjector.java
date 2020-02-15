@@ -80,6 +80,7 @@ public class DemoDataSetInjector {
 
         // TODO: define themes
         final Theme srTheme = new Theme();
+        srTheme.presetId = Theme.PRESET_ID_MODERN;
         srTheme.bannerBackgroundImage = convertDrawableResToBytes(R.drawable.shadowrun_banner);
         srTheme.bannerBackgroundImageType = "image/jpeg";
 
@@ -96,6 +97,7 @@ public class DemoDataSetInjector {
         srTheme.backgroundFontColorB = 0;
 
         final Theme dsaTheme = new Theme();
+        dsaTheme.presetId = Theme.PRESET_ID_FANTASY;
         dsaTheme.bannerBackgroundImage = convertDrawableResToBytes(R.drawable.g7_banner);
         dsaTheme.bannerBackgroundImageType = "image/png";
 
@@ -112,6 +114,7 @@ public class DemoDataSetInjector {
         dsaTheme.backgroundFontColorB = 0;
 
         final Theme hunterTheme = new Theme();
+        hunterTheme.presetId = Theme.PRESET_ID_CUSTOM;
         hunterTheme.bannerBackgroundImage = convertDrawableResToBytes(R.drawable.wod_hunter_banner);
         hunterTheme.bannerBackgroundImageType = "image/jpg";
         hunterTheme.bannerBackgroundImageType = "image/png";
@@ -129,6 +132,7 @@ public class DemoDataSetInjector {
         hunterTheme.backgroundFontColorB = 0;
 
         final Theme dnDTheme = new Theme();
+        dnDTheme.presetId = Theme.PRESET_ID_FANTASY;
         dnDTheme.bannerBackgroundImage = convertDrawableResToBytes(R.drawable.dnd_banner);
         dnDTheme.bannerBackgroundImageType = "image/jpeg";
         dnDTheme.bannerBackgroundImageType = "image/png";

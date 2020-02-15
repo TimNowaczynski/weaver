@@ -1,26 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--
+        TODO: style the activity in current theme? Reconsider if we need the data-binding variables
+    -->
 
     <data>
         <variable
-            name="themeDisplayObject"
+            name="appliedThemeDisplayObject"
+            type="de.quarian.weaver.theming.ThemeDisplayObject" />
+
+        <variable
+            name="draftedThemeDisplayObject"
             type="de.quarian.weaver.theming.ThemeDisplayObject" />
     </data>
 
     <LinearLayout
-        tools:background="@color/pitch_black"
-        android:background="@{themeDisplayObject.backgroundColor}"
+        android:background="@color/pitch_black"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".theming.SetThemeActivity">
 
+        <LinearLayout
+            style="?android:buttonBarStyle"
+            android:paddingTop="12dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--
+                TODO: Check if applying (buttonBarStyle/buttonBarButtonStyle) has any consequences
+                    and why it was recommended by android studio
+            -->
+            <Button
+                style="?android:buttonBarButtonStyle"
+                android:text="@string/activity_set_theme_apply_fantasy_preset"
+                android:textColor="@color/fantasyPrimaryTextColor"
+                android:background="@drawable/set_theme_preset_button_fantasy"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                style="?android:buttonBarButtonStyle"
+                android:text="@string/activity_set_theme_apply_modern_preset"
+                android:textColor="@color/modernPrimaryTextColor"
+                android:background="@drawable/set_theme_preset_button_modern"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
         <TextView
-            android:text="Set Theme"
+            android:text="@string/activity_set_theme_customize_headline"
             android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/activity_set_theme_background_color_picker"
+                    android:text="@string/activity_set_theme_background_color"
+                    android:textColor="@color/white"
+                    android:gravity="center|start"
+                    android:drawablePadding="12dp"
+                    android:drawableStart="@drawable/ic_pick_color"
+                    android:minHeight="64dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/activity_set_theme_bg_color_preview"
+                    android:layout_margin="8dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:id="@+id/activity_set_theme_bg_color_preview"
+                    android:background="@drawable/set_theme_transparent_preview"
+                    app:layout_constraintTop_toTopOf="@id/activity_set_theme_background_color_picker"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/activity_set_theme_background_color_picker"
+                    android:layout_margin="8dp"
+                    android:layout_width="80dp"
+                    android:layout_height="0dp"/>
+
+                <TextView
+                    android:id="@+id/activity_set_theme_background_font_color_picker"
+                    android:text="@string/activity_set_theme_background_text_color"
+                    android:textColor="@color/white"
+                    android:gravity="center|start"
+                    android:drawablePadding="12dp"
+                    android:drawableStart="@drawable/ic_pick_color"
+                    android:minHeight="64dp"
+                    app:layout_constraintTop_toBottomOf="@id/activity_set_theme_background_color_picker"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/activity_set_theme_bg_color_preview"
+                    android:layout_margin="8dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/activity_set_theme_background_font_color_preview"
+                    android:gravity="center"
+                    tools:textColor="@color/white"
+                    android:text="@string/activity_set_theme_preview_text"
+                    android:textStyle="bold"
+                    android:background="@drawable/set_theme_transparent_preview"
+                    app:layout_constraintTop_toTopOf="@id/activity_set_theme_background_font_color_picker"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/activity_set_theme_background_font_color_picker"
+                    android:layout_margin="8dp"
+                    android:layout_width="80dp"
+                    android:layout_height="0dp"/>
+
+                <TextView
+                    android:id="@+id/activity_set_theme_item_color_picker"
+                    android:text="@string/activity_set_theme_item_color"
+                    android:textColor="@color/white"
+                    android:gravity="center|start"
+                    android:drawablePadding="12dp"
+                    android:drawableStart="@drawable/ic_pick_color"
+                    android:minHeight="64dp"
+                    app:layout_constraintTop_toBottomOf="@id/activity_set_theme_background_font_color_picker"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/activity_set_theme_item_color_preview"
+                    android:layout_margin="8dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:id="@+id/activity_set_theme_item_color_preview"
+                    android:background="@drawable/set_theme_transparent_preview"
+                    app:layout_constraintTop_toTopOf="@id/activity_set_theme_item_color_picker"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/activity_set_theme_item_color_picker"
+                    android:layout_margin="8dp"
+                    android:layout_width="80dp"
+                    android:layout_height="0dp"/>
+
+                <TextView
+                    android:id="@+id/activity_set_theme_item_text_color_picker"
+                    android:text="@string/activity_set_theme_item_text_color"
+                    android:textColor="@color/white"
+                    android:gravity="center|start"
+                    android:drawablePadding="12dp"
+                    android:drawableStart="@drawable/ic_pick_color"
+                    android:minHeight="64dp"
+                    app:layout_constraintTop_toBottomOf="@id/activity_set_theme_item_color_picker"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/activity_set_theme_item_text_color_preview"
+                    android:layout_margin="8dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/activity_set_theme_item_text_color_preview"
+                    tools:textColor="@color/white"
+                    android:gravity="center"
+                    android:text="@string/activity_set_theme_preview_text"
+                    android:textStyle="bold"
+                    android:background="@drawable/set_theme_transparent_preview"
+                    app:layout_constraintTop_toTopOf="@id/activity_set_theme_item_text_color_picker"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/activity_set_theme_item_text_color_picker"
+                    android:layout_margin="8dp"
+                    android:layout_width="80dp"
+                    android:layout_height="0dp"/>
+
+                <!--
+                TODO: Remove dummy text and implement a fully fledged preview,
+                    maybe as a fragment?
+                 -->
+                <TextView
+                    android:id="@+id/activity_set_theme_integrated_preview"
+                    android:background="@drawable/set_theme_transparent_preview"
+                    tools:textColor="@color/white"
+                    android:text="PREVIEW"
+                    app:layout_constraintTop_toBottomOf="@id/activity_set_theme_item_text_color_picker"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_margin="8dp"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"/>
+
+                <!-- TODO: Wire view model to color pickers -->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/activity_set_theme_confirm"
+                android:src="@drawable/ic_check"
+                app:fabSize="normal"
+                android:tint="@color/white"
+                app:useCompatPadding="true"
+                android:layout_gravity="bottom|end"
+                android:layout_width="56dp"
+                android:layout_height="56dp"/>
+
+        </FrameLayout>
 
     </LinearLayout>
 </layout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Fantasy -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/fantasyPrimaryColor"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <TextView
+            android:text="Background Text"
+            android:textColor="@color/pitch_black"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+
+        <FrameLayout
+            android:padding="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <TextView
+                android:background="@color/fantasyPrimaryDarkColor"
+                android:text="Item Text"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!-- Modern -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/modernSecondaryColor"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <TextView
+            android:text="Background Text"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+
+        <FrameLayout
+            android:padding="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <TextView
+                android:background="@color/modernSecondaryLightColor"
+                android:text="Item Text"
+                android:textColor="@color/pitch_black"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

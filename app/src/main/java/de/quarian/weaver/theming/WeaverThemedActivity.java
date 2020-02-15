@@ -1,6 +1,7 @@
 package de.quarian.weaver.theming;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -82,11 +83,14 @@ public abstract class WeaverThemedActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Fantasy and Modern Themes are hardcoded
+     */
     private void applyTheme() {
         AsyncTask.execute(() -> {
             final Theme themeForCampaign = themeProvider.getThemeForCampaign(campaignId);
             if (themeForCampaign.presetId == Theme.PRESET_ID_FANTASY) {
-                applyClassicTheme();
+                applyFantasyTheme();
             } else if(themeForCampaign.presetId == Theme.PRESET_ID_MODERN) {
                 applyModernTheme();
             } else {
@@ -101,19 +105,75 @@ public abstract class WeaverThemedActivity extends AppCompatActivity {
         return (T) viewDataBinding;
     }
 
-    private void applyClassicTheme() {
-        // TODO: and this
+    // TODO: move those hardcoded values into theme or themeDisplayObject class
+    private void applyFantasyTheme() {
+        final Resources resources = getResources();
+        final Theme fantasyTheme = new Theme();
+        fantasyTheme.presetId = Theme.PRESET_ID_FANTASY;
+        // TODO: provide a bundled font and point to it somehow
 
+        // Banner Background Image should always be customised
+        // + Image Type
+
+        fantasyTheme.screenBackgroundColorA = Color.alpha(resources.getColor(R.color.modernSecondaryColor));
+        fantasyTheme.screenBackgroundColorR = Color.red(resources.getColor(R.color.modernSecondaryColor));
+        fantasyTheme.screenBackgroundColorG = Color.green(resources.getColor(R.color.modernSecondaryColor));
+        fantasyTheme.screenBackgroundColorB = Color.blue(resources.getColor(R.color.modernSecondaryColor));
+
+        fantasyTheme.itemBackgroundColorA = Color.alpha(resources.getColor(R.color.modernSecondaryLightColor));
+        fantasyTheme.itemBackgroundColorR = Color.red(resources.getColor(R.color.modernSecondaryLightColor));
+        fantasyTheme.itemBackgroundColorG = Color.green(resources.getColor(R.color.modernSecondaryLightColor));
+        fantasyTheme.itemBackgroundColorB = Color.blue(resources.getColor(R.color.modernSecondaryLightColor));
+
+        fantasyTheme.backgroundFontColorA = Color.alpha(resources.getColor(R.color.white));
+        fantasyTheme.backgroundFontColorR = Color.red(resources.getColor(R.color.white));
+        fantasyTheme.backgroundFontColorG = Color.green(resources.getColor(R.color.white));
+        fantasyTheme.backgroundFontColorB = Color.blue(resources.getColor(R.color.white));
+
+        fantasyTheme.itemFontColorA = Color.alpha(resources.getColor(R.color.pitch_black));
+        fantasyTheme.itemFontColorR = Color.red(resources.getColor(R.color.pitch_black));
+        fantasyTheme.itemFontColorG = Color.green(resources.getColor(R.color.pitch_black));
+        fantasyTheme.itemFontColorB = Color.blue(resources.getColor(R.color.pitch_black));
+
+        applyTheme(fantasyTheme);
     }
 
     private void applyModernTheme() {
-        // TODO: and that
+        final Resources resources = getResources();
+        final Theme modernTheme = new Theme();
+        modernTheme.presetId = Theme.PRESET_ID_MODERN;
+        // TODO: provide a bundled font and point to it somehow
 
+        // Banner Background Image should always be customised
+        // + Image Type
+
+        modernTheme.screenBackgroundColorA = Color.alpha(resources.getColor(R.color.modernSecondaryColor));
+        modernTheme.screenBackgroundColorR = Color.red(resources.getColor(R.color.modernSecondaryColor));
+        modernTheme.screenBackgroundColorG = Color.green(resources.getColor(R.color.modernSecondaryColor));
+        modernTheme.screenBackgroundColorB = Color.blue(resources.getColor(R.color.modernSecondaryColor));
+
+        modernTheme.itemBackgroundColorA = Color.alpha(resources.getColor(R.color.modernSecondaryLightColor));
+        modernTheme.itemBackgroundColorR = Color.red(resources.getColor(R.color.modernSecondaryLightColor));
+        modernTheme.itemBackgroundColorG = Color.green(resources.getColor(R.color.modernSecondaryLightColor));
+        modernTheme.itemBackgroundColorB = Color.blue(resources.getColor(R.color.modernSecondaryLightColor));
+
+        modernTheme.backgroundFontColorA = Color.alpha(resources.getColor(R.color.white));
+        modernTheme.backgroundFontColorR = Color.red(resources.getColor(R.color.white));
+        modernTheme.backgroundFontColorG = Color.green(resources.getColor(R.color.white));
+        modernTheme.backgroundFontColorB = Color.blue(resources.getColor(R.color.white));
+
+        modernTheme.itemFontColorA = Color.alpha(resources.getColor(R.color.pitch_black));
+        modernTheme.itemFontColorR = Color.red(resources.getColor(R.color.pitch_black));
+        modernTheme.itemFontColorG = Color.green(resources.getColor(R.color.pitch_black));
+        modernTheme.itemFontColorB = Color.blue(resources.getColor(R.color.pitch_black));
+
+        applyTheme(modernTheme);
     }
 
     private void applyTheme(@NonNull Theme themeForCampaign) {
         final ViewDataBinding viewDataBinding = getViewDataBinding();
-        final ThemeDisplayObject themeDisplayObject = ThemeDisplayObject.fromTheme(themeForCampaign);
-        viewDataBinding.setVariable(BR.themeDisplayObject, themeDisplayObject);
+        final Context baseContext = getBaseContext();
+        final ThemeDisplayObject themeDisplayObject = ThemeDisplayObject.fromTheme(baseContext, themeForCampaign);
+        viewDataBinding.setVariable(BR.appliedThemeDisplayObject, themeDisplayObject);
     }
 }
