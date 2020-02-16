@@ -14,6 +14,7 @@ import de.quarian.weaver.players.PlayerCharacterListActivity;
 import de.quarian.weaver.theming.SetThemeActivity;
 import de.quarian.weaver.dev.DeveloperFunctionsActivity;
 import de.quarian.weaver.namesets.ConfigureNameSetsActivity;
+import de.quarian.weaver.theming.WeaverThemedActivity;
 
 public class NavigationController {
 
@@ -73,7 +74,7 @@ public class NavigationController {
 
     public void setTheme(final Activity activity, final long campaignId) {
         final Intent intent = new Intent(activity, SetThemeActivity.class);
-        intent.putExtra(SetThemeActivity.EXTRA_CAMPAIGN_ID, campaignId);
+        intent.putExtra(WeaverThemedActivity.EXTRA_CAMPAIGN_ID, campaignId);
         activity.startActivity(intent);
     }
 

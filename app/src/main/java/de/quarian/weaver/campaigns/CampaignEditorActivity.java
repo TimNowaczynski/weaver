@@ -1,5 +1,6 @@
 package de.quarian.weaver.campaigns;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -11,6 +12,7 @@ import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 import de.quarian.weaver.di.ActivityModule;
+import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerActivityComponent;
 
 public class CampaignEditorActivity extends AppCompatActivity {
@@ -45,6 +47,7 @@ public class CampaignEditorActivity extends AppCompatActivity {
 
     private void injectDependencies() {
         DaggerActivityComponent.builder()
+                .applicationModule(new ApplicationModule(getApplicationContext()))
                 .activityModule(new ActivityModule(this))
                 .build()
                 .inject(this.activityDependencies);
@@ -79,6 +82,7 @@ public class CampaignEditorActivity extends AppCompatActivity {
     }
 
     private void setUpSetThemeButton() {
+        // TODO: handle set theme for new campaigns
         final View setThemeButton = findViewById(R.id.set_theme_button_dummy);
         setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().setTheme(this, this.campaignId));
     }
@@ -86,5 +90,16 @@ public class CampaignEditorActivity extends AppCompatActivity {
     private void setUpConfigureNameSetsButton() {
         final View setThemeButton = findViewById(R.id.configure_name_sets_button_dummy);
         setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().configureNameSets(this, this.campaignId));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /*
+        TODO: In case of new campaigns:
+        TODO: Set Theme needs to call setResult(code, intent); with intent = colors
+            and then we need to grab those values here to insert both theme and
+            campaign into database
+         */
     }
 }

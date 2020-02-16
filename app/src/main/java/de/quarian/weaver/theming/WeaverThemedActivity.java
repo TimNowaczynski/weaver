@@ -20,7 +20,6 @@ import de.quarian.weaver.datamodel.Theme;
 import de.quarian.weaver.di.ActivityModule;
 import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerActivityComponent;
-import de.quarian.weaver.di.DaggerApplicationComponent;
 
 public abstract class WeaverThemedActivity extends AppCompatActivity {
 
@@ -30,6 +29,9 @@ public abstract class WeaverThemedActivity extends AppCompatActivity {
         @Nullable
         public ActivityPreconditionErrorHandler errorHandler;
 
+        @Inject
+        public ThemeProvider themeProvider;
+
     }
 
     private static final long INVALID_CAMPAIGN_ID = -2;
@@ -37,9 +39,6 @@ public abstract class WeaverThemedActivity extends AppCompatActivity {
 
     private final ActivityDependencies activityDependencies = new ActivityDependencies();
     public long campaignId;
-
-    @Inject
-    public ThemeProvider themeProvider;
 
     private ViewDataBinding viewDataBinding;
 
@@ -60,14 +59,17 @@ public abstract class WeaverThemedActivity extends AppCompatActivity {
         final Context applicationContext = getApplicationContext();
         final ApplicationModule applicationModule = new ApplicationModule(applicationContext);
 
+        /*
         DaggerApplicationComponent.builder()
                 .applicationModule(applicationModule)
                 .build()
                 .inject(this);
+         */
 
         final ActivityModule activityModule = new ActivityModule(this);
 
         DaggerActivityComponent.builder()
+                .applicationModule(applicationModule)
                 .activityModule(activityModule)
                 .build()
                 .inject(this.activityDependencies);
@@ -88,7 +90,7 @@ public abstract class WeaverThemedActivity extends AppCompatActivity {
      */
     private void applyTheme() {
         AsyncTask.execute(() -> {
-            final Theme themeForCampaign = themeProvider.getThemeForCampaign(campaignId);
+            final Theme themeForCampaign = activityDependencies.themeProvider.getThemeForCampaign(campaignId);
             if (themeForCampaign.presetId == Theme.PRESET_ID_FANTASY) {
                 applyFantasyTheme();
             } else if(themeForCampaign.presetId == Theme.PRESET_ID_MODERN) {

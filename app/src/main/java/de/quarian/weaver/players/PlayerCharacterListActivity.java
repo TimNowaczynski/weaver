@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.R;
+import de.quarian.weaver.Utils;
 import de.quarian.weaver.database.CampaignDAO;
 import de.quarian.weaver.database.PlayerCharacterDAO;
 import de.quarian.weaver.database.WeaverDB;
@@ -33,7 +34,6 @@ import de.quarian.weaver.datamodel.PlayerCharacter;
 import de.quarian.weaver.di.ActivityModule;
 import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerActivityComponent;
-import de.quarian.weaver.di.DaggerApplicationComponent;
 
 // TODO: extend themed activity
 // TODO: avatars? not sure if that's a must for players
@@ -75,11 +75,8 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
     }
 
     private void injectDependencies() {
-        DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(getApplicationContext()))
-                .build()
-                .inject(this);
         DaggerActivityComponent.builder()
+                .applicationModule(new ApplicationModule(getApplicationContext()))
                 .activityModule(new ActivityModule(this))
                 .build()
                 .inject(this.activityDependencies);
@@ -138,7 +135,7 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
         playerCharacter.playerCharacterName = String.valueOf(characterName.getText());
         playerCharacter.playerName = String.valueOf(playerName.getText());
 
-        final int[] colorARGB = toColorARGB(this.highlightColor);
+        final int[] colorARGB = Utils.toColorARGB(this.highlightColor);
         playerCharacter.characterHighlightColorA = colorARGB[0];
         playerCharacter.characterHighlightColorR = colorARGB[1];
         playerCharacter.characterHighlightColorG = colorARGB[2];
@@ -186,15 +183,6 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
             errorSpanned = Html.fromHtml(htmlError);
         }
         runOnUiThread(() -> editText.setError(errorSpanned));
-    }
-
-    private int[] toColorARGB(@ColorInt final int color) {
-        final int[]colorArgb = new int[4];
-        colorArgb[0] = Color.alpha(color);
-        colorArgb[1] = Color.red(color);
-        colorArgb[2] = Color.green(color);
-        colorArgb[3] = Color.blue(color);
-        return colorArgb;
     }
 
     /*

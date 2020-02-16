@@ -12,7 +12,7 @@ import dagger.Module;
 import dagger.Provides;
 import de.quarian.weaver.ActivityPreconditionErrorHandler;
 
-@Module
+@Module(includes = ApplicationModule.class)
 public class ActivityModule {
 
     private final WeakReference<Activity> activity;
