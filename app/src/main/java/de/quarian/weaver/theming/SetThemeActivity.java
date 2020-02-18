@@ -1,5 +1,6 @@
 package de.quarian.weaver.theming;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +22,7 @@ import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerActivityComponent;
 import de.quarian.weaver.di.GlobalHandler;
 
+// TODO: presets, set preview, apply
 public class SetThemeActivity extends WeaverThemedActivity {
 
     public static class ActivityDependencies {
@@ -40,6 +42,9 @@ public class SetThemeActivity extends WeaverThemedActivity {
     private Theme theme;
 
     @Nullable
+    private ColorPicker actionColorPicker;
+
+    @Nullable
     private ColorPicker backgroundColorPicker;
 
     @Nullable
@@ -51,6 +56,7 @@ public class SetThemeActivity extends WeaverThemedActivity {
     @Nullable
     private ColorPicker itemTextColorPicker;
 
+    private int actionColor;
     private int screenBackgroundColor;
     private int screenBackgroundTextColor;
     private int itemBackgroundColor;
@@ -59,6 +65,11 @@ public class SetThemeActivity extends WeaverThemedActivity {
     @Override
     public int getContentViewId() {
         return R.layout.activity_set_theme;
+    }
+
+    @Override
+    public Activity getTargetActivity() {
+        return this;
     }
 
     @Override
@@ -85,6 +96,7 @@ public class SetThemeActivity extends WeaverThemedActivity {
 
     private void initializeColorPickers() {
         if (theme != null) {
+            initializeActionColorPicker(theme);
             initializeScreenBackgroundColorPicker(theme);
             initializeBackgroundTextColorPicker(theme);
             initializeItemBackgroundColorPicker(theme);
@@ -92,6 +104,32 @@ public class SetThemeActivity extends WeaverThemedActivity {
         } else {
             throw new IllegalStateException("Theme should never be null");
         }
+    }
+
+    private int getAlpha(int alphaFromDb) {
+        // This is a quick work-around, it makes no sense to define an invisible color
+        // and therefore it's safe to assume it's a newly initialized theme
+        if (alphaFromDb == 0) {
+            alphaFromDb = 255;
+        }
+        return alphaFromDb;
+    }
+
+    private void initializeActionColorPicker(@NonNull Theme theme) {
+        final int alpha = getAlpha(theme.actionColorA);
+        actionColorPicker = prepareColorPicker(alpha, theme.actionColorR, theme.actionColorG, theme.actionColorB);
+        actionColorPicker.setCallback((@ColorInt int colorInt) -> {
+            final FrameLayout actionColorFrame = findViewById(R.id.activity_set_theme_action_color_preview);
+            final View preview = actionColorFrame.getChildAt(0);
+            preview.setBackgroundColor(colorInt);
+            actionColor = colorInt;
+        });
+    }
+
+    private ColorPicker prepareColorPicker(final int a, final int r, final int g, final int b) {
+        final ColorPicker colorPicker = new ColorPicker(this, a, r, g, b);
+        colorPicker.enableAutoClose();
+        return colorPicker;
     }
 
     private void initializeScreenBackgroundColorPicker(@NonNull Theme theme) {
@@ -107,21 +145,6 @@ public class SetThemeActivity extends WeaverThemedActivity {
             final TextView textView = (TextView) backgroundTextColorFrame.getChildAt(0);
             textView.setBackgroundColor(colorInt);
         });
-    }
-
-    private ColorPicker prepareColorPicker(final int a, final int r, final int g, final int b) {
-        final ColorPicker colorPicker = new ColorPicker(this, a, r, g, b);
-        colorPicker.enableAutoClose();
-        return colorPicker;
-    }
-
-    private int getAlpha(int alphaFromDb) {
-        // This is a quick work-around, it makes no sense to define an invisible color
-        // and therefore it's safe to assume it's a newly initialized theme
-        if (alphaFromDb == 0) {
-            alphaFromDb = 255;
-        }
-        return alphaFromDb;
     }
 
     private void initializeBackgroundTextColorPicker(@NonNull Theme theme) {
@@ -164,11 +187,17 @@ public class SetThemeActivity extends WeaverThemedActivity {
     }
 
     private void setUpListeners() {
+        final View actionColorPicker = findViewById(R.id.activity_set_theme_action_color_preview);
+        actionColorPicker.setOnClickListener((view) -> {
+            if (this.actionColorPicker != null) {
+                this.actionColorPicker.show();
+            }
+        });
+
         final View backgroundColorPicker = findViewById(R.id.activity_set_theme_background_color_preview);
         backgroundColorPicker.setOnClickListener((view) -> {
             if (this.backgroundColorPicker != null) {
                 this.backgroundColorPicker.show();
-                System.err.println("AAAA");
             }
         });
 
@@ -176,7 +205,6 @@ public class SetThemeActivity extends WeaverThemedActivity {
         backgroundTextColorPicker.setOnClickListener((view) -> {
             if (this.backgroundTextColorPicker != null) {
                 this.backgroundTextColorPicker.show();
-                System.err.println("RRRR");
             }
         });
 
@@ -184,7 +212,6 @@ public class SetThemeActivity extends WeaverThemedActivity {
         itemBackgroundColorPicker.setOnClickListener((view) -> {
             if (this.itemBackgroundColorPicker != null) {
                 this.itemBackgroundColorPicker.show();
-                System.err.println("GGGG");
             }
         });
 
@@ -192,11 +219,11 @@ public class SetThemeActivity extends WeaverThemedActivity {
         itemTextColorPicker.setOnClickListener((view) -> {
             if (this.itemTextColorPicker != null) {
                 this.itemTextColorPicker.show();
-                System.err.println("BBBB");
             }
         });
 
         // TODO: presets
-        // TODO: confirm button
+        // TODO: preview
+        // TODO: confirm action/button
     }
 }

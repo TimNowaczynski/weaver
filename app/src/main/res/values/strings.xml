@@ -44,6 +44,7 @@
     <string name="activity_set_theme_invalid_id_error_title">Error editing theme</string>
     <string name="activity_set_theme_invalid_id_error_text">Sorry, something went wrong when trying to edit the theme. We will work on fixing this in an upcoming version.</string>
     <string name="activity_set_theme_customize_headline">Customize</string>
+    <string name="activity_set_theme_action_color">Action Color</string>
     <string name="activity_set_theme_background_color">Background Color</string>
     <string name="activity_set_theme_item_color">Item Color</string>
     <string name="activity_set_theme_background_text_color">Background Text Color</string>
@@ -69,6 +70,10 @@
     <string name="cd_manage_player_characters">Manage Player Characters</string>
     <string name="cd_edit_campaign">Edit Campaign</string>
     <string name="cd_synopsis">Synopsis</string>
+
+    <string name="fragment_theme_preview_background_text">Background Text</string>
+    <string name="fragment_theme_preview_item_text">Item Text</string>
+    <string name="fragment_theme_preview_button_text">Button</string>
 
     <string-array name="activity_campaign_list_sort_order_spinner_options">
         <item>Campaign Name</item>

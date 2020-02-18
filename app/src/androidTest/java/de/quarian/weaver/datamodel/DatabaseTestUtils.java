@@ -156,6 +156,11 @@ public final class DatabaseTestUtils {
         customTheme.bannerBackgroundImage = imageBlobConverter.convertPrimitiveToBytes("custom".getBytes());
         customTheme.bannerBackgroundImageType = "image/jpg";
 
+        customTheme.actionColorA = 10000;
+        customTheme.actionColorR = 20000;
+        customTheme.actionColorG = 30000;
+        customTheme.actionColorB = 40000;
+
         customTheme.screenBackgroundColorA = 1;
         customTheme.screenBackgroundColorR = 2;
         customTheme.screenBackgroundColorG = 3;

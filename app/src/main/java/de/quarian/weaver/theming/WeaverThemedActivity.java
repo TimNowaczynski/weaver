@@ -1,5 +1,6 @@
 package de.quarian.weaver.theming;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -44,15 +45,17 @@ public abstract class WeaverThemedActivity extends AppCompatActivity {
 
     public abstract int getContentViewId();
 
+    public abstract Activity getTargetActivity();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         injectDependencies();
         final boolean requirementsMet = requireCampaignId();
         if (requirementsMet) {
-            viewDataBinding = DataBindingUtil.setContentView(this, getContentViewId());
+            viewDataBinding = DataBindingUtil.setContentView(getTargetActivity(), getContentViewId());
             applyTheme();
         }
-        super.onCreate(savedInstanceState);
     }
 
     private void injectDependencies() {

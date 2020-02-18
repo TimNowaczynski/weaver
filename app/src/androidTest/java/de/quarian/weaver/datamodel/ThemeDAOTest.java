@@ -78,6 +78,10 @@ public class ThemeDAOTest {
                 assertThat(theme.itemFontColorR, is(2000));
                 assertThat(theme.itemFontColorG, is(3000));
                 assertThat(theme.itemFontColorB, is(4000));
+                assertThat(theme.actionColorA, is(10000));
+                assertThat(theme.actionColorR, is(20000));
+                assertThat(theme.actionColorG, is(30000));
+                assertThat(theme.actionColorB, is(40000));
             }
 
             if (theme.presetId == Theme.PRESET_ID_FANTASY) {

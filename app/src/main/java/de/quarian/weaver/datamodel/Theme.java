@@ -40,6 +40,18 @@ public class Theme {
     @ColumnInfo(name = "banner_background_image_type")
     public String bannerBackgroundImageType;
 
+    @ColumnInfo(name = "action_color_a")
+    public int actionColorA;
+
+    @ColumnInfo(name = "action_color_r")
+    public int actionColorR;
+
+    @ColumnInfo(name = "action_color_g")
+    public int actionColorG;
+
+    @ColumnInfo(name = "action_color_b")
+    public int actionColorB;
+
     @ColumnInfo(name = "screen_background_color_a")
     public int screenBackgroundColorA;
 
