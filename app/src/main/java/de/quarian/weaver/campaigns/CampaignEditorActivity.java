@@ -15,6 +15,7 @@ import de.quarian.weaver.di.ActivityModule;
 import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerActivityComponent;
 
+// TODO: Test Class
 public class CampaignEditorActivity extends AppCompatActivity {
 
     public static class ActivityDependencies {

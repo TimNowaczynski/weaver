@@ -37,13 +37,6 @@ public class CampaignServiceImplementation implements CampaignService {
         this.orderPreferences = orderPreferences;
     }
 
-    @Override
-    public List<CampaignListDisplayObject> readCampaignsWithOrderFromPreferences() {
-        final String rawValue = orderPreferences.getString(SP_CURRENT_ORDER, SortOrder.CREATED.name());
-        final SortOrder sortOrder = SortOrder.valueOf(rawValue);
-        return readCampaigns(sortOrder);
-    }
-
     /**
      * TODO: We could theoretically optimize here a bit and use joined tables
      *  via the @Embedded Annotation in Room.

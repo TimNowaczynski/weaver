@@ -25,8 +25,6 @@ public interface CampaignService {
 
     long createCampaign(@NonNull Campaign campaign);
 
-    List<CampaignListDisplayObject> readCampaignsWithOrderFromPreferences();
-
     List<CampaignListDisplayObject> readCampaigns(@NonNull final SortOrder sortOrder);
 
     void updateCampaign(@NonNull Campaign campaign);

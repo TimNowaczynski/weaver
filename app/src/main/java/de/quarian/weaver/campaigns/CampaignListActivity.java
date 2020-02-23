@@ -14,12 +14,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +31,7 @@ import de.quarian.weaver.BuildConfig;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 import de.quarian.weaver.RequestCodes;
+import de.quarian.weaver.WeaverActivity;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 import de.quarian.weaver.di.ApplicationContext;
@@ -34,13 +39,14 @@ import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.CampaignListOrderPreferences;
 import de.quarian.weaver.di.DaggerApplicationComponent;
 import de.quarian.weaver.di.GlobalHandler;
+import de.quarian.weaver.schedulers.IoScheduler;
 import de.quarian.weaver.service.CampaignService;
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 // TODO: Investigate the odd delay when querying campaigns
-public class CampaignListActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class CampaignListActivity extends WeaverActivity implements AdapterView.OnItemSelectedListener {
 
     // TODO: possibly remove this later on, it's just meant as a POC
     @Inject
@@ -61,7 +67,17 @@ public class CampaignListActivity extends AppCompatActivity implements AdapterVi
     @Inject
     public CampaignService campaignService;
 
+    @IoScheduler
+    @Inject
+    public Scheduler io;
+
+    private CampaignService.SortOrder currentSortOrder = CampaignService.SortOrder.CAMPAIGN_NAME;
     private CampaignListAdapter campaignListAdapter = new CampaignListAdapter(this);
+
+    @VisibleForTesting
+    public void setIoScheduler(final @NonNull Scheduler scheduler) {
+        this.io = scheduler;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -129,6 +145,7 @@ public class CampaignListActivity extends AppCompatActivity implements AdapterVi
                     position = 4;
                     break;
             }
+            currentSortOrder = sortOrder;
             sortOrderSpinner.setSelection(position);
         }
 
@@ -141,29 +158,19 @@ public class CampaignListActivity extends AppCompatActivity implements AdapterVi
         campaignList.setLayoutManager(new LinearLayoutManager(baseContext));
         campaignList.setHasFixedSize(true);
         campaignList.setAdapter(campaignListAdapter);
-        queryDisplayObjects();
     }
 
-    private void queryDisplayObjects() {
-        final Disposable disposable = Observable.just(campaignService)
-                .subscribeOn(Schedulers.io())
-                .subscribe((campaignService) -> {
-                    final List<CampaignListDisplayObject> displayObjects = campaignService.readCampaignsWithOrderFromPreferences();
-                    campaignListAdapter.setCampaignListDisplayObjects(displayObjects);
-                    globalHandler.post(campaignListAdapter::notifyDataSetChanged);
-                });
-        globalHandler.postDelayed(disposable::dispose, 100L);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
     }
 
-    private void queryDisplayObjects(final CampaignService.SortOrder sortOrder) {
-        final Disposable disposable = Observable.just(campaignService)
-                .subscribeOn(Schedulers.io())
-                .subscribe((campaignService) -> {
-                    final List<CampaignListDisplayObject> displayObjects = campaignService.readCampaigns(sortOrder);
-                    campaignListAdapter.setCampaignListDisplayObjects(displayObjects);
-                    globalHandler.post(campaignListAdapter::notifyDataSetChanged);
-                });
-        globalHandler.postDelayed(disposable::dispose, 100L);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        final RefreshDisplayObjectsEvent event = new RefreshDisplayObjectsEvent();
+        EventBus.getDefault().post(event);
     }
 
     @Override
@@ -240,12 +247,17 @@ public class CampaignListActivity extends AppCompatActivity implements AdapterVi
                 break;
         }
 
-        if (selectedSortOrder != null) {
-            campaignListOrderPreferences.edit()
-                    .putString(CampaignService.CAMPAIGN_LIST_ORDER_SP_KEY, selectedSortOrder.name())
-                    .apply();
-            queryDisplayObjects(selectedSortOrder);
+        if (selectedSortOrder != null && selectedSortOrder != currentSortOrder) {
+            storeSortOrder(selectedSortOrder);
+            final RefreshDisplayObjectsEvent event = new RefreshDisplayObjectsEvent();
+            EventBus.getDefault().post(event);
         }
+    }
+
+    private void storeSortOrder(CampaignService.SortOrder selectedSortOrder) {
+        campaignListOrderPreferences.edit()
+                .putString(CampaignService.CAMPAIGN_LIST_ORDER_SP_KEY, selectedSortOrder.name())
+                .apply();
     }
 
     @Override
@@ -260,11 +272,40 @@ public class CampaignListActivity extends AppCompatActivity implements AdapterVi
         super.onActivityResult(requestCode, resultCode, data);
         if ((requestCode == RequestCodes.MODIFY_CAMPAIGNS || requestCode == RequestCodes.MODIFY_PLAYER_CHARACTERS)
                 && resultCode == Activity.RESULT_OK) {
-            queryDisplayObjects();
+            final RefreshDisplayObjectsEvent event = new RefreshDisplayObjectsEvent();
+            EventBus.getDefault().post(event);
         } else if (requestCode == RequestCodes.RESTART_ACTIVITY && resultCode == Activity.RESULT_OK) {
             final Intent intent = new Intent(getBaseContext(), CampaignListActivity.class);
             finish();
             startActivity(intent);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Subscribe
+    public void onEvent(final RefreshDisplayObjectsEvent event) {
+        final CampaignService.SortOrder sortOrder = getSortOrder();
+        queryDisplayObjects(sortOrder);
+    }
+
+    private CampaignService.SortOrder getSortOrder() {
+        final String sortOrderName = campaignListOrderPreferences.getString(CampaignService.CAMPAIGN_LIST_ORDER_SP_KEY, CampaignService.SortOrder.CAMPAIGN_NAME.name());
+        return CampaignService.SortOrder.valueOf(sortOrderName);
+    }
+
+    private void queryDisplayObjects(final CampaignService.SortOrder sortOrder) {
+        final Disposable disposable = Observable.just(campaignService)
+                .subscribeOn(io)
+                .subscribe((campaignService) -> {
+                    final List<CampaignListDisplayObject> displayObjects = campaignService.readCampaigns(sortOrder);
+                    campaignListAdapter.setCampaignListDisplayObjects(displayObjects);
+                    globalHandler.post(campaignListAdapter::notifyDataSetChanged);
+                });
+        globalHandler.postDelayed(disposable::dispose, 500L);
     }
 }

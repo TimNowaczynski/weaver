@@ -3,6 +3,7 @@ package de.quarian.weaver;
 import android.app.Activity;
 import android.content.Intent;
 
+import androidx.annotation.Nullable;
 import de.quarian.weaver.assets.ViewScheduledToDeleteActivity;
 import de.quarian.weaver.campaigns.CampaignEditorActivity;
 import de.quarian.weaver.campaigns.CampaignListActivity;
@@ -18,11 +19,24 @@ import de.quarian.weaver.theming.WeaverThemedActivity;
 
 public class NavigationController {
 
-    private static NavigationController instance = new NavigationController();
+    private static final NavigationController instance = new NavigationController();
+    private static NavigationController testInstance = null;
 
     private NavigationController() { }
 
+    public static void setTestInstance(@Nullable NavigationController navigationController) {
+        if (!BuildConfig.DEBUG) {
+            return;
+        }
+
+        testInstance = navigationController;
+    }
+
     public static NavigationController getInstance() {
+        if (BuildConfig.DEBUG && testInstance != null) {
+            return testInstance;
+        }
+
         return instance;
     }
 

@@ -6,24 +6,35 @@ import android.os.Handler;
 
 import javax.inject.Singleton;
 
+import androidx.annotation.NonNull;
 import androidx.room.Room;
 import dagger.Module;
 import dagger.Provides;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.dev.DemoDataSetInjector;
+import de.quarian.weaver.schedulers.IoScheduler;
 import de.quarian.weaver.service.CampaignService;
 import de.quarian.weaver.service.CampaignServiceImplementation;
 import de.quarian.weaver.theming.ThemeProvider;
+import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
 
 @Module
 public class ApplicationModule {
 
+    @NonNull
     private final Context applicationContext;
+
+    @NonNull
     private final Handler globalHandler;
 
-    public ApplicationModule(final Context applicationContext) {
+    @NonNull
+    private final Scheduler ioScheduler;
+
+    public ApplicationModule(@NonNull final Context applicationContext) {
         this.applicationContext = applicationContext;
         this.globalHandler = new Handler();
+        this.ioScheduler = Schedulers.io();
     }
 
     @ApplicationContext
@@ -63,6 +74,13 @@ public class ApplicationModule {
     @Singleton
     public DemoDataSetInjector demoDataSetInjector() {
         return new DemoDataSetInjector(applicationContext);
+    }
+
+    @Provides
+    @IoScheduler
+    @Singleton
+    public Scheduler ioScheduler() {
+        return ioScheduler;
     }
 
 }
