@@ -41,6 +41,7 @@ public class Name {
     @ColumnInfo(name = "name")
     public String name = "";
 
+    // TODO: investigate if it makes sense to have a normal + specialized compare method instead
     @Override
     public boolean equals(@Nullable Object obj) {
         if (!(obj instanceof Name)) {

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.R;
 import de.quarian.weaver.database.PlayerCharacterDAO;
@@ -42,17 +43,26 @@ public class PlayerCharacterAdapter extends RecyclerView.Adapter<PlayerCharacter
     @Override
     public void onBindViewHolder(@NonNull PlayerCharacterViewHolder viewHolder, int position) {
         final PlayerCharacter playerCharacter = playerCharacters.get(position);
-        viewHolder.setDeletePlayerCharacterRunnable(() -> AsyncTask.execute(() -> {
-            playerCharacters.remove(playerCharacter);
-            playerCharacterDAO.deletePlayerCharacter(playerCharacter);
-            activity.runOnUiThread(() -> this.notifyItemRemoved(position));
-            activity.setResult(Activity.RESULT_OK);
-        }));
+        viewHolder.setDeletePlayerCharacterRunnable(() -> AsyncTask.execute(() -> deletePlayerCharacter(playerCharacter)));
         viewHolder.setPlayerCharacter(playerCharacter);
+    }
+
+    @VisibleForTesting
+    protected void deletePlayerCharacter(final PlayerCharacter playerCharacter) {
+        final int position = playerCharacters.indexOf(playerCharacter);
+        playerCharacters.remove(playerCharacter);
+        playerCharacterDAO.deletePlayerCharacter(playerCharacter);
+        activity.runOnUiThread(() -> this.notifyItemRemoved(position));
+        activity.setResult(Activity.RESULT_OK);
     }
 
     @Override
     public int getItemCount() {
         return playerCharacters.size();
+    }
+
+    @VisibleForTesting
+    protected List<PlayerCharacter> getPlayerCharacters() {
+        return playerCharacters;
     }
 }

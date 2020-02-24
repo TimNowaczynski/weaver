@@ -51,6 +51,7 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
     public static String EXTRA_CAMPAIGN_ID = "extra.campaignId";
 
     private final ActivityDependencies activityDependencies = new ActivityDependencies();
+    private final Utils.ColorConverter colorConverter = new Utils.ColorConverter();
 
     @Inject
     public WeaverDB weaverDB;
@@ -135,7 +136,7 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
         playerCharacter.playerCharacterName = String.valueOf(characterName.getText());
         playerCharacter.playerName = String.valueOf(playerName.getText());
 
-        final int[] colorARGB = Utils.toColorARGB(this.highlightColor);
+        final int[] colorARGB = colorConverter.toColorARGB(this.highlightColor);
         playerCharacter.characterHighlightColorA = colorARGB[0];
         playerCharacter.characterHighlightColorR = colorARGB[1];
         playerCharacter.characterHighlightColorG = colorARGB[2];

@@ -10,6 +10,7 @@ import java.util.concurrent.Callable;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
+// TODO: Not sure if it's worth refactoring to be able to test this
 public class ActivityPreconditionErrorHandler {
 
     @NonNull

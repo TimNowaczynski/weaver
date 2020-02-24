@@ -23,7 +23,7 @@ import de.quarian.weaver.datamodel.Campaign;
 import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerApplicationComponent;
 
-// TODO: extend themed activity
+// TODO: extend themed activity + integration test
 public class CharacterLibraryActivity extends AppCompatActivity {
 
     public static String EXTRA_CAMPAIGN_ID = "extra.campaignId";

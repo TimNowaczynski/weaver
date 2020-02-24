@@ -1,5 +1,7 @@
 package de.quarian.weaver.service;
 
+import android.content.SharedPreferences;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.quarian.weaver.database.CampaignDAO;
+import de.quarian.weaver.database.PlayerCharacterDAO;
 import de.quarian.weaver.database.RoleplayingSystemDAO;
 import de.quarian.weaver.database.ThemeDAO;
 import de.quarian.weaver.database.WeaverDB;
@@ -20,6 +23,8 @@ import de.quarian.weaver.datamodel.Theme;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,6 +38,12 @@ public class CampaignServiceImplementationUnitTest {
     private WeaverDB weaverDBMock;
 
     @Mock
+    private SharedPreferences sharedPreferences;
+
+    @Mock
+    private SharedPreferences.Editor sharedPreferencesEditor;
+
+    @Mock
     private RoleplayingSystemDAO roleplayingSystemDAOMock;
 
     @Mock
@@ -41,13 +52,19 @@ public class CampaignServiceImplementationUnitTest {
     @Mock
     private ThemeDAO themeDAOMock;
 
+    @Mock
+    private PlayerCharacterDAO playerCharacterDAO;
+
+    // TODO: I think this should fail now, because we moved shared preferences into
+    //   this class and they need to be mocked (and tested!)
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        campaignService = new CampaignServiceImplementation(weaverDBMock);
+        campaignService = new CampaignServiceImplementation(weaverDBMock, sharedPreferences);
         when(weaverDBMock.roleplayingSystemDAO()).thenReturn(roleplayingSystemDAOMock);
         when(weaverDBMock.themeDAO()).thenReturn(themeDAOMock);
         when(weaverDBMock.campaignDAO()).thenReturn(campaignDAOMock);
+        when(weaverDBMock.playerCharacterDAO()).thenReturn(playerCharacterDAO);
 
         final Campaign campaign = mock(Campaign.class);
         campaign.roleplayingSystemId = 1L;
@@ -67,7 +84,12 @@ public class CampaignServiceImplementationUnitTest {
         final Theme theme = mock(Theme.class);
         when(themeDAOMock.readThemeByID(1L)).thenReturn(theme);
 
-        campaignService = new CampaignServiceImplementation(weaverDBMock);
+        when(sharedPreferences.edit()).thenReturn(sharedPreferencesEditor);
+        when(sharedPreferencesEditor.putString(anyString(), anyString())).thenReturn(sharedPreferencesEditor);
+
+        when(playerCharacterDAO.readNumberOfPlayerCharactersForCampaign(anyLong())).thenReturn(5L);
+
+        campaignService = new CampaignServiceImplementation(weaverDBMock, sharedPreferences);
     }
 
     @Test

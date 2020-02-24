@@ -39,6 +39,6 @@ public class ThemeProvider {
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
         final Campaign campaign = campaignDAO.readCampaignByID(campaignId);
         campaign.themeId = newThemeId;
-        campaignDAO.updateCampaign(campaign);
+        campaignDAO.createCampaign(campaign);
     }
 }
