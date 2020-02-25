@@ -307,6 +307,7 @@ public class CampaignListActivity extends WeaverActivity implements AdapterView.
         final Disposable disposable = Observable.just(campaignService)
                 .subscribeOn(io)
                 .subscribe((campaignService) -> {
+                    currentSortOrder = sortOrder;
                     final List<CampaignListDisplayObject> displayObjects = campaignService.readCampaigns(sortOrder);
                     campaignListAdapter.setCampaignListDisplayObjects(displayObjects);
                     globalHandler.post(campaignListAdapter::notifyDataSetChanged);

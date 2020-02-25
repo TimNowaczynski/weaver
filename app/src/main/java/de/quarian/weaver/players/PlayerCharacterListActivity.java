@@ -46,6 +46,12 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
         @Nullable
         public ActivityPreconditionErrorHandler errorHandler;
 
+        @Inject
+        public WeaverDB weaverDB;
+
+        @Inject
+        public WeaverLayoutInflater weaverLayoutInflater;
+
     }
 
     private static final long INVALID_CAMPAIGN_ID = -1L;
@@ -53,12 +59,6 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
 
     private final ActivityDependencies activityDependencies = new ActivityDependencies();
     private final Utils.ColorConverter colorConverter = new Utils.ColorConverter();
-
-    @Inject
-    public WeaverDB weaverDB;
-
-    @Inject
-    public WeaverLayoutInflater weaverLayoutInflater;
 
     private PlayerCharacterDAO playerCharacterDAO;
     private PlayerCharacterAdapter playerCharacterAdapter;
@@ -85,7 +85,7 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
                 .activityModule(new ActivityModule(this))
                 .build()
                 .inject(this.activityDependencies);
-        playerCharacterDAO = weaverDB.playerCharacterDAO();
+        playerCharacterDAO = activityDependencies.weaverDB.playerCharacterDAO();
     }
 
     private boolean requireCampaignId() {
@@ -99,7 +99,7 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
     }
 
     private void readCampaign() {
-        final CampaignDAO campaignDAO = weaverDB.campaignDAO();
+        final CampaignDAO campaignDAO = activityDependencies.weaverDB.campaignDAO();
         AsyncTask.execute(() -> {
             final Campaign campaign = campaignDAO.readCampaignByID(this.campaignId);
             this.roleplayingSystemId = campaign.roleplayingSystemId;
@@ -109,7 +109,7 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
     private void setUpList() {
         final RecyclerView playerCharacterList = findViewById(R.id.player_character_list);
         playerCharacterList.setLayoutManager(new LinearLayoutManager(getBaseContext()));
-        playerCharacterAdapter = new PlayerCharacterAdapter(this, playerCharacterDAO, weaverLayoutInflater);
+        playerCharacterAdapter = new PlayerCharacterAdapter(this, playerCharacterDAO, activityDependencies.weaverLayoutInflater);
 
         AsyncTask.execute(() -> {
             final List<PlayerCharacter> playerCharacters = playerCharacterDAO.readPlayerCharactersForCampaign(campaignId);
