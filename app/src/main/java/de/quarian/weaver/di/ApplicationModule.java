@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Room;
 import dagger.Module;
 import dagger.Provides;
+import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.dev.DemoDataSetInjector;
 import de.quarian.weaver.schedulers.IoScheduler;
@@ -56,6 +57,12 @@ public class ApplicationModule {
     public WeaverDB weaverDB() {
         return Room.databaseBuilder(applicationContext, WeaverDB.class, WeaverDB.DATABASE_FILE_NAME)
                 .build();
+    }
+
+    @Provides
+    @Singleton
+    public WeaverLayoutInflater weaverLayoutInflater() {
+        return new WeaverLayoutInflater();
     }
 
     @Provides

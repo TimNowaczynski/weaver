@@ -32,6 +32,7 @@ import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 import de.quarian.weaver.RequestCodes;
 import de.quarian.weaver.WeaverActivity;
+import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 import de.quarian.weaver.di.ApplicationContext;
@@ -71,8 +72,11 @@ public class CampaignListActivity extends WeaverActivity implements AdapterView.
     @Inject
     public Scheduler io;
 
+    @Inject
+    public WeaverLayoutInflater weaverLayoutInflater;
+
     private CampaignService.SortOrder currentSortOrder = CampaignService.SortOrder.CAMPAIGN_NAME;
-    private CampaignListAdapter campaignListAdapter = new CampaignListAdapter(this);
+    private CampaignListAdapter campaignListAdapter;
 
     @VisibleForTesting
     public void setIoScheduler(final @NonNull Scheduler scheduler) {
@@ -84,6 +88,7 @@ public class CampaignListActivity extends WeaverActivity implements AdapterView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign_list);
         injectDependencies();
+        campaignListAdapter = new CampaignListAdapter(this, weaverLayoutInflater);
 
         setUpToolbar();
         setUpButtons();

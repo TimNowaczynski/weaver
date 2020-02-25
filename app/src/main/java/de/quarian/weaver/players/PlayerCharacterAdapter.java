@@ -2,7 +2,6 @@ package de.quarian.weaver.players;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.R;
+import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.database.PlayerCharacterDAO;
 import de.quarian.weaver.datamodel.PlayerCharacter;
 
@@ -20,11 +20,15 @@ public class PlayerCharacterAdapter extends RecyclerView.Adapter<PlayerCharacter
 
     private final Activity activity;
     private final PlayerCharacterDAO playerCharacterDAO;
+    private final WeaverLayoutInflater weaverLayoutInflater;
     private final List<PlayerCharacter> playerCharacters = new ArrayList<>();
 
-    public PlayerCharacterAdapter(@NonNull Activity activity, @NonNull final PlayerCharacterDAO playerCharacterDAO) {
+    public PlayerCharacterAdapter(@NonNull Activity activity,
+                                  @NonNull final PlayerCharacterDAO playerCharacterDAO,
+                                  @NonNull final WeaverLayoutInflater weaverLayoutInflater) {
         this.activity = activity;
         this.playerCharacterDAO = playerCharacterDAO;
+        this.weaverLayoutInflater = weaverLayoutInflater;
     }
 
     public void refreshPlayerCharacters(@NonNull final List<PlayerCharacter> playerCharacters) {
@@ -35,8 +39,7 @@ public class PlayerCharacterAdapter extends RecyclerView.Adapter<PlayerCharacter
     @NonNull
     @Override
     public PlayerCharacterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        final View view = layoutInflater.inflate(R.layout.player_character_list_item, parent, false);
+        final View view = weaverLayoutInflater.inflate(R.layout.player_character_list_item, parent);
         return new PlayerCharacterViewHolder(view);
     }
 

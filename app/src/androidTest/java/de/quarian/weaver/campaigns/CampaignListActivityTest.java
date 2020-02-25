@@ -161,7 +161,7 @@ public class CampaignListActivityTest extends TestCase {
         assertThat(events.size(), is(1));
     }
 
-    // TODO: this test seems flaky, investigate
+    // TODO: this test is flaky, investigate
     @Test
     public void testRefreshCampaignsEventIsReceived() {
         final CampaignListActivity activity = activityTestRule.getActivity();

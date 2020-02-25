@@ -1,7 +1,6 @@
 package de.quarian.weaver.campaigns;
 
 import android.app.Activity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,15 +11,18 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.R;
+import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 
 public class CampaignListAdapter extends RecyclerView.Adapter<CampaignListItemViewHolder> {
 
-    private WeakReference<Activity> activity;
-    private List<CampaignListDisplayObject> campaignListDisplayObjects = new ArrayList<>();
+    private final WeakReference<Activity> activity;
+    private final WeaverLayoutInflater weaverLayoutInflater;
+    private final List<CampaignListDisplayObject> campaignListDisplayObjects = new ArrayList<>();
 
-    public CampaignListAdapter(Activity activity) {
+    public CampaignListAdapter(final Activity activity, @NonNull WeaverLayoutInflater weaverLayoutInflater) {
         this.activity = new WeakReference<>(activity);
+        this.weaverLayoutInflater = weaverLayoutInflater;
     }
 
     public void setCampaignListDisplayObjects(List<CampaignListDisplayObject> campaignListDisplayObjects) {
@@ -31,8 +33,7 @@ public class CampaignListAdapter extends RecyclerView.Adapter<CampaignListItemVi
     @NonNull
     @Override
     public CampaignListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        final View campaignListItemView = layoutInflater.inflate(R.layout.campaign_list_item, parent, false);
+        final View campaignListItemView = weaverLayoutInflater.inflate(R.layout.campaign_list_item, parent);
         return new CampaignListItemViewHolder(activity.get(), campaignListItemView);
     }
 

@@ -17,6 +17,7 @@ import java.util.List;
 
 import de.quarian.weaver.R;
 import de.quarian.weaver.Utils;
+import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -30,12 +31,15 @@ public class CampaignListAdapterUnitTest {
     @Mock
     public Activity activity;
 
+    @Mock
+    public WeaverLayoutInflater weaverLayoutInflater;
+
     private CampaignListAdapter adapter;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        adapter = new CampaignListAdapter(activity);
+        adapter = new CampaignListAdapter(activity, weaverLayoutInflater);
     }
 
     @Test

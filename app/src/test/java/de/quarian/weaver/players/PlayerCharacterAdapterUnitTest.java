@@ -16,6 +16,7 @@ import java.util.List;
 
 import de.quarian.weaver.R;
 import de.quarian.weaver.Utils;
+import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.database.PlayerCharacterDAO;
 import de.quarian.weaver.datamodel.PlayerCharacter;
 
@@ -34,12 +35,15 @@ public class PlayerCharacterAdapterUnitTest {
     @Mock
     public PlayerCharacterDAO playerCharacterDAO;
 
+    @Mock
+    public WeaverLayoutInflater weaverLayoutInflater;
+
     private PlayerCharacterAdapter playerCharacterAdapter;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        playerCharacterAdapter = new PlayerCharacterAdapter(activity, playerCharacterDAO);
+        playerCharacterAdapter = new PlayerCharacterAdapter(activity, playerCharacterDAO, weaverLayoutInflater);
     }
 
     @Test

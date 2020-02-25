@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.R;
 import de.quarian.weaver.Utils;
+import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.database.CampaignDAO;
 import de.quarian.weaver.database.PlayerCharacterDAO;
 import de.quarian.weaver.database.WeaverDB;
@@ -55,6 +56,9 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
 
     @Inject
     public WeaverDB weaverDB;
+
+    @Inject
+    public WeaverLayoutInflater weaverLayoutInflater;
 
     private PlayerCharacterDAO playerCharacterDAO;
     private PlayerCharacterAdapter playerCharacterAdapter;
@@ -105,7 +109,7 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
     private void setUpList() {
         final RecyclerView playerCharacterList = findViewById(R.id.player_character_list);
         playerCharacterList.setLayoutManager(new LinearLayoutManager(getBaseContext()));
-        playerCharacterAdapter = new PlayerCharacterAdapter(this, playerCharacterDAO);
+        playerCharacterAdapter = new PlayerCharacterAdapter(this, playerCharacterDAO, weaverLayoutInflater);
 
         AsyncTask.execute(() -> {
             final List<PlayerCharacter> playerCharacters = playerCharacterDAO.readPlayerCharactersForCampaign(campaignId);
