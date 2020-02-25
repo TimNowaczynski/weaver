@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.lang.ref.WeakReference;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
@@ -31,12 +32,30 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
     private WeakReference<ImageView> campaignBanner;
     private WeakReference<ImageView> rpsImageView;
     private FrameLayout deactivationOverlay;
+    private boolean disableImageConversion;
+
+    /**
+     * This is used for testing only, so we can easily mock this class
+     * @param itemView The dummy View
+     */
+    @VisibleForTesting
+    protected CampaignListItemViewHolder(@NonNull View itemView) {
+        super(itemView);
+
+        activity = new WeakReference<>(null);
+        disableImageConversion = true;
+        initializeViewReferences(itemView);
+    }
 
     public CampaignListItemViewHolder(@NonNull Activity activity, @NonNull View itemView) {
         super(itemView);
         itemView.setOnClickListener(this);
 
         this.activity = new WeakReference<>(activity);
+        initializeViewReferences(itemView);
+    }
+
+    private void initializeViewReferences(@NonNull View itemView) {
         this.rpsName = itemView.findViewById(R.id.campaign_list_item_rps_name);
         this.campaignName = itemView.findViewById(R.id.campaign_list_item_name);
 
@@ -65,6 +84,15 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
         this.rpsName.setText(campaignListDisplayObject.getRoleplayingSystemName());
         this.campaignName.setText(campaignListDisplayObject.getCampaignName());
 
+        if (!disableImageConversion) {
+            convertImages(campaignListDisplayObject);
+        }
+
+        configureActiveStateOverlay(campaignListDisplayObject);
+
+    }
+
+    private void convertImages(CampaignListDisplayObject campaignListDisplayObject) {
         final Byte[] campaignImageBytes = campaignListDisplayObject.getCampaignImage();
         if (campaignImageBytes != null && campaignImageBytes.length > 0) {
             final byte[] campaignImageBytesPrimitive = imageBlobConverter.convertBytesToPrimitive(campaignImageBytes);
@@ -84,19 +112,22 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
                 imageView.setImageBitmap(rpsImage);
             }
         }
+    }
 
-        final Activity activity = this.activity.get();
-        if (activity != null) {
-            if (campaignListDisplayObject.isArchived()) {
+    private void configureActiveStateOverlay(CampaignListDisplayObject campaignListDisplayObject) {
+        if (campaignListDisplayObject.isArchived()) {
+            if (activity != null) {
+                final Activity activity = this.activity.get();
                 final Context baseContext = activity.getBaseContext();
                 final Resources resources = baseContext.getResources();
                 final int overlayColor = resources.getColor(R.color.dark_fifty_percent);
                 this.deactivationOverlay.setBackgroundColor(overlayColor);
             } else {
-                this.deactivationOverlay.setBackgroundColor(Color.TRANSPARENT);
+                throw new RuntimeException("Activity should not be null!");
             }
+        } else {
+            this.deactivationOverlay.setBackgroundColor(Color.TRANSPARENT);
         }
-
     }
 
     @Override

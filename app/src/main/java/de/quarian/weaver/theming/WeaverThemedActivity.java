@@ -61,14 +61,6 @@ public abstract class WeaverThemedActivity extends AppCompatActivity {
     private void injectDependencies() {
         final Context applicationContext = getApplicationContext();
         final ApplicationModule applicationModule = new ApplicationModule(applicationContext);
-
-        /*
-        DaggerApplicationComponent.builder()
-                .applicationModule(applicationModule)
-                .build()
-                .inject(this);
-         */
-
         final ActivityModule activityModule = new ActivityModule(this);
 
         DaggerActivityComponent.builder()
