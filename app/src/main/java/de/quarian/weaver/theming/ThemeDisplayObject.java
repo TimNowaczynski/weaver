@@ -13,6 +13,7 @@ import de.quarian.weaver.datamodel.Theme;
 @SuppressWarnings("WeakerAccess")
 public class ThemeDisplayObject {
 
+    public int actionColor;
     public int backgroundTextColor;
     public int itemTextColor;
     public int backgroundColor;
@@ -51,6 +52,7 @@ public class ThemeDisplayObject {
     private static ThemeDisplayObject createFantasyThemeDisplayObject(@NonNull final Context context) {
         final Resources resources = context.getResources();
         final ThemeDisplayObject themeDisplayObject = new ThemeDisplayObject();
+        themeDisplayObject.actionColor = resources.getColor(R.color.fantasySecondaryColor);
         themeDisplayObject.backgroundTextColor = resources.getColor(R.color.pitch_black);
         themeDisplayObject.itemTextColor = resources.getColor(R.color.white);
         themeDisplayObject.backgroundColor = resources.getColor(R.color.fantasyPrimaryColor);
@@ -62,6 +64,7 @@ public class ThemeDisplayObject {
     private static ThemeDisplayObject createModernThemeDisplayObject(@NonNull final Context context) {
         final Resources resources = context.getResources();
         final ThemeDisplayObject themeDisplayObject = new ThemeDisplayObject();
+        themeDisplayObject.actionColor = resources.getColor(R.color.modernSecondaryDarkColor);
         themeDisplayObject.backgroundTextColor = resources.getColor(R.color.white);
         themeDisplayObject.itemTextColor = resources.getColor(R.color.pitch_black);
         themeDisplayObject.backgroundColor = resources.getColor(R.color.modernSecondaryColor);
@@ -72,6 +75,7 @@ public class ThemeDisplayObject {
 
     private static ThemeDisplayObject createFromTheme(@NonNull final Theme theme) {
         final ThemeDisplayObject themeDisplayObject = new ThemeDisplayObject();
+        themeDisplayObject.actionColor = Color.argb(theme.actionColorA, theme.actionColorR, theme.actionColorG, theme.actionColorB);
         themeDisplayObject.backgroundTextColor = Color.argb(theme.backgroundFontColorA, theme.backgroundFontColorR, theme.backgroundFontColorG, theme.backgroundFontColorB);
         themeDisplayObject.itemTextColor = Color.argb(theme.itemFontColorA, theme.itemFontColorR, theme.itemFontColorG, theme.itemFontColorB);
         themeDisplayObject.backgroundColor = Color.argb(theme.screenBackgroundColorA, theme.screenBackgroundColorR, theme.screenBackgroundColorG, theme.screenBackgroundColorB);
