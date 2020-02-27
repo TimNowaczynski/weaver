@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 import de.quarian.weaver.R;
 import de.quarian.weaver.datamodel.Theme;
 import de.quarian.weaver.di.ActivityModule;
@@ -22,6 +23,7 @@ import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerActivityComponent;
 import de.quarian.weaver.di.GlobalHandler;
 
+// TODO: round edges for preview elements (button, item, overall background)
 // TODO: presets, set preview, apply
 public class SetThemeActivity extends WeaverThemedActivity {
 
@@ -56,11 +58,8 @@ public class SetThemeActivity extends WeaverThemedActivity {
     @Nullable
     private ColorPicker itemTextColorPicker;
 
-    private int actionColor;
     private int screenBackgroundColor;
-    private int screenBackgroundTextColor;
     private int itemBackgroundColor;
-    private int itemTextColor;
 
     @Override
     public int getContentViewId() {
@@ -122,8 +121,38 @@ public class SetThemeActivity extends WeaverThemedActivity {
             final FrameLayout actionColorFrame = findViewById(R.id.activity_set_theme_action_color_preview);
             final View preview = actionColorFrame.getChildAt(0);
             preview.setBackgroundColor(colorInt);
-            actionColor = colorInt;
+            notifyChildFragmentChanges(ThemeColorCategory.actionColor, colorInt);
         });
+    }
+
+    private void notifyChildFragmentChanges(final ThemeColorCategory themeColorCategory, @ColorInt final int colorInt) {
+        final FragmentManager supportFragmentManager = getSupportFragmentManager();
+        final ThemePreviewFragment themePreviewFragment = (ThemePreviewFragment) supportFragmentManager.findFragmentById(R.id.activity_set_theme_integrated_preview_fragment);
+        if (themePreviewFragment != null) {
+            switch (themeColorCategory) {
+                case actionColor: {
+                    themePreviewFragment.setActionColor(colorInt);
+                    break;
+                }
+                case backgroundColor: {
+                    themePreviewFragment.setBackgroundColor(colorInt);
+                    break;
+                }
+                case backgroundTextColor: {
+                    themePreviewFragment.setBackgroundTextColor(colorInt);
+                    break;
+                }
+                case itemColor: {
+                    themePreviewFragment.setItemColor(colorInt);
+                    break;
+                }
+                case itemTextColor: {
+                    themePreviewFragment.setItemTextColor(colorInt);
+                    break;
+                }
+            }
+            themePreviewFragment.refreshContent();
+        }
     }
 
     private ColorPicker prepareColorPicker(final int a, final int r, final int g, final int b) {
@@ -144,6 +173,8 @@ public class SetThemeActivity extends WeaverThemedActivity {
             final FrameLayout backgroundTextColorFrame = findViewById(R.id.activity_set_theme_background_text_color_preview);
             final TextView textView = (TextView) backgroundTextColorFrame.getChildAt(0);
             textView.setBackgroundColor(colorInt);
+
+            notifyChildFragmentChanges(ThemeColorCategory.backgroundColor, colorInt);
         });
     }
 
@@ -155,7 +186,7 @@ public class SetThemeActivity extends WeaverThemedActivity {
             final TextView preview = (TextView) frameLayout.getChildAt(0);
             preview.setBackgroundColor(screenBackgroundColor);
             preview.setTextColor(colorInt);
-            screenBackgroundTextColor = colorInt;
+            notifyChildFragmentChanges(ThemeColorCategory.backgroundTextColor, colorInt);
         });
     }
 
@@ -171,6 +202,7 @@ public class SetThemeActivity extends WeaverThemedActivity {
             final FrameLayout itemTextColorFrame = findViewById(R.id.activity_set_theme_item_text_color_preview);
             final TextView textView = (TextView) itemTextColorFrame.getChildAt(0);
             textView.setBackgroundColor(colorInt);
+            notifyChildFragmentChanges(ThemeColorCategory.itemColor, colorInt);
         });
     }
 
@@ -182,7 +214,7 @@ public class SetThemeActivity extends WeaverThemedActivity {
             final TextView preview = (TextView) frameLayout.getChildAt(0);
             preview.setBackgroundColor(itemBackgroundColor);
             preview.setTextColor(colorInt);
-            itemTextColor = colorInt;
+            notifyChildFragmentChanges(ThemeColorCategory.itemTextColor, colorInt);
         });
     }
 
@@ -223,7 +255,6 @@ public class SetThemeActivity extends WeaverThemedActivity {
         });
 
         // TODO: presets
-        // TODO: preview
         // TODO: confirm action/button
     }
 }
