@@ -17,283 +17,292 @@
             type="de.quarian.weaver.theming.ThemeDisplayObject" />
     </data>
 
-    <LinearLayout
-        android:background="@color/pitch_black"
-        android:orientation="vertical"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".theming.SetThemeActivity">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            style="?android:buttonBarStyle"
-            android:paddingTop="12dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <!--
-                TODO: Check if applying (buttonBarStyle/buttonBarButtonStyle) has any consequences
-                    and why it was recommended by android studio
-            -->
-            <Button
-                style="?android:buttonBarButtonStyle"
-                android:text="@string/activity_set_theme_apply_fantasy_preset"
-                android:textColor="@color/fantasyPrimaryTextColor"
-                android:background="@drawable/set_theme_preset_button_fantasy"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"/>
-
-            <Button
-                style="?android:buttonBarButtonStyle"
-                android:text="@string/activity_set_theme_apply_modern_preset"
-                android:textColor="@color/modernPrimaryTextColor"
-                android:background="@drawable/set_theme_preset_button_modern"
-                android:layout_marginStart="4dp"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:text="@string/activity_set_theme_customize_headline"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:layout_marginTop="12dp"
-            android:layout_marginStart="12dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <FrameLayout
+        <ScrollView
+            android:background="@color/pitch_black"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                tools:context=".theming.SetThemeActivity">
 
-                <TextView
-                    android:id="@+id/activity_set_theme_action_color_picker"
-                    android:text="@string/activity_set_theme_action_color"
-                    android:textColor="@color/white"
-                    android:gravity="center|start"
-                    android:drawablePadding="12dp"
-                    android:drawableStart="@drawable/ic_pick_color"
-                    android:minHeight="54dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/activity_set_theme_action_color_preview"
-                    android:layout_margin="8dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
-
-                <FrameLayout
-                    android:id="@+id/activity_set_theme_action_color_preview"
-                    android:background="@drawable/set_theme_transparent_preview"
-                    app:layout_constraintTop_toTopOf="@id/activity_set_theme_action_color_picker"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/activity_set_theme_action_color_picker"
-                    android:padding="4dp"
-                    android:layout_margin="8dp"
-                    android:layout_width="80dp"
-                    android:layout_height="0dp">
-
-                    <View
-                        tools:background="@color/modernPrimaryDarkColor"
-                        android:background="@{draftedThemeDisplayObject.actionColor}"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
-
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/activity_set_theme_background_color_picker"
-                    android:text="@string/activity_set_theme_background_color"
-                    android:textColor="@color/white"
-                    android:gravity="center|start"
-                    android:drawablePadding="12dp"
-                    android:drawableStart="@drawable/ic_pick_color"
-                    android:minHeight="54dp"
-                    app:layout_constraintTop_toBottomOf="@id/activity_set_theme_action_color_picker"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/activity_set_theme_background_color_preview"
-                    android:layout_margin="8dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
-
-                <FrameLayout
-                    android:id="@+id/activity_set_theme_background_color_preview"
-                    android:background="@drawable/set_theme_transparent_preview"
-                    app:layout_constraintTop_toTopOf="@id/activity_set_theme_background_color_picker"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/activity_set_theme_background_color_picker"
-                    android:padding="4dp"
-                    android:layout_margin="8dp"
-                    android:layout_width="80dp"
-                    android:layout_height="0dp">
-
-                    <View
-                        tools:background="@color/fantasySecondaryColor"
-                        android:background="@{draftedThemeDisplayObject.backgroundColor}"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
-
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/activity_set_theme_background_font_color_picker"
-                    android:text="@string/activity_set_theme_background_text_color"
-                    android:textColor="@color/white"
-                    android:gravity="center|start"
-                    android:drawablePadding="12dp"
-                    android:drawableStart="@drawable/ic_pick_color"
-                    android:minHeight="54dp"
-                    app:layout_constraintTop_toBottomOf="@id/activity_set_theme_background_color_picker"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/activity_set_theme_background_color_preview"
-                    android:layout_margin="8dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
-
-                <FrameLayout
-                    android:id="@+id/activity_set_theme_background_text_color_preview"
-                    android:background="@drawable/set_theme_transparent_preview"
-                    app:layout_constraintTop_toTopOf="@id/activity_set_theme_background_font_color_picker"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/activity_set_theme_background_font_color_picker"
-                    android:padding="4dp"
-                    android:layout_margin="8dp"
-                    android:layout_width="80dp"
-                    android:layout_height="0dp">
-
-                    <TextView
-                        tools:background="@color/fantasyPrimaryDarkColor"
-                        tools:textColor="@color/white"
-                        android:background="@{draftedThemeDisplayObject.backgroundColor}"
-                        android:textColor="@{draftedThemeDisplayObject.backgroundTextColor}"
-                        android:gravity="center"
-                        android:text="@string/activity_set_theme_preview_text"
-                        android:textStyle="bold"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
-
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/activity_set_theme_item_color_picker"
-                    android:text="@string/activity_set_theme_item_color"
-                    android:textColor="@color/white"
-                    android:gravity="center|start"
-                    android:drawablePadding="12dp"
-                    android:drawableStart="@drawable/ic_pick_color"
-                    android:minHeight="54dp"
-                    app:layout_constraintTop_toBottomOf="@id/activity_set_theme_background_font_color_picker"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/activity_set_theme_item_background_color_preview"
-                    android:layout_margin="8dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
-
-                <FrameLayout
-                    android:id="@+id/activity_set_theme_item_background_color_preview"
-                    android:background="@drawable/set_theme_transparent_preview"
-                    app:layout_constraintTop_toTopOf="@id/activity_set_theme_item_color_picker"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/activity_set_theme_item_color_picker"
-                    android:padding="2dp"
-                    android:layout_margin="8dp"
-                    android:layout_width="80dp"
-                    android:layout_height="0dp">
-
-                    <View
-                        tools:background="@color/modernSecondaryLightColor"
-                        android:background="@{draftedThemeDisplayObject.itemColor}"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
-
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/activity_set_theme_item_text_color_picker"
-                    android:text="@string/activity_set_theme_item_text_color"
-                    android:textColor="@color/white"
-                    android:gravity="center|start"
-                    android:drawablePadding="12dp"
-                    android:drawableStart="@drawable/ic_pick_color"
-                    android:minHeight="54dp"
-                    app:layout_constraintTop_toBottomOf="@id/activity_set_theme_item_color_picker"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/activity_set_theme_item_text_color_preview"
-                    android:layout_margin="8dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
-
-                <FrameLayout
-                    android:id="@+id/activity_set_theme_item_text_color_preview"
-                    android:background="@drawable/set_theme_transparent_preview"
-                    app:layout_constraintTop_toTopOf="@id/activity_set_theme_item_text_color_picker"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/activity_set_theme_item_text_color_picker"
-                    android:padding="4dp"
-                    android:layout_margin="8dp"
-                    android:layout_width="80dp"
-                    android:layout_height="0dp">
-
-                    <TextView
-                        tools:textColor="@color/white"
-                        tools:background="@color/modernSecondaryDarkColor"
-                        android:background="@{draftedThemeDisplayObject.itemColor}"
-                        android:textColor="@{draftedThemeDisplayObject.itemTextColor}"
-                        android:gravity="center"
-                        android:text="@string/activity_set_theme_preview_text"
-                        android:textStyle="bold"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/activity_set_theme_integrated_preview_container"
-                    android:background="@drawable/set_theme_transparent_preview"
-                    android:padding="12dp"
-                    app:layout_constraintTop_toBottomOf="@id/activity_set_theme_item_text_color_picker"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_margin="8dp"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    style="?android:buttonBarStyle"
+                    android:paddingTop="12dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <fragment
-                        tools:layout="@layout/fragment_theme_preview"
-                        android:id="@+id/activity_set_theme_integrated_preview_fragment"
-                        android:name="de.quarian.weaver.theming.ThemePreviewFragment"
+                    <!--
+                        TODO: Check if applying (buttonBarStyle/buttonBarButtonStyle) has any consequences
+                            and why it was recommended by android studio
+                    -->
+                    <Button
+                        style="?android:buttonBarButtonStyle"
+                        android:text="@string/activity_set_theme_apply_fantasy_preset"
+                        android:textColor="@color/fantasyPrimaryTextColor"
+                        android:background="@drawable/set_theme_preset_button_fantasy"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                    <Button
+                        style="?android:buttonBarButtonStyle"
+                        android:text="@string/activity_set_theme_apply_modern_preset"
+                        android:textColor="@color/modernPrimaryTextColor"
+                        android:background="@drawable/set_theme_preset_button_modern"
+                        android:layout_marginStart="4dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:text="@string/activity_set_theme_customize_headline"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/activity_set_theme_action_color_picker"
+                            android:text="@string/activity_set_theme_action_color"
+                            android:textColor="@color/white"
+                            android:gravity="center|start"
+                            android:drawablePadding="12dp"
+                            android:drawableStart="@drawable/ic_pick_color"
+                            android:minHeight="54dp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/activity_set_theme_action_color_preview"
+                            android:layout_margin="8dp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+
+                        <FrameLayout
+                            android:id="@+id/activity_set_theme_action_color_preview"
+                            android:background="@drawable/set_theme_transparent_preview"
+                            app:layout_constraintTop_toTopOf="@id/activity_set_theme_action_color_picker"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="@id/activity_set_theme_action_color_picker"
+                            android:padding="4dp"
+                            android:layout_margin="8dp"
+                            android:layout_width="80dp"
+                            android:layout_height="0dp">
+
+                            <View
+                                tools:background="@color/modernPrimaryDarkColor"
+                                android:background="@{draftedThemeDisplayObject.actionColor}"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/activity_set_theme_background_color_picker"
+                            android:text="@string/activity_set_theme_background_color"
+                            android:textColor="@color/white"
+                            android:gravity="center|start"
+                            android:drawablePadding="12dp"
+                            android:drawableStart="@drawable/ic_pick_color"
+                            android:minHeight="54dp"
+                            app:layout_constraintTop_toBottomOf="@id/activity_set_theme_action_color_picker"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/activity_set_theme_background_color_preview"
+                            android:layout_margin="8dp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+
+                        <FrameLayout
+                            android:id="@+id/activity_set_theme_background_color_preview"
+                            android:background="@drawable/set_theme_transparent_preview"
+                            app:layout_constraintTop_toTopOf="@id/activity_set_theme_background_color_picker"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="@id/activity_set_theme_background_color_picker"
+                            android:padding="4dp"
+                            android:layout_margin="8dp"
+                            android:layout_width="80dp"
+                            android:layout_height="0dp">
+
+                            <View
+                                tools:background="@color/fantasySecondaryColor"
+                                android:background="@{draftedThemeDisplayObject.backgroundColor}"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/activity_set_theme_background_font_color_picker"
+                            android:text="@string/activity_set_theme_background_text_color"
+                            android:textColor="@color/white"
+                            android:gravity="center|start"
+                            android:drawablePadding="12dp"
+                            android:drawableStart="@drawable/ic_pick_color"
+                            android:minHeight="54dp"
+                            app:layout_constraintTop_toBottomOf="@id/activity_set_theme_background_color_picker"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/activity_set_theme_background_color_preview"
+                            android:layout_margin="8dp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+
+                        <FrameLayout
+                            android:id="@+id/activity_set_theme_background_text_color_preview"
+                            android:background="@drawable/set_theme_transparent_preview"
+                            app:layout_constraintTop_toTopOf="@id/activity_set_theme_background_font_color_picker"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="@id/activity_set_theme_background_font_color_picker"
+                            android:padding="4dp"
+                            android:layout_margin="8dp"
+                            android:layout_width="80dp"
+                            android:layout_height="0dp">
+
+                            <TextView
+                                tools:background="@color/fantasyPrimaryDarkColor"
+                                tools:textColor="@color/white"
+                                android:background="@{draftedThemeDisplayObject.backgroundColor}"
+                                android:textColor="@{draftedThemeDisplayObject.backgroundTextColor}"
+                                android:gravity="center"
+                                android:text="@string/activity_set_theme_preview_text"
+                                android:textStyle="bold"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/activity_set_theme_item_color_picker"
+                            android:text="@string/activity_set_theme_item_color"
+                            android:textColor="@color/white"
+                            android:gravity="center|start"
+                            android:drawablePadding="12dp"
+                            android:drawableStart="@drawable/ic_pick_color"
+                            android:minHeight="54dp"
+                            app:layout_constraintTop_toBottomOf="@id/activity_set_theme_background_font_color_picker"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/activity_set_theme_item_background_color_preview"
+                            android:layout_margin="8dp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+
+                        <FrameLayout
+                            android:id="@+id/activity_set_theme_item_background_color_preview"
+                            android:background="@drawable/set_theme_transparent_preview"
+                            app:layout_constraintTop_toTopOf="@id/activity_set_theme_item_color_picker"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="@id/activity_set_theme_item_color_picker"
+                            android:padding="2dp"
+                            android:layout_margin="8dp"
+                            android:layout_width="80dp"
+                            android:layout_height="0dp">
+
+                            <View
+                                tools:background="@color/modernSecondaryLightColor"
+                                android:background="@{draftedThemeDisplayObject.itemColor}"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/activity_set_theme_item_text_color_picker"
+                            android:text="@string/activity_set_theme_item_text_color"
+                            android:textColor="@color/white"
+                            android:gravity="center|start"
+                            android:drawablePadding="12dp"
+                            android:drawableStart="@drawable/ic_pick_color"
+                            android:minHeight="54dp"
+                            app:layout_constraintTop_toBottomOf="@id/activity_set_theme_item_color_picker"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/activity_set_theme_item_text_color_preview"
+                            android:layout_margin="8dp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+
+                        <FrameLayout
+                            android:id="@+id/activity_set_theme_item_text_color_preview"
+                            android:background="@drawable/set_theme_transparent_preview"
+                            app:layout_constraintTop_toTopOf="@id/activity_set_theme_item_text_color_picker"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="@id/activity_set_theme_item_text_color_picker"
+                            android:padding="4dp"
+                            android:layout_margin="8dp"
+                            android:layout_width="80dp"
+                            android:layout_height="0dp">
+
+                            <TextView
+                                tools:textColor="@color/white"
+                                tools:background="@color/modernSecondaryDarkColor"
+                                android:background="@{draftedThemeDisplayObject.itemColor}"
+                                android:textColor="@{draftedThemeDisplayObject.itemTextColor}"
+                                android:gravity="center"
+                                android:text="@string/activity_set_theme_preview_text"
+                                android:textStyle="bold"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"/>
+
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:id="@+id/activity_set_theme_integrated_preview_container"
+                            android:background="@drawable/set_theme_transparent_preview"
+                            app:layout_constraintTop_toBottomOf="@id/activity_set_theme_item_text_color_picker"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_margin="8dp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content">
+
+                            <fragment
+                                tools:layout="@layout/fragment_theme_preview"
+                                android:id="@+id/activity_set_theme_integrated_preview_fragment"
+                                android:name="de.quarian.weaver.theming.ThemePreviewFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"/>
+
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </FrameLayout>
 
-                <!-- TODO: Wire view model to color pickers -->
+            </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/activity_set_theme_confirm"
-                android:src="@drawable/ic_check"
-                app:fabSize="normal"
-                android:tint="@color/white"
-                app:useCompatPadding="true"
-                android:layout_gravity="bottom|end"
-                android:layout_width="56dp"
-                android:layout_height="56dp"/>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/activity_set_theme_confirm"
+            android:src="@drawable/ic_check"
+            app:fabSize="normal"
+            android:tint="@color/white"
+            app:useCompatPadding="true"
+            android:layout_gravity="bottom|end"
+            android:layout_width="56dp"
+            android:layout_height="56dp"/>
 
-        </FrameLayout>
+    </FrameLayout>
 
-    </LinearLayout>
 </layout>
