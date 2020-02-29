@@ -10,16 +10,14 @@ import androidx.annotation.NonNull;
 import de.quarian.weaver.R;
 import de.quarian.weaver.datamodel.Theme;
 
-@SuppressWarnings("WeakerAccess")
 public class ThemeDisplayObject {
 
     public int actionColor;
+    public Drawable actionDrawable;
     public int backgroundTextColor;
     public int itemTextColor;
     public int backgroundColor;
     public int itemColor;
-
-    // TODO: reconsider if we actually have a use for that
     public Drawable itemDrawable;
 
     public static ThemeDisplayObject fromTheme(@NonNull final Context context, @NonNull final Theme theme) {
@@ -53,6 +51,7 @@ public class ThemeDisplayObject {
         final Resources resources = context.getResources();
         final ThemeDisplayObject themeDisplayObject = new ThemeDisplayObject();
         themeDisplayObject.actionColor = resources.getColor(R.color.fantasySecondaryColor);
+        themeDisplayObject.actionDrawable = themeDisplayObject.createActionDrawable();
         themeDisplayObject.backgroundTextColor = resources.getColor(R.color.pitch_black);
         themeDisplayObject.itemTextColor = resources.getColor(R.color.white);
         themeDisplayObject.backgroundColor = resources.getColor(R.color.fantasyPrimaryColor);
@@ -65,6 +64,7 @@ public class ThemeDisplayObject {
         final Resources resources = context.getResources();
         final ThemeDisplayObject themeDisplayObject = new ThemeDisplayObject();
         themeDisplayObject.actionColor = resources.getColor(R.color.modernSecondaryDarkColor);
+        themeDisplayObject.actionDrawable = themeDisplayObject.createActionDrawable();
         themeDisplayObject.backgroundTextColor = resources.getColor(R.color.white);
         themeDisplayObject.itemTextColor = resources.getColor(R.color.pitch_black);
         themeDisplayObject.backgroundColor = resources.getColor(R.color.modernSecondaryColor);
@@ -76,6 +76,7 @@ public class ThemeDisplayObject {
     private static ThemeDisplayObject createFromTheme(@NonNull final Theme theme) {
         final ThemeDisplayObject themeDisplayObject = new ThemeDisplayObject();
         themeDisplayObject.actionColor = Color.argb(theme.actionColorA, theme.actionColorR, theme.actionColorG, theme.actionColorB);
+        themeDisplayObject.actionDrawable = themeDisplayObject.createActionDrawable();
         themeDisplayObject.backgroundTextColor = Color.argb(theme.backgroundFontColorA, theme.backgroundFontColorR, theme.backgroundFontColorG, theme.backgroundFontColorB);
         themeDisplayObject.itemTextColor = Color.argb(theme.itemFontColorA, theme.itemFontColorR, theme.itemFontColorG, theme.itemFontColorB);
         themeDisplayObject.backgroundColor = Color.argb(theme.screenBackgroundColorA, theme.screenBackgroundColorR, theme.screenBackgroundColorG, theme.screenBackgroundColorB);
@@ -84,11 +85,24 @@ public class ThemeDisplayObject {
         return themeDisplayObject;
     }
 
+    public void refreshDrawables() {
+        itemDrawable = createItemDrawable();
+        actionDrawable = createActionDrawable();
+    }
+
     private Drawable createItemDrawable() {
         final GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setShape(GradientDrawable.RECTANGLE);
         gradientDrawable.setCornerRadius(8f);
         gradientDrawable.setColor(itemColor);
+        return gradientDrawable;
+    }
+
+    private Drawable createActionDrawable() {
+        final GradientDrawable gradientDrawable = new GradientDrawable();
+        gradientDrawable.setShape(GradientDrawable.RECTANGLE);
+        gradientDrawable.setCornerRadius(8f);
+        gradientDrawable.setColor(actionColor);
         return gradientDrawable;
     }
 }

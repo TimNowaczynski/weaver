@@ -47,6 +47,7 @@
                     -->
                     <Button
                         style="?android:buttonBarButtonStyle"
+                        android:onClick="applyFantasyPreset"
                         android:text="@string/activity_set_theme_apply_fantasy_preset"
                         android:textColor="@color/fantasyPrimaryTextColor"
                         android:background="@drawable/set_theme_preset_button_fantasy"
@@ -57,6 +58,7 @@
 
                     <Button
                         style="?android:buttonBarButtonStyle"
+                        android:onClick="applyModernPreset"
                         android:text="@string/activity_set_theme_apply_modern_preset"
                         android:textColor="@color/modernPrimaryTextColor"
                         android:background="@drawable/set_theme_preset_button_modern"
@@ -103,6 +105,7 @@
 
                         <FrameLayout
                             android:id="@+id/activity_set_theme_action_color_preview"
+                            android:onClick="pickActionColor"
                             android:background="@drawable/set_theme_transparent_preview"
                             app:layout_constraintTop_toTopOf="@id/activity_set_theme_action_color_picker"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -137,6 +140,7 @@
 
                         <FrameLayout
                             android:id="@+id/activity_set_theme_background_color_preview"
+                            android:onClick="pickBackgroundColor"
                             android:background="@drawable/set_theme_transparent_preview"
                             app:layout_constraintTop_toTopOf="@id/activity_set_theme_background_color_picker"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -171,6 +175,7 @@
 
                         <FrameLayout
                             android:id="@+id/activity_set_theme_background_text_color_preview"
+                            android:onClick="pickBackgroundTextColor"
                             android:background="@drawable/set_theme_transparent_preview"
                             app:layout_constraintTop_toTopOf="@id/activity_set_theme_background_font_color_picker"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -210,6 +215,7 @@
 
                         <FrameLayout
                             android:id="@+id/activity_set_theme_item_background_color_preview"
+                            android:onClick="pickItemBackgroundColor"
                             android:background="@drawable/set_theme_transparent_preview"
                             app:layout_constraintTop_toTopOf="@id/activity_set_theme_item_color_picker"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -244,6 +250,7 @@
 
                         <FrameLayout
                             android:id="@+id/activity_set_theme_item_text_color_preview"
+                            android:onClick="pickItemTextColor"
                             android:background="@drawable/set_theme_transparent_preview"
                             app:layout_constraintTop_toTopOf="@id/activity_set_theme_item_text_color_picker"
                             app:layout_constraintEnd_toEndOf="parent"

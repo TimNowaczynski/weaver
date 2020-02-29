@@ -13,6 +13,7 @@ import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import javax.inject.Inject;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
@@ -23,8 +24,6 @@ import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerActivityComponent;
 import de.quarian.weaver.di.GlobalHandler;
 
-// TODO: round edges for preview elements (button, item, overall background)
-// TODO: presets, set preview, apply
 public class SetThemeActivity extends WeaverThemedActivity {
 
     public static class ActivityDependencies {
@@ -78,10 +77,7 @@ public class SetThemeActivity extends WeaverThemedActivity {
 
         AsyncTask.execute(() -> {
             theme = activityDependencies.themeProvider.getThemeForCampaign(campaignId);
-            activityDependencies.handler.post(() -> {
-                initializeColorPickers();
-                setUpListeners();
-            });
+            activityDependencies.handler.post(this::initializeColorPickers);
         });
     }
 
@@ -118,11 +114,15 @@ public class SetThemeActivity extends WeaverThemedActivity {
         final int alpha = getAlpha(theme.actionColorA);
         actionColorPicker = prepareColorPicker(alpha, theme.actionColorR, theme.actionColorG, theme.actionColorB);
         actionColorPicker.setCallback((@ColorInt int colorInt) -> {
-            final FrameLayout actionColorFrame = findViewById(R.id.activity_set_theme_action_color_preview);
-            final View preview = actionColorFrame.getChildAt(0);
-            preview.setBackgroundColor(colorInt);
+            setActionColorPreview(R.id.activity_set_theme_action_color_preview, colorInt);
             notifyChildFragmentChanges(ThemeColorCategory.actionColor, colorInt);
         });
+    }
+
+    private void setActionColorPreview(@IdRes final int viewId, @ColorInt final int colorInt) {
+        final FrameLayout actionColorFrame = findViewById(viewId);
+        final View view = actionColorFrame.getChildAt(0);
+        view.setBackgroundColor(colorInt);
     }
 
     private void notifyChildFragmentChanges(final ThemeColorCategory themeColorCategory, @ColorInt final int colorInt) {
@@ -218,43 +218,44 @@ public class SetThemeActivity extends WeaverThemedActivity {
         });
     }
 
-    private void setUpListeners() {
-        final View actionColorPicker = findViewById(R.id.activity_set_theme_action_color_preview);
-        actionColorPicker.setOnClickListener((view) -> {
-            if (this.actionColorPicker != null) {
-                this.actionColorPicker.show();
-            }
-        });
-
-        final View backgroundColorPicker = findViewById(R.id.activity_set_theme_background_color_preview);
-        backgroundColorPicker.setOnClickListener((view) -> {
-            if (this.backgroundColorPicker != null) {
-                this.backgroundColorPicker.show();
-            }
-        });
-
-        final View backgroundTextColorPicker = findViewById(R.id.activity_set_theme_background_text_color_preview);
-        backgroundTextColorPicker.setOnClickListener((view) -> {
-            if (this.backgroundTextColorPicker != null) {
-                this.backgroundTextColorPicker.show();
-            }
-        });
-
-        final View itemBackgroundColorPicker = findViewById(R.id.activity_set_theme_item_background_color_preview);
-        itemBackgroundColorPicker.setOnClickListener((view) -> {
-            if (this.itemBackgroundColorPicker != null) {
-                this.itemBackgroundColorPicker.show();
-            }
-        });
-
-        final View itemTextColorPicker = findViewById(R.id.activity_set_theme_item_text_color_preview);
-        itemTextColorPicker.setOnClickListener((view) -> {
-            if (this.itemTextColorPicker != null) {
-                this.itemTextColorPicker.show();
-            }
-        });
-
-        // TODO: presets
-        // TODO: confirm action/button
+    public void pickActionColor(final View view) {
+        if (this.actionColorPicker != null) {
+            this.actionColorPicker.show();
+        }
     }
+
+    public void pickBackgroundColor(final View view) {
+        if (this.backgroundColorPicker != null) {
+            this.backgroundColorPicker.show();
+        }
+    }
+
+    public void pickBackgroundTextColor(final View view) {
+        if (this.backgroundTextColorPicker != null) {
+            this.backgroundTextColorPicker.show();
+        }
+    }
+
+    public void pickItemBackgroundColor(final View view) {
+        if (this.itemBackgroundColorPicker != null) {
+            this.itemBackgroundColorPicker.show();
+        }
+    }
+
+    public void pickItemTextColor(final View view) {
+        if (this.itemTextColorPicker != null) {
+            this.itemTextColorPicker.show();
+        }
+    }
+
+    public void applyFantasyPreset(final View view) {
+
+    }
+
+    public void applyModernPreset(final View view) {
+
+    }
+
+    // TODO: presets
+    // TODO: confirm button
 }

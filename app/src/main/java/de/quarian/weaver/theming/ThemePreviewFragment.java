@@ -59,6 +59,7 @@ public class ThemePreviewFragment extends Fragment {
 
     public void setActionColor(int actionColor) {
         themeDisplayObject.actionColor = actionColor;
+        themeDisplayObject.refreshDrawables();
         refreshContent();
     }
 
@@ -74,6 +75,7 @@ public class ThemePreviewFragment extends Fragment {
 
     public void setItemColor(int itemColor) {
         themeDisplayObject.itemColor = itemColor;
+        themeDisplayObject.refreshDrawables();
         refreshContent();
     }
 
