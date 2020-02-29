@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.quarian.weaver">
 
+    <!-- TODO: seems unused, investigate and move test declarations from main manifest into this one -->
+
     <application
         android:name=".WeaverApplication"
         android:allowBackup="true"
@@ -55,7 +57,6 @@
 
         <activity android:name=".dev.DeveloperFunctionsActivity" />
 
-        <!-- TODO: test if this works in a release build -->
         <activity android:name=".test.FragmentTestHostActivity" />
 
     </application>

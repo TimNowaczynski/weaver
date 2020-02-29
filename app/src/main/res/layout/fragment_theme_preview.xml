@@ -16,6 +16,7 @@
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fragment_theme_preview_background"
             tools:background="@color/fantasyPrimaryDarkColor"
             android:background="@{draftedThemeDisplayObject.backgroundColor}"
             android:paddingBottom="12dp"
@@ -67,6 +68,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/fragment_theme_preview_item_text"
                     tools:textColor="@color/pitch_black"
                     android:textColor="@{draftedThemeDisplayObject.itemTextColor}"
                     android:textSize="18sp"

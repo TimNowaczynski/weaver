@@ -82,10 +82,16 @@ public class ThemePreviewFragment extends Fragment {
         refreshContent();
     }
 
+    public ThemeDisplayObject getThemeDisplayObject() {
+        return themeDisplayObject;
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewBinding = FragmentThemePreviewBinding.bind(view);
+        if (viewBinding == null) {
+            viewBinding = FragmentThemePreviewBinding.bind(view);
+        }
     }
 
     @Override
