@@ -56,6 +56,7 @@
         <activity android:name=".dev.DeveloperFunctionsActivity" />
 
         <!-- TODO: test if this works in a release build -->
+        <activity android:name=".test.DummyActivity" />
         <activity android:name=".test.FragmentTestHostActivity" />
 
     </application>

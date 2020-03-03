@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerApplicationComponent;
 import de.quarian.weaver.di.GlobalHandler;
+import de.quarian.weaver.di.ModuleProvider;
 import de.quarian.weaver.di.SharedPreferencesModule;
 
 public class WeaverApplication extends Application {
@@ -19,6 +20,7 @@ public class WeaverApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ModuleProvider.get().disableMocks();
         injectDependencies();
     }
 
