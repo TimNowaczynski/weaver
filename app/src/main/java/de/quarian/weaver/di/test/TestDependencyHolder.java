@@ -8,6 +8,6 @@ public class TestDependencyHolder {
     public String superValue;
 
     @Inject
-    public Integer child;
+    public Integer childValue;
 
 }

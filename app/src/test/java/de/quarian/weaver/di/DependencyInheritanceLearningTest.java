@@ -5,7 +5,6 @@ import org.junit.Test;
 import de.quarian.weaver.di.test.DaggerTestDependencyComponent;
 import de.quarian.weaver.di.test.TestDependenciesModule;
 import de.quarian.weaver.di.test.TestDependencyHolder;
-import de.quarian.weaver.di.test.TestSuperDependenciesModule;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,6 +21,6 @@ public class DependencyInheritanceLearningTest {
                 .inject(testDependencyHolder);
 
         assertThat(testDependencyHolder.superValue, is("Super"));
-        assertThat(testDependencyHolder.child, is(42));
+        assertThat(testDependencyHolder.childValue, is(42));
     }
 }
