@@ -3,6 +3,7 @@ package de.quarian.weaver.di;
 import org.junit.Test;
 
 import de.quarian.weaver.di.test.DaggerTestDependencyComponent;
+import de.quarian.weaver.di.test.TestDependenciesModule;
 import de.quarian.weaver.di.test.TestDependencyHolder;
 import de.quarian.weaver.di.test.TestSuperDependenciesModule;
 
@@ -16,7 +17,7 @@ public class DependencyInheritanceLearningTest {
     @Test
     public void testInheritance() {
         DaggerTestDependencyComponent.builder()
-                .testSuperDependenciesModule(new TestSuperDependenciesModule())
+                .testDependenciesModule(new TestDependenciesModule())
                 .build()
                 .inject(testDependencyHolder);
 
