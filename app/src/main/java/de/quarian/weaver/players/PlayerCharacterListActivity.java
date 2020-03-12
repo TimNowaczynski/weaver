@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.R;
-import de.quarian.weaver.Utils;
+import de.quarian.weaver.util.Utils;
 import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.database.CampaignDAO;
 import de.quarian.weaver.database.PlayerCharacterDAO;

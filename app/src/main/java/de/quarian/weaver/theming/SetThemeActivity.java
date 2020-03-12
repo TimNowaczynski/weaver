@@ -19,9 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import de.quarian.weaver.R;
 import de.quarian.weaver.datamodel.Theme;
-import de.quarian.weaver.di.ActivityModule;
-import de.quarian.weaver.di.ApplicationModule;
-import de.quarian.weaver.di.DaggerActivityComponent;
+import de.quarian.weaver.di.DependencyInjector;
 import de.quarian.weaver.di.GlobalHandler;
 
 public class SetThemeActivity extends WeaverThemedActivity {
@@ -37,7 +35,7 @@ public class SetThemeActivity extends WeaverThemedActivity {
 
     }
 
-    private final ActivityDependencies activityDependencies = new ActivityDependencies();
+    public final ActivityDependencies activityDependencies = new ActivityDependencies();
 
     @Nullable
     private Theme theme;
@@ -73,20 +71,15 @@ public class SetThemeActivity extends WeaverThemedActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        injectDependencies();
+        DependencyInjector.get().injectDependencies(this);
+    }
 
+    @Override
+    public void onDependenciesInjected() {
         AsyncTask.execute(() -> {
             theme = activityDependencies.themeProvider.getThemeForCampaign(campaignId);
             activityDependencies.handler.post(this::initializeColorPickers);
         });
-    }
-
-    private void injectDependencies() {
-        DaggerActivityComponent.builder()
-                .applicationModule(new ApplicationModule(getApplicationContext()))
-                .activityModule(new ActivityModule(this))
-                .build()
-                .inject(this.activityDependencies);
     }
 
     private void initializeColorPickers() {

@@ -103,6 +103,11 @@ public class CampaignListActivity extends WeaverActivity implements AdapterView.
                 .inject(this);
     }
 
+    @Override
+    public void onDependenciesInjected() {
+        // Nothing so far
+    }
+
     private void setUpToolbar() {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -11,18 +11,19 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.BR;
 import de.quarian.weaver.R;
+import de.quarian.weaver.WeaverActivity;
 import de.quarian.weaver.datamodel.Theme;
 import de.quarian.weaver.di.ActivityModule;
 import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerActivityComponent;
+import de.quarian.weaver.di.DependencyInjectionListener;
 
-public abstract class WeaverThemedActivity extends AppCompatActivity {
+public abstract class WeaverThemedActivity extends WeaverActivity implements DependencyInjectionListener {
 
     public static class ActivityDependencies {
 
@@ -38,7 +39,7 @@ public abstract class WeaverThemedActivity extends AppCompatActivity {
     private static final long INVALID_CAMPAIGN_ID = -2;
     public static final String EXTRA_CAMPAIGN_ID = "extra.campaignId";
 
-    private final ActivityDependencies activityDependencies = new ActivityDependencies();
+    public final ActivityDependencies weaverThemedActivityDependencies = new ActivityDependencies();
     public long campaignId;
 
     private ViewDataBinding viewDataBinding;
@@ -50,7 +51,9 @@ public abstract class WeaverThemedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        injectDependencies();
+
+        injectBaseDependencies(this.weaverThemedActivityDependencies);
+
         final boolean requirementsMet = requireCampaignId();
         if (requirementsMet) {
             viewDataBinding = DataBindingUtil.setContentView(getTargetActivity(), getContentViewId());
@@ -58,7 +61,7 @@ public abstract class WeaverThemedActivity extends AppCompatActivity {
         }
     }
 
-    private void injectDependencies() {
+    protected void injectBaseDependencies(final ActivityDependencies activityDependencies) {
         final Context applicationContext = getApplicationContext();
         final ApplicationModule applicationModule = new ApplicationModule(applicationContext);
         final ActivityModule activityModule = new ActivityModule(this);
@@ -67,13 +70,13 @@ public abstract class WeaverThemedActivity extends AppCompatActivity {
                 .applicationModule(applicationModule)
                 .activityModule(activityModule)
                 .build()
-                .inject(this.activityDependencies);
+                .inject(activityDependencies);
     }
 
     private boolean requireCampaignId() {
-        if (activityDependencies.errorHandler != null) {
+        if (weaverThemedActivityDependencies.errorHandler != null) {
             campaignId = getIntent().getLongExtra(EXTRA_CAMPAIGN_ID, INVALID_CAMPAIGN_ID);
-            return activityDependencies.errorHandler.requireOrFinish(() -> campaignId != INVALID_CAMPAIGN_ID, R.string.activity_player_character_list_invalid_id_error_title, R.string.activity_player_character_list_invalid_id_error_text);
+            return weaverThemedActivityDependencies.errorHandler.requireOrFinish(() -> campaignId != INVALID_CAMPAIGN_ID, R.string.activity_player_character_list_invalid_id_error_title, R.string.activity_player_character_list_invalid_id_error_text);
         } else {
             finish(); // Should basically never happen
             return false;
@@ -85,7 +88,7 @@ public abstract class WeaverThemedActivity extends AppCompatActivity {
      */
     private void applyTheme() {
         AsyncTask.execute(() -> {
-            final Theme themeForCampaign = activityDependencies.themeProvider.getThemeForCampaign(campaignId);
+            final Theme themeForCampaign = weaverThemedActivityDependencies.themeProvider.getThemeForCampaign(campaignId);
             if (themeForCampaign.presetId == Theme.PRESET_ID_FANTASY) {
                 applyFantasyTheme();
             } else if(themeForCampaign.presetId == Theme.PRESET_ID_MODERN) {

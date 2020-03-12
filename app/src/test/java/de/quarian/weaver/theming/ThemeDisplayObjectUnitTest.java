@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import de.quarian.weaver.Utils;
+import de.quarian.weaver.util.Utils;
 import de.quarian.weaver.datamodel.Theme;
 
 public class ThemeDisplayObjectUnitTest {

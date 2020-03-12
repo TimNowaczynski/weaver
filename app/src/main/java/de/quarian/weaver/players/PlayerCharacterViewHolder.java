@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.R;
-import de.quarian.weaver.Utils;
+import de.quarian.weaver.util.Utils;
 import de.quarian.weaver.datamodel.PlayerCharacter;
 
 public class PlayerCharacterViewHolder extends RecyclerView.ViewHolder {

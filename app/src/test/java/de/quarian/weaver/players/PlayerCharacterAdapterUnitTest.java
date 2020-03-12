@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.quarian.weaver.R;
-import de.quarian.weaver.Utils;
+import de.quarian.weaver.util.Utils;
 import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.database.PlayerCharacterDAO;
 import de.quarian.weaver.datamodel.PlayerCharacter;

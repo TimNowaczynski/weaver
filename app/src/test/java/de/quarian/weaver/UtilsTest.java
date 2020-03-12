@@ -2,13 +2,15 @@ package de.quarian.weaver;
 
 import org.junit.Test;
 
+import de.quarian.weaver.util.Utils;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class UtilsTest {
 
     @Test
-    public void convertBytes() {
+    public void convertFromBytesPrimitive() {
         final Utils.ByteArrayConverter converter = new Utils.ByteArrayConverter();
         final String stringIn = "Bytes";
         final byte[] bytesIn = stringIn.getBytes();

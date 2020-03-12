@@ -5,13 +5,11 @@ import android.os.Handler;
 
 import javax.inject.Inject;
 
-import de.quarian.weaver.di.ApplicationModule;
-import de.quarian.weaver.di.DaggerApplicationComponent;
+import de.quarian.weaver.di.DependencyInjectionListener;
+import de.quarian.weaver.di.DependencyInjector;
 import de.quarian.weaver.di.GlobalHandler;
-import de.quarian.weaver.di.ModuleProvider;
-import de.quarian.weaver.di.SharedPreferencesModule;
 
-public class WeaverApplication extends Application {
+public class WeaverApplication extends Application implements DependencyInjectionListener {
 
     @Inject
     @GlobalHandler
@@ -20,18 +18,19 @@ public class WeaverApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ModuleProvider.get().disableMocks();
         injectDependencies();
     }
 
     private void injectDependencies() {
-        final ApplicationModule applicationModule = new ApplicationModule(this);
-        final SharedPreferencesModule sharedPreferencesModule = new SharedPreferencesModule();
+        DependencyInjector.get().injectDependencies(this);
+    }
 
-        DaggerApplicationComponent.builder()
-                .applicationModule(applicationModule)
-                .sharedPreferencesModule(sharedPreferencesModule)
-                .build()
-                .inject(this);
+    @Override
+    public void onDependenciesInjected() {
+        if (DependencyInjector.get().shouldUseMocks()) {
+            // In Test Code we need to call this again to overwrite the real dependencies
+            // with mocks if applicable
+            injectDependencies();
+        }
     }
 }

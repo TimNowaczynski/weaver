@@ -18,7 +18,13 @@ public class ThemeProvider {
     public Theme getThemeForCampaign(final long campaignID) {
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
         final Campaign campaign = campaignDAO.readCampaignByID(campaignID);
+        if (campaign == null) {
+            throw new RuntimeException("campaign");
+        }
         final ThemeDAO themeDAO = weaverDB.themeDAO();
+        if (themeDAO == null) {
+            throw new RuntimeException("themeDAO");
+        }
         //TODO: handle possible null pointer
         return themeDAO.readThemeByID(campaign.themeId);
     }

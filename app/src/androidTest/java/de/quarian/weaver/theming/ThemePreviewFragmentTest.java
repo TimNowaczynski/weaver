@@ -3,6 +3,7 @@ package de.quarian.weaver.theming;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.widget.TextView;
 
@@ -66,14 +67,16 @@ public class ThemePreviewFragmentTest {
         final ThemeDisplayObject themeDisplayObject = themePreviewFragment.getThemeDisplayObject();
         themeDisplayObject.actionColor = Color.BLACK;
         themePreviewFragment.refreshContent();
+        themeDisplayObject.refreshDrawables();
 
         // Wait for Async Task doing the refresh
         Thread.sleep(100L);
 
         final View view = getPreviewView();
         final View actionView = view.findViewById(R.id.fragment_theme_preview_button);
-        final ColorDrawable background = (ColorDrawable) actionView.getBackground();
-        assertThat(background.getColor(), is(Color.BLACK));
+        final GradientDrawable background = (GradientDrawable) actionView.getBackground();
+        assertThat(background.getColor(), notNullValue());
+        assertThat(background.getColor().getDefaultColor(), is(Color.BLACK));
     }
 
     @NotNull
@@ -131,16 +134,16 @@ public class ThemePreviewFragmentTest {
     @Test
     public void testItemColorCanBeSet() throws Exception {
         final ThemePreviewFragment themePreviewFragment = getThemePreviewFragment();
-        final ThemeDisplayObject themeDisplayObject = themePreviewFragment.getThemeDisplayObject();
-        themeDisplayObject.itemColor = Color.BLACK;
-        themePreviewFragment.refreshContent();
+        themePreviewFragment.setItemColor(Color.BLACK);
 
         // Wait for Async Task doing the refresh
         Thread.sleep(100L);
 
         final View view = getPreviewView();
         final View backgroundView = view.findViewById(R.id.fragment_theme_preview_item);
-        final ColorDrawable item = (ColorDrawable) backgroundView.getBackground();
-        assertThat(item.getColor(), is(Color.BLACK));
+
+        final GradientDrawable background = (GradientDrawable) backgroundView.getBackground();
+        assertThat(background.getColor(), notNullValue());
+        assertThat(background.getColor().getDefaultColor(), is(Color.BLACK));
     }
 }

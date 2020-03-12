@@ -1,4 +1,4 @@
-package de.quarian.weaver;
+package de.quarian.weaver.util;
 
 import android.graphics.Color;
 
@@ -36,13 +36,5 @@ public class Utils {
             return convertedBytes;
         }
 
-    }
-
-    public static Byte[] convertToBytes(final byte[] bytes) {
-        final Byte[] convertedBytes = new Byte[bytes.length];
-        for (int i = 0; i < bytes.length; i++) {
-            convertedBytes[i] = bytes[i];
-        }
-        return convertedBytes;
     }
 }

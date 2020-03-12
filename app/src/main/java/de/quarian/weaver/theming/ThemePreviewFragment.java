@@ -39,6 +39,7 @@ public class ThemePreviewFragment extends Fragment {
 
         final Context context = getContextOrThrow();
         injectDependencies(context);
+        themeDisplayObject.refreshDrawables();
     }
 
     private Context getContextOrThrow() {
