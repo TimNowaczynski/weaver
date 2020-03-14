@@ -69,6 +69,17 @@ public class CampaignDAOTest {
         assertThat(shadowrunCampaignOutput.creationDateMillis, is(created));
         assertThat(shadowrunCampaignOutput.editDateMillis, is(edited));
         assertThat(shadowrunCampaignOutput.lastUsedDataMillis, is(lastUsed));
+
+        final Campaign shadowrunCampaignById = campaignDAO.readCampaignByID(shadowrunCampaignOutput.id);
+        assertThat(shadowrunCampaignById.id, greaterThan(0L));
+        assertThat(shadowrunCampaignById.roleplayingSystemId, is(shadowrunRolePlayingSystemID));
+        assertThat(shadowrunCampaignById.themeId, is(1L));
+        assertThat(shadowrunCampaignById.campaignName, is(DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON));
+        assertThat(shadowrunCampaignById.archived, is(true));
+        assertThat(shadowrunCampaignById.synopsis, is(DatabaseTestConstants.CAMPAIGN_SYNOPSIS_RISING_DRAGON));
+        assertThat(shadowrunCampaignById.creationDateMillis, is(created));
+        assertThat(shadowrunCampaignById.editDateMillis, is(edited));
+        assertThat(shadowrunCampaignById.lastUsedDataMillis, is(lastUsed));
     }
 
     @Test

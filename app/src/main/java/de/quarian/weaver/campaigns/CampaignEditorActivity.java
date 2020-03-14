@@ -2,6 +2,7 @@ package de.quarian.weaver.campaigns;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 
 import javax.inject.Inject;
@@ -11,9 +12,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
+import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 import de.quarian.weaver.di.ActivityModule;
 import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerActivityComponent;
+import de.quarian.weaver.di.GlobalHandler;
+import de.quarian.weaver.di.SharedPreferencesModule;
+import de.quarian.weaver.schedulers.IoScheduler;
+import de.quarian.weaver.service.CampaignService;
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.disposables.Disposable;
 
 // TODO: Test Class
 public class CampaignEditorActivity extends AppCompatActivity {
@@ -23,6 +32,17 @@ public class CampaignEditorActivity extends AppCompatActivity {
         @Inject
         @Nullable
         public ActivityPreconditionErrorHandler errorHandler;
+
+        @Inject
+        public CampaignService campaignService;
+
+        @IoScheduler
+        @Inject
+        public Scheduler io;
+
+        @Inject
+        @GlobalHandler
+        public Handler globalHandler;
 
     }
 
@@ -44,12 +64,17 @@ public class CampaignEditorActivity extends AppCompatActivity {
         injectDependencies();
         determineMode();
         setUpListeners();
+
+        if (mode == Mode.EDIT) {
+            queryCampaign();
+        }
     }
 
     private void injectDependencies() {
         DaggerActivityComponent.builder()
                 .applicationModule(new ApplicationModule(getApplicationContext()))
                 .activityModule(new ActivityModule(this))
+                .sharedPreferencesModule(new SharedPreferencesModule())
                 .build()
                 .inject(this.activityDependencies);
     }
@@ -59,9 +84,11 @@ public class CampaignEditorActivity extends AppCompatActivity {
         mode = Mode.valueOf(modeString);
         if(mode == Mode.NEW) {
             setTitle(R.string.activity_title_add_campaign_screen);
+            //final ViewDataBinding viewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_campaign);
+            //viewDataBinding.setVariable(, );
             setContentView(R.layout.activity_edit_campaign);
         } else {
-            //TODO: init with values (don't forget the title here as well)
+            //TODO: init with values (don't forget the title here as well, use the subtitle of the Toolbar)
             requireId();
             setTitle(R.string.activity_title_edit_campaign_screen);
             setContentView(R.layout.activity_edit_campaign);
@@ -91,6 +118,16 @@ public class CampaignEditorActivity extends AppCompatActivity {
     private void setUpConfigureNameSetsButton() {
         final View setThemeButton = findViewById(R.id.configure_name_sets_button_dummy);
         setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().configureNameSets(this, this.campaignId));
+    }
+
+    private void queryCampaign() {
+        final Disposable disposable = Observable.just(activityDependencies.campaignService)
+                .subscribeOn(activityDependencies.io)
+                .subscribe((campaignService) -> {
+                    final CampaignListDisplayObject campaignListDisplayObject = campaignService.readCampaign(campaignId);
+                    // TODO: implement (post delayed?), data-binding, refactor dependencies into subclasses
+                });
+        activityDependencies.globalHandler.postDelayed(disposable::dispose, 500L);
     }
 
     @Override

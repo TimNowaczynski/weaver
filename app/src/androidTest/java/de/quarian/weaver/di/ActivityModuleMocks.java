@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.database.WeaverDB;
+import de.quarian.weaver.datamodel.converter.CampaignConverter;
 import de.quarian.weaver.dev.DemoDataSetInjector;
 import de.quarian.weaver.service.CampaignService;
 import de.quarian.weaver.theming.ThemeProvider;
@@ -19,6 +20,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
+// TODO: Use this class throughout unit tests for mocking
 /**
  * Mocks for {@link ActivityModule} and {@link ApplicationModule}
  */
@@ -30,6 +32,7 @@ public class ActivityModuleMocks<T extends Activity> {
     public Handler globalHandlerMock;
     public WeaverDB weaverDBMock;
     public WeaverLayoutInflater weaverLayoutInflaterMock;
+    public CampaignConverter campaignConverterMock;
     public CampaignService campaignServiceMock;
     public ThemeProvider themeProviderMock;
     public DemoDataSetInjector demoDataSetInjectorMock;
@@ -59,8 +62,11 @@ public class ActivityModuleMocks<T extends Activity> {
         weaverLayoutInflaterMock = mock(WeaverLayoutInflater.class);
         when(applicationModuleMock.weaverLayoutInflater()).thenReturn(weaverLayoutInflaterMock);
 
+        campaignConverterMock = mock(CampaignConverter.class);
+        when(applicationModuleMock.campaignConverter()).thenReturn(campaignConverterMock);
+
         campaignServiceMock = mock(CampaignService.class);
-        when(applicationModuleMock.campaignService(any(WeaverDB.class), any(SharedPreferences.class))).thenReturn(campaignServiceMock);
+        when(applicationModuleMock.campaignService(any(WeaverDB.class), any(SharedPreferences.class), any(CampaignConverter.class))).thenReturn(campaignServiceMock);
 
         themeProviderMock = mock(ThemeProvider.class);
         when(applicationModuleMock.themeProvider()).thenReturn(themeProviderMock);

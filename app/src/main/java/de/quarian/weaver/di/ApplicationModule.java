@@ -12,6 +12,7 @@ import dagger.Module;
 import dagger.Provides;
 import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.database.WeaverDB;
+import de.quarian.weaver.datamodel.converter.CampaignConverter;
 import de.quarian.weaver.dev.DemoDataSetInjector;
 import de.quarian.weaver.schedulers.IoScheduler;
 import de.quarian.weaver.service.CampaignService;
@@ -67,8 +68,14 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public CampaignService campaignService(final WeaverDB weaverDB, @CampaignListOrderPreferences SharedPreferences sharedPreferences) {
-        return new CampaignServiceImplementation(weaverDB, sharedPreferences);
+    public CampaignConverter campaignConverter() {
+        return new CampaignConverter();
+    }
+
+    @Provides
+    @Singleton
+    public CampaignService campaignService(final WeaverDB weaverDB, @CampaignListOrderPreferences SharedPreferences sharedPreferences, final CampaignConverter campaignConverter) {
+        return new CampaignServiceImplementation(weaverDB, sharedPreferences, campaignConverter);
     }
 
     @Provides

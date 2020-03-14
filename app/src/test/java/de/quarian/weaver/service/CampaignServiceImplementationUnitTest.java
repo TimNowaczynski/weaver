@@ -20,6 +20,8 @@ import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.Campaign;
 import de.quarian.weaver.datamodel.RoleplayingSystem;
 import de.quarian.weaver.datamodel.Theme;
+import de.quarian.weaver.datamodel.converter.CampaignConverter;
+import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -38,10 +40,13 @@ public class CampaignServiceImplementationUnitTest {
     private WeaverDB weaverDBMock;
 
     @Mock
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferencesMock;
 
     @Mock
     private SharedPreferences.Editor sharedPreferencesEditor;
+
+    @Mock
+    private CampaignConverter campaignConverterMock;
 
     @Mock
     private RoleplayingSystemDAO roleplayingSystemDAOMock;
@@ -55,50 +60,62 @@ public class CampaignServiceImplementationUnitTest {
     @Mock
     private PlayerCharacterDAO playerCharacterDAO;
 
-    // TODO: I think this should fail now, because we moved shared preferences into
-    //   this class and they need to be mocked (and tested!)
+    // Return Values
+
+    @Mock
+    private RoleplayingSystem roleplayingSystem;
+
+    @Mock
+    private Campaign campaign;
+
+    @Mock
+    private CampaignListDisplayObject campaignListDisplayObject;
+
+    @Mock
+    private Theme theme;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        campaignService = new CampaignServiceImplementation(weaverDBMock, sharedPreferences);
         when(weaverDBMock.roleplayingSystemDAO()).thenReturn(roleplayingSystemDAOMock);
         when(weaverDBMock.themeDAO()).thenReturn(themeDAOMock);
         when(weaverDBMock.campaignDAO()).thenReturn(campaignDAOMock);
         when(weaverDBMock.playerCharacterDAO()).thenReturn(playerCharacterDAO);
 
-        final Campaign campaign = mock(Campaign.class);
         campaign.roleplayingSystemId = 1L;
         campaign.themeId = 1L;
 
         final List<Campaign> campaignList = new ArrayList<>();
         campaignList.add(campaign);
+
         when(campaignDAOMock.readCampaignsOrderedByName()).thenReturn(campaignList);
         when(campaignDAOMock.readCampaignsOrderedBySystemName()).thenReturn(campaignList);
         when(campaignDAOMock.readCampaignsOrderedByLastUsed()).thenReturn(campaignList);
         when(campaignDAOMock.readCampaignsOrderedByLastEdited()).thenReturn(campaignList);
         when(campaignDAOMock.readCampaignsOrderedByCreated()).thenReturn(campaignList);
 
-        final RoleplayingSystem roleplayingSystem = mock(RoleplayingSystem.class);
         when(roleplayingSystemDAOMock.readRoleplayingSystemsById(1L)).thenReturn(roleplayingSystem);
-
-        final Theme theme = mock(Theme.class);
         when(themeDAOMock.readThemeByID(1L)).thenReturn(theme);
+        final long numberOfPlayerCharacters = 5L;
+        when(playerCharacterDAO.readNumberOfPlayerCharactersForCampaign(anyLong())).thenReturn(numberOfPlayerCharacters);
+        when(campaignConverterMock.convert(roleplayingSystem, campaign, theme, numberOfPlayerCharacters)).thenReturn(campaignListDisplayObject);
 
-        when(sharedPreferences.edit()).thenReturn(sharedPreferencesEditor);
+        when(sharedPreferencesMock.edit()).thenReturn(sharedPreferencesEditor);
         when(sharedPreferencesEditor.putString(anyString(), anyString())).thenReturn(sharedPreferencesEditor);
 
-        when(playerCharacterDAO.readNumberOfPlayerCharactersForCampaign(anyLong())).thenReturn(5L);
-
-        campaignService = new CampaignServiceImplementation(weaverDBMock, sharedPreferences);
+        campaignService = new CampaignServiceImplementation(weaverDBMock, sharedPreferencesMock, campaignConverterMock);
     }
 
     @Test
     public void testReadCampaignsOrderedByName() {
-        campaignService.readCampaigns(CampaignService.SortOrder.CAMPAIGN_NAME);
+        final List<CampaignListDisplayObject> displayObjects = campaignService.readCampaigns(CampaignService.SortOrder.CAMPAIGN_NAME);
+        assertThat(displayObjects.size(), is(1));
+        assertThat(displayObjects.get(0), is(campaignListDisplayObject));
 
         verify(roleplayingSystemDAOMock).readRoleplayingSystemsById(1L);
         verify(themeDAOMock).readThemeByID(1L);
         verify(campaignDAOMock).readCampaignsOrderedByName();
+        verify(campaignConverterMock).convert(roleplayingSystem, campaign, theme, 5L);
     }
 
     @Test
@@ -108,6 +125,7 @@ public class CampaignServiceImplementationUnitTest {
         verify(roleplayingSystemDAOMock).readRoleplayingSystemsById(1L);
         verify(themeDAOMock).readThemeByID(1L);
         verify(campaignDAOMock).readCampaignsOrderedBySystemName();
+        verify(campaignConverterMock).convert(roleplayingSystem, campaign, theme, 5L);
     }
 
     @Test
@@ -117,6 +135,7 @@ public class CampaignServiceImplementationUnitTest {
         verify(roleplayingSystemDAOMock).readRoleplayingSystemsById(1L);
         verify(themeDAOMock).readThemeByID(1L);
         verify(campaignDAOMock).readCampaignsOrderedByLastUsed();
+        verify(campaignConverterMock).convert(roleplayingSystem, campaign, theme, 5L);
     }
 
     @Test
@@ -126,6 +145,7 @@ public class CampaignServiceImplementationUnitTest {
         verify(roleplayingSystemDAOMock).readRoleplayingSystemsById(1L);
         verify(themeDAOMock).readThemeByID(1L);
         verify(campaignDAOMock).readCampaignsOrderedByLastEdited();
+        verify(campaignConverterMock).convert(roleplayingSystem, campaign, theme, 5L);
     }
 
     @Test
@@ -135,6 +155,7 @@ public class CampaignServiceImplementationUnitTest {
         verify(roleplayingSystemDAOMock).readRoleplayingSystemsById(1L);
         verify(themeDAOMock).readThemeByID(1L);
         verify(campaignDAOMock).readCampaignsOrderedByCreated();
+        verify(campaignConverterMock).convert(roleplayingSystem, campaign, theme, 5L);
     }
 
     @Test

@@ -9,7 +9,8 @@ import de.quarian.weaver.theming.SetThemeActivity;
 import de.quarian.weaver.theming.WeaverThemedActivity;
 
 @Component(modules = {
-        ActivityModule.class
+        ActivityModule.class,
+        SharedPreferencesModule.class
 })
 @Singleton
 public interface ActivityComponent {

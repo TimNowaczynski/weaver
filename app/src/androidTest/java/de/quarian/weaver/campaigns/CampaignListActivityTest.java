@@ -161,9 +161,8 @@ public class CampaignListActivityTest extends TestCase {
         assertThat(events.size(), is(1));
     }
 
-    // TODO: this test is flaky, investigate
     @Test
-    public void testRefreshCampaignsEventIsReceived() {
+    public void testRefreshCampaignsEventIsReceived() throws Exception {
         final CampaignListActivity activity = activityTestRule.getActivity();
         activity.campaignListOrderPreferences = sortOrderPreferences;
         activity.io = AndroidSchedulers.mainThread();
@@ -171,6 +170,7 @@ public class CampaignListActivityTest extends TestCase {
         // So this is where we fake selecting some spinner option
         when(sortOrderPreferences.getString(CampaignService.CAMPAIGN_LIST_ORDER_SP_KEY, CampaignService.SortOrder.CAMPAIGN_NAME.name())).thenReturn(CampaignService.SortOrder.LAST_USED.name());
         EventBus.getDefault().post(new RefreshDisplayObjectsEvent());
+        Thread.sleep(100L);
 
         verify(campaignService, times(1)).readCampaigns(CampaignService.SortOrder.LAST_USED);
     }
