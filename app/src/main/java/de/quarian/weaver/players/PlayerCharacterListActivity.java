@@ -25,16 +25,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.R;
-import de.quarian.weaver.util.Utils;
 import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.database.CampaignDAO;
 import de.quarian.weaver.database.PlayerCharacterDAO;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.Campaign;
 import de.quarian.weaver.datamodel.PlayerCharacter;
-import de.quarian.weaver.di.ActivityModule;
-import de.quarian.weaver.di.ApplicationModule;
-import de.quarian.weaver.di.DaggerActivityComponent;
+import de.quarian.weaver.di.DependencyInjector;
+import de.quarian.weaver.util.Utils;
 
 // TODO: extend themed activity
 // TODO: avatars? not sure if that's a must for players
@@ -57,7 +55,7 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
     private static final long INVALID_CAMPAIGN_ID = -1L;
     public static String EXTRA_CAMPAIGN_ID = "extra.campaignId";
 
-    private final ActivityDependencies activityDependencies = new ActivityDependencies();
+    public final ActivityDependencies activityDependencies = new ActivityDependencies();
     private final Utils.ColorConverter colorConverter = new Utils.ColorConverter();
 
     private PlayerCharacterDAO playerCharacterDAO;
@@ -80,11 +78,7 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
     }
 
     private void injectDependencies() {
-        DaggerActivityComponent.builder()
-                .applicationModule(new ApplicationModule(getApplicationContext()))
-                .activityModule(new ActivityModule(this))
-                .build()
-                .inject(this.activityDependencies);
+        DependencyInjector.get().injectDependencies(this);
         playerCharacterDAO = activityDependencies.weaverDB.playerCharacterDAO();
     }
 

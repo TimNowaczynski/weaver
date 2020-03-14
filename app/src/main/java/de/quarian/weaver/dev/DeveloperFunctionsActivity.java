@@ -8,34 +8,34 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import de.quarian.weaver.R;
 import de.quarian.weaver.database.WeaverDB;
-import de.quarian.weaver.di.ApplicationComponent;
-import de.quarian.weaver.di.ApplicationModule;
-import de.quarian.weaver.di.DaggerApplicationComponent;
+import de.quarian.weaver.di.DependencyInjector;
 
 public class DeveloperFunctionsActivity extends AppCompatActivity {
 
-    @Inject
-    public DemoDataSetInjector demoDataSetInjector;
+    public static class ActivityDependencies {
 
-    @Inject
-    public WeaverDB weaverDB;
+        @Inject
+        public DemoDataSetInjector demoDataSetInjector;
+
+        @Inject
+        public WeaverDB weaverDB;
+
+    }
+
+    public final ActivityDependencies activityDependencies = new ActivityDependencies();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_developer_functions);
         setTitle(R.string.activity_title_developer_functions);
-
-        final ApplicationComponent applicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(getApplicationContext()))
-                .build();
-        applicationComponent.inject(this);
+        DependencyInjector.get().injectDependencies(this);
         setUpSetDBDemoStateButton();
     }
 
     private void setUpSetDBDemoStateButton() {
         findViewById(R.id.developer_functions_set_db_demo_state_button).setOnClickListener((view) -> {
-            demoDataSetInjector.setDemoState(weaverDB);
+            activityDependencies.demoDataSetInjector.setDemoState(activityDependencies.weaverDB);
             setResult(RESULT_OK);
             finish();
         });

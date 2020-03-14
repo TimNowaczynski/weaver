@@ -22,6 +22,7 @@ import de.quarian.weaver.di.ActivityModule;
 import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.DaggerActivityComponent;
 import de.quarian.weaver.di.DependencyInjectionListener;
+import de.quarian.weaver.di.DependencyInjector;
 
 public abstract class WeaverThemedActivity extends WeaverActivity implements DependencyInjectionListener {
 
@@ -52,25 +53,13 @@ public abstract class WeaverThemedActivity extends WeaverActivity implements Dep
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        injectBaseDependencies(this.weaverThemedActivityDependencies);
+        DependencyInjector.get().injectDependencies(this);
 
         final boolean requirementsMet = requireCampaignId();
         if (requirementsMet) {
             viewDataBinding = DataBindingUtil.setContentView(getTargetActivity(), getContentViewId());
             applyTheme();
         }
-    }
-
-    protected void injectBaseDependencies(final ActivityDependencies activityDependencies) {
-        final Context applicationContext = getApplicationContext();
-        final ApplicationModule applicationModule = new ApplicationModule(applicationContext);
-        final ActivityModule activityModule = new ActivityModule(this);
-
-        DaggerActivityComponent.builder()
-                .applicationModule(applicationModule)
-                .activityModule(activityModule)
-                .build()
-                .inject(activityDependencies);
     }
 
     private boolean requireCampaignId() {

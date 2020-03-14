@@ -90,8 +90,8 @@ public class CampaignListActivityTest extends TestCase {
 
     private void prepareActivity() {
         final CampaignListActivity campaignListActivity = activityTestRule.launchActivity(null);
-        campaignListActivity.campaignListOrderPreferences = sharedPreferences;
-        campaignListActivity.campaignService = campaignService;
+        campaignListActivity.activityDependencies.campaignListOrderPreferences = sharedPreferences;
+        campaignListActivity.activityDependencies.campaignService = campaignService;
 
         final TestScheduler testScheduler = new TestScheduler(1L, TimeUnit.SECONDS);
         campaignListActivity.setIoScheduler(testScheduler);
@@ -148,7 +148,7 @@ public class CampaignListActivityTest extends TestCase {
     @Test
     public void testRefreshCampaignsEventIsThrownOnChangingSortOrder() {
         final CampaignListActivity activity = activityTestRule.getActivity();
-        activity.campaignListOrderPreferences = sortOrderPreferences;
+        activity.activityDependencies.campaignListOrderPreferences = sortOrderPreferences;
         eventRecorder.reset();
 
         final Spinner spinner = activity.findViewById(R.id.campaign_list_sort_order_spinner);
@@ -164,8 +164,8 @@ public class CampaignListActivityTest extends TestCase {
     @Test
     public void testRefreshCampaignsEventIsReceived() throws Exception {
         final CampaignListActivity activity = activityTestRule.getActivity();
-        activity.campaignListOrderPreferences = sortOrderPreferences;
-        activity.io = AndroidSchedulers.mainThread();
+        activity.activityDependencies.campaignListOrderPreferences = sortOrderPreferences;
+        activity.activityDependencies.io = AndroidSchedulers.mainThread();
 
         // So this is where we fake selecting some spinner option
         when(sortOrderPreferences.getString(CampaignService.CAMPAIGN_LIST_ORDER_SP_KEY, CampaignService.SortOrder.CAMPAIGN_NAME.name())).thenReturn(CampaignService.SortOrder.LAST_USED.name());

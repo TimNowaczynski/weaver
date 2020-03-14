@@ -13,11 +13,8 @@ import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
-import de.quarian.weaver.di.ActivityModule;
-import de.quarian.weaver.di.ApplicationModule;
-import de.quarian.weaver.di.DaggerActivityComponent;
+import de.quarian.weaver.di.DependencyInjector;
 import de.quarian.weaver.di.GlobalHandler;
-import de.quarian.weaver.di.SharedPreferencesModule;
 import de.quarian.weaver.schedulers.IoScheduler;
 import de.quarian.weaver.service.CampaignService;
 import io.reactivex.Observable;
@@ -50,7 +47,7 @@ public class CampaignEditorActivity extends AppCompatActivity {
     public static final String EXTRA_CAMPAIGN_ID = "extra.campaignId";
     public static final String EXTRA_MODE = "extra.mode";
 
-    private final ActivityDependencies activityDependencies = new ActivityDependencies();
+    public final ActivityDependencies activityDependencies = new ActivityDependencies();
     private Mode mode;
     private long campaignId = INVALID_CAMPAIGN_ID;
 
@@ -61,22 +58,13 @@ public class CampaignEditorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        injectDependencies();
+        DependencyInjector.get().injectDependencies(this);
         determineMode();
         setUpListeners();
 
         if (mode == Mode.EDIT) {
             queryCampaign();
         }
-    }
-
-    private void injectDependencies() {
-        DaggerActivityComponent.builder()
-                .applicationModule(new ApplicationModule(getApplicationContext()))
-                .activityModule(new ActivityModule(this))
-                .sharedPreferencesModule(new SharedPreferencesModule())
-                .build()
-                .inject(this.activityDependencies);
     }
 
     private void determineMode() {

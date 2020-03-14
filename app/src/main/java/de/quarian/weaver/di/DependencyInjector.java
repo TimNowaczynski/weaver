@@ -1,13 +1,24 @@
 package de.quarian.weaver.di;
 
 import android.app.Activity;
+import android.content.Context;
 
 import java.util.concurrent.Callable;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import de.quarian.weaver.BuildConfig;
 import de.quarian.weaver.WeaverApplication;
+import de.quarian.weaver.campaigns.CampaignEditorActivity;
+import de.quarian.weaver.campaigns.CampaignListActivity;
+import de.quarian.weaver.characters.CharacterLibraryActivity;
+import de.quarian.weaver.dev.DeveloperFunctionsActivity;
+import de.quarian.weaver.players.PlayerCharacterListActivity;
 import de.quarian.weaver.theming.SetThemeActivity;
+import de.quarian.weaver.theming.ThemePreviewFragment;
+import de.quarian.weaver.theming.WeaverThemedActivity;
 
 // TODO: test this
 public class DependencyInjector {
@@ -45,29 +56,19 @@ public class DependencyInjector {
         this.sharedPreferencesMockModuleProvider = sharedPreferencesMockModuleProvider;
     }
 
-    // Weaver Application Dependencies
+    // Modules
 
-    public void injectDependencies(final WeaverApplication weaverApplication) {
+    private ApplicationModule getApplicationModule(@NonNull final Context context) {
         try {
             if (useMocks) {
-                injectMockedDependencies(weaverApplication);
+                assertMocksNotNull(applicationMockModuleProvider);
+                return applicationMockModuleProvider.call();
             } else {
-                injectRealDependencies(weaverApplication);
+                return new ApplicationModule(context);
             }
-            weaverApplication.onDependenciesInjected();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private void injectMockedDependencies(final WeaverApplication weaverApplication) throws Exception {
-        assertMocksNotNull(applicationMockModuleProvider, sharedPreferencesMockModuleProvider);
-
-        DaggerApplicationComponent.builder()
-                .applicationModule(applicationMockModuleProvider.call())
-                .sharedPreferencesModule(sharedPreferencesMockModuleProvider.call())
-                .build()
-                .inject(weaverApplication);
     }
 
     private void assertMocksNotNull(final Object... objects) {
@@ -78,57 +79,136 @@ public class DependencyInjector {
         }
     }
 
-    private void injectRealDependencies(final WeaverApplication weaverApplication) {
-        final ApplicationModule applicationModule = new ApplicationModule(weaverApplication);
-        final SharedPreferencesModule sharedPreferencesModule = new SharedPreferencesModule();
-
-        DaggerApplicationComponent.builder()
-                .applicationModule(applicationModule)
-                .sharedPreferencesModule(sharedPreferencesModule)
-                .build()
-                .inject(weaverApplication);
-    }
-
-    public void injectDependencies(final Activity activity) {
-        if (activity instanceof SetThemeActivity) {
-            final SetThemeActivity setThemeActivity = (SetThemeActivity) activity;
-            injectDependencies(setThemeActivity);
+    private ApplicationModule getApplicationModule(@NonNull final Fragment fragment) {
+        final FragmentActivity activity = fragment.getActivity();
+        if (activity == null) {
+            throw new NullPointerException();
         }
+        return getApplicationModule(activity);
     }
 
-    // Set Theme Activity Dependencies
-
-    private void injectDependencies(final SetThemeActivity setThemeActivity) {
-        if (useMocks) {
-            injectMockedDependencies(setThemeActivity);
-        } else {
-            injectRealDependencies(setThemeActivity);
-        }
-        setThemeActivity.onDependenciesInjected();
-    }
-
-    private void injectMockedDependencies(final SetThemeActivity setThemeActivity) {
-        assertMocksNotNull(activityMockModuleProvider, sharedPreferencesMockModuleProvider);
-
+    private ActivityModule getActivityModule(@NonNull final Activity activity) {
         try {
-            // In this case we need to inject an activity module as well,
-            // because our mocks can't use the @Module(includes = xxx) annotation
-            DaggerActivityComponent.builder()
-                    .applicationModule(applicationMockModuleProvider.call())
-                    .activityModule(activityMockModuleProvider.call())
-                    .build()
-                    .inject(setThemeActivity.activityDependencies);
-        } catch (Exception e) {
+            if (useMocks) {
+                assertMocksNotNull(activityMockModuleProvider);
+                return activityMockModuleProvider.call();
+            } else {
+                return new ActivityModule(activity);
+            }
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void injectRealDependencies(final SetThemeActivity setThemeActivity) {
-        final ActivityModule activityModule = new ActivityModule(setThemeActivity);
+    private ActivityModule getActivityModule(@NonNull final Fragment fragment) {
+        final FragmentActivity activity = fragment.getActivity();
+        if (activity == null) {
+            throw new NullPointerException();
+        }
+        return getActivityModule(activity);
+    }
 
+    private SharedPreferencesModule getSharedPreferencesModule() {
+        try {
+            if (useMocks) {
+                assertMocksNotNull(sharedPreferencesMockModuleProvider);
+                return sharedPreferencesMockModuleProvider.call();
+            } else {
+                return new SharedPreferencesModule();
+            }
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Weaver Application Dependencies
+
+    public void injectDependencies(final WeaverApplication weaverApplication) {
+        DaggerApplicationComponent.builder()
+                .applicationModule(getApplicationModule(weaverApplication))
+                .sharedPreferencesModule(getSharedPreferencesModule())
+                .build()
+                .inject(weaverApplication);
+    }
+
+    // Activity Dependencies
+
+    public void injectDependencies(final WeaverThemedActivity weaverThemedActivity) {
         DaggerActivityComponent.builder()
-                .activityModule(activityModule)
+                .applicationModule(getApplicationModule(weaverThemedActivity))
+                .activityModule(getActivityModule(weaverThemedActivity))
+                .build()
+                .inject(weaverThemedActivity.weaverThemedActivityDependencies);
+    }
+
+    public void injectDependencies(final CampaignListActivity campaignListActivity) {
+        DaggerApplicationComponent.builder()
+                .applicationModule(getApplicationModule(campaignListActivity))
+                .build()
+                .inject(campaignListActivity.activityDependencies);
+        callOnDependenciesInjected(campaignListActivity);
+    }
+
+    private void callOnDependenciesInjected(final Object listener) {
+        if (listener instanceof DependencyInjectionListener) {
+            final DependencyInjectionListener dependencyInjectionListener = (DependencyInjectionListener) listener;
+            dependencyInjectionListener.onDependenciesInjected();
+        }
+    }
+
+    public void injectDependencies(final CharacterLibraryActivity characterLibraryActivity) {
+        DaggerApplicationComponent.builder()
+                .applicationModule(getApplicationModule(characterLibraryActivity))
+                .build()
+                .inject(characterLibraryActivity.activityDependencies);
+        callOnDependenciesInjected(characterLibraryActivity);
+    }
+
+    public void injectDependencies(final PlayerCharacterListActivity playerCharacterListActivity) {
+        DaggerActivityComponent.builder()
+                .applicationModule(getApplicationModule(playerCharacterListActivity))
+                .activityModule(getActivityModule(playerCharacterListActivity))
+                .build()
+                .inject(playerCharacterListActivity.activityDependencies);
+        callOnDependenciesInjected(playerCharacterListActivity);
+    }
+
+    public void injectDependencies(final CampaignEditorActivity campaignEditorActivity) {
+        DaggerActivityComponent.builder()
+                .applicationModule(getApplicationModule(campaignEditorActivity))
+                .activityModule(getActivityModule(campaignEditorActivity))
+                .sharedPreferencesModule(getSharedPreferencesModule())
+                .build()
+                .inject(campaignEditorActivity.activityDependencies);
+        callOnDependenciesInjected(campaignEditorActivity);
+    }
+
+    public void injectDependencies(final SetThemeActivity setThemeActivity) {
+        DaggerActivityComponent.builder()
+                .applicationModule(getApplicationModule(setThemeActivity))
+                .activityModule(getActivityModule(setThemeActivity))
                 .build()
                 .inject(setThemeActivity.activityDependencies);
+        callOnDependenciesInjected(setThemeActivity);
+    }
+
+    public void injectDependencies(final DeveloperFunctionsActivity developerFunctionsActivity) {
+        DaggerActivityComponent.builder()
+                .applicationModule(getApplicationModule(developerFunctionsActivity))
+                .activityModule(getActivityModule(developerFunctionsActivity))
+                .build()
+                .inject(developerFunctionsActivity.activityDependencies);
+        callOnDependenciesInjected(developerFunctionsActivity);
+    }
+
+    // Fragment Dependencies
+
+    public void injectDependencies(final ThemePreviewFragment themePreviewFragment) {
+        DaggerFragmentComponent.builder()
+                .applicationModule(getApplicationModule(themePreviewFragment))
+                .fragmentModule(new FragmentModule())
+                .build()
+                .inject(themePreviewFragment.fragmentDependencies);
+        callOnDependenciesInjected(themePreviewFragment);
     }
 }

@@ -1,6 +1,5 @@
 package de.quarian.weaver.theming;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -12,9 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import de.quarian.weaver.R;
 import de.quarian.weaver.databinding.FragmentThemePreviewBinding;
-import de.quarian.weaver.di.ApplicationModule;
-import de.quarian.weaver.di.DaggerFragmentComponent;
-import de.quarian.weaver.di.FragmentModule;
+import de.quarian.weaver.di.DependencyInjector;
 
 public class ThemePreviewFragment extends Fragment {
 
@@ -29,7 +26,7 @@ public class ThemePreviewFragment extends Fragment {
         super(R.layout.fragment_theme_preview);
     }
 
-    private final FragmentDependencies fragmentDependencies = new FragmentDependencies();
+    public final FragmentDependencies fragmentDependencies = new FragmentDependencies();
     private final ThemeDisplayObject themeDisplayObject = new ThemeDisplayObject();
     private FragmentThemePreviewBinding viewBinding;
 
@@ -37,25 +34,8 @@ public class ThemePreviewFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Context context = getContextOrThrow();
-        injectDependencies(context);
+        DependencyInjector.get().injectDependencies(this);
         themeDisplayObject.refreshDrawables();
-    }
-
-    private Context getContextOrThrow() {
-        final Context context = getContext();
-        if (context == null) {
-            throw new IllegalStateException("Context was null");
-        }
-        return context;
-    }
-
-    private void injectDependencies(Context context) {
-        DaggerFragmentComponent.builder()
-                .applicationModule(new ApplicationModule(context))
-                .fragmentModule(new FragmentModule())
-                .build()
-                .inject(fragmentDependencies);
     }
 
     public void setActionColor(int actionColor) {

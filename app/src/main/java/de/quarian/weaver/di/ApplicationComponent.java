@@ -18,11 +18,14 @@ import de.quarian.weaver.theming.WeaverThemedActivity;
 @Singleton
 public interface ApplicationComponent {
 
+    // TODO: find a nice solution for the following:
+    // Commented out lines are using the Activity Component
+
     void inject(final WeaverApplication weaverApplication);
-    void inject(final WeaverThemedActivity  weaverThemedActivity);
-    void inject(final CampaignListActivity campaignListActivity);
-    void inject(final PlayerCharacterListActivity playerCharacterListActivity);
-    void inject(final CharacterLibraryActivity characterLibraryActivity);
-    void inject(final SetThemeActivity setThemeActivity);
-    void inject(final DeveloperFunctionsActivity developerFunctionsActivity);
+    //void inject(final WeaverThemedActivity.ActivityDependencies  weaverThemedActivity);
+    void inject(final CampaignListActivity.ActivityDependencies campaignListActivity);
+    //void inject(final PlayerCharacterListActivity.ActivityDependencies playerCharacterListActivity);
+    void inject(final CharacterLibraryActivity.ActivityDependencies characterLibraryActivity);
+    void inject(final SetThemeActivity.ActivityDependencies setThemeActivity);
+    void inject(final DeveloperFunctionsActivity.ActivityDependencies developerFunctionsActivity);
 }

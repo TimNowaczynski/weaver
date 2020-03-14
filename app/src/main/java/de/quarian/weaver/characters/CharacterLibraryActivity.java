@@ -18,27 +18,30 @@ import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 import de.quarian.weaver.RequestCodes;
 import de.quarian.weaver.database.CampaignDAO;
-import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.Campaign;
-import de.quarian.weaver.di.ApplicationModule;
-import de.quarian.weaver.di.DaggerApplicationComponent;
+import de.quarian.weaver.di.DependencyInjector;
 
 // TODO: extend themed activity + integration test
 public class CharacterLibraryActivity extends AppCompatActivity {
 
-    public static String EXTRA_CAMPAIGN_ID = "extra.campaignId";
+    public static class ActivityDependencies {
 
-    @Inject
-    public WeaverDB weaverDB;
+        @Inject
+        public CampaignDAO campaignDAO;
 
-    private CampaignDAO campaignDAO;
+    }
+
+    public static final String EXTRA_CAMPAIGN_ID = "extra.campaignId";
+    public final ActivityDependencies activityDependencies = new ActivityDependencies();
+
+    //private CampaignDAO campaignDAO;
     private long campaignId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character_library);
-        injectDependencies();
+        DependencyInjector.get().injectDependencies(this);
         setUpToolbar();
 
         campaignId = getIntent().getLongExtra(EXTRA_CAMPAIGN_ID, -1L);
@@ -53,14 +56,6 @@ public class CharacterLibraryActivity extends AppCompatActivity {
         });
     }
 
-    private void injectDependencies() {
-        DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(getApplicationContext()))
-                .build()
-                .inject(this);
-        campaignDAO = weaverDB.campaignDAO();
-    }
-
     private void setUpToolbar() {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,7 +63,7 @@ public class CharacterLibraryActivity extends AppCompatActivity {
     }
 
     private Campaign readCampaign() {
-        return campaignDAO.readCampaignByID(campaignId);
+        return activityDependencies.campaignDAO.readCampaignByID(campaignId);
     }
 
     @Override
@@ -77,7 +72,7 @@ public class CharacterLibraryActivity extends AppCompatActivity {
         AsyncTask.execute(() -> {
             final Campaign campaign = readCampaign();
             campaign.lastUsedDataMillis = System.currentTimeMillis();
-            campaignDAO.updateCampaign(campaign);
+            activityDependencies.campaignDAO.updateCampaign(campaign);
         });
     }
 
@@ -125,7 +120,7 @@ public class CharacterLibraryActivity extends AppCompatActivity {
                     break;
                 }
             }
-            campaignDAO.updateCampaign(campaign);
+            activityDependencies.campaignDAO.updateCampaign(campaign);
         });
 
         switch (itemId) {

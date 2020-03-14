@@ -36,9 +36,8 @@ import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 import de.quarian.weaver.di.ApplicationContext;
-import de.quarian.weaver.di.ApplicationModule;
 import de.quarian.weaver.di.CampaignListOrderPreferences;
-import de.quarian.weaver.di.DaggerApplicationComponent;
+import de.quarian.weaver.di.DependencyInjector;
 import de.quarian.weaver.di.GlobalHandler;
 import de.quarian.weaver.schedulers.IoScheduler;
 import de.quarian.weaver.service.CampaignService;
@@ -49,58 +48,56 @@ import io.reactivex.disposables.Disposable;
 // TODO: Investigate the odd delay when querying campaigns
 public class CampaignListActivity extends WeaverActivity implements AdapterView.OnItemSelectedListener {
 
-    // TODO: possibly remove this later on, it's just meant as a POC
-    @Inject
-    @ApplicationContext
-    public Context applicationContext;
+    public static class ActivityDependencies {
 
-    @Inject
-    @GlobalHandler
-    public Handler globalHandler;
+        // TODO: possibly remove this later on, it's just meant as a POC
+        @Inject
+        @ApplicationContext
+        public Context applicationContext;
 
-    @Inject
-    @CampaignListOrderPreferences
-    public SharedPreferences campaignListOrderPreferences;
+        @Inject
+        @GlobalHandler
+        public Handler globalHandler;
 
-    @Inject
-    public WeaverDB weaverDB;
+        @Inject
+        @CampaignListOrderPreferences
+        public SharedPreferences campaignListOrderPreferences;
 
-    @Inject
-    public CampaignService campaignService;
+        @Inject
+        public WeaverDB weaverDB;
 
-    @IoScheduler
-    @Inject
-    public Scheduler io;
+        @Inject
+        public CampaignService campaignService;
 
-    @Inject
-    public WeaverLayoutInflater weaverLayoutInflater;
+        @IoScheduler
+        @Inject
+        public Scheduler io;
 
+        @Inject
+        public WeaverLayoutInflater weaverLayoutInflater;
+
+    }
+
+    public final ActivityDependencies activityDependencies = new ActivityDependencies();
     private CampaignService.SortOrder currentSortOrder = CampaignService.SortOrder.CAMPAIGN_NAME;
     private CampaignListAdapter campaignListAdapter;
 
     @VisibleForTesting
     public void setIoScheduler(final @NonNull Scheduler scheduler) {
-        this.io = scheduler;
+        activityDependencies.io = scheduler;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign_list);
-        injectDependencies();
-        campaignListAdapter = new CampaignListAdapter(this, weaverLayoutInflater);
+        DependencyInjector.get().injectDependencies(this);
+        campaignListAdapter = new CampaignListAdapter(this, activityDependencies.weaverLayoutInflater);
 
         setUpToolbar();
         setUpButtons();
         setUpSortOrderSpinner();
         setUpRecyclerView();
-    }
-
-    private void injectDependencies() {
-        DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(getApplicationContext()))
-                .build()
-                .inject(this);
     }
 
     @Override
@@ -125,10 +122,10 @@ public class CampaignListActivity extends WeaverActivity implements AdapterView.
 
     private void setUpSortOrderSpinner() {
         final Spinner sortOrderSpinner = findViewById(R.id.campaign_list_sort_order_spinner);
-        final ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(applicationContext, R.array.activity_campaign_list_sort_order_spinner_options, R.layout.campaign_list_spinner);
+        final ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(activityDependencies.applicationContext, R.array.activity_campaign_list_sort_order_spinner_options, R.layout.campaign_list_spinner);
         sortOrderSpinner.setAdapter(spinnerAdapter);
 
-        final String preselectedOrderRaw = campaignListOrderPreferences.getString(CampaignService.CAMPAIGN_LIST_ORDER_SP_KEY, null);
+        final String preselectedOrderRaw = activityDependencies.campaignListOrderPreferences.getString(CampaignService.CAMPAIGN_LIST_ORDER_SP_KEY, null);
         if (preselectedOrderRaw != null) {
             /*
                 So, again I don't really like that it's hardwired. An option might be to convert
@@ -265,7 +262,7 @@ public class CampaignListActivity extends WeaverActivity implements AdapterView.
     }
 
     private void storeSortOrder(CampaignService.SortOrder selectedSortOrder) {
-        campaignListOrderPreferences.edit()
+        activityDependencies.campaignListOrderPreferences.edit()
                 .putString(CampaignService.CAMPAIGN_LIST_ORDER_SP_KEY, selectedSortOrder.name())
                 .apply();
     }
@@ -304,19 +301,19 @@ public class CampaignListActivity extends WeaverActivity implements AdapterView.
     }
 
     private CampaignService.SortOrder getSortOrder() {
-        final String sortOrderName = campaignListOrderPreferences.getString(CampaignService.CAMPAIGN_LIST_ORDER_SP_KEY, CampaignService.SortOrder.CAMPAIGN_NAME.name());
+        final String sortOrderName = activityDependencies.campaignListOrderPreferences.getString(CampaignService.CAMPAIGN_LIST_ORDER_SP_KEY, CampaignService.SortOrder.CAMPAIGN_NAME.name());
         return CampaignService.SortOrder.valueOf(sortOrderName);
     }
 
     private void queryDisplayObjects(final CampaignService.SortOrder sortOrder) {
-        final Disposable disposable = Observable.just(campaignService)
-                .subscribeOn(io)
+        final Disposable disposable = Observable.just(activityDependencies.campaignService)
+                .subscribeOn(activityDependencies.io)
                 .subscribe((campaignService) -> {
                     currentSortOrder = sortOrder;
                     final List<CampaignListDisplayObject> displayObjects = campaignService.readCampaigns(sortOrder);
                     campaignListAdapter.setCampaignListDisplayObjects(displayObjects);
-                    globalHandler.post(campaignListAdapter::notifyDataSetChanged);
+                    activityDependencies.globalHandler.post(campaignListAdapter::notifyDataSetChanged);
                 });
-        globalHandler.postDelayed(disposable::dispose, 500L);
+        activityDependencies.globalHandler.postDelayed(disposable::dispose, 500L);
     }
 }
