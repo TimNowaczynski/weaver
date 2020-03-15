@@ -118,11 +118,11 @@ public class SetThemeActivityTest extends TestCase {
 
     @Test
     public void testGetThemeAndPostInitializeTask() {
-        when(setThemeActivityModuleMocks.applicationModuleMock.themeProvider().getThemeForCampaign(DUMMY_CAMPAIGN_ID)).thenReturn(theme);
+        when(setThemeActivityModuleMocks.applicationModuleMock.themeProvider(setThemeActivityModuleMocks.weaverDBMock, setThemeActivityModuleMocks.loggingProviderMock).getThemeForCampaign(DUMMY_CAMPAIGN_ID)).thenReturn(theme);
 
         final Intent intent = new Intent();
         intent.putExtra(SetThemeActivity.EXTRA_CAMPAIGN_ID, DUMMY_CAMPAIGN_ID);
         activityTestRule.launchActivity(intent);
-        verify(setThemeActivityModuleMocks.applicationModuleMock.themeProvider()).getThemeForCampaign(DUMMY_CAMPAIGN_ID);
+        verify(setThemeActivityModuleMocks.applicationModuleMock.themeProvider(setThemeActivityModuleMocks.weaverDBMock, setThemeActivityModuleMocks.loggingProviderMock)).getThemeForCampaign(DUMMY_CAMPAIGN_ID);
     }
 }

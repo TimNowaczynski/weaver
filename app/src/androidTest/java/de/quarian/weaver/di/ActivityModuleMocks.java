@@ -13,6 +13,8 @@ import de.quarian.weaver.datamodel.converter.CampaignConverter;
 import de.quarian.weaver.dev.DemoDataSetInjector;
 import de.quarian.weaver.service.CampaignService;
 import de.quarian.weaver.theming.ThemeProvider;
+import de.quarian.weaver.util.Logger;
+import de.quarian.weaver.util.LoggingProvider;
 import io.reactivex.Scheduler;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -37,6 +39,8 @@ public class ActivityModuleMocks<T extends Activity> {
     public ThemeProvider themeProviderMock;
     public DemoDataSetInjector demoDataSetInjectorMock;
     public Scheduler ioSchedulerMock;
+    public LoggingProvider loggingProviderMock;
+    public Logger loggerMock;
 
     public T activityMock;
     public ActivityModule activityModuleMock;
@@ -68,14 +72,16 @@ public class ActivityModuleMocks<T extends Activity> {
         campaignServiceMock = mock(CampaignService.class);
         when(applicationModuleMock.campaignService(any(WeaverDB.class), any(SharedPreferences.class), any(CampaignConverter.class))).thenReturn(campaignServiceMock);
 
-        themeProviderMock = mock(ThemeProvider.class);
-        when(applicationModuleMock.themeProvider()).thenReturn(themeProviderMock);
-
         demoDataSetInjectorMock = mock(DemoDataSetInjector.class);
         when(applicationModuleMock.demoDataSetInjector()).thenReturn(demoDataSetInjectorMock);
 
         ioSchedulerMock = mock(Scheduler.class);
         when(applicationModuleMock.ioScheduler()).thenReturn(ioSchedulerMock);
+
+        loggerMock = mock(Logger.class);
+        loggingProviderMock = mock(LoggingProvider.class);
+        when(loggingProviderMock.getLogger(any())).thenReturn(loggerMock);
+        when(applicationModuleMock.loggingProvider()).thenReturn(loggingProviderMock);
 
         // Activity Module
         activityMock = activity;
@@ -84,7 +90,10 @@ public class ActivityModuleMocks<T extends Activity> {
         when(activityModuleMock.activity()).thenReturn(activityMock);
 
         activityPreconditionErrorHandlerMock = mock(ActivityPreconditionErrorHandler.class);
-        when(activityModuleMock.errorHandler()).thenReturn(activityPreconditionErrorHandlerMock);
+        when(activityModuleMock.errorHandler(loggingProviderMock)).thenReturn(activityPreconditionErrorHandlerMock);
+
+        themeProviderMock = mock(ThemeProvider.class);
+        when(applicationModuleMock.themeProvider(weaverDBMock, loggingProviderMock)).thenReturn(themeProviderMock);
     }
 
     public void resetMocks() {
@@ -97,6 +106,8 @@ public class ActivityModuleMocks<T extends Activity> {
         reset(themeProviderMock);
         reset(demoDataSetInjectorMock);
         reset(ioSchedulerMock);
+        reset(loggingProviderMock);
+        reset(loggerMock);
 
         reset(activityMock); // I don't really get the warning here (Warning:(95, 9) Unchecked generics array creation for varargs parameter)
         reset(activityModuleMock);

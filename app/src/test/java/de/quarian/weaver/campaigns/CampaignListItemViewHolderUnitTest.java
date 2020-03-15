@@ -1,6 +1,5 @@
 package de.quarian.weaver.campaigns;
 
-import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import de.quarian.weaver.R;
+import de.quarian.weaver.WeaverActivity;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 public class CampaignListItemViewHolderUnitTest {
 
     @Mock
-    private Activity activity;
+    private WeaverActivity activity;
 
     @Mock
     private View view;

@@ -2,13 +2,14 @@ package de.quarian.weaver;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.Callable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+import de.quarian.weaver.util.LogLevel;
+import de.quarian.weaver.util.LoggingProvider;
 
 // TODO: Not sure if it's worth refactoring to be able to test this
 public class ActivityPreconditionErrorHandler {
@@ -16,8 +17,12 @@ public class ActivityPreconditionErrorHandler {
     @NonNull
     private WeakReference<Activity> activityWeakReference;
 
-    public ActivityPreconditionErrorHandler(@NonNull final Activity activity) {
-        activityWeakReference = new WeakReference<>(activity);
+    @NonNull
+    private LoggingProvider loggingProvider;
+
+    public ActivityPreconditionErrorHandler(@NonNull final Activity activity, @NonNull final LoggingProvider loggingProvider) {
+        this.activityWeakReference = new WeakReference<>(activity);
+        this.loggingProvider = loggingProvider;
     }
 
     public boolean requireOrFinish(@NonNull final Callable<Boolean> requirement,
@@ -29,7 +34,7 @@ public class ActivityPreconditionErrorHandler {
         try {
             conditionMet = requirement.call();
         } catch (Exception e) {
-            // TODO: log exception
+            loggingProvider.getLogger(this).log(LogLevel.ERROR, e.getMessage());
             activity.finish();
         }
 

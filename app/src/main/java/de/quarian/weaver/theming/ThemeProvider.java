@@ -6,14 +6,18 @@ import de.quarian.weaver.database.ThemeDAO;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.Campaign;
 import de.quarian.weaver.datamodel.Theme;
+import de.quarian.weaver.util.LogLevel;
+import de.quarian.weaver.util.LoggingProvider;
 
 public class ThemeProvider {
 
-    public ThemeProvider(WeaverDB weaverDB) {
-        this.weaverDB = weaverDB;
-    }
-
     private final WeaverDB weaverDB;
+    private final LoggingProvider loggingProvider;
+
+    public ThemeProvider(WeaverDB weaverDB, final LoggingProvider loggingProvider) {
+        this.weaverDB = weaverDB;
+        this.loggingProvider = loggingProvider;
+    }
 
     public Theme getThemeForCampaign(final long campaignID) {
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
@@ -25,8 +29,12 @@ public class ThemeProvider {
         if (themeDAO == null) {
             throw new RuntimeException("themeDAO");
         }
-        //TODO: handle possible null pointer
-        return themeDAO.readThemeByID(campaign.themeId);
+        Theme theme = themeDAO.readThemeByID(campaign.themeId);
+        if (theme == null) {
+            // TODO: return some fallback theme
+            loggingProvider.getLogger(this).log(LogLevel.ERROR, "Could not find theme for campaign: " + campaign.campaignName);
+        }
+        return theme;
     }
 
     public void setThemeForCampaign(final long campaignId, final Theme theme) {

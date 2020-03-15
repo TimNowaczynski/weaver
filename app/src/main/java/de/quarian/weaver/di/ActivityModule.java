@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import dagger.Module;
 import dagger.Provides;
 import de.quarian.weaver.ActivityPreconditionErrorHandler;
+import de.quarian.weaver.util.LogLevel;
+import de.quarian.weaver.util.LoggingProvider;
 
 @Module(includes = ApplicationModule.class)
 public class ActivityModule {
@@ -31,12 +33,12 @@ public class ActivityModule {
     @Provides
     @Singleton
     @Nullable
-    public ActivityPreconditionErrorHandler errorHandler() {
+    public ActivityPreconditionErrorHandler errorHandler(final LoggingProvider loggingProvider) {
         final Activity activity = this.activity.get();
         if (activity == null) {
-            // TODO: log error
+            loggingProvider.getLogger(this).log(LogLevel.ERROR, "Activity Weak Reference was null");
             return null;
         }
-        return new ActivityPreconditionErrorHandler(activity);
+        return new ActivityPreconditionErrorHandler(activity, loggingProvider);
     }
 }

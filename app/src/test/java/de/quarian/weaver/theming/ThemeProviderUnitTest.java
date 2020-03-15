@@ -10,6 +10,7 @@ import de.quarian.weaver.database.ThemeDAO;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.Campaign;
 import de.quarian.weaver.datamodel.Theme;
+import de.quarian.weaver.util.LoggingProvider;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -20,6 +21,9 @@ public class ThemeProviderUnitTest {
 
     @Mock
     private WeaverDB weaverDB;
+
+    @Mock
+    private LoggingProvider loggingProvider;
 
     @Mock
     private CampaignDAO campaignDAO;
@@ -39,7 +43,7 @@ public class ThemeProviderUnitTest {
         campaign.themeId = 10L;
         when(campaignDAO.readCampaignByID(1L)).thenReturn(campaign);
 
-        themeProvider = new ThemeProvider(weaverDB);
+        themeProvider = new ThemeProvider(weaverDB, loggingProvider);
     }
 
     @Test

@@ -1,6 +1,5 @@
 package de.quarian.weaver.campaigns;
 
-import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
@@ -8,6 +7,7 @@ import android.widget.Spinner;
 import junit.framework.TestCase;
 
 import org.greenrobot.eventbus.EventBus;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -26,6 +26,8 @@ import androidx.test.filters.MediumTest;
 import androidx.test.rule.ActivityTestRule;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
+import de.quarian.weaver.di.ActivityModuleMocks;
+import de.quarian.weaver.di.SharedPreferencesModuleMocks;
 import de.quarian.weaver.service.CampaignService;
 import de.quarian.weaver.test.EventRecorder;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -34,7 +36,6 @@ import io.reactivex.schedulers.TestScheduler;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -46,23 +47,15 @@ public class CampaignListActivityTest extends TestCase {
 
     private static final EventRecorder eventRecorder = new EventRecorder();
 
+    private final SharedPreferencesModuleMocks sharedPreferencesModuleMocks = SharedPreferencesModuleMocks.create();
+
     @Rule
     public ActivityTestRule<CampaignListActivity> activityTestRule = new ActivityTestRule<>(CampaignListActivity.class, false, false);
 
     @Mock
     public NavigationController navigationControllerMock;
 
-    @Mock
-    public SharedPreferences sharedPreferences;
-
-    @Mock
-    public SharedPreferences.Editor sharedPreferencesEditor;
-
-    @Mock
-    public CampaignService campaignService;
-
-    @Mock
-    public SharedPreferences sortOrderPreferences;
+    private ActivityModuleMocks<CampaignListActivity> activityModuleMocks;
 
     @BeforeClass
     public static void setUpBeforeClass() {
@@ -77,24 +70,28 @@ public class CampaignListActivityTest extends TestCase {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        activityModuleMocks = ActivityModuleMocks.create(CampaignListActivity.class);
         NavigationController.setTestInstance(navigationControllerMock);
         eventRecorder.reset();
 
         prepareActivity();
 
         final String sortOrderString = CampaignService.SortOrder.CAMPAIGN_NAME.name();
-        when(sortOrderPreferences.getString(CampaignService.CAMPAIGN_LIST_ORDER_SP_KEY, sortOrderString)).thenReturn(sortOrderString);
-        when(sortOrderPreferences.edit()).thenReturn(sharedPreferencesEditor);
-        when(sharedPreferencesEditor.putString(anyString(), anyString())).thenReturn(sharedPreferencesEditor);
+        when(sharedPreferencesModuleMocks.campaignListOrderPreferences.getString(CampaignService.CAMPAIGN_LIST_ORDER_SP_KEY, sortOrderString)).thenReturn(sortOrderString);
     }
 
     private void prepareActivity() {
         final CampaignListActivity campaignListActivity = activityTestRule.launchActivity(null);
-        campaignListActivity.activityDependencies.campaignListOrderPreferences = sharedPreferences;
-        campaignListActivity.activityDependencies.campaignService = campaignService;
+        campaignListActivity.activityDependencies.campaignListOrderPreferences = sharedPreferencesModuleMocks.campaignListOrderPreferences;
+        campaignListActivity.activityDependencies.campaignService = activityModuleMocks.campaignServiceMock;
 
         final TestScheduler testScheduler = new TestScheduler(1L, TimeUnit.SECONDS);
         campaignListActivity.setIoScheduler(testScheduler);
+    }
+
+    @After
+    public void tearDown() {
+        activityModuleMocks.resetMocks();
     }
 
     @Test
@@ -148,7 +145,7 @@ public class CampaignListActivityTest extends TestCase {
     @Test
     public void testRefreshCampaignsEventIsThrownOnChangingSortOrder() {
         final CampaignListActivity activity = activityTestRule.getActivity();
-        activity.activityDependencies.campaignListOrderPreferences = sortOrderPreferences;
+        activity.activityDependencies.campaignListOrderPreferences = sharedPreferencesModuleMocks.campaignListOrderPreferences;
         eventRecorder.reset();
 
         final Spinner spinner = activity.findViewById(R.id.campaign_list_sort_order_spinner);
@@ -164,14 +161,14 @@ public class CampaignListActivityTest extends TestCase {
     @Test
     public void testRefreshCampaignsEventIsReceived() throws Exception {
         final CampaignListActivity activity = activityTestRule.getActivity();
-        activity.activityDependencies.campaignListOrderPreferences = sortOrderPreferences;
+        activity.activityDependencies.campaignListOrderPreferences = sharedPreferencesModuleMocks.campaignListOrderPreferences;
         activity.activityDependencies.io = AndroidSchedulers.mainThread();
 
         // So this is where we fake selecting some spinner option
-        when(sortOrderPreferences.getString(CampaignService.CAMPAIGN_LIST_ORDER_SP_KEY, CampaignService.SortOrder.CAMPAIGN_NAME.name())).thenReturn(CampaignService.SortOrder.LAST_USED.name());
+        when(sharedPreferencesModuleMocks.campaignListOrderPreferences.getString(CampaignService.CAMPAIGN_LIST_ORDER_SP_KEY, CampaignService.SortOrder.CAMPAIGN_NAME.name())).thenReturn(CampaignService.SortOrder.LAST_USED.name());
         EventBus.getDefault().post(new RefreshDisplayObjectsEvent());
         Thread.sleep(100L);
 
-        verify(campaignService, times(1)).readCampaigns(CampaignService.SortOrder.LAST_USED);
+        verify(activityModuleMocks.campaignServiceMock, times(1)).readCampaigns(CampaignService.SortOrder.LAST_USED);
     }
 }

@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import de.quarian.weaver.BuildConfig;
+import de.quarian.weaver.WeaverActivity;
 import de.quarian.weaver.WeaverApplication;
 import de.quarian.weaver.campaigns.CampaignEditorActivity;
 import de.quarian.weaver.campaigns.CampaignListActivity;
@@ -132,6 +133,14 @@ public class DependencyInjector {
     }
 
     // Activity Dependencies
+
+    public void injectDependencies(final WeaverActivity weaverActivity) {
+        DaggerActivityComponent.builder()
+                .applicationModule(getApplicationModule(weaverActivity))
+                .activityModule(getActivityModule(weaverActivity))
+                .build()
+                .inject(weaverActivity.weaverActivityDependencies);
+    }
 
     public void injectDependencies(final WeaverThemedActivity weaverThemedActivity) {
         DaggerActivityComponent.builder()

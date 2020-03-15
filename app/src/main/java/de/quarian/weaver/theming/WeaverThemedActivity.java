@@ -18,15 +18,12 @@ import de.quarian.weaver.BR;
 import de.quarian.weaver.R;
 import de.quarian.weaver.WeaverActivity;
 import de.quarian.weaver.datamodel.Theme;
-import de.quarian.weaver.di.ActivityModule;
-import de.quarian.weaver.di.ApplicationModule;
-import de.quarian.weaver.di.DaggerActivityComponent;
 import de.quarian.weaver.di.DependencyInjectionListener;
 import de.quarian.weaver.di.DependencyInjector;
 
 public abstract class WeaverThemedActivity extends WeaverActivity implements DependencyInjectionListener {
 
-    public static class ActivityDependencies {
+    public static class WeaverThemedActivityDependencies {
 
         @Inject
         @Nullable
@@ -40,7 +37,7 @@ public abstract class WeaverThemedActivity extends WeaverActivity implements Dep
     private static final long INVALID_CAMPAIGN_ID = -2;
     public static final String EXTRA_CAMPAIGN_ID = "extra.campaignId";
 
-    public final ActivityDependencies weaverThemedActivityDependencies = new ActivityDependencies();
+    public final WeaverThemedActivityDependencies weaverThemedActivityDependencies = new WeaverThemedActivityDependencies();
     public long campaignId;
 
     private ViewDataBinding viewDataBinding;

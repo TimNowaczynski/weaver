@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Room;
 import dagger.Module;
 import dagger.Provides;
+import de.quarian.weaver.BuildConfig;
 import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.database.CampaignDAO;
 import de.quarian.weaver.database.WeaverDB;
@@ -19,6 +20,8 @@ import de.quarian.weaver.schedulers.IoScheduler;
 import de.quarian.weaver.service.CampaignService;
 import de.quarian.weaver.service.CampaignServiceImplementation;
 import de.quarian.weaver.theming.ThemeProvider;
+import de.quarian.weaver.util.LocalLogger;
+import de.quarian.weaver.util.LoggingProvider;
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 
@@ -87,8 +90,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public ThemeProvider themeProvider() {
-        return new ThemeProvider(weaverDB());
+    public ThemeProvider themeProvider(final WeaverDB weaverDB, final LoggingProvider loggingProvider) {
+        return new ThemeProvider(weaverDB, loggingProvider);
     }
 
     @Provides
@@ -102,6 +105,17 @@ public class ApplicationModule {
     @Singleton
     public Scheduler ioScheduler() {
         return ioScheduler;
+    }
+
+    @Provides
+    @Singleton
+    public LoggingProvider loggingProvider() {
+        if (BuildConfig.DEBUG) {
+            return new LocalLogger.LocalLoggingProvider();
+        } else {
+            // TODO: replace with remote logger
+            return new LocalLogger.LocalLoggingProvider();
+        }
     }
 
 }

@@ -18,13 +18,16 @@ import androidx.annotation.VisibleForTesting;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
+import de.quarian.weaver.WeaverActivity;
 import de.quarian.weaver.database.DBConverters;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
+import de.quarian.weaver.util.LogLevel;
+import de.quarian.weaver.util.Logger;
 
 public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private final DBConverters.ImageBlobConverter imageBlobConverter = new DBConverters.ImageBlobConverter();
-    private final WeakReference<Activity> activity;
+    private final WeakReference<WeaverActivity> activity;
     private CampaignListDisplayObject campaignListDisplayObject;
     private TextView managePlayerCharactersButton;
     private TextView rpsName;
@@ -47,7 +50,7 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
         initializeViewReferences(itemView);
     }
 
-    public CampaignListItemViewHolder(@NonNull Activity activity, @NonNull View itemView) {
+    public CampaignListItemViewHolder(@NonNull WeaverActivity activity, @NonNull View itemView) {
         super(itemView);
         itemView.setOnClickListener(this);
 
@@ -156,8 +159,13 @@ public class CampaignListItemViewHolder extends RecyclerView.ViewHolder implemen
             }
 
             default: {
-                //TODO: Implement logging
+                getLogger().log(LogLevel.ERROR, "Failed to implement switch case for view id: " + id);
             }
         }
+    }
+
+    private Logger getLogger() {
+        final WeaverActivity activity = this.activity.get();
+        return activity.getLogger(this);
     }
 }

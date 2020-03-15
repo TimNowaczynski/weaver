@@ -1,6 +1,5 @@
 package de.quarian.weaver.campaigns;
 
-import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,16 +10,17 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.R;
+import de.quarian.weaver.WeaverActivity;
 import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 
 public class CampaignListAdapter extends RecyclerView.Adapter<CampaignListItemViewHolder> {
 
-    private final WeakReference<Activity> activity;
+    private final WeakReference<WeaverActivity> activity;
     private final WeaverLayoutInflater weaverLayoutInflater;
     private final List<CampaignListDisplayObject> campaignListDisplayObjects = new ArrayList<>();
 
-    public CampaignListAdapter(final Activity activity, @NonNull WeaverLayoutInflater weaverLayoutInflater) {
+    public CampaignListAdapter(final WeaverActivity activity, @NonNull WeaverLayoutInflater weaverLayoutInflater) {
         this.activity = new WeakReference<>(activity);
         this.weaverLayoutInflater = weaverLayoutInflater;
     }

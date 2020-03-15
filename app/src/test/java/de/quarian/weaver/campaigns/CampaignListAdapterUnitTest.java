@@ -1,6 +1,5 @@
 package de.quarian.weaver.campaigns;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -16,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.quarian.weaver.R;
+import de.quarian.weaver.WeaverActivity;
 import de.quarian.weaver.util.Utils;
 import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 public class CampaignListAdapterUnitTest {
 
     @Mock
-    public Activity activity;
+    public WeaverActivity activity;
 
     @Mock
     public WeaverLayoutInflater weaverLayoutInflater;
