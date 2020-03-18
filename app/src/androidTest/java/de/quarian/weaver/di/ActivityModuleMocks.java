@@ -3,6 +3,7 @@ package de.quarian.weaver.di;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Handler;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,7 @@ public class ActivityModuleMocks<T extends Activity> {
 
     public ApplicationModule applicationModuleMock;
     public Context applicationContextMock; // TODO: This might be the same as activity context, check this
+    public Resources resourcesMock;
     public Handler globalHandlerMock;
     public WeaverDB weaverDBMock;
     public WeaverLayoutInflater weaverLayoutInflaterMock;
@@ -57,6 +59,9 @@ public class ActivityModuleMocks<T extends Activity> {
         applicationContextMock = mock(Context.class);
         when(applicationModuleMock.context()).thenReturn(applicationContextMock);
 
+        resourcesMock = mock(Resources.class);
+        when(applicationModuleMock.resources()).thenReturn(resourcesMock);
+
         globalHandlerMock = mock(Handler.class);
         when(applicationModuleMock.globalHandler()).thenReturn(globalHandlerMock);
 
@@ -67,7 +72,7 @@ public class ActivityModuleMocks<T extends Activity> {
         when(applicationModuleMock.weaverLayoutInflater()).thenReturn(weaverLayoutInflaterMock);
 
         campaignConverterMock = mock(CampaignConverter.class);
-        when(applicationModuleMock.campaignConverter()).thenReturn(campaignConverterMock);
+        when(applicationModuleMock.campaignConverter(any())).thenReturn(campaignConverterMock);
 
         campaignServiceMock = mock(CampaignService.class);
         when(applicationModuleMock.campaignService(any(WeaverDB.class), any(SharedPreferences.class), any(CampaignConverter.class))).thenReturn(campaignServiceMock);
@@ -99,9 +104,11 @@ public class ActivityModuleMocks<T extends Activity> {
     public void resetMocks() {
         reset(applicationModuleMock);
         reset(applicationContextMock);
+        reset(resourcesMock);
         reset(globalHandlerMock);
         reset(weaverDBMock);
         reset(weaverLayoutInflaterMock);
+        reset(campaignConverterMock);
         reset(campaignServiceMock);
         reset(themeProviderMock);
         reset(demoDataSetInjectorMock);
@@ -109,7 +116,7 @@ public class ActivityModuleMocks<T extends Activity> {
         reset(loggingProviderMock);
         reset(loggerMock);
 
-        reset(activityMock); // I don't really get the warning here (Warning:(95, 9) Unchecked generics array creation for varargs parameter)
+        reset(activityMock); // I don't really get the warning here (Unchecked generics array creation for varargs parameter)
         reset(activityModuleMock);
         reset(activityPreconditionErrorHandlerMock);
     }

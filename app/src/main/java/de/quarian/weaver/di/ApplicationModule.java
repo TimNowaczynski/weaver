@@ -2,6 +2,7 @@ package de.quarian.weaver.di;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Handler;
 
 import javax.inject.Singleton;
@@ -50,6 +51,10 @@ public class ApplicationModule {
         return applicationContext;
     }
 
+    @Provides
+    @Singleton
+    public Resources resources() { return applicationContext.getResources(); }
+
     @GlobalHandler
     @Provides
     @Singleton
@@ -78,8 +83,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public CampaignConverter campaignConverter() {
-        return new CampaignConverter();
+    public CampaignConverter campaignConverter(final Resources resources) {
+        return new CampaignConverter(resources);
     }
 
     @Provides

@@ -34,7 +34,7 @@ public class CampaignListAdapter extends RecyclerView.Adapter<CampaignListItemVi
     @Override
     public CampaignListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final View campaignListItemView = weaverLayoutInflater.inflate(R.layout.campaign_list_item, parent);
-        return new CampaignListItemViewHolder(activity.get(), campaignListItemView);
+        return new CampaignListItemViewHolder(campaignListItemView);
     }
 
     @Override

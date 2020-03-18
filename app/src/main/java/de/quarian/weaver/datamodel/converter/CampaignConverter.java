@@ -1,5 +1,7 @@
 package de.quarian.weaver.datamodel.converter;
 
+import android.content.res.Resources;
+
 import java.util.Date;
 
 import androidx.annotation.NonNull;
@@ -10,8 +12,14 @@ import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 
 public class CampaignConverter {
 
+    private final Resources resources;
+
+    public CampaignConverter(final Resources resources) {
+        this.resources = resources;
+    }
+
     public CampaignListDisplayObject convert(@NonNull final RoleplayingSystem roleplayingSystem, @NonNull final Campaign campaign, @NonNull final Theme theme, final long numberOfPlayerCharacters) {
-        final CampaignListDisplayObject displayObject = new CampaignListDisplayObject();
+        final CampaignListDisplayObject displayObject = new CampaignListDisplayObject(resources);
         displayObject.setCampaignId(campaign.id);
         displayObject.setRoleplayingSystemName(roleplayingSystem.roleplayingSystemName);
         displayObject.setCampaignName(campaign.campaignName);

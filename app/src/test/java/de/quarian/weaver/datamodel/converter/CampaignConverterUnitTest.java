@@ -1,6 +1,11 @@
 package de.quarian.weaver.datamodel.converter;
 
+import android.content.res.Resources;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Date;
 
@@ -16,8 +21,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CampaignConverterUnitTest {
 
-    private CampaignConverter campaignConverter = new CampaignConverter();
-    private DBConverters.ImageBlobConverter imageBlobConverter = new DBConverters.ImageBlobConverter();
+    @Mock
+    private Resources resources;
+
+    private CampaignConverter campaignConverter;
+    private final DBConverters.ImageBlobConverter imageBlobConverter = new DBConverters.ImageBlobConverter();
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+        campaignConverter = new CampaignConverter(resources);
+    }
 
     @Test
     public void testConvertDBObjectsIntoCampaignDisplayObject() {
@@ -58,13 +72,13 @@ public class CampaignConverterUnitTest {
         final Byte[] campaignImage = imageBlobConverter.convertPrimitiveToBytes(campaignImageBytes);
         theme.bannerBackgroundImage = campaignImage;
 
-        final long numberOfPlayerCharacters = 4L;
+        final long numberOfPlayerCharacters = 4;
 
         final CampaignListDisplayObject displayObject = campaignConverter.convert(roleplayingSystem, campaign, theme, numberOfPlayerCharacters);
         assertThat(displayObject.getCampaignId(), is(campaignId));
         assertThat(displayObject.getRoleplayingSystemName(), is(rpsName));
         assertThat(displayObject.getCampaignName(), is(campaignName));
-        assertThat(displayObject.getNumberOfPlayerCharacters(), is(numberOfPlayerCharacters));
+        assertThat(displayObject.getNumberOfPlayerCharacters(), is("4"));
         assertThat(displayObject.getRoleplayingSystemImage(), is(rpsLogoImage));
         assertThat(displayObject.getCampaignImage(), is(campaignImage));
         assertThat(displayObject.getCreated(), is(new Date(creationDateTimstamp)));
