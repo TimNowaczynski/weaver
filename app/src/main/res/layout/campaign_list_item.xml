@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"/>
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/campaign_list_item_info_background"
@@ -133,19 +133,18 @@
 
             <ImageView
                 android:id="@+id/campaign_list_item_rps_image"
-                bytes="@{campaignDisplayObject.roleplayingSystemImage}"
-                android:layout_marginEnd="12dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginBottom="12dp"
                 tools:src="@drawable/shadowrun_logo"
+                bytes="@{campaignDisplayObject.roleplayingSystemImage}"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="12dp"
                 android:scaleType="centerInside"
                 app:layout_constraintTop_toTopOf="@id/campaign_list_item_info_section"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:padding="4dp"
                 android:layout_width="48dp"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
                 tools:ignore="ContentDescription" />
-
 
         </LinearLayout>
 
