@@ -20,6 +20,7 @@ import de.quarian.weaver.RequestCodes;
 import de.quarian.weaver.database.CampaignDAO;
 import de.quarian.weaver.datamodel.Campaign;
 import de.quarian.weaver.di.DependencyInjector;
+import de.quarian.weaver.util.AndroidToastHandler;
 
 // TODO: extend themed activity + integration test
 public class CharacterLibraryActivity extends AppCompatActivity {
@@ -28,6 +29,9 @@ public class CharacterLibraryActivity extends AppCompatActivity {
 
         @Inject
         public CampaignDAO campaignDAO;
+
+        @Inject
+        public AndroidToastHandler androidToastHandler;
 
     }
 
@@ -125,11 +129,11 @@ public class CharacterLibraryActivity extends AppCompatActivity {
 
         switch (itemId) {
             case R.id.menu_item_deactivate_campaign: {
-                Toast.makeText(getBaseContext(), R.string.activity_character_library_campaign_deactivated, Toast.LENGTH_LONG).show();
+                activityDependencies.androidToastHandler.showToast(R.string.activity_character_library_campaign_deactivated, Toast.LENGTH_LONG);
                 break;
             }
             case R.id.menu_item_activate_campaign: {
-                Toast.makeText(getBaseContext(), R.string.activity_character_library_campaign_activated, Toast.LENGTH_LONG).show();
+                activityDependencies.androidToastHandler.showToast(R.string.activity_character_library_campaign_activated, Toast.LENGTH_LONG);
                 break;
             }
         }

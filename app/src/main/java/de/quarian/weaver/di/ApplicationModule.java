@@ -21,6 +21,8 @@ import de.quarian.weaver.schedulers.IoScheduler;
 import de.quarian.weaver.service.CampaignService;
 import de.quarian.weaver.service.CampaignServiceImplementation;
 import de.quarian.weaver.theming.ThemeProvider;
+import de.quarian.weaver.util.AndroidToastHandler;
+import de.quarian.weaver.util.AndroidToastHandlerImplementation;
 import de.quarian.weaver.util.LocalLogger;
 import de.quarian.weaver.util.LoggingProvider;
 import io.reactivex.Scheduler;
@@ -121,6 +123,12 @@ public class ApplicationModule {
             // TODO: replace with remote logger
             return new LocalLogger.LocalLoggingProvider();
         }
+    }
+
+    @Provides
+    @Singleton
+    public AndroidToastHandler androidToastHandler() {
+        return new AndroidToastHandlerImplementation(applicationContext);
     }
 
 }

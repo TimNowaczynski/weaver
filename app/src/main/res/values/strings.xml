@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Weaver</string>
     <string name="generic_okay">Okay</string>
+    <string name="generic_error_unknown">Sorry, something went wrong. We will try to fix this in an upcoming version.</string>
     <string name="generic_error_required_field">This field is required</string>
 
     <string name="themed_activity_invalid_id_error_title">Error opening theme for campaign</string>

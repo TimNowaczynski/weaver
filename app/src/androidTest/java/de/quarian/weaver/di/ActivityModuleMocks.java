@@ -14,6 +14,7 @@ import de.quarian.weaver.datamodel.converter.CampaignConverter;
 import de.quarian.weaver.dev.DemoDataSetInjector;
 import de.quarian.weaver.service.CampaignService;
 import de.quarian.weaver.theming.ThemeProvider;
+import de.quarian.weaver.util.AndroidToastHandler;
 import de.quarian.weaver.util.Logger;
 import de.quarian.weaver.util.LoggingProvider;
 import io.reactivex.Scheduler;
@@ -43,6 +44,7 @@ public class ActivityModuleMocks<T extends Activity> {
     public Scheduler ioSchedulerMock;
     public LoggingProvider loggingProviderMock;
     public Logger loggerMock;
+    public AndroidToastHandler androidToastHandlerMock;
 
     public T activityMock;
     public ActivityModule activityModuleMock;
@@ -88,6 +90,9 @@ public class ActivityModuleMocks<T extends Activity> {
         when(loggingProviderMock.getLogger(any())).thenReturn(loggerMock);
         when(applicationModuleMock.loggingProvider()).thenReturn(loggingProviderMock);
 
+        androidToastHandlerMock = mock(AndroidToastHandler.class);
+        when(applicationModuleMock.androidToastHandler()).thenReturn(androidToastHandlerMock);
+
         // Activity Module
         activityMock = activity;
         activityModuleMock = mock(ActivityModule.class);
@@ -115,6 +120,7 @@ public class ActivityModuleMocks<T extends Activity> {
         reset(ioSchedulerMock);
         reset(loggingProviderMock);
         reset(loggerMock);
+        reset(androidToastHandlerMock);
 
         reset(activityMock); // I don't really get the warning here (Unchecked generics array creation for varargs parameter)
         reset(activityModuleMock);
