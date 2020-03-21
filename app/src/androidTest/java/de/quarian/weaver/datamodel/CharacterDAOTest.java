@@ -276,10 +276,6 @@ public class CharacterDAOTest {
         assertThat(event.eventDateMillis, greaterThan(oneMinuteAgo));
         assertThat(event.headline, is(DatabaseTestConstants.EVENT_HEADLINE));
         assertThat(event.text, is(DatabaseTestConstants.EVENT_TEXT));
-        assertThat(event.image, is(DatabaseTestConstants.EVENT_IMAGE));
-        assertThat(event.imageType, is(DatabaseTestConstants.EVENT_IMAGE_TYPE));
-        assertThat(event.attachment, is(DatabaseTestConstants.EVENT_FILE));
-        assertThat(event.attachmentType, is(DatabaseTestConstants.EVENT_FILE_TYPE));
     }
 
     @Test

@@ -19,17 +19,17 @@ public class DBConvertersUnitTest {
 
     @Test
     public void testConvertingObjectIntoPrimitive() {
-        final DBConverters.ImageBlobConverter imageBlobConverter = DBConverters.getImageBlobConverter();
+        final DBConverters.BlobConverter blobConverter = DBConverters.getBlobConverter();
 
-        final byte[] bytes = imageBlobConverter.convertBytesToPrimitive(objectBytes);
+        final byte[] bytes = blobConverter.convertBytesToPrimitive(objectBytes);
         assertThat(bytes[0], is(primitiveBytes[0]));
     }
 
     @Test
     public void testConvertingPrimitiveIntoObject() {
-        final DBConverters.ImageBlobConverter imageBlobConverter = DBConverters.getImageBlobConverter();
+        final DBConverters.BlobConverter blobConverter = DBConverters.getBlobConverter();
 
-        final Byte[] bytes = imageBlobConverter.convertPrimitiveToBytes(primitiveBytes);
+        final Byte[] bytes = blobConverter.convertPrimitiveToBytes(primitiveBytes);
         assertThat(bytes[0], is(objectBytes[0]));
     }
 }

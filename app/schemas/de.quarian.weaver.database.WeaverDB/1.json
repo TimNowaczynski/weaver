@@ -2,8 +2,64 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "62421be7c95331d8ce44fa962aae7e65",
+    "identityHash": "f93920f69256ab5e4ed6f82a80d26ac1",
     "entities": [
+      {
+        "tableName": "Asset",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`asset_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_event_id` INTEGER NOT NULL, `end_of_lifetime_timestamp` INTEGER NOT NULL, `asset_name` TEXT NOT NULL, `asset_description` TEXT, `asset_type` TEXT NOT NULL, `asset` BLOB NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "asset_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eventId",
+            "columnName": "fk_event_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endOfLifetimeTimestamp",
+            "columnName": "end_of_lifetime_timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "assetName",
+            "columnName": "asset_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "assetDescription",
+            "columnName": "asset_description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetType",
+            "columnName": "asset_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "asset",
+            "columnName": "asset",
+            "affinity": "BLOB",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "asset_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
       {
         "tableName": "Campaign",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`campaign_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_roleplaying_system_id` INTEGER NOT NULL, `fk_theme_id` INTEGER NOT NULL DEFAULT 0, `creation_date_millis` INTEGER NOT NULL, `edit_date_millis` INTEGER NOT NULL, `last_used_date_millis` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `campaign_name` TEXT NOT NULL, `synopsis` TEXT, FOREIGN KEY(`fk_roleplaying_system_id`) REFERENCES `RoleplayingSystem`(`roleplaying_system_id`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`fk_theme_id`) REFERENCES `Theme`(`theme_id`) ON UPDATE NO ACTION ON DELETE SET DEFAULT )",
@@ -311,7 +367,7 @@
       },
       {
         "tableName": "Event",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`event_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `event_date_millis` INTEGER NOT NULL, `headline` TEXT NOT NULL, `text` TEXT, `image` BLOB, `image_type` TEXT, `attachment` BLOB, `attachment_type` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`event_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `event_date_millis` INTEGER NOT NULL, `headline` TEXT NOT NULL, `text` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -334,30 +390,6 @@
           {
             "fieldPath": "text",
             "columnName": "text",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "image",
-            "columnName": "image",
-            "affinity": "BLOB",
-            "notNull": false
-          },
-          {
-            "fieldPath": "imageType",
-            "columnName": "image_type",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "attachment",
-            "columnName": "attachment",
-            "affinity": "BLOB",
-            "notNull": false
-          },
-          {
-            "fieldPath": "attachmentType",
-            "columnName": "attachment_type",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -1167,7 +1199,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '62421be7c95331d8ce44fa962aae7e65')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f93920f69256ab5e4ed6f82a80d26ac1')"
     ]
   }
 }

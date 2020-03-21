@@ -255,7 +255,7 @@ public class DemoDataSetInjector {
         final Bitmap srBannerBitmap = ((BitmapDrawable) srBanner).getBitmap();
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         srBannerBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-        final DBConverters.ImageBlobConverter converter = new DBConverters.ImageBlobConverter();
+        final DBConverters.BlobConverter converter = new DBConverters.BlobConverter();
         return converter.convertPrimitiveToBytes(outputStream.toByteArray());
     }
 }

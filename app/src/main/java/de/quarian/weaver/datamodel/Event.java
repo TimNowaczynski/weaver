@@ -11,6 +11,9 @@ import androidx.room.PrimaryKey;
  *
  * 1:1
  * Is linked by {@link EventToCharacterHeader} with a {@link CharacterHeader}
+ *
+ * 1:1
+ * May be linked to an {@link Asset}
  */
 @SuppressWarnings({"WeakerAccess", "RedundantSuppression"})
 @Entity
@@ -32,20 +35,4 @@ public class Event {
     @Nullable
     @ColumnInfo(name = "text")
     public String text;
-
-    @Nullable
-    @ColumnInfo(name = "image")
-    public byte[] image;
-
-    @Nullable
-    @ColumnInfo(name = "image_type")
-    public String imageType;
-
-    @Nullable
-    @ColumnInfo(name = "attachment")
-    public byte[] attachment;
-
-    @Nullable
-    @ColumnInfo(name = "attachment_type")
-    public String attachmentType;
 }

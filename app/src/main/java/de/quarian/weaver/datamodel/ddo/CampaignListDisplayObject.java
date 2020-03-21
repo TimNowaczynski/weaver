@@ -144,8 +144,8 @@ public class CampaignListDisplayObject {
         }
 
         final ImageView imageView = (ImageView) view;
-        final DBConverters.ImageBlobConverter imageBlobConverter = new DBConverters.ImageBlobConverter();
-        final byte[] imageBytesPrimitive = imageBlobConverter.convertBytesToPrimitive(bytes);
+        final DBConverters.BlobConverter blobConverter = new DBConverters.BlobConverter();
+        final byte[] imageBytesPrimitive = blobConverter.convertBytesToPrimitive(bytes);
         final Bitmap image = BitmapFactory.decodeByteArray(imageBytesPrimitive, 0, bytes.length);
         imageView.setImageBitmap(image);
     }

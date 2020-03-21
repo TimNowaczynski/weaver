@@ -5,16 +5,16 @@ import de.quarian.weaver.database.DBConverters;
 public final class DatabaseTestConstants {
 
     public static final String RPS_NAME_SHADOWRUN = "Shadowrun";
-    public static final Byte[] RPS_LOGO_SHADOWRUN = DBConverters.getImageBlobConverter().convertPrimitiveToBytes("shadowrun.jpg".getBytes());
+    public static final Byte[] RPS_LOGO_SHADOWRUN = DBConverters.getBlobConverter().convertPrimitiveToBytes("shadowrun.jpg".getBytes());
 
     public static final String RPS_LOGO_IMAGE_TYPE_SHADOWRUN = "image/jpg";
 
     public static final String RPS_NAME_DSA = "DSA";
-    public static final Byte[] RPS_LOGO_DSA = DBConverters.getImageBlobConverter().convertPrimitiveToBytes("dsa.png".getBytes());
+    public static final Byte[] RPS_LOGO_DSA = DBConverters.getBlobConverter().convertPrimitiveToBytes("dsa.png".getBytes());
     public static final String RPS_LOGO_IMAGE_TYPE_DSA = "image/png";
 
     public static final String RPS_NAME_VAMPIRE = "Vampire the Requiem";
-    public static final Byte[] RPS_LOGO_VAMPIRE = DBConverters.getImageBlobConverter().convertPrimitiveToBytes("vampire.png".getBytes());
+    public static final Byte[] RPS_LOGO_VAMPIRE = DBConverters.getBlobConverter().convertPrimitiveToBytes("vampire.png".getBytes());
     public static final String RPS_LOGO_IMAGE_TYPE_VAMPIRE = "image/png";
 
     public static final String CAMPAIGN_NAME_RISING_DRAGON = "Rising Dragon";
@@ -86,10 +86,11 @@ public final class DatabaseTestConstants {
     public static final long EVENT_DATE_MILLIS = System.currentTimeMillis();
     public static final String EVENT_HEADLINE = "Event Headline";
     public static final String EVENT_TEXT = "Event Text";
-    public static final byte[] EVENT_IMAGE = "Event Image".getBytes();
-    public static final String EVENT_IMAGE_TYPE = "image/jpeg";
-    public static final byte[] EVENT_FILE = "Event Image".getBytes();
-    public static final String EVENT_FILE_TYPE = "doc/pdf";
+
+    public static final String ASSET_NAME = "Asset Name";
+    public static final String ASSET_DESCRIPTION = "Asset Description";
+    public static final byte[] ASSET_IMAGE = "Asset Image".getBytes();
+    public static final String ASSET_IMAGE_TYPE = "image/jpeg";
 
     public static final String ROLL = "12/14/10 (12)";
     public static final String ROLL_NAME = "Perception";

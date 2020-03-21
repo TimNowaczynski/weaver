@@ -1,7 +1,9 @@
 package de.quarian.weaver.datamodel;
 
 import java.util.Date;
+import java.util.List;
 
+import de.quarian.weaver.database.AssetDAO;
 import de.quarian.weaver.database.CampaignDAO;
 import de.quarian.weaver.database.CharacterDAO;
 import de.quarian.weaver.database.DBConverters;
@@ -14,6 +16,8 @@ import de.quarian.weaver.database.WeaverDB;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.ALEX_MAGIC_WARNER_ALIAS;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.ALEX_MAGIC_WARNER_FIRST_NAME;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.ALEX_MAGIC_WARNER_LAST_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.ASSET_DESCRIPTION;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.ASSET_NAME;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.CAMPAIGN_NAME_BORBARAD;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.CAMPAIGN_NAME_RENAISSANCE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON;
@@ -33,11 +37,9 @@ import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_SMALL_A
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_SMALL_AVATAR_IMAGE_TYPE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.DEV_NULL_STATE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.EVENT_DATE_MILLIS;
-import static de.quarian.weaver.datamodel.DatabaseTestConstants.EVENT_FILE;
-import static de.quarian.weaver.datamodel.DatabaseTestConstants.EVENT_FILE_TYPE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.EVENT_HEADLINE;
-import static de.quarian.weaver.datamodel.DatabaseTestConstants.EVENT_IMAGE;
-import static de.quarian.weaver.datamodel.DatabaseTestConstants.EVENT_IMAGE_TYPE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.ASSET_IMAGE;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.ASSET_IMAGE_TYPE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.EVENT_TEXT;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_DSA_FEMALE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.FIRST_NAME_DSA_MALE;
@@ -136,24 +138,24 @@ public final class DatabaseTestUtils {
      */
     public static void setUpThemes(final WeaverDB weaverDB) {
         final ThemeDAO themeDAO = weaverDB.themeDAO();
-        final DBConverters.ImageBlobConverter imageBlobConverter = new DBConverters.ImageBlobConverter();
+        final DBConverters.BlobConverter blobConverter = new DBConverters.BlobConverter();
 
         final Theme modernTheme = new Theme();
         modernTheme.presetId = Theme.PRESET_ID_MODERN;
         modernTheme.fontId = Theme.PRESET_ID_MODERN;
-        modernTheme.bannerBackgroundImage = imageBlobConverter.convertPrimitiveToBytes("modern".getBytes());
+        modernTheme.bannerBackgroundImage = blobConverter.convertPrimitiveToBytes("modern".getBytes());
         modernTheme.bannerBackgroundImageType = "image/jpeg";
 
         final Theme fantasyTheme = new Theme();
         fantasyTheme.presetId = Theme.PRESET_ID_FANTASY;
         fantasyTheme.fontId = Theme.PRESET_ID_FANTASY;
-        fantasyTheme.bannerBackgroundImage = imageBlobConverter.convertPrimitiveToBytes("fantasy".getBytes());
+        fantasyTheme.bannerBackgroundImage = blobConverter.convertPrimitiveToBytes("fantasy".getBytes());
         fantasyTheme.bannerBackgroundImageType = "image/png";
 
         final Theme customTheme = new Theme();
         customTheme.presetId = Theme.PRESET_ID_CUSTOM;
         customTheme.fontId = Theme.PRESET_ID_CUSTOM;
-        customTheme.bannerBackgroundImage = imageBlobConverter.convertPrimitiveToBytes("custom".getBytes());
+        customTheme.bannerBackgroundImage = blobConverter.convertPrimitiveToBytes("custom".getBytes());
         customTheme.bannerBackgroundImageType = "image/jpg";
 
         customTheme.actionColorA = 10000;
@@ -578,16 +580,39 @@ public final class DatabaseTestUtils {
         event.eventDateMillis = EVENT_DATE_MILLIS;
         event.headline = EVENT_HEADLINE;
         event.text = EVENT_TEXT;
-        event.image = EVENT_IMAGE;
-        event.imageType = EVENT_IMAGE_TYPE;
-        event.attachment = EVENT_FILE;
-        event.attachmentType = EVENT_FILE_TYPE;
 
         final EventToCharacterHeader eventToCharacterHeader = new EventToCharacterHeader();
         final CharacterHeader moonlightCharacterHeader = weaverDB.characterDAO().readCharacterHeaderByAlias(MOONLIGHT_ALIAS);
         eventToCharacterHeader.characterHeaderId = moonlightCharacterHeader.id;
         eventToCharacterHeader.eventId = characterDAO.createEvent(event);
         characterDAO.createEventToCharacterHeader(eventToCharacterHeader);
+    }
+
+    /***
+     * Requires to run tbe follow                                                                                                                                                                                                            ing method upfront:
+     *  - {@link DatabaseTestUtils}.setUpRoleplayingSystems()
+     *  - {@link DatabaseTestUtils}.setUpThemes()
+     *  - {@link DatabaseTestUtils}.setUpCampaigns()
+     *  - {@link DatabaseTestUtils}.setUpCharacters()
+     *  - {@link DatabaseTestUtils}.setUpEvents()
+     */
+    public static void setUpAssets(final WeaverDB weaverDB) {
+        final CharacterDAO characterDAO = weaverDB.characterDAO();
+        final CharacterHeader moonlight = characterDAO.readCharacterHeaderByAlias(MOONLIGHT_ALIAS);
+        final List<Event> events = characterDAO.readEventsForCharacterHeaderId(moonlight.id);
+        final Event event = events.get(0);
+
+        final AssetDAO assetDAO = weaverDB.assetDAO();
+
+        final Asset imageAsset = new Asset();
+        imageAsset.eventId = event.id;
+        final long oneDay = 1000L * 60L * 60L * 24L;
+        imageAsset.endOfLifetimeTimestamp = System.currentTimeMillis() + oneDay;
+        imageAsset.assetName = ASSET_NAME;
+        imageAsset.assetDescription = ASSET_DESCRIPTION;
+        imageAsset.asset = ASSET_IMAGE;
+        imageAsset.assetType = ASSET_IMAGE_TYPE;
+        imageAsset.id = assetDAO.createAsset(imageAsset);
     }
 
     /***

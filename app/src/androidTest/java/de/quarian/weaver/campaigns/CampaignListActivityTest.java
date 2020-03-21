@@ -113,6 +113,7 @@ public class CampaignListActivityTest extends TestCase {
         verify(navigationControllerMock, atLeastOnce()).addCampaign(campaignListActivity);
     }
 
+    // TODO: this test is oddly slow, investigate
     @Test
     public void testInitSortOderSpinnerWithDefault() {
         final CampaignListActivity campaignListActivity = activityTestRule.getActivity();

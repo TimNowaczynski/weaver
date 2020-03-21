@@ -3,6 +3,7 @@ package de.quarian.weaver.database;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import de.quarian.weaver.datamodel.Asset;
 import de.quarian.weaver.datamodel.Campaign;
 import de.quarian.weaver.datamodel.CharacterBody;
 import de.quarian.weaver.datamodel.CharacterHeader;
@@ -20,6 +21,7 @@ import de.quarian.weaver.datamodel.TagToCharacterHeader;
 import de.quarian.weaver.datamodel.Theme;
 
 @Database(version = 1, entities = {
+        Asset.class,
         Campaign.class,
         CharacterHeader.class,
         CharacterBody.class,
@@ -36,7 +38,7 @@ import de.quarian.weaver.datamodel.Theme;
         TagToCharacterHeader.class,
         Theme.class
 })
-@TypeConverters(DBConverters.ImageBlobConverter.class)
+@TypeConverters(DBConverters.BlobConverter.class)
 public abstract class WeaverDB extends RoomDatabase {
 
     public static final String DATABASE_FILE_NAME = "weaver.db";
@@ -46,6 +48,7 @@ public abstract class WeaverDB extends RoomDatabase {
     public abstract ThemeDAO themeDAO();
     public abstract NameDAO nameDAO();
     public abstract CharacterDAO characterDAO();
+    public abstract AssetDAO assetDAO();
     public abstract PlayerCharacterDAO playerCharacterDAO();
 
     public abstract DebugDAO debugDAO();

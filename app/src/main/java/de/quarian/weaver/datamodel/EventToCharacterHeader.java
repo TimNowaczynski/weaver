@@ -11,6 +11,8 @@ import androidx.room.PrimaryKey;
  * 1:N
  * Links n {@link Event}s with a single {@link CharacterHeader}
  *
+ * In Theory this could also be M:N but it's not supported by the application code right now
+ *
  * When deleting an associated {@link Event} this entry will be removed as well
  * When deleting an associated {@link CharacterHeader} this entry will be removed as well
  */

@@ -25,7 +25,7 @@ public class CampaignConverterUnitTest {
     private Resources resources;
 
     private CampaignConverter campaignConverter;
-    private final DBConverters.ImageBlobConverter imageBlobConverter = new DBConverters.ImageBlobConverter();
+    private final DBConverters.BlobConverter blobConverter = new DBConverters.BlobConverter();
 
     @Before
     public void setUp() {
@@ -39,7 +39,7 @@ public class CampaignConverterUnitTest {
         final String rpsName = "Shadowrun";
         roleplayingSystem.roleplayingSystemName = rpsName;
         final byte[] rpsLogoBytes = "image".getBytes();
-        final Byte[] rpsLogoImage = imageBlobConverter.convertPrimitiveToBytes(rpsLogoBytes);
+        final Byte[] rpsLogoImage = blobConverter.convertPrimitiveToBytes(rpsLogoBytes);
         roleplayingSystem.logoImage = rpsLogoImage;
 
         final Campaign campaign = new Campaign();
@@ -69,7 +69,7 @@ public class CampaignConverterUnitTest {
 
         final Theme theme = new Theme();
         final byte[] campaignImageBytes = "campaignImage".getBytes();
-        final Byte[] campaignImage = imageBlobConverter.convertPrimitiveToBytes(campaignImageBytes);
+        final Byte[] campaignImage = blobConverter.convertPrimitiveToBytes(campaignImageBytes);
         theme.bannerBackgroundImage = campaignImage;
 
         final long numberOfPlayerCharacters = 4;

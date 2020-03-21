@@ -43,7 +43,7 @@
 
         <ImageView
             android:id="@+id/campaign_list_item_edit_campaign"
-            android:onClick="@{campaignDisplayObject.editCampaign}"
+            android:onClick="@{campaignDisplayObject::editCampaign}"
             android:contentDescription="@string/cd_edit_campaign"
             android:background="@drawable/campaign_list_item_button_background"
             android:src="@drawable/ic_edit_campaign"
@@ -59,7 +59,7 @@
             tools:text="3"
             android:id="@+id/campaign_list_item_manage_player_characters"
             android:text="@{campaignDisplayObject.numberOfPlayerCharacters}"
-            android:onClick="@{campaignDisplayObject.managePlayerCharacters}"
+            android:onClick="@{campaignDisplayObject::managePlayerCharacters}"
             android:contentDescription="@string/activity_campaign_list_cd_manage_player_characters"
             android:background="@drawable/campaign_list_item_button_background"
             android:drawableEnd="@drawable/ic_player_character_list"
@@ -78,7 +78,7 @@
         <ImageView
             android:id="@+id/campaign_list_item_synopsis"
             android:contentDescription="@string/cd_synopsis"
-            android:onClick="@{campaignDisplayObject.openSynopsis}"
+            android:onClick="@{campaignDisplayObject::openSynopsis}"
             android:background="@drawable/campaign_list_item_button_background"
             android:src="@drawable/ic_synopsis"
             android:padding="8dp"

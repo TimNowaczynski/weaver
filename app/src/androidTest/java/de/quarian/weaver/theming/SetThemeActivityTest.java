@@ -33,8 +33,8 @@ import static org.mockito.Mockito.when;
 @MediumTest
 public class SetThemeActivityTest extends TestCase {
 
-    private static final EventRecorder eventRecorder = new EventRecorder();
-    private static final DBConverters.ImageBlobConverter imageBlobConverter = new DBConverters.ImageBlobConverter();
+    private static final EventRecorder EVENT_RECORDER = new EventRecorder();
+    private static final DBConverters.BlobConverter BLOB_CONVERTER = new DBConverters.BlobConverter();
     private static final long DUMMY_CAMPAIGN_ID = 1L;
 
     @Rule
@@ -49,7 +49,7 @@ public class SetThemeActivityTest extends TestCase {
 
     @BeforeClass
     public static void setUpBeforeClass() {
-        EventBus.getDefault().register(eventRecorder);
+        EventBus.getDefault().register(EVENT_RECORDER);
 
         final DependencyInjector dependencyInjector = DependencyInjector.get();
         setThemeActivityModuleMocks = ActivityModuleMocks.create(SetThemeActivity.class);
@@ -63,7 +63,7 @@ public class SetThemeActivityTest extends TestCase {
         final DependencyInjector dependencyInjector = DependencyInjector.get();
         dependencyInjector.setUseMocks(false);
 
-        EventBus.getDefault().unregister(eventRecorder);
+        EventBus.getDefault().unregister(EVENT_RECORDER);
     }
 
     @Before
@@ -76,7 +76,7 @@ public class SetThemeActivityTest extends TestCase {
     @After
     public void after() {
         setThemeActivityModuleMocks.resetMocks();
-        eventRecorder.reset();
+        EVENT_RECORDER.reset();
     }
 
     private void prepareCustomTheme() {
@@ -85,7 +85,7 @@ public class SetThemeActivityTest extends TestCase {
 
         theme.fontId = 2; // = DEFAULT_PRESET
 
-        theme.bannerBackgroundImage = imageBlobConverter.convertPrimitiveToBytes("image".getBytes());
+        theme.bannerBackgroundImage = BLOB_CONVERTER.convertPrimitiveToBytes("image".getBytes());
         theme.bannerBackgroundImageType = "image/png";
 
         theme.actionColorA = 0;

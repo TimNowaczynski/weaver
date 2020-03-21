@@ -101,8 +101,8 @@ public class ThemeDAOTest {
     // It's a bit shitty because I wanted to re-use some test code
     private Theme createThemeEntity() {
         final Theme theme = new Theme();
-        final DBConverters.ImageBlobConverter imageBlobConverter = new DBConverters.ImageBlobConverter();
-        theme.bannerBackgroundImage = imageBlobConverter.convertPrimitiveToBytes("modern".getBytes());
+        final DBConverters.BlobConverter blobConverter = new DBConverters.BlobConverter();
+        theme.bannerBackgroundImage = blobConverter.convertPrimitiveToBytes("modern".getBytes());
         theme.bannerBackgroundImageType = "image/jpeg";
         theme.presetId = Theme.PRESET_ID_MODERN;
         theme.fontId = Theme.PRESET_ID_MODERN;

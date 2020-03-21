@@ -4,17 +4,17 @@ import androidx.room.TypeConverter;
 
 public class DBConverters {
 
-    private static ImageBlobConverter imageBlobConverter;
+    private static BlobConverter blobConverter;
 
     // Meant for testing
-    public static ImageBlobConverter getImageBlobConverter() {
-        if (imageBlobConverter == null) {
-            imageBlobConverter = new ImageBlobConverter();
+    public static BlobConverter getBlobConverter() {
+        if (blobConverter == null) {
+            blobConverter = new BlobConverter();
         }
-        return imageBlobConverter;
+        return blobConverter;
     }
 
-    public static class ImageBlobConverter {
+    public static class BlobConverter {
 
         @TypeConverter
         public Byte[] convertPrimitiveToBytes(final byte[] bytes) {
