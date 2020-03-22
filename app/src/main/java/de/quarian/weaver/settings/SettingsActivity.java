@@ -1,9 +1,10 @@
-package de.quarian.weaver;
+package de.quarian.weaver.settings;
 
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import de.quarian.weaver.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

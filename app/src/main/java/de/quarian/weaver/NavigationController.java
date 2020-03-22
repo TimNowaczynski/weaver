@@ -12,6 +12,7 @@ import de.quarian.weaver.characters.CharacterEditorActivity;
 import de.quarian.weaver.characters.CharacterLibraryActivity;
 import de.quarian.weaver.characters.CharacterViewActivity;
 import de.quarian.weaver.players.PlayerCharacterListActivity;
+import de.quarian.weaver.settings.SettingsActivity;
 import de.quarian.weaver.theming.SetThemeActivity;
 import de.quarian.weaver.dev.DeveloperFunctionsActivity;
 import de.quarian.weaver.namesets.ConfigureNameSetsActivity;

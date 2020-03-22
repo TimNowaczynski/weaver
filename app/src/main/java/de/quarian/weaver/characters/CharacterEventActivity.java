@@ -12,7 +12,7 @@ public class CharacterEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_event);
+        setContentView(R.layout.activity_character_event);
         setTitle(R.string.activity_title_character_add_event);
     }
 }

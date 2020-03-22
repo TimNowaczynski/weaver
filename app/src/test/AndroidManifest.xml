@@ -51,7 +51,7 @@
             android:name=".namesets.ConfigureNameSetsActivity"
             android:theme="@style/AppThemeModern.NoActionBar"/>
 
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".settings.SettingsActivity" />
 
         <activity android:name=".assets.ViewScheduledToDeleteActivity" />
 
