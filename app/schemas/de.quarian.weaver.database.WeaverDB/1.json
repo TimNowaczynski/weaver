@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f93920f69256ab5e4ed6f82a80d26ac1",
+    "identityHash": "11f0dc86b39444c01d7b0d753fcc008a",
     "entities": [
       {
         "tableName": "Asset",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`asset_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_event_id` INTEGER NOT NULL, `end_of_lifetime_timestamp` INTEGER NOT NULL, `asset_name` TEXT NOT NULL, `asset_description` TEXT, `asset_type` TEXT NOT NULL, `asset` BLOB NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`asset_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_event_id` INTEGER NOT NULL, `end_of_lifetime_timestamp` INTEGER NOT NULL, `content_locally_present` INTEGER NOT NULL, `asset_name` TEXT NOT NULL, `asset_description` TEXT, `asset_type` TEXT NOT NULL, `asset` BLOB, `fallback_url` TEXT, FOREIGN KEY(`fk_event_id`) REFERENCES `Event`(`event_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -23,6 +23,12 @@
           {
             "fieldPath": "endOfLifetimeTimestamp",
             "columnName": "end_of_lifetime_timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contentLocallyPresent",
+            "columnName": "content_locally_present",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -48,7 +54,13 @@
             "fieldPath": "asset",
             "columnName": "asset",
             "affinity": "BLOB",
-            "notNull": true
+            "notNull": false
+          },
+          {
+            "fieldPath": "fallbackUrl",
+            "columnName": "fallback_url",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -58,7 +70,19 @@
           "autoGenerate": true
         },
         "indices": [],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "Event",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "fk_event_id"
+            ],
+            "referencedColumns": [
+              "event_id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "Campaign",
@@ -1199,7 +1223,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f93920f69256ab5e4ed6f82a80d26ac1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '11f0dc86b39444c01d7b0d753fcc008a')"
     ]
   }
 }

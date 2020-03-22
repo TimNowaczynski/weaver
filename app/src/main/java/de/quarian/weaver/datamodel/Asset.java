@@ -4,17 +4,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 // TODO: Think about putting campaign and rps images, as well as avatars here
 /**
  * [RELATIONS]
  *
- * 1:1 (in theory also N:1, but the application won't support that for now)
- * Is linked to an {@link Event}
+ * Is linked N:1 to {@link Event}s
  */
-@SuppressWarnings({"WeakerAccess", "NullableProblems"})
-@Entity
+@SuppressWarnings("NullableProblems")
+@Entity(foreignKeys = {
+    @ForeignKey(entity = Event.class,
+            parentColumns = Event.ID,
+            childColumns = Asset.FK_EVENT_ID,
+            onDelete = ForeignKey.CASCADE
+    )
+})
 public class Asset {
 
     public static final String ID = "asset_id";
@@ -32,6 +38,10 @@ public class Asset {
     public long endOfLifetimeTimestamp;
 
     @NonNull
+    @ColumnInfo(name = "content_locally_present")
+    public boolean contentLocallyPresent;
+
+    @NonNull
     @ColumnInfo(name = "asset_name")
     public String assetName;
 
@@ -43,8 +53,12 @@ public class Asset {
     @ColumnInfo(name = "asset_type")
     public String assetType;
 
-    @NonNull
+    @Nullable
     @ColumnInfo(name = "asset")
     public byte[] asset;
+
+    @Nullable
+    @ColumnInfo(name = "fallback_url")
+    public String fallbackUrl;
 
 }

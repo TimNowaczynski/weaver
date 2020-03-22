@@ -10,6 +10,7 @@ import dagger.Provides;
 public class SharedPreferencesModule {
 
     private static final String CAMPAIGN_LIST_ORDER_PREFERENCES = "sharedPreferences.campaignListOrder";
+    private static final String SETTINGS_PREFERENCES = "sharedPreferences.settings";
 
     @CampaignListOrderPreferences
     @Provides
@@ -17,4 +18,9 @@ public class SharedPreferencesModule {
         return context.getSharedPreferences(CAMPAIGN_LIST_ORDER_PREFERENCES, Context.MODE_PRIVATE);
     }
 
+    @SettingsPreferences
+    @Provides
+    public SharedPreferences settingsPreferences(@ApplicationContext final Context context) {
+        return context.getSharedPreferences(SETTINGS_PREFERENCES, Context.MODE_PRIVATE);
+    }
 }

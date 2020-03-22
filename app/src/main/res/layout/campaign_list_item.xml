@@ -13,7 +13,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/campaign_list_item"
-        android:onClick="@{campaignDisplayObject.openCharacterLibrary}"
+        android:onClick="@{campaignDisplayObject::openCharacterLibrary}"
         tools:background="@color/pitch_black"
         android:maxHeight="200dp"
         android:layout_width="match_parent"

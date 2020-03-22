@@ -16,6 +16,8 @@ public class SharedPreferencesModuleMocks {
 
     public SharedPreferences campaignListOrderPreferences;
     public SharedPreferences.Editor campaignListOrderPreferencesEditor;
+    public SharedPreferences settingsPreferences;
+    public SharedPreferences.Editor settingsPreferencesEditor;
 
     public static SharedPreferencesModuleMocks create() {
         return new SharedPreferencesModuleMocks();
@@ -26,6 +28,11 @@ public class SharedPreferencesModuleMocks {
         campaignListOrderPreferencesEditor = mock(SharedPreferences.Editor.class);
         when(campaignListOrderPreferences.edit()).thenReturn(campaignListOrderPreferencesEditor);
         mockSharedPreferencesEditor(campaignListOrderPreferencesEditor);
+
+        settingsPreferences = mock(SharedPreferences.class);
+        settingsPreferencesEditor = mock(SharedPreferences.Editor.class);
+        when(settingsPreferences.edit()).thenReturn(settingsPreferencesEditor);
+        mockSharedPreferencesEditor(settingsPreferencesEditor);
     }
 
     private void mockSharedPreferencesEditor(@NonNull SharedPreferences.Editor sharedPreferencesEditorMock) {

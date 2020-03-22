@@ -17,6 +17,7 @@ import static de.quarian.weaver.datamodel.DatabaseTestConstants.ALEX_MAGIC_WARNE
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.ALEX_MAGIC_WARNER_FIRST_NAME;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.ALEX_MAGIC_WARNER_LAST_NAME;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.ASSET_DESCRIPTION;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.ASSET_FALLBACK_URL;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.ASSET_NAME;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.CAMPAIGN_NAME_BORBARAD;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.CAMPAIGN_NAME_RENAISSANCE;
@@ -608,10 +609,12 @@ public final class DatabaseTestUtils {
         imageAsset.eventId = event.id;
         final long oneDay = 1000L * 60L * 60L * 24L;
         imageAsset.endOfLifetimeTimestamp = System.currentTimeMillis() + oneDay;
+        imageAsset.contentLocallyPresent = true;
         imageAsset.assetName = ASSET_NAME;
         imageAsset.assetDescription = ASSET_DESCRIPTION;
         imageAsset.asset = ASSET_IMAGE;
         imageAsset.assetType = ASSET_IMAGE_TYPE;
+        imageAsset.fallbackUrl = ASSET_FALLBACK_URL;
         imageAsset.id = assetDAO.createAsset(imageAsset);
     }
 
