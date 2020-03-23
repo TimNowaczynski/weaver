@@ -1,12 +1,12 @@
 package de.quarian.weaver.testing;
 
-public class TimeStop {
+import static de.quarian.weaver.util.TimeConstants.ONE_SECOND;
+import static de.quarian.weaver.util.TimeConstants.ONE_MINUTE;
+import static de.quarian.weaver.util.TimeConstants.ONE_HOUR;
+import static de.quarian.weaver.util.TimeConstants.ONE_DAY;
+import static de.quarian.weaver.util.TimeConstants.ONE_YEAR;
 
-    private static final long ONE_SECOND = 1000L;
-    private static final long ONE_MINUTE = ONE_SECOND * 60L;
-    private static final long ONE_HOUR = ONE_MINUTE * 60L;
-    private static final long ONE_DAY = ONE_HOUR * 24L;
-    private static final long ONE_YEAR = ONE_DAY * 365L;
+public class TimeStop {
 
     private final long pointInTime;
 

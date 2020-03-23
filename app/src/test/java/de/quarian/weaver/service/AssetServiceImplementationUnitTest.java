@@ -118,4 +118,11 @@ public class AssetServiceImplementationUnitTest {
         assetService.cleanUpExpiredAssets();
         verify(assetDAOMock).deleteAllExpiredAssets(anyLong());
     }
+
+    @Test
+    public void testReadNumberOfExpiredAssets() {
+        when(assetDAOMock.readNumberOfExpiredAssets(anyLong())).thenReturn(7);
+        final int numberOfExpiredAssets = assetService.getNumberOfExpiredAssets();
+        assertThat(numberOfExpiredAssets, is(7));
+    }
 }

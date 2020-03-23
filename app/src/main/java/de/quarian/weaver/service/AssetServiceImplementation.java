@@ -32,6 +32,11 @@ public class AssetServiceImplementation implements AssetService {
     }
 
     @Override
+    public int getNumberOfExpiredAssets() {
+        return assetDAO.readNumberOfExpiredAssets(System.currentTimeMillis());
+    }
+
+    @Override
     public Asset getAssetForEvent(final Event event) {
         Asset asset = assetDAO.readAssetsForEvent(event.id).get(0);
         if (asset.endOfLifetimeTimestamp == UNLIMITED_LIFETIME) {

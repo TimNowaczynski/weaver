@@ -13,6 +13,7 @@ import androidx.test.core.app.ApplicationProvider;
 import de.quarian.weaver.database.AssetDAO;
 import de.quarian.weaver.database.CharacterDAO;
 import de.quarian.weaver.database.WeaverDB;
+import de.quarian.weaver.util.TimeConstants;
 
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.ASSET_DESCRIPTION;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.ASSET_FALLBACK_URL;
@@ -188,5 +189,21 @@ public class AssetDAOTest {
         assetDAO.deleteAllExpiredAssets(2L);
         assets = assetDAO.readAssetsForEvent(eventId);
         assertThat(assets, hasSize(0));
+    }
+
+    @Test
+    public void testReadNumberOfExpiredAssets() {
+        final AssetDAO assetDAO = weaverDB.assetDAO();
+
+        final long now = System.currentTimeMillis();
+        final long oneYearFromNow = now + TimeConstants.ONE_YEAR;
+
+        // This is what we would usually do
+        int numberOfExpiredAssets = assetDAO.readNumberOfExpiredAssets(now);
+        assertThat(numberOfExpiredAssets, is(0));
+
+        // And now we simulate the same call one year later
+        numberOfExpiredAssets = assetDAO.readNumberOfExpiredAssets(oneYearFromNow);
+        assertThat(numberOfExpiredAssets, is(1));
     }
 }

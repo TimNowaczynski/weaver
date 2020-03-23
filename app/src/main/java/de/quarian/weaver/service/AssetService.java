@@ -16,6 +16,8 @@ public interface AssetService {
 
     List<Asset> getAssetsWithUnlimitedLifetime();
 
+    int getNumberOfExpiredAssets();
+
     Asset getAssetForEvent(final Event event);
 
     void moveAssetToCloud(final Asset asset);

@@ -44,6 +44,9 @@ public interface AssetDAO {
             "ORDER BY end_of_lifetime_timestamp ASC")
     List<Asset> readAllAssetsWithLimitedLifetime();
 
+    @Query("SELECT COUNT(*) FROM asset WHERE end_of_lifetime_timestamp < :now")
+    int readNumberOfExpiredAssets(final long now);
+
     // Update
 
     @Update
