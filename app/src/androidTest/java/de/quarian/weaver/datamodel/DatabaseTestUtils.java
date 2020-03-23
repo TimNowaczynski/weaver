@@ -615,6 +615,7 @@ public final class DatabaseTestUtils {
         imageAsset.asset = ASSET_IMAGE;
         imageAsset.assetType = ASSET_IMAGE_TYPE;
         imageAsset.fallbackUrl = ASSET_FALLBACK_URL;
+        imageAsset.campaignName = CAMPAIGN_NAME_RISING_DRAGON;
         imageAsset.id = assetDAO.createAsset(imageAsset);
     }
 

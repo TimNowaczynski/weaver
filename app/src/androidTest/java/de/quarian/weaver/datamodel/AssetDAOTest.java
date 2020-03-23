@@ -19,6 +19,7 @@ import static de.quarian.weaver.datamodel.DatabaseTestConstants.ASSET_FALLBACK_U
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.ASSET_IMAGE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.ASSET_IMAGE_TYPE;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.ASSET_NAME;
+import static de.quarian.weaver.datamodel.DatabaseTestConstants.CAMPAIGN_NAME_RISING_DRAGON;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.MOONLIGHT_ALIAS;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
@@ -70,6 +71,7 @@ public class AssetDAOTest {
         assertThat(asset.assetType, is(ASSET_IMAGE_TYPE));
         assertThat(asset.asset, is(ASSET_IMAGE));
         assertThat(asset.fallbackUrl, is(ASSET_FALLBACK_URL));
+        assertThat(asset.campaignName, is(CAMPAIGN_NAME_RISING_DRAGON));
 
         final long now = System.currentTimeMillis();
         final long oneDay = 1000L * 60L * 60L * 24L;
@@ -113,7 +115,7 @@ public class AssetDAOTest {
     }
 
     @Test
-    public void testReadAssetsWithInfiniteLifetime() {
+    public void testReadAssetsWithUnlimitedLifetime() {
         final CharacterDAO characterDAO = weaverDB.characterDAO();
         final CharacterHeader moonlight = characterDAO.readCharacterHeaderByAlias(MOONLIGHT_ALIAS);
         final List<Event> events = characterDAO.readEventsForCharacterHeaderId(moonlight.id);
@@ -136,7 +138,7 @@ public class AssetDAOTest {
         assets = assetDAO.readAssetsForEvent(eventId);
         assertThat(assets, hasSize(2));
 
-        assets = assetDAO.readAllAssetsWithIndefiniteLifetime();
+        assets = assetDAO.readAllAssetsWithUnlimitedLifetime();
         assertThat(assets, hasSize(1));
     }
 

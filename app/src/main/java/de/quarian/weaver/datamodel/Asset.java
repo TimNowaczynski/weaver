@@ -33,6 +33,15 @@ public class Asset {
     @ColumnInfo(name = FK_EVENT_ID)
     public long eventId;
 
+    /*
+        Note that the [Campaign] Class also contains this,
+        and should be the primary source of truth. So only use
+        this while displaying assets.
+     */
+    @NonNull
+    @ColumnInfo(name = "campaign_name")
+    public String campaignName = "";
+
     @NonNull
     @ColumnInfo(name = "end_of_lifetime_timestamp")
     public long endOfLifetimeTimestamp;

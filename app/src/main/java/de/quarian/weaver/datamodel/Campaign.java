@@ -53,6 +53,10 @@ public class Campaign {
     @ColumnInfo(name = "archived")
     public boolean archived;
 
+    /*
+        Note that the [Asset] Class also contains this,
+        so we can easily show the associated campaigns for each asset.
+     */
     @NonNull
     @ColumnInfo(name = "campaign_name")
     public String campaignName = "";
