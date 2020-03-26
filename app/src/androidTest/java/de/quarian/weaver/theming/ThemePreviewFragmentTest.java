@@ -67,7 +67,7 @@ public class ThemePreviewFragmentTest {
         final ThemeDisplayObject themeDisplayObject = themePreviewFragment.getThemeDisplayObject();
         themeDisplayObject.actionColor = Color.BLACK;
         themePreviewFragment.refreshContent();
-        themeDisplayObject.refreshDrawables();
+        themeDisplayObject.refresh();
 
         // Wait for Async Task doing the refresh
         Thread.sleep(100L);

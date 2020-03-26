@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
@@ -27,20 +29,21 @@ public class ThemePreviewFragment extends Fragment {
     }
 
     public final FragmentDependencies fragmentDependencies = new FragmentDependencies();
-    private final ThemeDisplayObject themeDisplayObject = new ThemeDisplayObject();
+    private ThemeDisplayObject themeDisplayObject;
     private FragmentThemePreviewBinding viewBinding;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        themeDisplayObject = new ThemeDisplayObject(Objects.requireNonNull(getContext()));
 
         DependencyInjector.get().injectDependencies(this);
-        themeDisplayObject.refreshDrawables();
+        themeDisplayObject.refresh();
     }
 
     public void setActionColor(int actionColor) {
         themeDisplayObject.actionColor = actionColor;
-        themeDisplayObject.refreshDrawables();
+        themeDisplayObject.refresh();
         refreshContent();
     }
 
@@ -56,7 +59,7 @@ public class ThemePreviewFragment extends Fragment {
 
     public void setItemColor(int itemColor) {
         themeDisplayObject.itemColor = itemColor;
-        themeDisplayObject.refreshDrawables();
+        themeDisplayObject.refresh();
         refreshContent();
     }
 
@@ -85,6 +88,7 @@ public class ThemePreviewFragment extends Fragment {
 
     protected void refreshContent() {
         AsyncTask.execute(() -> {
+            themeDisplayObject.refresh();
             viewBinding.setDraftedThemeDisplayObject(themeDisplayObject);
             viewBinding.notifyChange();
         });

@@ -30,17 +30,32 @@
             <Button
                 android:background="@color/fantasySecondaryColor"
                 android:text="Button"
+                android:textColor="@color/fantasyPrimaryTextColor"
                 android:layout_marginEnd="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
 
-            <TextView
+            <LinearLayout
                 android:background="@color/fantasyPrimaryDarkColor"
-                android:text="Item Text"
-                android:textColor="@color/fantasySecondaryTextColor"
-                android:gravity="center"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="60dp">
+
+                <TextView
+                    android:text="Item Text"
+                    android:textColor="@color/fantasySecondaryTextColor"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"/>
+
+                <TextView
+                    android:text="Item Text"
+                    android:textColor="@color/fantasyTertiaryTextColor"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -75,13 +90,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
 
-            <TextView
+            <LinearLayout
                 android:background="@color/modernSecondaryLightColor"
-                android:text="Item Text"
-                android:textColor="@color/modernSecondaryTextColor"
-                android:gravity="center"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="60dp">
+
+                <TextView
+                    android:text="Item Text"
+                    android:textColor="@color/modernSecondaryTextColor"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"/>
+
+                <TextView
+                    android:text="Item Text"
+                    android:textColor="@color/modernTertiaryTextColor"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

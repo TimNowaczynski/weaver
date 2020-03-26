@@ -17,7 +17,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/fragment_theme_preview_background"
-            tools:background="@color/fantasyPrimaryDarkColor"
+            tools:background="@color/fantasyPrimaryColor"
             android:background="@{draftedThemeDisplayObject.backgroundColor}"
             android:paddingBottom="12dp"
             android:layout_width="match_parent"
@@ -25,11 +25,11 @@
 
             <TextView
                 android:id="@+id/fragment_theme_preview_background_text"
-                tools:textColor="@color/white"
+                tools:textColor="@color/pitch_black"
                 android:text="@string/fragment_theme_preview_background_text"
                 android:textSize="24sp"
                 android:textColor="@{draftedThemeDisplayObject.backgroundTextColor}"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginStart="14dp"
                 android:layout_marginEnd="14dp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -41,25 +41,25 @@
 
             <Button
                 android:id="@+id/fragment_theme_preview_button"
-                tools:background="@color/fantasySecondaryLightColor"
+                tools:background="@color/fantasySecondaryColor"
                 android:text="@string/fragment_theme_preview_button_text"
                 android:textColor="@{draftedThemeDisplayObject.itemTextColor}"
                 android:background="@{draftedThemeDisplayObject.actionDrawable}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="14dp"
                 android:layout_marginEnd="14dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <!-- TODO: The background should be generated with round edges via code -->
-            <FrameLayout
+            <LinearLayout
                 android:id="@+id/fragment_theme_preview_item"
-                tools:background="@color/fantasySecondaryColor"
+                tools:background="@color/fantasyPrimaryDarkColor"
+                android:orientation="vertical"
                 android:background="@{draftedThemeDisplayObject.itemDrawable}"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="18dp"
                 android:layout_marginStart="14dp"
                 android:layout_marginEnd="14dp"
                 android:layout_marginBottom="12dp"
@@ -69,17 +69,28 @@
 
                 <TextView
                     android:id="@+id/fragment_theme_preview_item_text"
-                    tools:textColor="@color/pitch_black"
+                    tools:textColor="@color/white"
                     android:textColor="@{draftedThemeDisplayObject.itemTextColor}"
                     android:textSize="18sp"
                     android:text="@string/fragment_theme_preview_item_text"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginStart="12dp"
-                    android:layout_marginBottom="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-            </FrameLayout>
+                <TextView
+                    android:id="@+id/fragment_theme_preview_item_text_secondary"
+                    tools:textColor="@color/white"
+                    android:textColor="@{draftedThemeDisplayObject.itemTextColorSecondary}"
+                    android:textSize="18sp"
+                    android:text="@string/fragment_theme_preview_item_text_secondary"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

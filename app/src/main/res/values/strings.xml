@@ -74,6 +74,7 @@
 
     <string name="fragment_theme_preview_background_text">Background Text</string>
     <string name="fragment_theme_preview_item_text">Item Text</string>
+    <string name="fragment_theme_preview_item_text_secondary">Item Text Secondary</string>
     <string name="fragment_theme_preview_button_text">Button</string>
 
     <string-array name="activity_campaign_list_sort_order_spinner_options">

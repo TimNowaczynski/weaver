@@ -11,8 +11,8 @@
   <color name="modernSecondaryDarkColor">#004c40</color>
   <color name="modernPrimaryTextColor">#ffffff</color>
   <color name="modernSecondaryTextColor">#000000</color>
+  <color name="modernTertiaryTextColor">#88000000</color>
 
-  <!-- TODO: values are for POC only -->
   <color name="fantasyPrimaryColor">#d7c797</color>
   <color name="fantasyPrimaryLightColor">#ead61c</color>
   <color name="fantasyPrimaryDarkColor">#845422</color>
@@ -21,7 +21,22 @@
   <color name="fantasySecondaryDarkColor">#84240c</color>
   <color name="fantasyPrimaryTextColor">#000000</color>
   <color name="fantasySecondaryTextColor">#ffffff</color>
+  <color name="fantasyTertiaryTextColor">#88ffffff</color>
+
+  <!-- Alpha Masks for dependent colors -->
+  <color name="secondaryTextColorAlphaMask">#AAffffff</color>
 
   <color name="white">#FFFFFF</color>
+  <color name="white_secondary">#DDDDDD</color>
   <color name="pitch_black">#000000</color>
+
+  <!-- tools -->
+  <color name="tools_background_color">@color/fantasyPrimaryColor</color>
+  <color name="tools_background_text_color">@color/white</color>
+  <color name="tools_action_color">@color/fantasySecondaryLightColor</color>
+  <color name="tools_action_text_color">@color/pitch_black</color>
+  <color name="tools_item_background_color">@color/fantasyPrimaryDarkColor</color>
+  <color name="tools_item_text_color">@color/modernPrimaryTextColor</color>
+  <color name="tools_item_text_color_secondary">@color/modernSecondaryTextColor</color>
+
 </resources>
