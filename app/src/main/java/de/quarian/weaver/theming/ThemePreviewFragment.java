@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.Fragment;
 import de.quarian.weaver.R;
 import de.quarian.weaver.databinding.FragmentThemePreviewBinding;
@@ -29,14 +30,12 @@ public class ThemePreviewFragment extends Fragment {
     }
 
     public final FragmentDependencies fragmentDependencies = new FragmentDependencies();
-    private ThemeDisplayObject themeDisplayObject;
+    private final ThemeDisplayObject themeDisplayObject = new ThemeDisplayObject();
     private FragmentThemePreviewBinding viewBinding;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        themeDisplayObject = new ThemeDisplayObject(Objects.requireNonNull(getContext()));
-
         DependencyInjector.get().injectDependencies(this);
         themeDisplayObject.refresh();
     }
@@ -65,6 +64,8 @@ public class ThemePreviewFragment extends Fragment {
 
     public void setItemTextColor(int itemTextColor) {
         themeDisplayObject.itemTextColor = itemTextColor;
+        final int alphaMask = getResources().getColor(R.color.secondaryTextColorAlphaMask);
+        themeDisplayObject.itemTextSecondaryColor = ColorUtils.setAlphaComponent(itemTextColor, alphaMask);
         refreshContent();
     }
 

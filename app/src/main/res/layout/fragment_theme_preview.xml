@@ -81,7 +81,7 @@
                 <TextView
                     android:id="@+id/fragment_theme_preview_item_text_secondary"
                     tools:textColor="@color/white"
-                    android:textColor="@{draftedThemeDisplayObject.itemTextColorSecondary}"
+                    android:textColor="@{draftedThemeDisplayObject.itemTextSecondaryColor}"
                     android:textSize="18sp"
                     android:text="@string/fragment_theme_preview_item_text_secondary"
                     android:layout_marginTop="8dp"

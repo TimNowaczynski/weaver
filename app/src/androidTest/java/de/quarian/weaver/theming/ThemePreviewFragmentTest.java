@@ -116,6 +116,23 @@ public class ThemePreviewFragmentTest {
     }
 
     @Test
+    public void testItemSecondaryTextColorCanBeSet() throws Exception {
+        final ThemePreviewFragment themePreviewFragment = getThemePreviewFragment();
+        final ThemeDisplayObject themeDisplayObject = themePreviewFragment.getThemeDisplayObject();
+        themeDisplayObject.itemTextSecondaryColor = Color.argb(255, 255, 0, 0);
+        themePreviewFragment.refreshContent();
+
+        // Wait for Async Task doing the refresh
+        Thread.sleep(100L);
+
+        final View view = getPreviewView();
+        final TextView itemTextView = view.findViewById(R.id.fragment_theme_preview_item_text_secondary);
+
+        final int currentTextColor = itemTextView.getCurrentTextColor();
+        assertThat(currentTextColor, is(Color.RED));
+    }
+
+    @Test
     public void testBackgroundColorCanBeSet() throws Exception {
         final ThemePreviewFragment themePreviewFragment = getThemePreviewFragment();
         final ThemeDisplayObject themeDisplayObject = themePreviewFragment.getThemeDisplayObject();
