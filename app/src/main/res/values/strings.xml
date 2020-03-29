@@ -66,6 +66,8 @@
     <string name="activity_player_character_list_delete_character_cd">Delete Character</string>
     <string name="activity_player_character_list_usage_hint">Player characters will be auto-completed while typing and also highlighted within texts.</string>
 
+    <string name="activity_view_scheduled_to_delete_clear_all_scheduled_items">Clear All</string>
+
     <string name="campaign_list_item_edit">EDIT</string>
 
     <string name="cd_manage_player_characters">Manage Player Characters</string>
@@ -76,6 +78,17 @@
     <string name="fragment_theme_preview_item_text">Item Text</string>
     <string name="fragment_theme_preview_item_text_secondary">Item Text Secondary</string>
     <string name="fragment_theme_preview_button_text">Button</string>
+
+    <string name="asset_converter_time_expired">Expired</string>
+    <string name="asset_converter_time_seconds_remaining">Seconds remaining</string>
+    <string name="asset_converter_time_minutes_remaining">%l minutes remaining</string>
+    <string name="asset_converter_time_hours_remaining">%l hours remaining</string>
+    <string name="asset_converter_time_about_a_day_remaining">About day remaining</string>
+    <string name="asset_converter_time_days_remaining">%l days remaining</string>
+    <string name="asset_converter_time_over_a_week_remaining">Over a week remaining</string>
+    <string name="asset_converter_time_about_a_month_remaining">About a month remaining</string>
+    <string name="asset_converter_time_month_remaining">%l month remaining</string>
+    <string name="asset_converter_time_over_a_year_remaining">Over a year remaining</string>
 
     <string-array name="activity_campaign_list_sort_order_spinner_options">
         <item>Campaign Name</item>
