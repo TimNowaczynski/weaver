@@ -18,6 +18,7 @@ public class CampaignConverter {
         this.resources = resources;
     }
 
+    @NonNull
     public CampaignListDisplayObject convert(@NonNull final RoleplayingSystem roleplayingSystem, @NonNull final Campaign campaign, @NonNull final Theme theme, final long numberOfPlayerCharacters) {
         final CampaignListDisplayObject displayObject = new CampaignListDisplayObject(resources);
         displayObject.setCampaignId(campaign.id);

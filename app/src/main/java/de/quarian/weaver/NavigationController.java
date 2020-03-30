@@ -116,8 +116,9 @@ public class NavigationController {
         activity.startActivity(intent);
     }
 
-    public void viewScheduledToDelete(final Activity activity) {
+    public void viewScheduledToDelete(final Activity activity, final long campaignId) {
         final Intent intent = new Intent(activity, ViewScheduledToDeleteActivity.class);
+        intent.putExtra(ViewScheduledToDeleteActivity.EXTRA_CAMPAIGN_ID, campaignId);
         activity.startActivity(intent);
     }
 

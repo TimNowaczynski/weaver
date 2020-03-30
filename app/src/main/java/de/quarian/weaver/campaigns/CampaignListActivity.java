@@ -33,6 +33,7 @@ import de.quarian.weaver.R;
 import de.quarian.weaver.RequestCodes;
 import de.quarian.weaver.WeaverActivity;
 import de.quarian.weaver.WeaverLayoutInflater;
+import de.quarian.weaver.assets.ViewScheduledToDeleteActivity;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 import de.quarian.weaver.di.ApplicationContext;
@@ -222,7 +223,7 @@ public class CampaignListActivity extends WeaverActivity implements AdapterView.
 
     private void viewScheduledToDelete() {
         final NavigationController navigationController = NavigationController.getInstance();
-        navigationController.viewScheduledToDelete(this);
+        navigationController.viewScheduledToDelete(this, ViewScheduledToDeleteActivity.NO_CAMPAIGN_FILTER);
     }
 
     private void goToDeveloperScreen() {
