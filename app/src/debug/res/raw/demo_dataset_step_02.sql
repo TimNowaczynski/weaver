@@ -398,7 +398,7 @@ insert into CharacterBody (fk_character_header_id, avatar_image_type, avatar, ag
         hair on his head and in his face. His voice is rather soft though and
         somehow unfitting to his presence. Usually he wears some band shirt where you
         cannot make out the name and everything black.',
-        'He never finised his studies, in fact he put a lot of energy into extending
+        'He never finished his studies, in fact he put a lot of energy into extending
         his stay at the university till up to today. No end in sight yet. His life
         changed a lot though when he "explored" contents within a hidden network at
         the university. That''s when he accidentially broke into a network of hunters,

@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 
 import de.quarian.weaver.R;
 import de.quarian.weaver.datamodel.Asset;
+import de.quarian.weaver.util.ResourcesProvider;
 import de.quarian.weaver.util.TimeConstants;
 
 import static org.hamcrest.core.Is.is;
@@ -22,6 +23,9 @@ import static org.mockito.Mockito.when;
 public class AssetConverterUnitTest {
 
     @Mock
+    private ResourcesProvider resourcesProvider;
+
+    @Mock
     private Resources resources;
 
     private long currentTime;
@@ -32,7 +36,8 @@ public class AssetConverterUnitTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         currentTime = System.currentTimeMillis();
-        assetConverter = new AssetConverter(resources);
+        when(resourcesProvider.provide()).thenReturn(resources);
+        assetConverter = new AssetConverter(resourcesProvider);
         asset = new Asset();
 
         when(resources.getString(anyInt())).thenReturn("success");

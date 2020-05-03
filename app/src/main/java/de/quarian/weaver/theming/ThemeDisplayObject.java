@@ -7,11 +7,15 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.graphics.ColorUtils;
 import de.quarian.weaver.R;
 import de.quarian.weaver.datamodel.Theme;
 
 public class ThemeDisplayObject {
+
+    @Nullable
+    private static ThemeDisplayObject defaultTheme;
 
     public int actionColor;
     public Drawable actionDrawable;
@@ -19,10 +23,20 @@ public class ThemeDisplayObject {
     public int itemTextColor;
     public int itemTextSecondaryColor;
     public int backgroundColor;
+    public Drawable backgroundDrawable;
+    public Drawable backgroundButtonDrawable;
     public int itemColor;
     public Drawable itemDrawable;
 
-    public ThemeDisplayObject() {
+    public ThemeDisplayObject() { }
+
+    public static ThemeDisplayObject getDefault(@NonNull final Context context) {
+        if (defaultTheme == null) {
+            final Theme theme = new Theme();
+            theme.presetId = Theme.PRESET_ID_MODERN;
+            defaultTheme = fromTheme(context, theme);
+        }
+        return defaultTheme;
     }
 
     public static ThemeDisplayObject fromTheme(@NonNull final Context context, @NonNull final Theme theme) {
@@ -101,8 +115,26 @@ public class ThemeDisplayObject {
     }
 
     public void refresh() {
+        backgroundDrawable = createBackgroundDrawable();
+        backgroundButtonDrawable = createBackgroundButtonDrawable();
         itemDrawable = createItemDrawable();
         actionDrawable = createActionDrawable();
+    }
+
+    private Drawable createBackgroundDrawable() {
+        final GradientDrawable gradientDrawable = new GradientDrawable();
+        gradientDrawable.setShape(GradientDrawable.RECTANGLE);
+        gradientDrawable.setCornerRadius(8f);
+        gradientDrawable.setColor(backgroundColor);
+        return gradientDrawable;
+    }
+
+    private Drawable createBackgroundButtonDrawable() {
+        final GradientDrawable gradientDrawable = new GradientDrawable();
+        gradientDrawable.setShape(GradientDrawable.LINE);
+        gradientDrawable.setCornerRadius(8f);
+        gradientDrawable.setColor(backgroundTextColor);
+        return gradientDrawable;
     }
 
     private Drawable createItemDrawable() {

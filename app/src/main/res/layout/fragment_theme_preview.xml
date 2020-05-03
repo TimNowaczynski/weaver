@@ -42,6 +42,7 @@
             <Button
                 android:id="@+id/fragment_theme_preview_button"
                 tools:background="@color/fantasySecondaryColor"
+                tools:textColor="@color/white"
                 android:text="@string/fragment_theme_preview_button_text"
                 android:textColor="@{draftedThemeDisplayObject.itemTextColor}"
                 android:background="@{draftedThemeDisplayObject.actionDrawable}"

@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 import de.quarian.weaver.BuildConfig;
 import de.quarian.weaver.WeaverActivity;
 import de.quarian.weaver.WeaverApplication;
+import de.quarian.weaver.assets.ScheduledToDeleteFragment;
 import de.quarian.weaver.campaigns.CampaignEditorActivity;
 import de.quarian.weaver.campaigns.CampaignListActivity;
 import de.quarian.weaver.characters.CharacterLibraryActivity;
@@ -219,5 +220,14 @@ public class DependencyInjector {
                 .build()
                 .inject(themePreviewFragment.fragmentDependencies);
         callOnDependenciesInjected(themePreviewFragment);
+    }
+
+    public void injectDependencies(final ScheduledToDeleteFragment scheduledToDeleteFragment) {
+        DaggerFragmentComponent.builder()
+                .applicationModule(getApplicationModule(scheduledToDeleteFragment))
+                .fragmentModule(new FragmentModule())
+                .build()
+                .inject(scheduledToDeleteFragment.fragmentDependencies);
+        callOnDependenciesInjected(scheduledToDeleteFragment);
     }
 }

@@ -13,8 +13,9 @@ public class ThemeProvider {
 
     private final WeaverDB weaverDB;
     private final LoggingProvider loggingProvider;
+    // TODO: add active theme
 
-    public ThemeProvider(WeaverDB weaverDB, final LoggingProvider loggingProvider) {
+    public ThemeProvider(@NonNull final WeaverDB weaverDB, @NonNull final LoggingProvider loggingProvider) {
         this.weaverDB = weaverDB;
         this.loggingProvider = loggingProvider;
     }
@@ -37,7 +38,7 @@ public class ThemeProvider {
         return theme;
     }
 
-    public void setThemeForCampaign(final long campaignId, final Theme theme) {
+    public void setThemeForCampaign(final long campaignId, @NonNull final Theme theme) {
         final ThemeDAO themeDAO = weaverDB.themeDAO();
         final Theme existingTheme = themeDAO.readThemeByID(theme.id);
         if (existingTheme != null) {

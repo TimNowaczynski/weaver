@@ -33,6 +33,10 @@ public class DBConverters {
 
         @TypeConverter
         public byte[] convertBytesToPrimitive(final Byte[] bytes) {
+            if (bytes == null) {
+                return new byte[0];
+            }
+
             final byte[] output = new byte[bytes.length];
             int index = 0;
             for (byte b : bytes) {

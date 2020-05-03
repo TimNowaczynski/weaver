@@ -89,7 +89,7 @@ public final class DatabaseTestConstants {
 
     public static final String ASSET_NAME = "Asset Name";
     public static final String ASSET_DESCRIPTION = "Asset Description";
-    public static final byte[] ASSET_IMAGE = "Asset Image".getBytes();
+    public static final Byte[] ASSET_IMAGE = DBConverters.getBlobConverter().convertPrimitiveToBytes("Asset Image".getBytes());
     public static final String ASSET_IMAGE_TYPE = "image/jpeg";
     public static final String ASSET_FALLBACK_URL = "http://asset.com/image.jpeg";
 

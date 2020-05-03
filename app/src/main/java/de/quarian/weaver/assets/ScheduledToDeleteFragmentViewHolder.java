@@ -1,22 +1,33 @@
 package de.quarian.weaver.assets;
 
 import android.view.View;
-import android.widget.TextView;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import de.quarian.weaver.WeaverLayoutInflater;
+import de.quarian.weaver.theming.ThemeProvider;
 
 public class ScheduledToDeleteFragmentViewHolder extends RecyclerView.ViewHolder {
 
-    private final TextView dummyText;
+    private final ScheduledToDeleteListItemAdapter adapter;
 
-    public ScheduledToDeleteFragmentViewHolder(@NonNull View itemView) {
+    public ScheduledToDeleteFragmentViewHolder(@NonNull final View itemView,
+                                               @NonNull final WeaverLayoutInflater weaverLayoutInflater,
+                                               @NonNull final ThemeProvider themeProvider) {
         super(itemView);
-        dummyText = (TextView) itemView;
+        final RecyclerView recyclerView = (RecyclerView) itemView;
+        this.adapter = new ScheduledToDeleteListItemAdapter(recyclerView.getContext(), weaverLayoutInflater, themeProvider);
+        recyclerView.setAdapter(adapter);
+        /*
+            TODO: [Purely optional] Think about a transition from a campaign
+             to this activity and filter the items accordingly
+         */
     }
 
-    public void setDummyText(@NonNull final String text) {
-        dummyText.setText(text);
+    public void setAssetDisplayObjects(@NonNull final List<AssetDisplayObject> displayObjects) {
+        this.adapter.setAssetDisplayObjects(displayObjects);
+        this.adapter.notifyDataSetChanged();
     }
-
 }

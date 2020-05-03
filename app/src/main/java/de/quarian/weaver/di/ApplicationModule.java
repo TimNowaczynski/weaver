@@ -14,6 +14,7 @@ import dagger.Provides;
 import de.quarian.weaver.BuildConfig;
 import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.database.CampaignDAO;
+import de.quarian.weaver.database.DAOProvider;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.converter.CampaignConverter;
 import de.quarian.weaver.dev.DemoDataSetInjector;
@@ -25,6 +26,8 @@ import de.quarian.weaver.util.AndroidToastHandler;
 import de.quarian.weaver.util.AndroidToastHandlerImplementation;
 import de.quarian.weaver.util.LocalLogger;
 import de.quarian.weaver.util.LoggingProvider;
+import de.quarian.weaver.util.ResourcesProvider;
+import de.quarian.weaver.util.ResourcesProviderImplementation;
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 
@@ -53,9 +56,16 @@ public class ApplicationModule {
         return applicationContext;
     }
 
+    // TODO: replace this with resources provider injections to enhance testing capabilities
     @Provides
     @Singleton
     public Resources resources() { return applicationContext.getResources(); }
+
+    @Provides
+    @Singleton
+    public ResourcesProvider resourcesProvider() {
+        return new ResourcesProviderImplementation(applicationContext);
+    }
 
     @GlobalHandler
     @Provides
@@ -69,6 +79,12 @@ public class ApplicationModule {
     public WeaverDB weaverDB() {
         return Room.databaseBuilder(applicationContext, WeaverDB.class, WeaverDB.DATABASE_FILE_NAME)
                 .build();
+    }
+
+    @Provides
+    @Singleton
+    public DAOProvider database() {
+        return weaverDB();
     }
 
     @Provides

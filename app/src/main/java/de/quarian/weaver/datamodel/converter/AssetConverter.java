@@ -2,18 +2,22 @@ package de.quarian.weaver.datamodel.converter;
 
 import android.content.res.Resources;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import de.quarian.weaver.R;
 import de.quarian.weaver.assets.AssetDisplayObject;
 import de.quarian.weaver.datamodel.Asset;
+import de.quarian.weaver.util.ResourcesProvider;
 import de.quarian.weaver.util.TimeConstants;
 
 public class AssetConverter {
 
     private final Resources resources;
 
-    public AssetConverter(@NonNull final Resources resources) {
-        this.resources = resources;
+    public AssetConverter(@NonNull final ResourcesProvider resourcesProvider) {
+        this.resources = resourcesProvider.provide();
     }
 
     @NonNull
@@ -76,5 +80,15 @@ public class AssetConverter {
         }
 
         return resources.getString(R.string.asset_converter_time_over_a_year_remaining);
+    }
+
+    @NonNull
+    public List<AssetDisplayObject> convert(@NonNull final List<Asset> assets) {
+        final List<AssetDisplayObject> assetDisplayObjects = new ArrayList<>(assets.size());
+        for (final Asset asset : assets) {
+            final AssetDisplayObject assetDisplayObject = convert(asset);
+            assetDisplayObjects.add(assetDisplayObject);
+        }
+        return assetDisplayObjects;
     }
 }

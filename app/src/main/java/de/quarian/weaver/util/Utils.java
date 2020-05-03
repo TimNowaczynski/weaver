@@ -8,6 +8,14 @@ public class Utils {
 
     private Utils() { }
 
+    public static final long ONE_SECOND = 1000L;
+    public static final long ONE_MINUTE = ONE_SECOND * 60L;
+    public static final long ONE_HOUR = ONE_MINUTE * 60L;
+    public static final long ONE_DAY = ONE_HOUR * 24L;
+    public static final long ONE_YEAR = ONE_DAY * 365L;
+
+    public static final long ABOUT_A_MONTH = ONE_DAY * 30L;
+
     public static class ColorConverter {
 
         @ColorInt

@@ -9,11 +9,15 @@ import org.mockito.MockitoAnnotations;
 import java.util.Collections;
 import java.util.List;
 
+import de.quarian.weaver.assets.AssetDisplayObject;
 import de.quarian.weaver.database.AssetDAO;
+import de.quarian.weaver.database.DAOProvider;
 import de.quarian.weaver.datamodel.Asset;
 import de.quarian.weaver.datamodel.Event;
+import de.quarian.weaver.datamodel.converter.AssetConverter;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -26,28 +30,49 @@ import static org.mockito.Mockito.when;
 public class AssetServiceImplementationUnitTest {
 
     private static final long DUMMY_EVENT_ID = 123L;
+    private static final long DUMMY_ASSET_ID = 456L;
 
     @Mock
     private AssetDAO assetDAOMock;
 
     @Mock
-    private Asset assetMock;
+    private DAOProvider daoProvider;
 
+    @Mock
+    private AssetConverter assetConverter;
+
+    @Mock
+    private List<AssetDisplayObject> assetDisplayObjectList;
+
+    @Mock
+    private AssetDisplayObject assetDisplayObject;
+
+    private Asset dummyAsset;
     private Event dummyEvent;
     private AssetService assetService;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        assetService = new AssetServiceImplementation(assetDAOMock);
+        when(daoProvider.assetDAO()).thenReturn(assetDAOMock);
+        assetService = new AssetServiceImplementation(daoProvider, assetConverter);
 
         dummyEvent = new Event();
         dummyEvent.id = DUMMY_EVENT_ID;
 
-        when(assetDAOMock.readAssetsForEvent(dummyEvent.id)).thenReturn(Collections.singletonList(assetMock));
-        when(assetDAOMock.readAssetsForEvent(DUMMY_EVENT_ID)).thenReturn(Collections.singletonList(assetMock));
-        when(assetDAOMock.readAllAssetsWithUnlimitedLifetime()).thenReturn(Collections.singletonList(assetMock));
-        when(assetDAOMock.readAllAssetsWithLimitedLifetime()).thenReturn(Collections.singletonList(assetMock));
+        dummyAsset = new Asset();
+        dummyAsset.id = DUMMY_ASSET_ID;
+
+        final List<Asset> results = Collections.singletonList(dummyAsset);
+        when(assetDAOMock.readAssetsForEvent(dummyEvent.id)).thenReturn(results);
+        when(assetDAOMock.readAssetsForEvent(DUMMY_EVENT_ID)).thenReturn(results);
+        when(assetDAOMock.readAllAssetsWithUnlimitedLifetime()).thenReturn(results);
+        when(assetDAOMock.readAllAssetsWithLimitedLifetime()).thenReturn(results);
+        when(assetDAOMock.readAssetForId(DUMMY_ASSET_ID)).thenReturn(dummyAsset);
+
+        when(assetConverter.convert(results)).thenReturn(assetDisplayObjectList);
+        when(assetConverter.convert(Collections.singletonList(dummyAsset))).thenReturn(Collections.singletonList(assetDisplayObject));
+        when(assetConverter.convert(dummyAsset)).thenReturn(assetDisplayObject);
     }
 
     @Test
@@ -59,42 +84,47 @@ public class AssetServiceImplementationUnitTest {
 
     @Test
     public void testGetAssetsWithLimitedLifetime() {
-        final List<Asset> assetsWithLimitedLifetime = assetService.getAssetsWithLimitedLifetime();
+        final List<AssetDisplayObject> assetsWithLimitedLifetime = assetService.getAssetsWithLimitedLifetime();
         verify(assetDAOMock).readAllAssetsWithLimitedLifetime();
-        assertThat(assetsWithLimitedLifetime.get(0), is(assetMock));
+        assertThat(assetsWithLimitedLifetime.get(0), is(assetDisplayObject));
     }
 
     @Test
     public void testGetAssetsWithUnlimitedLifetime() {
-        final List<Asset> assetsWithLimitedLifetime = assetService.getAssetsWithUnlimitedLifetime();
+        final List<AssetDisplayObject> assetsWithLimitedLifetime = assetService.getAssetsWithUnlimitedLifetime();
         verify(assetDAOMock).readAllAssetsWithUnlimitedLifetime();
-        assertThat(assetsWithLimitedLifetime.get(0), is(assetMock));
+        verify(assetConverter).convert(Collections.singletonList(dummyAsset));
+        assertThat(assetsWithLimitedLifetime.get(0), is(assetDisplayObject));
     }
 
     @Test
     public void testGetAssetForEvent() {
-        final Asset assetForEvent = assetService.getAssetForEvent(dummyEvent);
+        final AssetDisplayObject assetForEvent = assetService.getAssetForEvent(dummyEvent.id);
         verify(assetDAOMock).readAssetsForEvent(dummyEvent.id);
-        assertThat(assetForEvent, is(assetMock));
+        verify(assetConverter).convert(dummyAsset);
+        assertThat(assetForEvent, notNullValue());
     }
 
     @Test
     public void testGetAssetForEventExtendsLifetime() {
-        assetMock.endOfLifetimeTimestamp = 10L;
-        final Asset assetForEvent = assetService.getAssetForEvent(dummyEvent);
-        verify(assetDAOMock).updateAsset(assetForEvent);
+        dummyAsset.endOfLifetimeTimestamp = 10L;
+        assetService.getAssetForEvent(DUMMY_EVENT_ID);
+        verify(assetConverter).convert(dummyAsset);
+        verify(assetDAOMock).updateAsset(dummyAsset);
     }
 
     @Test
     public void testGetAssetForEventDoesNotOverrideUnlimitedLifetime() {
-        final Asset assetForEvent = assetService.getAssetForEvent(dummyEvent);
-        verify(assetDAOMock, never()).updateAsset(assetForEvent);
+        assetService.getAssetForEvent(DUMMY_EVENT_ID);
+
+        verify(assetDAOMock).readAssetsForEvent(DUMMY_EVENT_ID);
+        verify(assetDAOMock, never()).updateAsset(dummyAsset);
     }
 
     @Test
     public void testMoveAssetToCloud() {
-        assetMock.asset = new byte[10];
-        assetService.moveAssetToCloud(assetMock);
+        dummyAsset.asset = new Byte[10];
+        assetService.moveAssetToCloud(DUMMY_ASSET_ID);
 
         final ArgumentCaptor<Asset> assetArgumentCaptor = ArgumentCaptor.forClass(Asset.class);
         verify(assetDAOMock, times(1)).updateAsset(assetArgumentCaptor.capture());
@@ -107,10 +137,12 @@ public class AssetServiceImplementationUnitTest {
 
     @Test
     public void testExtendLifetime() {
-        assetService.extendLifetime(assetMock, 10000L);
+        assetService.extendLifetime(DUMMY_ASSET_ID, 10000L);
 
         final ArgumentCaptor<Asset> argumentCaptor = ArgumentCaptor.forClass(Asset.class);
         verify(assetDAOMock).updateAsset(argumentCaptor.capture());
+        final Asset capturedAsset = argumentCaptor.getValue();
+        assertThat(capturedAsset.id, is(DUMMY_ASSET_ID));
     }
 
     @Test

@@ -8,19 +8,28 @@ import android.os.AsyncTask;
 import android.os.Looper;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Date;
 
 import androidx.annotation.DrawableRes;
 import de.quarian.weaver.R;
+import de.quarian.weaver.database.AssetDAO;
 import de.quarian.weaver.database.CampaignDAO;
+import de.quarian.weaver.database.CharacterDAO;
 import de.quarian.weaver.database.DBConverters;
 import de.quarian.weaver.database.RoleplayingSystemDAO;
 import de.quarian.weaver.database.ThemeDAO;
 import de.quarian.weaver.database.WeaverDB;
+import de.quarian.weaver.datamodel.Asset;
 import de.quarian.weaver.datamodel.Campaign;
+import de.quarian.weaver.datamodel.Event;
 import de.quarian.weaver.datamodel.RoleplayingSystem;
 import de.quarian.weaver.datamodel.Theme;
+import de.quarian.weaver.util.Utils;
 
 public class DemoDataSetInjector {
 
@@ -38,6 +47,9 @@ public class DemoDataSetInjector {
             final long[] rpsIds = setUpRoleplayingSystems(weaverDB);
             final long[] themeIds = setUpThemes(weaverDB);
             final long[] campaignIds = setUpCampaigns(weaverDB, rpsIds, themeIds);
+
+            final long[] eventIds = setUpEvents(weaverDB);
+            final long[] assetIds = setUpAssets(weaverDB, eventIds);
 
             Toast.makeText(context, "Demo State initialized", Toast.LENGTH_SHORT).show();
         });
@@ -257,5 +269,125 @@ public class DemoDataSetInjector {
         srBannerBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
         final DBConverters.BlobConverter converter = new DBConverters.BlobConverter();
         return converter.convertPrimitiveToBytes(outputStream.toByteArray());
+    }
+
+    private long[] setUpEvents(final WeaverDB weaverDB) {
+        final CharacterDAO characterDAO = weaverDB.characterDAO();
+        final long[] eventIds = new long[4];
+
+        final Event eventA = new Event();
+        eventA.eventDateMillis = 0L;
+        eventA.headline = "Arrival in Berlin";
+        eventA.text = "Today, after month of planning, the players finally arrive in Berlin.";
+        eventIds[0] = characterDAO.createEvent(eventA);
+
+        final Event eventB = new Event();
+        eventB.eventDateMillis = 0L;
+        eventB.headline = "Sightseeing";
+        eventB.text = "So of course, one of the first things which were up: sightseeing";
+        eventIds[1] = characterDAO.createEvent(eventB);
+
+        final Event eventC = new Event();
+        eventC.eventDateMillis = 0L;
+        eventC.headline = "Weired Poetry";
+        eventC.text = "Suddenly it started happening. This was just the first of many " +
+                "letters which, under mysterious circumstances, found the way into the " +
+                "groups possession.";
+        eventIds[2] = characterDAO.createEvent(eventC);
+
+        final Event eventD = new Event();
+        eventD.eventDateMillis = 0L;
+        eventD.headline = "Navigating the City";
+        eventD.text = "Finding your way through the city might be trouble for those not " +
+                "familiar with the city. So the characters grabbed an up to date plan " +
+                "for the public transport system.";
+        eventIds[3] = characterDAO.createEvent(eventD);
+        return eventIds;
+    }
+
+    private long[] setUpAssets(final WeaverDB weaverDB, final long[] eventIds) {
+        final long[] assetIds = new long[4];
+
+        // A permanent local asset
+        final Asset berlin_bear = new Asset();
+        berlin_bear.eventId = eventIds[0];
+        berlin_bear.campaignName = "Night Train";
+        berlin_bear.endOfLifetimeTimestamp = 0L;
+        berlin_bear.contentLocallyPresent = true;
+        berlin_bear.assetName = "Berliner Bear";
+        berlin_bear.assetDescription = "Logo for the city of Berlin.";
+        berlin_bear.assetType = "image/png";
+        berlin_bear.asset = convertDrawableResToBytes(R.drawable.demo_image_berlin_bear);
+        berlin_bear.fallbackUrl = "";
+
+        // An asset upcoming for deletion
+        final Asset berlin_gate = new Asset();
+        berlin_gate.eventId = eventIds[1];
+        berlin_gate.campaignName = "Night Train";
+        berlin_gate.endOfLifetimeTimestamp = System.currentTimeMillis() + Utils.ABOUT_A_MONTH;
+        berlin_gate.contentLocallyPresent = true;
+        berlin_gate.assetName = "Brandenburg Gate";
+        berlin_gate.assetDescription = "Image of the \"Brandenburger Tor\" in Berlin";
+        berlin_gate.assetType = "";
+        berlin_gate.asset = convertDrawableResToBytes(R.drawable.demo_image_brandenburg_gate);
+        berlin_gate.fallbackUrl = "";
+
+        // An asset without fallback url which is already up for deletion
+
+        final InputStream inputStream = context.getResources().openRawResource(R.raw.poem);
+        final InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+        final BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+        String rawPoem = "";
+        try {
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                rawPoem = rawPoem.concat(line).concat("\n");
+            }
+
+            bufferedReader.close();
+            inputStreamReader.close();
+            inputStream.close();
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        final Utils.ByteArrayConverter byteArrayConverter = new Utils.ByteArrayConverter();
+
+        final Asset poem = new Asset();
+        poem.eventId = eventIds[2];
+        poem.campaignName = "Night Train";
+        poem.endOfLifetimeTimestamp = System.currentTimeMillis() - Utils.ONE_DAY;
+        poem.contentLocallyPresent = true;
+        poem.assetName = "All My Friends Are Finding New Beliefs";
+        poem.assetDescription = "Poem by Christian Wiman, January 2020";
+        poem.assetType = "text/plain";
+        poem.asset = byteArrayConverter.fromPrimitive(rawPoem.getBytes());
+        poem.fallbackUrl = "";
+
+        /*
+         Should not happen = An asset with fallback url which is up for deletion.
+         Because we only assign such an url when local content gets deleted.
+         */
+
+        // A deleted asset with fallback url
+        final Asset berlin_bvg_plan = new Asset();
+        berlin_bvg_plan.eventId = eventIds[3];
+        berlin_bvg_plan.campaignName = "Night Train";
+        berlin_bvg_plan.endOfLifetimeTimestamp = 1588505035523L; // 3rd of May 2020
+        berlin_bvg_plan.contentLocallyPresent = false;
+        berlin_bvg_plan.assetName = "BVG Plan";
+        berlin_bvg_plan.assetDescription = "Plan for the Berlin public transport system.";
+        berlin_bvg_plan.assetType = "application/pdf";
+        berlin_bvg_plan.asset = null;
+        berlin_bvg_plan.fallbackUrl = "https://github.com/TimNowaczynski/weaver/raw/master/raw/bvg_plan.pdf";
+
+        final AssetDAO assetDAO = weaverDB.assetDAO();
+        assetIds[0] = assetDAO.createAsset(berlin_bear);
+        assetIds[1] = assetDAO.createAsset(berlin_gate);
+        assetIds[2] = assetDAO.createAsset(poem);
+        assetIds[3] = assetDAO.createAsset(berlin_bvg_plan);
+        return assetIds;
     }
 }

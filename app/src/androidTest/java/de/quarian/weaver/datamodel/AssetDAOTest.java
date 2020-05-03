@@ -14,6 +14,7 @@ import de.quarian.weaver.database.AssetDAO;
 import de.quarian.weaver.database.CharacterDAO;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.util.TimeConstants;
+import de.quarian.weaver.util.Utils;
 
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.ASSET_DESCRIPTION;
 import static de.quarian.weaver.datamodel.DatabaseTestConstants.ASSET_FALLBACK_URL;
@@ -129,11 +130,15 @@ public class AssetDAOTest {
         List<Asset> assets = assetDAO.readAssetsForEvent(eventId);
         assertThat(assets, hasSize(1));
 
+        final Utils.ByteArrayConverter byteArrayConverter = new Utils.ByteArrayConverter();
+        final Byte[] assetBytes = byteArrayConverter.fromPrimitive("Lalala".getBytes());
+
         final Asset asset = new Asset();
         asset.eventId = eventId;
         asset.endOfLifetimeTimestamp = 0;
         asset.assetName = "Dummy";
         asset.assetType = "*/blob";
+        asset.asset = assetBytes;
         assetDAO.createAsset(asset);
 
         assets = assetDAO.readAssetsForEvent(eventId);

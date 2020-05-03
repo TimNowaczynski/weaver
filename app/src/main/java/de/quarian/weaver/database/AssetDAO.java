@@ -19,6 +19,10 @@ public interface AssetDAO {
 
     // Read
 
+    @Query("SELECT asset_id, fk_event_id, campaign_name, end_of_lifetime_timestamp, content_locally_present, asset_name, asset_description, asset_type, asset, fallback_url  FROM asset " +
+            "WHERE asset_id IS :assetId")
+    Asset readAssetForId(final long assetId);
+
     /**
      * @param eventId The event we want to retrieve the asset for
      * @return A list with currently always 0-1 items contained

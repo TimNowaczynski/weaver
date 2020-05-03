@@ -33,7 +33,7 @@
   <!-- tools -->
   <color name="tools_background_color">@color/fantasyPrimaryColor</color>
   <color name="tools_background_text_color">@color/white</color>
-  <color name="tools_action_color">@color/fantasySecondaryLightColor</color>
+  <color name="tools_action_color">@color/fantasySecondaryColor</color>
   <color name="tools_action_text_color">@color/pitch_black</color>
   <color name="tools_item_background_color">@color/fantasyPrimaryDarkColor</color>
   <color name="tools_item_text_color">@color/modernPrimaryTextColor</color>

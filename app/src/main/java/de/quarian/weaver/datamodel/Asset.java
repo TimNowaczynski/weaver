@@ -14,6 +14,11 @@ import androidx.room.PrimaryKey;
  * Is linked N:1 to {@link Event}s
  */
 @SuppressWarnings("NullableProblems")
+/*
+    TODO: Test putting campaignId as foreign key here as well.
+     And if that works, test deleting this by deleting the campaign which might fail
+     because the same should happen via campaign -> event -> asset
+ */
 @Entity(foreignKeys = {
     @ForeignKey(entity = Event.class,
             parentColumns = Event.ID,
@@ -30,9 +35,20 @@ public class Asset {
     @ColumnInfo(name = ID)
     public long id;
 
-    @ColumnInfo(name = FK_EVENT_ID)
+    @ColumnInfo(name = FK_EVENT_ID, index = true)
     public long eventId;
 
+    /*
+        For simplicity (to avoid merging more than two tables),
+        we put the campaignId here as well. In Theory there would be a link like this:
+        asset -> event -> campaign
+     */
+    // TODO: add campaignId for delete operations
+
+    /*
+       TODO: change this on the long run to either an approach using merged tables
+        (aka doing it the right way), or a sequence of queries.
+     */
     /*
         Note that the [Campaign] Class also contains this,
         and should be the primary source of truth. So only use
@@ -64,7 +80,7 @@ public class Asset {
 
     @Nullable
     @ColumnInfo(name = "asset")
-    public byte[] asset;
+    public Byte[] asset;
 
     @Nullable
     @ColumnInfo(name = "fallback_url")

@@ -39,7 +39,7 @@ import de.quarian.weaver.datamodel.Theme;
         Theme.class
 })
 @TypeConverters(DBConverters.BlobConverter.class)
-public abstract class WeaverDB extends RoomDatabase {
+public abstract class WeaverDB extends RoomDatabase implements DAOProvider {
 
     public static final String DATABASE_FILE_NAME = "weaver.db";
 

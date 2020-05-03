@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d34c534833a2316ab92481455117c0df",
+    "identityHash": "45b534b9f226457ef86944cae5a49587",
     "entities": [
       {
         "tableName": "Asset",
@@ -75,7 +75,16 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_Asset_fk_event_id",
+            "unique": false,
+            "columnNames": [
+              "fk_event_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Asset_fk_event_id` ON `${TABLE_NAME}` (`fk_event_id`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "Event",
@@ -1229,7 +1238,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd34c534833a2316ab92481455117c0df')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '45b534b9f226457ef86944cae5a49587')"
     ]
   }
 }

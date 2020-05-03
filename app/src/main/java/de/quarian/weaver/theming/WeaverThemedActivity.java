@@ -42,6 +42,8 @@ public abstract class WeaverThemedActivity extends WeaverActivity implements Dep
 
     private ViewDataBinding viewDataBinding;
 
+    private ThemeDisplayObject themeDisplayObject;
+
     public abstract int getContentViewId();
 
     public abstract Activity getTargetActivity();
@@ -159,7 +161,12 @@ public abstract class WeaverThemedActivity extends WeaverActivity implements Dep
     private void applyTheme(@NonNull Theme themeForCampaign) {
         final ViewDataBinding viewDataBinding = getViewDataBinding();
         final Context baseContext = getBaseContext();
-        final ThemeDisplayObject themeDisplayObject = ThemeDisplayObject.fromTheme(baseContext, themeForCampaign);
-        viewDataBinding.setVariable(BR.appliedThemeDisplayObject, themeDisplayObject);
+        this.themeDisplayObject = ThemeDisplayObject.fromTheme(baseContext, themeForCampaign);
+        viewDataBinding.setVariable(BR.appliedThemeDisplayObject, this.themeDisplayObject);
+    }
+
+    @NonNull // Well, only partially true - but after onCreate it should be safe
+    public ThemeDisplayObject getThemeDisplayObject() {
+        return themeDisplayObject;
     }
 }

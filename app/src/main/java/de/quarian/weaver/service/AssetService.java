@@ -2,6 +2,7 @@ package de.quarian.weaver.service;
 
 import java.util.List;
 
+import de.quarian.weaver.assets.AssetDisplayObject;
 import de.quarian.weaver.datamodel.Asset;
 import de.quarian.weaver.datamodel.Event;
 
@@ -12,17 +13,17 @@ public interface AssetService {
 
     void createAsset(final Asset asset);
 
-    List<Asset> getAssetsWithLimitedLifetime();
+    List<AssetDisplayObject> getAssetsWithLimitedLifetime();
 
-    List<Asset> getAssetsWithUnlimitedLifetime();
+    List<AssetDisplayObject> getAssetsWithUnlimitedLifetime();
 
     int getNumberOfExpiredAssets();
 
-    Asset getAssetForEvent(final Event event);
+    AssetDisplayObject getAssetForEvent(final long eventId);
 
-    void moveAssetToCloud(final Asset asset);
+    void moveAssetToCloud(final long assetId);
 
-    Asset extendLifetime(final Asset asset, final long additionalLifetime);
+    Asset extendLifetime(final long assetId, final long additionalLifetime);
 
     void cleanUpExpiredAssets();
 }

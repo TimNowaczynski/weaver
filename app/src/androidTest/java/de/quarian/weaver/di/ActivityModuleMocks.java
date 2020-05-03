@@ -9,14 +9,17 @@ import android.os.Handler;
 import androidx.annotation.NonNull;
 import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.WeaverLayoutInflater;
+import de.quarian.weaver.database.DAOProvider;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.converter.CampaignConverter;
 import de.quarian.weaver.dev.DemoDataSetInjector;
 import de.quarian.weaver.service.CampaignService;
 import de.quarian.weaver.theming.ThemeProvider;
 import de.quarian.weaver.util.AndroidToastHandler;
+import de.quarian.weaver.util.GenericDialogBuilder;
 import de.quarian.weaver.util.Logger;
 import de.quarian.weaver.util.LoggingProvider;
+import de.quarian.weaver.util.ResourcesProvider;
 import io.reactivex.Scheduler;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -34,8 +37,10 @@ public class ActivityModuleMocks<T extends Activity> {
     public ApplicationModule applicationModuleMock;
     public Context applicationContextMock; // TODO: This might be the same as activity context, check this
     public Resources resourcesMock;
+    public ResourcesProvider resourcesProviderMock;
     public Handler globalHandlerMock;
     public WeaverDB weaverDBMock;
+    public DAOProvider daoProvider;
     public WeaverLayoutInflater weaverLayoutInflaterMock;
     public CampaignConverter campaignConverterMock;
     public CampaignService campaignServiceMock;
@@ -49,6 +54,7 @@ public class ActivityModuleMocks<T extends Activity> {
     public T activityMock;
     public ActivityModule activityModuleMock;
     public ActivityPreconditionErrorHandler activityPreconditionErrorHandlerMock;
+    public GenericDialogBuilder.Factory genericDialogBuilderFactory;
 
     public static <T extends Activity> ActivityModuleMocks<T> create(final Class<T> activityClass) {
         final T activityMock = mock(activityClass);
@@ -64,11 +70,18 @@ public class ActivityModuleMocks<T extends Activity> {
         resourcesMock = mock(Resources.class);
         when(applicationModuleMock.resources()).thenReturn(resourcesMock);
 
+        resourcesProviderMock = mock(ResourcesProvider.class);
+        when(applicationModuleMock.resourcesProvider()).thenReturn(resourcesProviderMock);
+        when(resourcesProviderMock.provide()).thenReturn(resourcesMock);
+
         globalHandlerMock = mock(Handler.class);
         when(applicationModuleMock.globalHandler()).thenReturn(globalHandlerMock);
 
         weaverDBMock = mock(WeaverDB.class);
         when(applicationModuleMock.weaverDB()).thenReturn(weaverDBMock);
+
+        daoProvider = mock(DAOProvider.class);
+        // Mock DAOs?
 
         weaverLayoutInflaterMock = mock(WeaverLayoutInflater.class);
         when(applicationModuleMock.weaverLayoutInflater()).thenReturn(weaverLayoutInflaterMock);
@@ -104,14 +117,19 @@ public class ActivityModuleMocks<T extends Activity> {
 
         themeProviderMock = mock(ThemeProvider.class);
         when(applicationModuleMock.themeProvider(weaverDBMock, loggingProviderMock)).thenReturn(themeProviderMock);
+
+        genericDialogBuilderFactory = mock(GenericDialogBuilder.Factory.class);
+        when(activityModuleMock.genericDialogBuilderFactory()).thenReturn(genericDialogBuilderFactory);
     }
 
     public void resetMocks() {
         reset(applicationModuleMock);
         reset(applicationContextMock);
         reset(resourcesMock);
+        reset(resourcesProviderMock);
         reset(globalHandlerMock);
         reset(weaverDBMock);
+        reset(daoProvider);
         reset(weaverLayoutInflaterMock);
         reset(campaignConverterMock);
         reset(campaignServiceMock);
@@ -122,8 +140,11 @@ public class ActivityModuleMocks<T extends Activity> {
         reset(loggerMock);
         reset(androidToastHandlerMock);
 
-        reset(activityMock); // I don't really get the warning here (Unchecked generics array creation for varargs parameter)
+        // I don't really get the warning here (Unchecked generics array creation for varargs parameter)
+        // Okay, now I get it. But I don't know how to fix it :)
+        reset(activityMock);
         reset(activityModuleMock);
         reset(activityPreconditionErrorHandlerMock);
+        reset(genericDialogBuilderFactory);
     }
 }

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Weaver</string>
     <string name="generic_okay">Okay</string>
+    <string name="generic_cancel_arrow">\u21BA</string>
+    <string name="generic_cancel_text">Cancel</string>
     <string name="generic_error_unknown">Sorry, something went wrong. We will try to fix this in an upcoming version.</string>
     <string name="generic_error_required_field">This field is required</string>
 
@@ -66,6 +68,8 @@
     <string name="activity_player_character_list_delete_character_cd">Delete Character</string>
     <string name="activity_player_character_list_usage_hint">Player characters will be auto-completed while typing and also highlighted within texts.</string>
 
+    <string name="activity_view_scheduled_to_delete_scheduled_items">Scheduled</string>
+    <string name="activity_view_scheduled_to_delete_unscheduled_items">Unscheduled</string>
     <string name="activity_view_scheduled_to_delete_clear_all_scheduled_items">Clear All</string>
 
     <string name="campaign_list_item_edit">EDIT</string>
@@ -73,6 +77,7 @@
     <string name="cd_manage_player_characters">Manage Player Characters</string>
     <string name="cd_edit_campaign">Edit Campaign</string>
     <string name="cd_synopsis">Synopsis</string>
+    <string name="cd_delete">Delete</string>
 
     <string name="fragment_theme_preview_background_text">Background Text</string>
     <string name="fragment_theme_preview_item_text">Item Text</string>
