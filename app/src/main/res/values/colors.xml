@@ -24,7 +24,7 @@
   <color name="fantasyTertiaryTextColor">#88ffffff</color>
 
   <!-- Alpha Masks for dependent colors -->
-  <color name="secondaryTextColorAlphaMask">#AAffffff</color>
+  <integer name="secondaryTextColorAlphaMask">170</integer>
 
   <color name="white">#FFFFFF</color>
   <color name="white_secondary">#DDDDDD</color>

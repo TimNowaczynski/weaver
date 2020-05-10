@@ -68,7 +68,7 @@ public class ThemeDisplayObject {
 
     private static ThemeDisplayObject createFantasyThemeDisplayObject(@NonNull final Context context) {
         final Resources resources = context.getResources();
-        final int alphaMask = resources.getColor(R.color.secondaryTextColorAlphaMask);
+        final int alphaMask = resources.getInteger(R.integer.secondaryTextColorAlphaMask);
 
         final ThemeDisplayObject themeDisplayObject = new ThemeDisplayObject();
         themeDisplayObject.actionColor = resources.getColor(R.color.fantasySecondaryColor);
@@ -84,7 +84,7 @@ public class ThemeDisplayObject {
 
     private static ThemeDisplayObject createModernThemeDisplayObject(@NonNull final Context context) {
         final Resources resources = context.getResources();
-        final int alphaMask = resources.getColor(R.color.secondaryTextColorAlphaMask);
+        final int alphaMask = resources.getInteger(R.integer.secondaryTextColorAlphaMask);
 
         final ThemeDisplayObject themeDisplayObject = new ThemeDisplayObject();
         themeDisplayObject.actionColor = resources.getColor(R.color.modernSecondaryDarkColor);
@@ -100,7 +100,7 @@ public class ThemeDisplayObject {
 
     private static ThemeDisplayObject createFromTheme(@NonNull final Context context, @NonNull final Theme theme) {
         final Resources resources = context.getResources();
-        final int alphaMask = resources.getColor(R.color.secondaryTextColorAlphaMask);
+        final int alphaMask = resources.getInteger(R.integer.secondaryTextColorAlphaMask);
 
         final ThemeDisplayObject themeDisplayObject = new ThemeDisplayObject();
         themeDisplayObject.actionColor = Color.argb(theme.actionColorA, theme.actionColorR, theme.actionColorG, theme.actionColorB);

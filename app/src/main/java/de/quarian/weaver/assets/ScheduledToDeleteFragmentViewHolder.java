@@ -1,10 +1,12 @@
 package de.quarian.weaver.assets;
 
+import android.content.Context;
 import android.view.View;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.WeaverLayoutInflater;
 import de.quarian.weaver.theming.ThemeProvider;
@@ -18,7 +20,9 @@ public class ScheduledToDeleteFragmentViewHolder extends RecyclerView.ViewHolder
                                                @NonNull final ThemeProvider themeProvider) {
         super(itemView);
         final RecyclerView recyclerView = (RecyclerView) itemView;
-        this.adapter = new ScheduledToDeleteListItemAdapter(recyclerView.getContext(), weaverLayoutInflater, themeProvider);
+        final Context context = recyclerView.getContext();
+        this.adapter = new ScheduledToDeleteListItemAdapter(context, weaverLayoutInflater, themeProvider);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
         /*
             TODO: [Purely optional] Think about a transition from a campaign

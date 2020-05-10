@@ -8,6 +8,14 @@ import de.quarian.weaver.BR;
 import de.quarian.weaver.databinding.ScheduledToDeleteListItemBinding;
 import de.quarian.weaver.theming.ThemeDisplayObject;
 
+/**
+ * TODO:
+ *  a) Change Text Color to White?
+ *  b) Cell Padding (Distance between border / content) - also maybe the dark-greenish should be the bg color
+ *  c) Delete all / move all to cloud button
+ *  d) Can / should we somehow make the tab-bar distinguishable from the app bar?
+ *  e) Click to open asset
+ */
 public class ScheduledToDeleteListItemViewHolder extends RecyclerView.ViewHolder {
 
     @NonNull

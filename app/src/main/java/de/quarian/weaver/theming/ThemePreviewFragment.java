@@ -4,8 +4,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 
-import java.util.Objects;
-
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
@@ -64,7 +62,7 @@ public class ThemePreviewFragment extends Fragment {
 
     public void setItemTextColor(int itemTextColor) {
         themeDisplayObject.itemTextColor = itemTextColor;
-        final int alphaMask = getResources().getColor(R.color.secondaryTextColorAlphaMask);
+        final int alphaMask = getResources().getInteger(R.integer.secondaryTextColorAlphaMask);
         themeDisplayObject.itemTextSecondaryColor = ColorUtils.setAlphaComponent(itemTextColor, alphaMask);
         refreshContent();
     }

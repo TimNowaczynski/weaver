@@ -69,6 +69,5 @@ public class ScheduledToDeleteListItemAdapter extends RecyclerView.Adapter<Sched
     public void setAssetDisplayObjects(final List<AssetDisplayObject> assetDisplayObjects) {
         this.assetDisplayObjects.clear();
         this.assetDisplayObjects.addAll(assetDisplayObjects);
-        notifyDataSetChanged();
     }
 }
