@@ -24,6 +24,7 @@ import de.quarian.weaver.service.CampaignServiceImplementation;
 import de.quarian.weaver.theming.ThemeProvider;
 import de.quarian.weaver.util.AndroidToastHandler;
 import de.quarian.weaver.util.AndroidToastHandlerImplementation;
+import de.quarian.weaver.util.ErrorHandler;
 import de.quarian.weaver.util.LocalLogger;
 import de.quarian.weaver.util.LoggingProvider;
 import de.quarian.weaver.util.ResourcesProvider;
@@ -145,6 +146,12 @@ public class ApplicationModule {
     @Singleton
     public AndroidToastHandler androidToastHandler() {
         return new AndroidToastHandlerImplementation(applicationContext);
+    }
+
+    @Provides
+    @Singleton
+    public ErrorHandler errorHandler(@NonNull @ApplicationContext Context context, @NonNull AndroidToastHandler androidToastHandler) {
+        return new ErrorHandler(context, androidToastHandler);
     }
 
 }

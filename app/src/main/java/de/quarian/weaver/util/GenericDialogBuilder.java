@@ -15,6 +15,7 @@ import de.quarian.weaver.databinding.GenericDialogBinding;
 import de.quarian.weaver.theming.WeaverThemedActivity;
 import io.reactivex.exceptions.OnErrorNotImplementedException;
 
+// TODO: Test this class
 public class GenericDialogBuilder {
 
     public static class Factory {
@@ -92,7 +93,7 @@ public class GenericDialogBuilder {
         return view;
     }
 
-    private void setPrimaryListener(@NonNull final AlertDialog alertDialog) {
+    private GenericDialogBuilder setPrimaryListener(@NonNull final AlertDialog alertDialog) {
         final View primaryDialogButtonView = alertDialog.findViewById(R.id.generic_dialog_confirm_button);
         if (primaryButtonAction == null) {
             primaryDialogButtonView.setOnClickListener((view) -> alertDialog.dismiss());
@@ -102,35 +103,42 @@ public class GenericDialogBuilder {
                 alertDialog.dismiss();
             });
         }
+        return this;
     }
 
-    private void setCancelListener(@NonNull final AlertDialog alertDialog) {
+    private GenericDialogBuilder setCancelListener(@NonNull final AlertDialog alertDialog) {
         if (!cancelable) {
-            return;
+            return this;
         }
 
         final View cancelDialogButtonView = alertDialog.findViewById(R.id.generic_dialog_cancel_button);
         cancelDialogButtonView.setOnClickListener((view) -> alertDialog.dismiss());
+        return this;
     }
 
-    public void setTitle(@StringRes final int title) {
+    public GenericDialogBuilder setTitle(@StringRes final int title) {
         this.title = title;
         throw new OnErrorNotImplementedException("Generic dialog title not implemented yet", new RuntimeException());
+        //return this;
     }
 
-    public void setMessage(@StringRes final int message) {
+    public GenericDialogBuilder setMessage(@StringRes final int message) {
         this.message = message;
+        return this;
     }
 
-    public void setPrimaryButtonText(@StringRes final int primaryButtonText) {
+    public GenericDialogBuilder setPrimaryButtonText(@StringRes final int primaryButtonText) {
         this.primaryButtonText = primaryButtonText;
+        return this;
     }
 
-    public void setPrimaryButtonAction(@NonNull final View.OnClickListener primaryButtonAction) {
+    public GenericDialogBuilder setPrimaryButtonAction(@NonNull final View.OnClickListener primaryButtonAction) {
         this.primaryButtonAction = primaryButtonAction;
+        return this;
     }
 
-    public void setCancelable(final boolean cancelable) {
+    public GenericDialogBuilder setCancelable(final boolean cancelable) {
         this.cancelable = cancelable;
+        return this;
     }
 }

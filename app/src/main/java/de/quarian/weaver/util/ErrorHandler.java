@@ -13,8 +13,12 @@ public class ErrorHandler {
     @NonNull
     private final Context context;
 
-    public ErrorHandler(@NonNull final Context context) {
+    @NonNull
+    private final AndroidToastHandler androidToastHandler;
+
+    public ErrorHandler(@NonNull final Context context, @NonNull final AndroidToastHandler androidToastHandler) {
         this.context = context;
+        this.androidToastHandler = androidToastHandler;
     }
 
     /**
@@ -45,7 +49,7 @@ public class ErrorHandler {
     public <T> T requireSoft(@NonNull final Supplier<T> supplier, @StringRes final int errorMessage) {
         final T result = supplier.get();
         if (result == null) {
-            Toast.makeText(this.context, errorMessage, Toast.LENGTH_LONG).show();
+            androidToastHandler.showToast(errorMessage, Toast.LENGTH_LONG);
         }
         return result;
     }
