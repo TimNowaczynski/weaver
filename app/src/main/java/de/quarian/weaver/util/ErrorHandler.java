@@ -32,10 +32,22 @@ public class ErrorHandler {
     @Nullable
     public <T> T requireHard(@NonNull final Supplier<T> supplier, @NonNull final GenericDialogBuilder genericDialogBuilder) {
         final T result = supplier.get();
-        if (result == null) {
+        final T processedResult = processBoolean(result);
+        if (processedResult == null) {
             genericDialogBuilder.showDialog(context);
         }
-        return result;
+        return processedResult;
+    }
+
+    private <T> T processBoolean(final T result) {
+        T intermediateResult = result;
+        if (result instanceof Boolean) {
+            final Boolean bool = (Boolean) result;
+            if (!bool) {
+                intermediateResult = null;
+            }
+        }
+        return intermediateResult;
     }
 
     /**
@@ -48,10 +60,11 @@ public class ErrorHandler {
     @Nullable
     public <T> T requireSoft(@NonNull final Supplier<T> supplier, @StringRes final int errorMessage) {
         final T result = supplier.get();
-        if (result == null) {
+        final T processedResult = processBoolean(result);
+        if (processedResult == null) {
             androidToastHandler.showToast(errorMessage, Toast.LENGTH_LONG);
         }
-        return result;
+        return processedResult;
     }
 
 }
