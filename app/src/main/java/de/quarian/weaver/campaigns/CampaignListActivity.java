@@ -128,11 +128,6 @@ public class CampaignListActivity extends WeaverActivity implements AdapterView.
 
         final String preselectedOrderRaw = activityDependencies.campaignListOrderPreferences.getString(CampaignService.CAMPAIGN_LIST_ORDER_SP_KEY, null);
         if (preselectedOrderRaw != null) {
-            /*
-                So, again I don't really like that it's hardwired. An option might be to convert
-                the enum names into the displayed strings, on the other hand that might break just
-                as easily.
-             */
             final CampaignService.SortOrder sortOrder = CampaignService.SortOrder.valueOf(preselectedOrderRaw);
             currentSortOrder = sortOrder;
             sortOrderSpinner.setSelection(sortOrder.getPosition());
