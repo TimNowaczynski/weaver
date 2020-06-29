@@ -16,11 +16,22 @@ public interface CampaignService {
      * deactivated campaigns should show after the rest.
      */
     enum  SortOrder {
-        CAMPAIGN_NAME,
-        SYSTEM_NAME,
-        LAST_USED,
-        LAST_EDITED,
-        CREATED
+
+        CAMPAIGN_NAME(0),
+        SYSTEM_NAME(1),
+        LAST_USED(2),
+        LAST_EDITED(3),
+        CREATED(4);
+
+        private final int position;
+
+        SortOrder(int position) {
+            this.position = position;
+        }
+
+        public int getPosition() {
+            return position;
+        }
     }
 
     long createCampaign(@NonNull Campaign campaign);

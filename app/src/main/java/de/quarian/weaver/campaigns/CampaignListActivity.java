@@ -134,27 +134,8 @@ public class CampaignListActivity extends WeaverActivity implements AdapterView.
                 as easily.
              */
             final CampaignService.SortOrder sortOrder = CampaignService.SortOrder.valueOf(preselectedOrderRaw);
-            final int position;
-            switch (sortOrder) {
-                case CAMPAIGN_NAME:
-                default:
-                    position = 0;
-                    break;
-                case SYSTEM_NAME:
-                    position = 1;
-                    break;
-                case LAST_USED:
-                    position = 2;
-                    break;
-                case LAST_EDITED:
-                    position = 3;
-                    break;
-                case CREATED:
-                    position = 4;
-                    break;
-            }
             currentSortOrder = sortOrder;
-            sortOrderSpinner.setSelection(position);
+            sortOrderSpinner.setSelection(sortOrder.getPosition());
         }
 
         sortOrderSpinner.setOnItemSelectedListener(this);
