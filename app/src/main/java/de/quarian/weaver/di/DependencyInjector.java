@@ -152,8 +152,9 @@ public class DependencyInjector {
     }
 
     public void injectDependencies(final CampaignListActivity campaignListActivity) {
-        DaggerApplicationComponent.builder()
+        DaggerActivityComponent.builder()
                 .applicationModule(getApplicationModule(campaignListActivity))
+                .activityModule(getActivityModule(campaignListActivity))
                 .build()
                 .inject(campaignListActivity.activityDependencies);
         callOnDependenciesInjected(campaignListActivity);

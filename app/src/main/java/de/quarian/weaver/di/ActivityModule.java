@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import dagger.Module;
 import dagger.Provides;
 import de.quarian.weaver.ActivityPreconditionErrorHandler;
+import de.quarian.weaver.campaigns.CampaignListInformationHandler;
 import de.quarian.weaver.util.GenericDialogBuilder;
 import de.quarian.weaver.util.LogLevel;
 import de.quarian.weaver.util.LoggingProvider;
@@ -47,5 +48,11 @@ public class ActivityModule {
     @Singleton
     public GenericDialogBuilder.Factory genericDialogBuilderFactory() {
         return new GenericDialogBuilder.Factory();
+    }
+
+    @Provides
+    @Singleton
+    public CampaignListInformationHandler campaignListInformationHandler() {
+        return new CampaignListInformationHandler();
     }
 }

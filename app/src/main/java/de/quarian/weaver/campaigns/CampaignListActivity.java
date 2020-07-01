@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -76,6 +77,9 @@ public class CampaignListActivity extends WeaverActivity implements AdapterView.
 
         @Inject
         public WeaverLayoutInflater weaverLayoutInflater;
+
+        @Inject
+        public CampaignListInformationHandler campaignListInformationHandler;
 
     }
 
@@ -153,8 +157,15 @@ public class CampaignListActivity extends WeaverActivity implements AdapterView.
     @Override
     protected void onResume() {
         super.onResume();
+        setUpInfoSection();
         final RefreshDisplayObjectsEvent event = new RefreshDisplayObjectsEvent();
         EventBus.getDefault().post(event);
+    }
+
+    private void setUpInfoSection() {
+        final TextView ticker = findViewById(R.id.campaign_list_ticker);
+        final String information = activityDependencies.campaignListInformationHandler.getProcessedInformation();
+        ticker.setText(information);
     }
 
     @Override
