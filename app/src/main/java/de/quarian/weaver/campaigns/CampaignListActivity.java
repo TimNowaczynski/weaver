@@ -164,6 +164,7 @@ public class CampaignListActivity extends WeaverActivity implements AdapterView.
 
     private void setUpInfoSection() {
         final TextView ticker = findViewById(R.id.campaign_list_ticker);
+        ticker.setSelected(true);
         final String information = activityDependencies.campaignListInformationHandler.getProcessedInformation();
         ticker.setText(information);
     }
