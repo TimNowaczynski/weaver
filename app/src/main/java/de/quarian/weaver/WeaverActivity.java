@@ -13,6 +13,8 @@ import de.quarian.weaver.util.LoggingProvider;
 
 public abstract class WeaverActivity extends AppCompatActivity implements DependencyInjectionListener {
 
+    public static final String EXTRA_CAMPAIGN_ID = "extra.campaignId";
+
     public static class WeaverActivityDependencies {
 
         @Inject

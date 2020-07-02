@@ -17,6 +17,7 @@ import de.quarian.weaver.di.DependencyInjector;
 import de.quarian.weaver.di.GlobalHandler;
 import de.quarian.weaver.schedulers.IoScheduler;
 import de.quarian.weaver.service.CampaignService;
+import de.quarian.weaver.theming.SetThemeActivity;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
@@ -98,9 +99,12 @@ public class CampaignEditorActivity extends AppCompatActivity {
     }
 
     private void setUpSetThemeButton() {
-        // TODO: handle set theme for new campaigns
         final View setThemeButton = findViewById(R.id.set_theme_button_dummy);
-        setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().setTheme(this, this.campaignId));
+        if (mode == Mode.NEW) {
+            setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().setTheme(this, SetThemeActivity.NEW_CAMPAIGN_ID));
+        } else {
+            setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().setTheme(this, this.campaignId));
+        }
     }
 
     private void setUpConfigureNameSetsButton() {

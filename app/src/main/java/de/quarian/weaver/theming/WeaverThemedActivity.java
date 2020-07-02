@@ -52,10 +52,9 @@ public abstract class WeaverThemedActivity extends WeaverActivity implements Dep
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DependencyInjector.get().injectDependencies(this);
-
         final boolean requirementsMet = requireCampaignId();
         if (requirementsMet) {
+            DependencyInjector.get().injectDependencies(this);
             viewDataBinding = DataBindingUtil.setContentView(getTargetActivity(), getContentViewId());
             applyTheme();
         }

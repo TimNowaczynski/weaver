@@ -1,6 +1,5 @@
 package de.quarian.weaver.theming;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,16 +12,20 @@ import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import javax.inject.Inject;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import de.quarian.weaver.R;
+import de.quarian.weaver.WeaverActivity;
 import de.quarian.weaver.datamodel.Theme;
 import de.quarian.weaver.di.DependencyInjector;
 import de.quarian.weaver.di.GlobalHandler;
 
-public class SetThemeActivity extends WeaverThemedActivity {
+//TODO: Somehow hand back theme values for new campaigns
+public class SetThemeActivity extends WeaverActivity {
+
+    private static final long INVALID_CAMPAIGN_ID = -1L;
+    public static final long NEW_CAMPAIGN_ID = -2L;
 
     public static class ActivityDependencies {
 
@@ -59,26 +62,24 @@ public class SetThemeActivity extends WeaverThemedActivity {
     private int itemBackgroundColor;
 
     @Override
-    public int getContentViewId() {
-        return R.layout.activity_set_theme;
-    }
-
-    @Override
-    public Activity getTargetActivity() {
-        return this;
-    }
-
-    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_set_theme);
         DependencyInjector.get().injectDependencies(this);
     }
 
     @Override
     public void onDependenciesInjected() {
         AsyncTask.execute(() -> {
-            theme = activityDependencies.themeProvider.getThemeForCampaign(campaignId);
-            activityDependencies.handler.post(this::initializeColorPickers);
+            final long campaignId = getIntent().getLongExtra(EXTRA_CAMPAIGN_ID, INVALID_CAMPAIGN_ID);
+            if (campaignId == INVALID_CAMPAIGN_ID) {
+                throw new IllegalArgumentException("Campaign ID was invalid");
+            }
+
+            if (campaignId != NEW_CAMPAIGN_ID) {
+                theme = activityDependencies.themeProvider.getThemeForCampaign(campaignId);
+                activityDependencies.handler.post(this::initializeColorPickers);
+            }
         });
     }
 
@@ -107,13 +108,13 @@ public class SetThemeActivity extends WeaverThemedActivity {
         final int alpha = getAlpha(theme.actionColorA);
         actionColorPicker = prepareColorPicker(alpha, theme.actionColorR, theme.actionColorG, theme.actionColorB);
         actionColorPicker.setCallback((@ColorInt int colorInt) -> {
-            setActionColorPreview(R.id.activity_set_theme_action_color_preview, colorInt);
+            setActionColorPreview(colorInt);
             notifyChildFragmentChanges(ThemeColorCategory.actionColor, colorInt);
         });
     }
 
-    private void setActionColorPreview(@IdRes final int viewId, @ColorInt final int colorInt) {
-        final FrameLayout actionColorFrame = findViewById(viewId);
+    private void setActionColorPreview(@ColorInt final int colorInt) {
+        final FrameLayout actionColorFrame = findViewById(R.id.activity_set_theme_action_color_preview);
         final View view = actionColorFrame.getChildAt(0);
         view.setBackgroundColor(colorInt);
     }

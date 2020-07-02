@@ -24,7 +24,7 @@ public class ThemeProvider {
         final CampaignDAO campaignDAO = weaverDB.campaignDAO();
         final Campaign campaign = campaignDAO.readCampaignByID(campaignID);
         if (campaign == null) {
-            throw new RuntimeException("campaign");
+            throw new RuntimeException("Campaign was null");
         }
         final ThemeDAO themeDAO = weaverDB.themeDAO();
         if (themeDAO == null) {
