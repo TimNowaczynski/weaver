@@ -17,9 +17,17 @@
             type="de.quarian.weaver.theming.ThemeDisplayObject" />
     </data>
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            app:title="@string/activity_title_set_theme"
+            android:background="@color/modernPrimaryColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <ScrollView
             android:background="@color/pitch_black"
@@ -310,6 +318,6 @@
             android:layout_width="56dp"
             android:layout_height="56dp"/>
 
-    </FrameLayout>
+    </LinearLayout>
 
 </layout>

@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
@@ -61,6 +62,7 @@ public class CampaignEditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         DependencyInjector.get().injectDependencies(this);
         determineMode();
+        setSupportActionBar();
         setUpListeners();
 
         if (mode == Mode.EDIT) {
@@ -82,6 +84,11 @@ public class CampaignEditorActivity extends AppCompatActivity {
             setTitle(R.string.activity_title_edit_campaign_screen);
             setContentView(R.layout.activity_edit_campaign);
         }
+    }
+
+    private void setSupportActionBar() {
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
     private void requireId() {

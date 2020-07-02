@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import de.quarian.weaver.R;
 import de.quarian.weaver.WeaverActivity;
@@ -65,7 +66,13 @@ public class SetThemeActivity extends WeaverActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_theme);
+        setSupportActionBar();
         DependencyInjector.get().injectDependencies(this);
+    }
+
+    private void setSupportActionBar() {
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
     @Override

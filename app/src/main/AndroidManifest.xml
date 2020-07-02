@@ -41,9 +41,13 @@
 
         <activity android:name=".players.PlayerCharacterListActivity"/>
 
-        <activity android:name=".campaigns.CampaignEditorActivity" />
+        <activity
+            android:name=".campaigns.CampaignEditorActivity"
+            android:theme="@style/AppThemeModern.NoActionBar" />
 
-        <activity android:name=".theming.SetThemeActivity" />
+        <activity
+            android:name=".theming.SetThemeActivity"
+            android:theme="@style/AppThemeModern.NoActionBar" />
 
         <activity
             android:name=".namesets.ConfigureNameSetsActivity"
