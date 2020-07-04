@@ -36,6 +36,16 @@
 
     <string name="activity_edit_campaign_invalid_id_error_title">Error opening campaign</string>
     <string name="activity_edit_campaign_invalid_id_error_text">Sorry, something went wrong when trying to open the campaign. We will work on fixing this in an upcoming version.</string>
+    <string name="activity_edit_campaign_campaign_name_hint">Campaign Name</string>
+    <string name="activity_edit_campaign_system_name_hint">Roleplaying System Name</string>
+    <string name="activity_edit_campaign_select_name_sets">Select Name Sets</string>
+    <string name="activity_edit_campaign_change_name_sets">%l Name Sets selected</string>
+    <string name="activity_edit_campaign_create">Create</string>
+    <string name="activity_edit_campaign_apply_changes">Apply Changes</string>
+
+    <string name="activity_edit_campaign_set_theme_button_cd">Set Theme</string>
+    <string name="activity_edit_campaign_select_campaign_image_button_cd">Select Campaign Image</string>
+    <string name="activity_edit_campaign_synopsis_hint">Write a short synopsis or some notes here if you like</string>
 
     <string name="activity_character_library_deactivate_campaign">Deactivate Campaign</string>
     <string name="activity_character_library_campaign_deactivated">Campaign deactivated</string>

@@ -106,7 +106,7 @@ public class CampaignEditorActivity extends AppCompatActivity {
     }
 
     private void setUpSetThemeButton() {
-        final View setThemeButton = findViewById(R.id.set_theme_button_dummy);
+        final View setThemeButton = findViewById(R.id.edit_campaign_screen_set_theme_button);
         if (mode == Mode.NEW) {
             setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().setTheme(this, SetThemeActivity.NEW_CAMPAIGN_ID));
         } else {
@@ -115,7 +115,7 @@ public class CampaignEditorActivity extends AppCompatActivity {
     }
 
     private void setUpConfigureNameSetsButton() {
-        final View setThemeButton = findViewById(R.id.configure_name_sets_button_dummy);
+        final View setThemeButton = findViewById(R.id.edit_campaign_configure_name_sets_button);
         setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().configureNameSets(this, this.campaignId));
     }
 

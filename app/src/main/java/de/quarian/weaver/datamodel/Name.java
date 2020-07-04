@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
 import static de.quarian.weaver.datamodel.Name.FK_NAME_SET_ID;
 
 /**
- * Represents part of a full name
+ * Represents a part of a full name
  */
 @SuppressWarnings({"WeakerAccess", "RedundantSuppression"})
 @Entity(foreignKeys = @ForeignKey(entity = NameSet.class,
