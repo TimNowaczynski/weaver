@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.WeaverLayoutInflater;
+import de.quarian.weaver.datamodel.ddo.AssetDisplayObject;
 import de.quarian.weaver.theming.ThemeProvider;
 
 public class ScheduledToDeleteFragmentViewHolder extends RecyclerView.ViewHolder {

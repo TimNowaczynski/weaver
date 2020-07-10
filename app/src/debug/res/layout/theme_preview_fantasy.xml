@@ -7,7 +7,7 @@
     <data>
         <variable
             name="draftedThemeDisplayObject"
-            type="de.quarian.weaver.theming.ThemeDisplayObject" />
+            type="de.quarian.weaver.datamodel.ddo.ThemeDisplayObject" />
     </data>
 
     <FrameLayout

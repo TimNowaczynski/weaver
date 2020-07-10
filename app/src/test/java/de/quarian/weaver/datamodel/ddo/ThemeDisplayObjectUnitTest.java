@@ -1,4 +1,4 @@
-package de.quarian.weaver.theming;
+package de.quarian.weaver.datamodel.ddo;
 
 import android.content.Context;
 
@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import de.quarian.weaver.datamodel.ddo.ThemeDisplayObject;
 import de.quarian.weaver.util.Utils;
 import de.quarian.weaver.datamodel.Theme;
 

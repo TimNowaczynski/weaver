@@ -2,9 +2,8 @@ package de.quarian.weaver.service;
 
 import java.util.List;
 
-import de.quarian.weaver.assets.AssetDisplayObject;
+import de.quarian.weaver.datamodel.ddo.AssetDisplayObject;
 import de.quarian.weaver.datamodel.Asset;
-import de.quarian.weaver.datamodel.Event;
 
 public interface AssetService {
 

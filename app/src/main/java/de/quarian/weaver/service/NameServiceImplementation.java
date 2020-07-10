@@ -21,7 +21,7 @@ public class NameServiceImplementation implements NameService {
     @NonNull
     private final Random random;
 
-    public NameServiceImplementation(@NonNull NameDAO nameDAO, @NonNull Random random) {
+    public NameServiceImplementation(final @NonNull NameDAO nameDAO, final @NonNull Random random) {
         this.nameDAO = nameDAO;
         this.random = random;
     }

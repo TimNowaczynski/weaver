@@ -12,6 +12,7 @@ import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.Fragment;
 import de.quarian.weaver.R;
 import de.quarian.weaver.databinding.FragmentThemePreviewBinding;
+import de.quarian.weaver.datamodel.ddo.ThemeDisplayObject;
 import de.quarian.weaver.di.DependencyInjector;
 
 public class ThemePreviewFragment extends Fragment {

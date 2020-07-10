@@ -1,4 +1,4 @@
-package de.quarian.weaver.assets;
+package de.quarian.weaver.datamodel.ddo;
 
 import android.view.View;
 

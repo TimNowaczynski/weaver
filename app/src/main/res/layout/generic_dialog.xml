@@ -8,7 +8,7 @@
     <data>
         <variable
             name="theme"
-            type="de.quarian.weaver.theming.ThemeDisplayObject" />
+            type="de.quarian.weaver.datamodel.ddo.ThemeDisplayObject" />
     </data>
 
     <!-- TODO: check out different translation z values -->

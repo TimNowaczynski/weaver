@@ -17,6 +17,7 @@ import de.quarian.weaver.campaigns.CampaignEditorActivity;
 import de.quarian.weaver.campaigns.CampaignListActivity;
 import de.quarian.weaver.characters.CharacterLibraryActivity;
 import de.quarian.weaver.dev.DeveloperFunctionsActivity;
+import de.quarian.weaver.namesets.ConfigureNameSetsFragment;
 import de.quarian.weaver.players.PlayerCharacterListActivity;
 import de.quarian.weaver.theming.SetThemeActivity;
 import de.quarian.weaver.theming.ThemePreviewFragment;
@@ -230,5 +231,14 @@ public class DependencyInjector {
                 .build()
                 .inject(scheduledToDeleteFragment.fragmentDependencies);
         callOnDependenciesInjected(scheduledToDeleteFragment);
+    }
+
+    public void injectDependencies(final ConfigureNameSetsFragment configureNameSetsFragment) {
+        DaggerFragmentComponent.builder()
+                .applicationModule(getApplicationModule(configureNameSetsFragment))
+                .fragmentModule(new FragmentModule())
+                .build()
+                .inject(configureNameSetsFragment.fragmentDependencies);
+        callOnDependenciesInjected(configureNameSetsFragment);
     }
 }

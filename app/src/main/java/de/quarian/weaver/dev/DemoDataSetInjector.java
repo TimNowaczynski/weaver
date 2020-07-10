@@ -16,17 +16,21 @@ import java.io.InputStreamReader;
 import java.util.Date;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 import de.quarian.weaver.R;
 import de.quarian.weaver.database.AssetDAO;
 import de.quarian.weaver.database.CampaignDAO;
 import de.quarian.weaver.database.CharacterDAO;
 import de.quarian.weaver.database.DBConverters;
+import de.quarian.weaver.database.NameDAO;
 import de.quarian.weaver.database.RoleplayingSystemDAO;
 import de.quarian.weaver.database.ThemeDAO;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.Asset;
 import de.quarian.weaver.datamodel.Campaign;
 import de.quarian.weaver.datamodel.Event;
+import de.quarian.weaver.datamodel.NameSet;
+import de.quarian.weaver.datamodel.NameSetToCampaign;
 import de.quarian.weaver.datamodel.RoleplayingSystem;
 import de.quarian.weaver.datamodel.Theme;
 import de.quarian.weaver.util.Utils;
@@ -50,6 +54,8 @@ public class DemoDataSetInjector {
 
             final long[] eventIds = setUpEvents(weaverDB);
             final long[] assetIds = setUpAssets(weaverDB, eventIds);
+
+            setUpNameSets(weaverDB, campaignIds);
 
             Toast.makeText(context, "Demo State initialized", Toast.LENGTH_SHORT).show();
         });
@@ -389,5 +395,28 @@ public class DemoDataSetInjector {
         assetIds[2] = assetDAO.createAsset(poem);
         assetIds[3] = assetDAO.createAsset(berlin_bvg_plan);
         return assetIds;
+    }
+
+    private void setUpNameSets(@NonNull final WeaverDB weaverDB, final long[] campaignIds) {
+        final long[] nameSetIds = new long[2];
+        final NameDAO nameDAO = weaverDB.nameDAO();
+
+        final NameSet dsa = new NameSet();
+        dsa.nameSetName = "Das Schwarze Auge";
+        nameSetIds[0] = nameDAO.createNameSet(dsa);
+
+        final NameSet hunter = new NameSet();
+        hunter.nameSetName = "Hunter";
+        nameSetIds[1] = nameDAO.createNameSet(hunter);
+
+        final NameSetToCampaign dsaNameSetToCampaignMapping = new NameSetToCampaign();
+        dsaNameSetToCampaignMapping.campaignId = campaignIds[1];
+        dsaNameSetToCampaignMapping.nameSetId = nameSetIds[0];
+        nameDAO.createNameSetToCampaignMapping(dsaNameSetToCampaignMapping);
+
+        final NameSetToCampaign hunterNameSetToCampaignMapping = new NameSetToCampaign();
+        hunterNameSetToCampaignMapping.campaignId = campaignIds[2];
+        hunterNameSetToCampaignMapping.nameSetId = nameSetIds[1];
+        nameDAO.createNameSetToCampaignMapping(hunterNameSetToCampaignMapping);
     }
 }

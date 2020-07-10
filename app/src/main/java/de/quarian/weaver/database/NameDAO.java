@@ -79,8 +79,7 @@ public interface NameDAO {
     @Query("SELECT * FROM nameset WHERE name_set_name IS :nameSetName")
     NameSet readNameSetByName(final String nameSetName);
 
-    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
-    @Query("SELECT * FROM campaign " +
+    @Query("SELECT name_set_id, name_set_name FROM campaign " +
             "INNER JOIN namesettocampaign ON campaign.campaign_id = namesettocampaign.fk_campaign_id " +
             "INNER JOIN nameset ON namesettocampaign.fk_name_set_id = nameset.name_set_id " +
             "WHERE campaign.campaign_id IS :campaignID")

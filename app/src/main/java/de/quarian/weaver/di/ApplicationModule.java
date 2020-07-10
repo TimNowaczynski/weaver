@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Handler;
 
+import java.util.Random;
+
 import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
@@ -152,6 +154,12 @@ public class ApplicationModule {
     @Singleton
     public ErrorHandler errorHandler(@NonNull @ApplicationContext Context context, @NonNull AndroidToastHandler androidToastHandler) {
         return new ErrorHandler(context, androidToastHandler);
+    }
+
+    @Provides
+    @Singleton
+    public Random random() {
+        return new Random();
     }
 
 }

@@ -3,7 +3,7 @@ package de.quarian.weaver.service;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import de.quarian.weaver.assets.AssetDisplayObject;
+import de.quarian.weaver.datamodel.ddo.AssetDisplayObject;
 import de.quarian.weaver.database.AssetDAO;
 import de.quarian.weaver.database.DAOProvider;
 import de.quarian.weaver.datamodel.Asset;

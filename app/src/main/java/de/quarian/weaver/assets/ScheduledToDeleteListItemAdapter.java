@@ -13,7 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.R;
 import de.quarian.weaver.WeaverLayoutInflater;
-import de.quarian.weaver.theming.ThemeDisplayObject;
+import de.quarian.weaver.datamodel.ddo.AssetDisplayObject;
+import de.quarian.weaver.datamodel.ddo.ThemeDisplayObject;
 import de.quarian.weaver.theming.ThemeProvider;
 
 public class ScheduledToDeleteListItemAdapter extends RecyclerView.Adapter<ScheduledToDeleteListItemViewHolder> {

@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import de.quarian.weaver.R;
 import de.quarian.weaver.WeaverLayoutInflater;
+import de.quarian.weaver.datamodel.ddo.AssetDisplayObject;
 import de.quarian.weaver.di.DependencyInjector;
 import de.quarian.weaver.service.AssetService;
 import de.quarian.weaver.theming.ThemeProvider;

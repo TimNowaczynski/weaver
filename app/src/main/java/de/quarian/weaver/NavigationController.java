@@ -2,6 +2,7 @@ package de.quarian.weaver;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import de.quarian.weaver.assets.ViewScheduledToDeleteActivity;
@@ -97,6 +98,11 @@ public class NavigationController {
         final Intent intent = new Intent(activity, ConfigureNameSetsActivity.class);
         intent.putExtra(ConfigureNameSetsActivity.EXTRA_CAMPAIGN_ID, campaignId);
         activity.startActivity(intent);
+    }
+
+    public void addNameSetDummy(final Activity activity) {
+        // TODO: check if we longer need this
+        Toast.makeText(activity, R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
     }
 
     public void openSynopsis(final Activity activity, final long campaignId) {

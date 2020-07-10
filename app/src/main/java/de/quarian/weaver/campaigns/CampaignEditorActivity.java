@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager2.widget.ViewPager2;
 import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
@@ -24,7 +28,7 @@ import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 
 // TODO: Test Class
-public class CampaignEditorActivity extends AppCompatActivity {
+public class CampaignEditorActivity extends AppCompatActivity implements CampaignContext {
 
     public static class ActivityDependencies {
 
@@ -84,6 +88,12 @@ public class CampaignEditorActivity extends AppCompatActivity {
             setTitle(R.string.activity_title_edit_campaign_screen);
             setContentView(R.layout.activity_edit_campaign);
         }
+        setUpTabs();
+    }
+
+    @Override
+    public long getCampaignId() {
+        return CampaignContext.NEW_CAMPAIGN_CONTEXT;
     }
 
     private void setSupportActionBar() {
@@ -100,9 +110,25 @@ public class CampaignEditorActivity extends AppCompatActivity {
         }
     }
 
+    private void setUpTabs() {
+        final TabLayout tabLayout = findViewById(R.id.edit_campaign_tab_layout);
+        final ViewPager2 viewPager = findViewById(R.id.edit_campaign_view_pager);
+        final TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            if (position == 0) {
+                tab.setText(R.string.activity_edit_campaign_synopsis_tab);
+            } else {
+                tab.setText(R.string.activity_edit_campaign_name_sets_tab);
+            }
+        });
+
+        // TODO: DI
+        final CampaignEditorTabAdapter adapter = new CampaignEditorTabAdapter(this);
+        viewPager.setAdapter(adapter);
+        tabLayoutMediator.attach();
+    }
+
     private void setUpListeners() {
         setUpSetThemeButton();
-        setUpConfigureNameSetsButton();
     }
 
     private void setUpSetThemeButton() {
@@ -113,12 +139,6 @@ public class CampaignEditorActivity extends AppCompatActivity {
             setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().setTheme(this, this.campaignId));
         }
     }
-
-    private void setUpConfigureNameSetsButton() {
-        final View setThemeButton = findViewById(R.id.edit_campaign_configure_name_sets_button);
-        setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().configureNameSets(this, this.campaignId));
-    }
-
     private void queryCampaign() {
         final Disposable disposable = Observable.just(activityDependencies.campaignService)
                 .subscribeOn(activityDependencies.io)

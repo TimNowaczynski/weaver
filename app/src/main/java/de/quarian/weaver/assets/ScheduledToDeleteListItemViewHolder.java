@@ -6,7 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.quarian.weaver.BR;
 import de.quarian.weaver.databinding.ScheduledToDeleteListItemBinding;
-import de.quarian.weaver.theming.ThemeDisplayObject;
+import de.quarian.weaver.datamodel.ddo.AssetDisplayObject;
+import de.quarian.weaver.datamodel.ddo.ThemeDisplayObject;
 
 /**
  * TODO:

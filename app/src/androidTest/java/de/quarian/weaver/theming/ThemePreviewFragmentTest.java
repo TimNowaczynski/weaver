@@ -18,6 +18,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.SmallTest;
 import androidx.test.rule.ActivityTestRule;
 import de.quarian.weaver.R;
+import de.quarian.weaver.datamodel.ddo.ThemeDisplayObject;
 import de.quarian.weaver.test.FragmentTestHostActivity;
 
 import static org.hamcrest.MatcherAssert.assertThat;

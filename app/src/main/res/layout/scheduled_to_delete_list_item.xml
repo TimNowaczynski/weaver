@@ -7,10 +7,10 @@
     <data>
         <variable
             name="theme"
-            type="de.quarian.weaver.theming.ThemeDisplayObject" />
+            type="de.quarian.weaver.datamodel.ddo.ThemeDisplayObject" />
         <variable
             name="asset"
-            type="de.quarian.weaver.assets.AssetDisplayObject" />
+            type="de.quarian.weaver.datamodel.ddo.AssetDisplayObject" />
     </data>
 
     <LinearLayout

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EditText
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_campaign_screen_view_pager"
+    android:inputType="textMultiLine"
+    android:importantForAutofill="no"
+    android:gravity="top|start"
+    android:textColor="@color/white"
+    android:textColorHint="@color/modernSecondaryColor"
+    android:hint="@string/activity_edit_campaign_synopsis_hint"
+    android:background="@drawable/modern_hollow_element"
+    android:padding="8dp"
+    android:layout_width="0dp"
+    android:layout_height="0dp"/>

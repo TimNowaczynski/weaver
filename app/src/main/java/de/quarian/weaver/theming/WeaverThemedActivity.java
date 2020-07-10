@@ -13,11 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.BR;
 import de.quarian.weaver.R;
 import de.quarian.weaver.WeaverActivity;
 import de.quarian.weaver.datamodel.Theme;
+import de.quarian.weaver.datamodel.ddo.ThemeDisplayObject;
 import de.quarian.weaver.di.DependencyInjectionListener;
 import de.quarian.weaver.di.DependencyInjector;
 
@@ -26,19 +26,11 @@ public abstract class WeaverThemedActivity extends WeaverActivity implements Dep
     public static class WeaverThemedActivityDependencies {
 
         @Inject
-        @Nullable
-        public ActivityPreconditionErrorHandler errorHandler;
-
-        @Inject
         public ThemeProvider themeProvider;
 
     }
 
-    private static final long INVALID_CAMPAIGN_ID = -2;
-    public static final String EXTRA_CAMPAIGN_ID = "extra.campaignId";
-
     public final WeaverThemedActivityDependencies weaverThemedActivityDependencies = new WeaverThemedActivityDependencies();
-    public long campaignId;
 
     private ViewDataBinding viewDataBinding;
 
@@ -57,16 +49,6 @@ public abstract class WeaverThemedActivity extends WeaverActivity implements Dep
             DependencyInjector.get().injectDependencies(this);
             viewDataBinding = DataBindingUtil.setContentView(getTargetActivity(), getContentViewId());
             applyTheme();
-        }
-    }
-
-    private boolean requireCampaignId() {
-        if (weaverThemedActivityDependencies.errorHandler != null) {
-            campaignId = getIntent().getLongExtra(EXTRA_CAMPAIGN_ID, INVALID_CAMPAIGN_ID);
-            return weaverThemedActivityDependencies.errorHandler.requireOrFinish(() -> campaignId != INVALID_CAMPAIGN_ID, R.string.activity_player_character_list_invalid_id_error_title, R.string.activity_player_character_list_invalid_id_error_text);
-        } else {
-            finish(); // Should basically never happen
-            return false;
         }
     }
 
