@@ -8,6 +8,8 @@ import android.view.View;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import org.greenrobot.eventbus.EventBus;
+
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
@@ -47,6 +49,9 @@ public class CampaignEditorActivity extends AppCompatActivity implements Campaig
         @GlobalHandler
         public Handler globalHandler;
 
+        @Inject
+        public CampaignEditorTabAdapter campaignEditorTabAdapter;
+
     }
 
     private static final long INVALID_CAMPAIGN_ID = -2;
@@ -56,6 +61,8 @@ public class CampaignEditorActivity extends AppCompatActivity implements Campaig
     public final ActivityDependencies activityDependencies = new ActivityDependencies();
     private Mode mode;
     private long campaignId = INVALID_CAMPAIGN_ID;
+    private TabLayout tabLayout;
+    private boolean editorExpanded;
 
     public enum Mode {
         EDIT, NEW
@@ -78,16 +85,12 @@ public class CampaignEditorActivity extends AppCompatActivity implements Campaig
         final String modeString = getIntent().getStringExtra(EXTRA_MODE);
         mode = Mode.valueOf(modeString);
         if(mode == Mode.NEW) {
-            setTitle(R.string.activity_title_add_campaign_screen);
             //final ViewDataBinding viewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_campaign);
             //viewDataBinding.setVariable(, );
-            setContentView(R.layout.activity_edit_campaign);
         } else {
-            //TODO: init with values (don't forget the title here as well, use the subtitle of the Toolbar)
             requireId();
-            setTitle(R.string.activity_title_edit_campaign_screen);
-            setContentView(R.layout.activity_edit_campaign);
         }
+        setContentView(R.layout.activity_edit_campaign);
         setUpTabs();
     }
 
@@ -111,7 +114,7 @@ public class CampaignEditorActivity extends AppCompatActivity implements Campaig
     }
 
     private void setUpTabs() {
-        final TabLayout tabLayout = findViewById(R.id.edit_campaign_tab_layout);
+        tabLayout = findViewById(R.id.edit_campaign_tab_layout);
         final ViewPager2 viewPager = findViewById(R.id.edit_campaign_view_pager);
         final TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             if (position == 0) {
@@ -121,9 +124,8 @@ public class CampaignEditorActivity extends AppCompatActivity implements Campaig
             }
         });
 
-        // TODO: DI
-        final CampaignEditorTabAdapter adapter = new CampaignEditorTabAdapter(this);
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(activityDependencies.campaignEditorTabAdapter);
+        tabLayout.addOnTabSelectedListener(activityDependencies.campaignEditorTabAdapter);
         tabLayoutMediator.attach();
     }
 
@@ -140,6 +142,7 @@ public class CampaignEditorActivity extends AppCompatActivity implements Campaig
         }
     }
     private void queryCampaign() {
+        // TODO: query not only campaigns, but all the stuff we need for (!) CampaignDisplayObjects (not the ones for the list)
         final Disposable disposable = Observable.just(activityDependencies.campaignService)
                 .subscribeOn(activityDependencies.io)
                 .subscribe((campaignService) -> {
@@ -153,10 +156,54 @@ public class CampaignEditorActivity extends AppCompatActivity implements Campaig
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         /*
-        TODO: In case of new campaigns:
+        TODO: In case of new campaigns (Or both):
         TODO: Set Theme needs to call setResult(code, intent); with intent = colors
             and then we need to grab those values here to insert both theme and
-            campaign into database
+            campaign into database OR BETTER: test if eventbus works for bg communication
+            between activities
          */
+    }
+
+    public Mode getMode() {
+        return mode;
+    }
+
+    public void onFABClicked(final View view) {
+        if (editorExpanded) {
+            collapseEditor();
+        } else {
+            selectNameTab();
+        }
+    }
+
+    private void selectNameTab() {
+        final TabLayout.Tab nameSelectionTab = tabLayout.getTabAt(1);
+        tabLayout.selectTab(nameSelectionTab);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (tabLayout.getSelectedTabPosition() == 1) {
+            final TabLayout.Tab synopsisTab = tabLayout.getTabAt(0);
+            tabLayout.selectTab(synopsisTab);
+        } else {
+            if (editorExpanded) {
+                collapseEditor();
+            } else {
+                super.onBackPressed();
+            }
+        }
+    }
+
+    public void expandEditor() {
+        final ExpandEditorEvent expandEditorEvent = new ExpandEditorEvent();
+        EventBus.getDefault().post(expandEditorEvent);
+        editorExpanded = true;
+    }
+
+    public void collapseEditor() {
+        final CollapseEditorEvent collapseEditorEvent = new CollapseEditorEvent();
+        EventBus.getDefault().post(collapseEditorEvent);
+        editorExpanded = false;
     }
 }

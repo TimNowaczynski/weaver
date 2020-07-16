@@ -10,7 +10,6 @@ import dagger.Provides;
 import de.quarian.weaver.database.NameDAO;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.converter.AssetConverter;
-import de.quarian.weaver.datamodel.converter.NameSetConverter;
 import de.quarian.weaver.service.AssetService;
 import de.quarian.weaver.service.AssetServiceImplementation;
 import de.quarian.weaver.service.NameService;
@@ -25,12 +24,6 @@ public class FragmentModule {
     @Singleton
     public AssetConverter assetConverter(@NonNull final ResourcesProvider resourcesProvider) {
         return new AssetConverter(resourcesProvider);
-    }
-
-    @Provides
-    @Singleton
-    public NameSetConverter nameSetConverter() {
-        return new NameSetConverter();
     }
 
     // TODO: same here

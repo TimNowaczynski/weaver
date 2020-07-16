@@ -15,6 +15,7 @@ import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 import de.quarian.weaver.database.DBConverters;
 import de.quarian.weaver.util.ContextHandler;
+import de.quarian.weaver.util.ResourcesProvider;
 
 /**
  * Used to display Campaigns. Sorting in a List is done via SQL query.
@@ -35,14 +36,16 @@ public class CampaignListDisplayObject {
     private Date lastEdited;
     private boolean archived;
 
-    public CampaignListDisplayObject(final Resources resources) {
+    public CampaignListDisplayObject(final ResourcesProvider resourcesProvider) {
+        final Resources resources = resourcesProvider.provide();
         this.deactivationOverlayColor = resources.getColor(R.color.dark_fifty_percent);
     }
 
     /*
         TODO: Put Colors here as well.
          Surround Campaign List items with a border to make
-         sure they can be distinguished in any case.
+         sure they can be distinguished in any case. Or maybe better, have
+         at least 2 different fallback images to cycle through
      */
 
     public void setDisableImageConversion(boolean disableImageConversion) {

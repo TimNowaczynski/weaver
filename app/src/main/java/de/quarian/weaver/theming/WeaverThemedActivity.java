@@ -20,6 +20,7 @@ import de.quarian.weaver.datamodel.Theme;
 import de.quarian.weaver.datamodel.ddo.ThemeDisplayObject;
 import de.quarian.weaver.di.DependencyInjectionListener;
 import de.quarian.weaver.di.DependencyInjector;
+import de.quarian.weaver.util.ResourcesProvider;
 
 public abstract class WeaverThemedActivity extends WeaverActivity implements DependencyInjectionListener {
 
@@ -27,6 +28,9 @@ public abstract class WeaverThemedActivity extends WeaverActivity implements Dep
 
         @Inject
         public ThemeProvider themeProvider;
+
+        @Inject
+        public ResourcesProvider resourcesProvider;
 
     }
 
@@ -76,7 +80,7 @@ public abstract class WeaverThemedActivity extends WeaverActivity implements Dep
 
     // TODO: move those hardcoded values into theme or themeDisplayObject class
     private void applyFantasyTheme() {
-        final Resources resources = getResources();
+        final Resources resources = weaverThemedActivityDependencies.resourcesProvider.provide();
         final Theme fantasyTheme = new Theme();
         fantasyTheme.presetId = Theme.PRESET_ID_FANTASY;
         // TODO: provide a bundled font and point to it somehow
@@ -108,7 +112,7 @@ public abstract class WeaverThemedActivity extends WeaverActivity implements Dep
     }
 
     private void applyModernTheme() {
-        final Resources resources = getResources();
+        final Resources resources = weaverThemedActivityDependencies.resourcesProvider.provide();
         final Theme modernTheme = new Theme();
         modernTheme.presetId = Theme.PRESET_ID_MODERN;
         // TODO: provide a bundled font and point to it somehow

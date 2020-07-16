@@ -8,9 +8,11 @@ import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 import dagger.Module;
 import dagger.Provides;
 import de.quarian.weaver.ActivityPreconditionErrorHandler;
+import de.quarian.weaver.campaigns.CampaignEditorTabAdapter;
 import de.quarian.weaver.campaigns.CampaignListInformationHandler;
 import de.quarian.weaver.util.GenericDialogBuilder;
 import de.quarian.weaver.util.LogLevel;
@@ -35,6 +37,14 @@ public class ActivityModule {
     @Provides
     @Singleton
     @Nullable
+    public FragmentActivity fragmentActivity() {
+        final Activity activity = this.activity.get();
+        return activity instanceof FragmentActivity ? (FragmentActivity) activity : null;
+    }
+
+    @Provides
+    @Singleton
+    @Nullable
     public ActivityPreconditionErrorHandler errorHandler(final LoggingProvider loggingProvider) {
         final Activity activity = this.activity.get();
         if (activity == null) {
@@ -54,5 +64,15 @@ public class ActivityModule {
     @Singleton
     public CampaignListInformationHandler campaignListInformationHandler() {
         return new CampaignListInformationHandler();
+    }
+
+    @Provides
+    @Singleton
+    public CampaignEditorTabAdapter campaignEditorTabAdapter(@Nullable final FragmentActivity fragmentActivity) {
+        if (fragmentActivity == null) {
+            throw new NullPointerException();
+        }
+
+        return new CampaignEditorTabAdapter(fragmentActivity);
     }
 }

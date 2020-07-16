@@ -32,6 +32,7 @@ import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.Campaign;
 import de.quarian.weaver.datamodel.PlayerCharacter;
 import de.quarian.weaver.di.DependencyInjector;
+import de.quarian.weaver.util.ResourcesProvider;
 import de.quarian.weaver.util.Utils;
 
 // TODO: extend themed activity
@@ -49,6 +50,9 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
 
         @Inject
         public WeaverLayoutInflater weaverLayoutInflater;
+
+        @Inject
+        public ResourcesProvider resourcesProvider;
 
     }
 
@@ -171,7 +175,7 @@ public class PlayerCharacterListActivity extends AppCompatActivity {
     }
 
     private void markInvalidInput(@NonNull final TextInputEditText editText) {
-        final Resources resources = getResources();
+        final Resources resources = activityDependencies.resourcesProvider.provide();
         final String htmlPreset = "<font color='red'>%s</font>";
         final String error = resources.getString(R.string.generic_error_required_field);
         final String htmlError = String.format(htmlPreset, error);

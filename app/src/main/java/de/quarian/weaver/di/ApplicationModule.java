@@ -2,7 +2,6 @@ package de.quarian.weaver.di;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Handler;
 
 import java.util.Random;
@@ -19,6 +18,7 @@ import de.quarian.weaver.database.CampaignDAO;
 import de.quarian.weaver.database.DAOProvider;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.converter.CampaignConverter;
+import de.quarian.weaver.datamodel.converter.NameSetConverter;
 import de.quarian.weaver.dev.DemoDataSetInjector;
 import de.quarian.weaver.schedulers.IoScheduler;
 import de.quarian.weaver.service.CampaignService;
@@ -58,11 +58,6 @@ public class ApplicationModule {
     public Context context() {
         return applicationContext;
     }
-
-    // TODO: replace this with resources provider injections to enhance testing capabilities
-    @Provides
-    @Singleton
-    public Resources resources() { return applicationContext.getResources(); }
 
     @Provides
     @Singleton
@@ -104,8 +99,14 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public CampaignConverter campaignConverter(final Resources resources) {
-        return new CampaignConverter(resources);
+    public NameSetConverter nameSetConverter() {
+        return new NameSetConverter();
+    }
+
+    @Provides
+    @Singleton
+    public CampaignConverter campaignConverter(@NonNull final ResourcesProvider resourcesProvider, @NonNull final NameSetConverter nameSetConverter) {
+        return new CampaignConverter(resourcesProvider, nameSetConverter);
     }
 
     @Provides

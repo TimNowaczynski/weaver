@@ -30,7 +30,8 @@ public class CampaignConverterUnitTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        campaignConverter = new CampaignConverter(resources);
+        // TODO: create tests for NameSetConverter into an own test class?
+        campaignConverter = new CampaignConverter(() -> resources, new NameSetConverter());
     }
 
     @Test
