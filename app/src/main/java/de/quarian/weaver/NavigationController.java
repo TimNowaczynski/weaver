@@ -91,7 +91,7 @@ public class NavigationController {
     public void setTheme(final Activity activity, final long campaignId) {
         final Intent intent = new Intent(activity, SetThemeActivity.class);
         intent.putExtra(WeaverThemedActivity.EXTRA_CAMPAIGN_ID, campaignId);
-        activity.startActivity(intent);
+        activity.startActivityForResult(intent, SetThemeActivity.REQUEST_CODE_EDIT_THEME);
     }
 
     public void configureNameSets(final Activity activity, final long campaignId) {

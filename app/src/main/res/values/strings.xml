@@ -34,13 +34,13 @@
     <string name="activity_campaign_list_menu_developer_options">Developer Options</string>
     <string name="activity_campaign_list_cd_manage_player_characters">Manage Player Characters</string>
 
+    <string name="activity_edit_campaign_menu_confirm">Confirm</string>
     <string name="activity_edit_campaign_invalid_id_error_title">Error opening campaign</string>
     <string name="activity_edit_campaign_invalid_id_error_text">Sorry, something went wrong when trying to open the campaign. We will work on fixing this in an upcoming version.</string>
     <string name="activity_edit_campaign_campaign_name_hint">Campaign Name</string>
     <string name="activity_edit_campaign_system_name_hint">Roleplaying System Name</string>
     <string name="activity_edit_campaign_synopsis_tab">Synopsis</string>
     <string name="activity_edit_campaign_name_sets_tab">Name Sets</string>
-
     <string name="activity_edit_campaign_set_theme_button_cd">Set Theme</string>
     <string name="activity_edit_campaign_select_campaign_image_button_cd">Select Campaign Image</string>
     <string name="activity_edit_campaign_synopsis_hint">Write a short synopsis or some notes here</string>
@@ -50,6 +50,7 @@
     <string name="activity_character_library_activate_campaign">Activate Campaign</string>
     <string name="activity_character_library_campaign_activated">Campaign reactivated</string>
 
+    <string name="activity_set_theme_menu_apply_theme">Apply Theme</string>
     <string name="activity_set_theme_apply_fantasy_preset">Fantasy Preset</string>
     <string name="activity_set_theme_apply_modern_preset">Modern Preset</string>
     <string name="activity_set_theme_invalid_id_error_title">Error editing theme</string>

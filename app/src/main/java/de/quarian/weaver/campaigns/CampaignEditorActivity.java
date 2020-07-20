@@ -1,9 +1,11 @@
 package de.quarian.weaver.campaigns;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -155,9 +157,15 @@ public class CampaignEditorActivity extends AppCompatActivity implements Campaig
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SetThemeActivity.REQUEST_CODE_EDIT_THEME && data != null) {
+            // TODO: handle result
+            final int actionColor = data.getIntExtra(SetThemeActivity.EXTRA_ACTION_COLOR, Color.BLACK);
+            if (actionColor != Color.BLACK) {
+                Toast.makeText(getBaseContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
+            }
+        }
         /*
-        TODO: In case of new campaigns (Or both):
-        TODO: Set Theme needs to call setResult(code, intent); with intent = colors
+        TODO: Set Theme needs to call setResult(code, intent); with intent = colors (done)
             and then we need to grab those values here to insert both theme and
             campaign into database OR BETTER: test if eventbus works for bg communication
             between activities
