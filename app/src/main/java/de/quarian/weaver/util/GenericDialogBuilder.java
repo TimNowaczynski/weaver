@@ -12,6 +12,7 @@ import androidx.annotation.VisibleForTesting;
 import androidx.databinding.DataBindingUtil;
 import de.quarian.weaver.R;
 import de.quarian.weaver.databinding.GenericDialogBinding;
+import de.quarian.weaver.datamodel.ddo.ThemeDisplayObject;
 import de.quarian.weaver.theming.WeaverThemedActivity;
 import io.reactivex.exceptions.OnErrorNotImplementedException;
 
@@ -65,8 +66,8 @@ public class GenericDialogBuilder {
         builder.setCancelable(cancelable);
 
         final AlertDialog alertDialog = builder.create();
-        setPrimaryListener(alertDialog);
-        setCancelListener(alertDialog);
+        setPrimaryListener(dialogView, alertDialog);
+        setCancelListener(dialogView, alertDialog);
         return alertDialog;
     }
 
@@ -83,8 +84,8 @@ public class GenericDialogBuilder {
             final WeaverThemedActivity weaverThemedActivity = (WeaverThemedActivity) context;
             binding.setTheme(weaverThemedActivity.getThemeDisplayObject());
         } else {
-            // TODO: think about providing a fallback theme
-            throw new IllegalStateException();
+            final ThemeDisplayObject defaultTheme = ThemeDisplayObject.getDefault(context);
+            binding.setTheme(defaultTheme);
         }
 
         binding.genericDialogText.setText(message);
@@ -93,8 +94,8 @@ public class GenericDialogBuilder {
         return view;
     }
 
-    private GenericDialogBuilder setPrimaryListener(@NonNull final AlertDialog alertDialog) {
-        final View primaryDialogButtonView = alertDialog.findViewById(R.id.generic_dialog_confirm_button);
+    private GenericDialogBuilder setPrimaryListener(@NonNull final View dialogView, @NonNull final AlertDialog alertDialog) {
+        final View primaryDialogButtonView = dialogView.findViewById(R.id.generic_dialog_confirm_button);
         if (primaryButtonAction == null) {
             primaryDialogButtonView.setOnClickListener((view) -> alertDialog.dismiss());
         } else {
@@ -106,12 +107,13 @@ public class GenericDialogBuilder {
         return this;
     }
 
-    private GenericDialogBuilder setCancelListener(@NonNull final AlertDialog alertDialog) {
+    private GenericDialogBuilder setCancelListener(@NonNull final View dialogView, @NonNull final AlertDialog alertDialog) {
         if (!cancelable) {
             return this;
         }
 
-        final View cancelDialogButtonView = alertDialog.findViewById(R.id.generic_dialog_cancel_button);
+        final View cancelDialogButtonView = dialogView.findViewById(R.id.generic_dialog_cancel_button);
+        cancelDialogButtonView.setVisibility(View.VISIBLE);
         cancelDialogButtonView.setOnClickListener((view) -> alertDialog.dismiss());
         return this;
     }

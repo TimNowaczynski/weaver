@@ -1,7 +1,6 @@
 package de.quarian.weaver.theming;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +22,7 @@ import de.quarian.weaver.WeaverActivity;
 import de.quarian.weaver.datamodel.Theme;
 import de.quarian.weaver.di.DependencyInjector;
 import de.quarian.weaver.di.GlobalHandler;
+import de.quarian.weaver.util.GenericDialogBuilder;
 
 //TODO: Somehow hand back theme values for new campaigns
 public class SetThemeActivity extends WeaverActivity {
@@ -47,6 +47,9 @@ public class SetThemeActivity extends WeaverActivity {
         @Inject
         public ThemeProvider themeProvider;
 
+        @Inject
+        public GenericDialogBuilder.Factory dialogBuilderFactory;
+
     }
 
     public final ActivityDependencies activityDependencies = new ActivityDependencies();
@@ -58,7 +61,7 @@ public class SetThemeActivity extends WeaverActivity {
     private ColorPicker actionColorPicker;
 
     @Nullable
-    private ColorPicker backgroundColorPicker;
+    private ColorPicker screenBackgroundColorPicker;
 
     @Nullable
     private ColorPicker backgroundTextColorPicker;
@@ -69,13 +72,11 @@ public class SetThemeActivity extends WeaverActivity {
     @Nullable
     private ColorPicker itemTextColorPicker;
 
-    private int actionColor = Color.BLACK;
-    private int screenBackgroundColor = Color.BLACK;
-    private int backgroundTextColor = Color.BLACK;
-    private int itemBackgroundColor = Color.BLACK;
-    private int itemTextColor = Color.BLACK;
+    private ThemeEditorValues themeEditorValues;
 
-    // TODO: Handle Management of Roleplaying Systems (how complex should it be?)
+    // TODO: Figure out what I meant by this:
+    //  Handle Management of Roleplaying Systems (how complex should it be?)
+    //  Is this comment in the right place?
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,6 +98,17 @@ public class SetThemeActivity extends WeaverActivity {
         });
     }
 
+    @NonNull
+    private Intent retrieveColors() {
+        final Intent colors = new Intent();
+        colors.putExtra(EXTRA_ACTION_COLOR, themeEditorValues.getActionColor());
+        colors.putExtra(EXTRA_BACKGROUND_COLOR, themeEditorValues.getScreenBackgroundColor());
+        colors.putExtra(EXTRA_BACKGROUND_TEXT_COLOR, themeEditorValues.getBackgroundTextColor());
+        colors.putExtra(EXTRA_ITEM_COLOR, themeEditorValues.getItemBackgroundColor());
+        colors.putExtra(EXTRA_ITEM_TEXT_COLOR, themeEditorValues.getItemTextColor());
+        return colors;
+    }
+
     @Override
     public void onDependenciesInjected() {
         AsyncTask.execute(() -> {
@@ -108,11 +120,13 @@ public class SetThemeActivity extends WeaverActivity {
             if (campaignId != NEW_CAMPAIGN_ID) {
                 theme = activityDependencies.themeProvider.getThemeForCampaign(campaignId);
             }
-            activityDependencies.handler.post(this::initializeColorPickers);
+            activityDependencies.handler.post(this::initializeCurrentTheme);
         });
     }
 
-    private void initializeColorPickers() {
+    private void initializeCurrentTheme() {
+        themeEditorValues = new ThemeEditorValues(theme);
+
         initializeActionColorPicker(theme);
         initializeScreenBackgroundColorPicker(theme);
         initializeBackgroundTextColorPicker(theme);
@@ -140,7 +154,7 @@ public class SetThemeActivity extends WeaverActivity {
 
         actionColorPicker.setCallback((@ColorInt int colorInt) -> {
             setActionColorPreview(colorInt);
-            actionColor = colorInt;
+            themeEditorValues.setActionColor(colorInt);
             notifyChildFragmentChanges(ThemeColorCategory.actionColor, colorInt);
         });
     }
@@ -194,14 +208,14 @@ public class SetThemeActivity extends WeaverActivity {
     private void initializeScreenBackgroundColorPicker(@Nullable Theme theme) {
 
         if (theme == null) {
-            backgroundColorPicker = prepareColorPicker();
+            screenBackgroundColorPicker = prepareColorPicker();
         } else {
             final int alpha = getAlpha(theme.screenBackgroundColorA);
-            backgroundColorPicker = prepareColorPicker(alpha, theme.screenBackgroundColorR, theme.screenBackgroundColorG, theme.screenBackgroundColorB);
+            screenBackgroundColorPicker = prepareColorPicker(alpha, theme.screenBackgroundColorR, theme.screenBackgroundColorG, theme.screenBackgroundColorB);
         }
 
-        backgroundColorPicker.setCallback((@ColorInt int colorInt) -> {
-            screenBackgroundColor = colorInt;
+        screenBackgroundColorPicker.setCallback((@ColorInt int colorInt) -> {
+            this.themeEditorValues.setScreenBackgroundColor(colorInt);
 
             final FrameLayout backgroundColorFrame = findViewById(R.id.activity_set_theme_background_color_preview);
             final View preview = backgroundColorFrame.getChildAt(0);
@@ -225,11 +239,11 @@ public class SetThemeActivity extends WeaverActivity {
         }
 
         backgroundTextColorPicker.setCallback((@ColorInt int colorInt) -> {
-            backgroundTextColor = colorInt;
+            this.themeEditorValues.setBackgroundTextColor(colorInt);
 
             final FrameLayout frameLayout = findViewById(R.id.activity_set_theme_background_text_color_preview);
             final TextView preview = (TextView) frameLayout.getChildAt(0);
-            preview.setBackgroundColor(screenBackgroundColor);
+            preview.setBackgroundColor(this.themeEditorValues.getScreenBackgroundColor());
             preview.setTextColor(colorInt);
 
             notifyChildFragmentChanges(ThemeColorCategory.backgroundTextColor, colorInt);
@@ -246,7 +260,7 @@ public class SetThemeActivity extends WeaverActivity {
         }
 
         itemBackgroundColorPicker.setCallback((@ColorInt int colorInt) -> {
-            itemBackgroundColor = colorInt;
+            this.themeEditorValues.setItemBackgroundColor(colorInt);
 
             final FrameLayout frameLayout = findViewById(R.id.activity_set_theme_item_background_color_preview);
             final View preview = frameLayout.getChildAt(0);
@@ -269,11 +283,11 @@ public class SetThemeActivity extends WeaverActivity {
         }
 
         itemTextColorPicker.setCallback((@ColorInt int colorInt) -> {
-            itemTextColor = colorInt;
+            this.themeEditorValues.setItemTextColor(colorInt);
 
             final FrameLayout frameLayout = findViewById(R.id.activity_set_theme_item_text_color_preview);
             final TextView preview = (TextView) frameLayout.getChildAt(0);
-            preview.setBackgroundColor(itemBackgroundColor);
+            preview.setBackgroundColor(themeEditorValues.getItemBackgroundColor());
             preview.setTextColor(colorInt);
 
             notifyChildFragmentChanges(ThemeColorCategory.itemTextColor, colorInt);
@@ -287,8 +301,8 @@ public class SetThemeActivity extends WeaverActivity {
     }
 
     public void pickBackgroundColor(final View view) {
-        if (this.backgroundColorPicker != null) {
-            this.backgroundColorPicker.show();
+        if (this.screenBackgroundColorPicker != null) {
+            this.screenBackgroundColorPicker.show();
         }
     }
 
@@ -320,22 +334,19 @@ public class SetThemeActivity extends WeaverActivity {
 
     // TODO: presets
 
-    @NonNull
-    private Intent retrieveColors() {
-        final Intent colors = new Intent();
-        colors.putExtra(EXTRA_ACTION_COLOR, actionColor);
-        colors.putExtra(EXTRA_BACKGROUND_COLOR, screenBackgroundColor);
-        colors.putExtra(EXTRA_BACKGROUND_TEXT_COLOR, backgroundTextColor);
-        colors.putExtra(EXTRA_ITEM_COLOR, itemBackgroundColor);
-        colors.putExtra(EXTRA_ITEM_TEXT_COLOR, itemTextColor);
-        return colors;
-    }
-
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        // TODO: "Discard Changes?", how does it interact with the fragment implementation?
-        //  this makes sense to implement when we tackle editing of existing themes
-        //  because then we have variable initial values to compare to
+        if (themeEditorValues.hasPendingChanges()) {
+            final GenericDialogBuilder builder = this.activityDependencies.dialogBuilderFactory.getBuilder();
+            builder.setMessage(R.string.activity_set_theme_discard_changes)
+                    .setPrimaryButtonText(R.string.activity_set_theme_discard_changes_confirm)
+                    .setPrimaryButtonAction((view) -> super.onBackPressed())
+                    .setCancelable(true)
+                    .showDialog(this);
+        } else {
+            super.onBackPressed();
+        }
     }
+
+    // TODO: IN CAMPAIGN EDITOR: change FAB action from confirm to change theme if no theme is defined
 }

@@ -19,6 +19,7 @@ public class ThemeDisplayObject {
 
     public int actionColor;
     public Drawable actionDrawable;
+    public int actionTextColor;
     public int backgroundTextColor;
     public int itemTextColor;
     public int itemTextSecondaryColor;
@@ -35,6 +36,7 @@ public class ThemeDisplayObject {
             final Theme theme = new Theme();
             theme.presetId = Theme.PRESET_ID_MODERN;
             defaultTheme = fromTheme(context, theme);
+            defaultTheme.refresh();
         }
         return defaultTheme;
     }
@@ -115,6 +117,7 @@ public class ThemeDisplayObject {
     }
 
     public void refresh() {
+        actionTextColor = backgroundTextColor;
         backgroundDrawable = createBackgroundDrawable();
         backgroundButtonDrawable = createBackgroundButtonDrawable();
         itemDrawable = createItemDrawable();

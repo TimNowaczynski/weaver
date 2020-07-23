@@ -32,6 +32,21 @@ public class Utils {
             return colorArgb;
         }
 
+        public int alphaOf(@ColorInt final int color) {
+            return 0xFF000000 & color;
+        }
+
+        public int redOf(@ColorInt final int color) {
+            return 0x00FF0000 & color;
+        }
+
+        public int greenOf(@ColorInt final int color) {
+            return 0x0000FF00 & color;
+        }
+
+        public int blueOf(@ColorInt final int color) {
+            return 0x000000FF & color;
+        }
     }
 
     public static class ByteArrayConverter {

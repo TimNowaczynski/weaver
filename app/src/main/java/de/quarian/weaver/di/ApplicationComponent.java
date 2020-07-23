@@ -26,6 +26,6 @@ public interface ApplicationComponent {
     //void inject(final CampaignListActivity.ActivityDependencies campaignListActivity);
     //void inject(final PlayerCharacterListActivity.ActivityDependencies playerCharacterListActivity);
     void inject(final CharacterLibraryActivity.ActivityDependencies characterLibraryActivity);
-    void inject(final SetThemeActivity.ActivityDependencies setThemeActivity);
+    //void inject(final SetThemeActivity.ActivityDependencies setThemeActivity);
     void inject(final DeveloperFunctionsActivity.ActivityDependencies developerFunctionsActivity);
 }

@@ -51,6 +51,7 @@
     <string name="activity_character_library_campaign_activated">Campaign reactivated</string>
 
     <string name="activity_set_theme_menu_apply_theme">Apply Theme</string>
+    <string name="activity_set_theme_menu_apply">Apply</string>
     <string name="activity_set_theme_apply_fantasy_preset">Fantasy Preset</string>
     <string name="activity_set_theme_apply_modern_preset">Modern Preset</string>
     <string name="activity_set_theme_invalid_id_error_title">Error editing theme</string>
@@ -63,6 +64,8 @@
     <string name="activity_set_theme_item_text_color">Item Text Color</string>
     <string name="activity_set_theme_preview_text">ABC</string>
     <string name="activity_set_theme_cd_apply">Apply</string>
+    <string name="activity_set_theme_discard_changes">Discard Changes?</string>
+    <string name="activity_set_theme_discard_changes_confirm">Discard</string>
 
     <string name="activity_character_view_menu_edit_character">Edit Character</string>
 
