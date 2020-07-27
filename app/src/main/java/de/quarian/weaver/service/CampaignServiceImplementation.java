@@ -7,14 +7,17 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import de.quarian.weaver.database.CampaignDAO;
+import de.quarian.weaver.database.NameDAO;
 import de.quarian.weaver.database.PlayerCharacterDAO;
 import de.quarian.weaver.database.RoleplayingSystemDAO;
 import de.quarian.weaver.database.ThemeDAO;
 import de.quarian.weaver.database.WeaverDB;
 import de.quarian.weaver.datamodel.Campaign;
+import de.quarian.weaver.datamodel.NameSet;
 import de.quarian.weaver.datamodel.RoleplayingSystem;
 import de.quarian.weaver.datamodel.Theme;
 import de.quarian.weaver.datamodel.converter.CampaignConverter;
+import de.quarian.weaver.datamodel.ddo.CampaignDisplayObject;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 import de.quarian.weaver.di.CampaignListOrderPreferences;
 
@@ -23,6 +26,7 @@ public class CampaignServiceImplementation implements CampaignService {
     private static final String SP_CURRENT_ORDER = "campaignService.currentOrder";
 
     private final CampaignDAO campaignDAO;
+    private final NameDAO nameDAO;
     private final RoleplayingSystemDAO roleplayingSystemDAO;
     private final PlayerCharacterDAO playerCharacterDAO;
     private final ThemeDAO themeDAO;
@@ -33,6 +37,7 @@ public class CampaignServiceImplementation implements CampaignService {
                                          @NonNull @CampaignListOrderPreferences SharedPreferences orderPreferences,
                                          @NonNull CampaignConverter campaignConverter) {
         this.campaignDAO = weaverDB.campaignDAO();
+        this.nameDAO = weaverDB.nameDAO();
         this.roleplayingSystemDAO = weaverDB.roleplayingSystemDAO();
         this.playerCharacterDAO = weaverDB.playerCharacterDAO();
         this.themeDAO = weaverDB.themeDAO();
@@ -80,14 +85,15 @@ public class CampaignServiceImplementation implements CampaignService {
         }
     }
 
+    // TODO: test this
     @Override
-    public CampaignListDisplayObject readCampaign(long campaignId) {
+    public CampaignDisplayObject readCampaign(long campaignId) {
         final Campaign campaign = campaignDAO.readCampaignByID(campaignId);
         final RoleplayingSystem roleplayingSystem = roleplayingSystemDAO.readRoleplayingSystemsById(campaign.roleplayingSystemId);
         assert roleplayingSystem != null; // Should basically never happen
-        final Theme theme = themeDAO.readThemeByID(campaign.themeId);
-        final long numberOfPlayerCharacters = playerCharacterDAO.readNumberOfPlayerCharactersForCampaign(campaign.id);
-        return campaignConverter.convert(roleplayingSystem, campaign, theme, numberOfPlayerCharacters);
+        final List<NameSet> allNameSets = nameDAO.readNameSets();
+        final List<NameSet> nameSetsForCampaign = nameDAO.readNameSetsForCampaign(campaignId);
+        return campaignConverter.convert(roleplayingSystem, campaign, allNameSets, nameSetsForCampaign);
     }
 
     @Override
@@ -111,7 +117,8 @@ public class CampaignServiceImplementation implements CampaignService {
     }
 
     @Override
-    public Theme readThemeForCampaign(@NonNull Campaign campaign) {
+    public Theme readThemeForCampaign(long campaignId) {
+        final Campaign campaign = campaignDAO.readCampaignByID(campaignId);
         return themeDAO.readThemeByID(campaign.themeId);
     }
 

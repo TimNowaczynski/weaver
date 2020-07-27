@@ -1,5 +1,7 @@
 package de.quarian.weaver.datamodel;
 
+import android.graphics.Color;
+
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -41,63 +43,63 @@ public class Theme {
     public String bannerBackgroundImageType;
 
     @ColumnInfo(name = "action_color_a")
-    public int actionColorA;
+    public int actionColorA = 255;
 
     @ColumnInfo(name = "action_color_r")
-    public int actionColorR;
+    public int actionColorR = Color.red(Color.BLACK);
 
     @ColumnInfo(name = "action_color_g")
-    public int actionColorG;
+    public int actionColorG = Color.green(Color.BLACK);
 
     @ColumnInfo(name = "action_color_b")
-    public int actionColorB;
+    public int actionColorB = Color.blue(Color.BLACK);
 
     @ColumnInfo(name = "screen_background_color_a")
-    public int screenBackgroundColorA;
+    public int screenBackgroundColorA = 255;
 
     @ColumnInfo(name = "screen_background_color_r")
-    public int screenBackgroundColorR;
+    public int screenBackgroundColorR = Color.red(Color.BLACK);
 
     @ColumnInfo(name = "screen_background_color_g")
-    public int screenBackgroundColorG;
+    public int screenBackgroundColorG = Color.green(Color.BLACK);
 
     @ColumnInfo(name = "screen_background_color_b")
-    public int screenBackgroundColorB;
+    public int screenBackgroundColorB = Color.blue(Color.BLACK);
 
     @ColumnInfo(name = "item_background_color_a")
-    public int itemBackgroundColorA;
+    public int itemBackgroundColorA = 255;
 
     @ColumnInfo(name = "item_background_color_r")
-    public int itemBackgroundColorR;
+    public int itemBackgroundColorR = Color.red(Color.BLACK);
 
     @ColumnInfo(name = "item_background_color_g")
-    public int itemBackgroundColorG;
+    public int itemBackgroundColorG = Color.green(Color.BLACK);
 
     @ColumnInfo(name = "item_background_color_b")
-    public int itemBackgroundColorB;
+    public int itemBackgroundColorB = Color.blue(Color.BLACK);
 
     @ColumnInfo(name = "background_font_color_a")
-    public int backgroundFontColorA;
+    public int backgroundFontColorA = 255;
 
     @ColumnInfo(name = "background_font_color_r")
-    public int backgroundFontColorR;
+    public int backgroundFontColorR = Color.red(Color.BLACK);
 
     @ColumnInfo(name = "background_font_color_g")
-    public int backgroundFontColorG;
+    public int backgroundFontColorG = Color.green(Color.BLACK);
 
     @ColumnInfo(name = "background_font_color_b")
-    public int backgroundFontColorB;
+    public int backgroundFontColorB = Color.blue(Color.BLACK);
 
     @ColumnInfo(name = "item_font_color_a")
-    public int itemFontColorA;
+    public int itemFontColorA = 255;
 
     @ColumnInfo(name = "item_font_color_r")
-    public int itemFontColorR;
+    public int itemFontColorR = Color.red(Color.BLACK);
 
     @ColumnInfo(name = "item_font_color_g")
-    public int itemFontColorG;
+    public int itemFontColorG = Color.green(Color.BLACK);
 
     @ColumnInfo(name = "item_font_color_b")
-    public int itemFontColorB;
+    public int itemFontColorB = Color.blue(Color.BLACK);
 
 }

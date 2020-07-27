@@ -15,11 +15,22 @@ import de.quarian.weaver.datamodel.ddo.NameSetDisplayObject;
 public class ConfigureNameSetsAdapter extends RecyclerView.Adapter<ConfigureNameSetsListItemViewHolder> {
 
     private final List<NameSetDisplayObject> nameSetDisplayObjects = new ArrayList<>();
+    private List<Long> selectedNameSetIds;
 
     public void setNameSetDisplayObjects(@NonNull final List<NameSetDisplayObject> nameSetDisplayObjects) {
         this.nameSetDisplayObjects.clear();
         this.nameSetDisplayObjects.addAll(nameSetDisplayObjects);
+        initSelectedIds(nameSetDisplayObjects);
         notifyDataSetChanged();
+    }
+
+    private void initSelectedIds(@NonNull final List<NameSetDisplayObject> nameSetDisplayObjects) {
+        final int initialCapacity = nameSetDisplayObjects.size();
+        selectedNameSetIds = new ArrayList<>(initialCapacity);
+        for (final NameSetDisplayObject nameSetDisplayObject : nameSetDisplayObjects) {
+            final long nameSetId = nameSetDisplayObject.getId();
+            selectedNameSetIds.add(nameSetId);
+        }
     }
 
     @NonNull
@@ -44,5 +55,9 @@ public class ConfigureNameSetsAdapter extends RecyclerView.Adapter<ConfigureName
     @Override
     public int getItemCount() {
         return nameSetDisplayObjects.size();
+    }
+
+    public List<Long> getSelectedNameSetIds() {
+        return selectedNameSetIds;
     }
 }

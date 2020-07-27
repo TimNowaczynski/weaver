@@ -30,11 +30,7 @@ public class SetThemeActivity extends WeaverActivity {
     public static final int REQUEST_CODE_EDIT_THEME = 1;
     public static final long NEW_CAMPAIGN_ID = -2L;
 
-    public static final String EXTRA_ACTION_COLOR = "extra.actionColor";
-    public static final String EXTRA_BACKGROUND_COLOR = "extra.backgroundColor";
-    public static final String EXTRA_BACKGROUND_TEXT_COLOR = "extra.backgroundTextColor";
-    public static final String EXTRA_ITEM_COLOR = "extra.itemColor";
-    public static final String EXTRA_ITEM_TEXT_COLOR = "extra.itemTextColor";
+    public static final String EXTRA_COLORS = "extra.colors";
 
     private static final long INVALID_CAMPAIGN_ID = -1L;
 
@@ -92,21 +88,27 @@ public class SetThemeActivity extends WeaverActivity {
 
         final View confirmSetThemeButton = toolbar.findViewById(R.id.activity_set_theme_action_bar_confirm_button);
         confirmSetThemeButton.setOnClickListener((view) -> {
-            final Intent colors = retrieveColors();
-            setResult(RESULT_OK, colors);
+            final ThemeColorsParcelable colors = retrieveColors();
+            final Intent result = new Intent();
+            result.putExtra(EXTRA_COLORS, colors);
+            setResult(RESULT_OK, result);
             finish();
         });
     }
 
     @NonNull
-    private Intent retrieveColors() {
-        final Intent colors = new Intent();
-        colors.putExtra(EXTRA_ACTION_COLOR, themeEditorValues.getActionColor());
-        colors.putExtra(EXTRA_BACKGROUND_COLOR, themeEditorValues.getScreenBackgroundColor());
-        colors.putExtra(EXTRA_BACKGROUND_TEXT_COLOR, themeEditorValues.getBackgroundTextColor());
-        colors.putExtra(EXTRA_ITEM_COLOR, themeEditorValues.getItemBackgroundColor());
-        colors.putExtra(EXTRA_ITEM_TEXT_COLOR, themeEditorValues.getItemTextColor());
-        return colors;
+    private ThemeColorsParcelable retrieveColors() {
+        final int actionColor = themeEditorValues.getActionColor();
+        final int screenBackgroundColor = themeEditorValues.getScreenBackgroundColor();
+        final int backgroundTextColor = themeEditorValues.getBackgroundTextColor();
+        final int itemBackgroundColor = themeEditorValues.getItemBackgroundColor();
+        final int itemTextColor = themeEditorValues.getItemTextColor();
+        return new ThemeColorsParcelable(
+                actionColor,
+                screenBackgroundColor,
+                backgroundTextColor,
+                itemBackgroundColor,
+                itemTextColor);
     }
 
     @Override
@@ -134,15 +136,6 @@ public class SetThemeActivity extends WeaverActivity {
         initializeItemTextColorPicker(theme);
     }
 
-    private int getAlpha(int alphaFromDb) {
-        // This is a quick work-around, it makes no sense to define an invisible color
-        // and therefore it's safe to assume it's a newly initialized theme
-        if (alphaFromDb == 0) {
-            alphaFromDb = 255;
-        }
-        return alphaFromDb;
-    }
-
     private void initializeActionColorPicker(@Nullable Theme theme) {
 
         if (theme == null) {
@@ -152,11 +145,21 @@ public class SetThemeActivity extends WeaverActivity {
             actionColorPicker = prepareColorPicker(alpha, theme.actionColorR, theme.actionColorG, theme.actionColorB);
         }
 
+        actionColorPicker.setTitle(R.string.activity_set_theme_pick_action_color);
         actionColorPicker.setCallback((@ColorInt int colorInt) -> {
             setActionColorPreview(colorInt);
             themeEditorValues.setActionColor(colorInt);
             notifyChildFragmentChanges(ThemeColorCategory.actionColor, colorInt);
         });
+    }
+
+    private int getAlpha(int alphaFromDb) {
+        // This is a quick work-around, it makes no sense to define an invisible color
+        // and therefore it's safe to assume it's a newly initialized theme
+        if (alphaFromDb == 0) {
+            alphaFromDb = 255;
+        }
+        return alphaFromDb;
     }
 
     private void setActionColorPreview(@ColorInt final int colorInt) {
@@ -214,6 +217,8 @@ public class SetThemeActivity extends WeaverActivity {
             screenBackgroundColorPicker = prepareColorPicker(alpha, theme.screenBackgroundColorR, theme.screenBackgroundColorG, theme.screenBackgroundColorB);
         }
 
+        // Sadly those title aren't supported at the moment
+        screenBackgroundColorPicker.setTitle(R.string.activity_set_theme_pick_screen_background_color);
         screenBackgroundColorPicker.setCallback((@ColorInt int colorInt) -> {
             this.themeEditorValues.setScreenBackgroundColor(colorInt);
 
@@ -238,6 +243,8 @@ public class SetThemeActivity extends WeaverActivity {
             backgroundTextColorPicker = prepareColorPicker(alpha, theme.backgroundFontColorR, theme.backgroundFontColorG, theme.backgroundFontColorB);
         }
 
+        // Sadly those title aren't supported at the moment
+        backgroundTextColorPicker.setTitle(R.string.activity_set_theme_pick_background_text_color);
         backgroundTextColorPicker.setCallback((@ColorInt int colorInt) -> {
             this.themeEditorValues.setBackgroundTextColor(colorInt);
 
@@ -259,6 +266,8 @@ public class SetThemeActivity extends WeaverActivity {
             itemBackgroundColorPicker = prepareColorPicker(alpha, theme.itemBackgroundColorR, theme.itemBackgroundColorG, theme.itemBackgroundColorB);
         }
 
+        // Sadly those title aren't supported at the moment
+        itemBackgroundColorPicker.setTitle(R.string.activity_set_theme_pick_item_background_color);
         itemBackgroundColorPicker.setCallback((@ColorInt int colorInt) -> {
             this.themeEditorValues.setItemBackgroundColor(colorInt);
 
@@ -282,6 +291,8 @@ public class SetThemeActivity extends WeaverActivity {
             itemTextColorPicker = prepareColorPicker(alpha, theme.itemFontColorR, theme.itemFontColorG, theme.itemFontColorB);
         }
 
+        // Sadly those title aren't supported at the moment
+        itemTextColorPicker.setTitle(R.string.activity_set_theme_pick_item_text_color);
         itemTextColorPicker.setCallback((@ColorInt int colorInt) -> {
             this.themeEditorValues.setItemTextColor(colorInt);
 

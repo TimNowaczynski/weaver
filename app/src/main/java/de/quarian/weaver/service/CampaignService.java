@@ -5,6 +5,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import de.quarian.weaver.datamodel.Campaign;
 import de.quarian.weaver.datamodel.Theme;
+import de.quarian.weaver.datamodel.ddo.CampaignDisplayObject;
 import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
 
 public interface CampaignService {
@@ -36,7 +37,8 @@ public interface CampaignService {
 
     long createCampaign(@NonNull Campaign campaign);
 
-    CampaignListDisplayObject readCampaign(final long campaignId);
+    // TODO: test this
+    CampaignDisplayObject readCampaign(final long campaignId);
 
     List<CampaignListDisplayObject> readCampaigns(@NonNull final SortOrder sortOrder);
 
@@ -46,7 +48,7 @@ public interface CampaignService {
 
     long createTheme(@NonNull Theme theme);
 
-    Theme readThemeForCampaign(@NonNull Campaign campaign);
+    Theme readThemeForCampaign(long campaignId);
 
     void updateTheme(@NonNull Theme theme);
 

@@ -20,7 +20,7 @@ public class NameSetConverter {
 
         final List<NameSetDisplayObject> nameSetDisplayObjects = new ArrayList<>(allNameSets.size());
         for (final NameSet nameSet : allNameSets) {
-            final NameSetDisplayObject nameSetDisplayObject = new NameSetDisplayObject();
+            final NameSetDisplayObject nameSetDisplayObject = new NameSetDisplayObject(nameSet.id);
             nameSetDisplayObject.setNameSetName(nameSet.nameSetName);
             nameSetDisplayObject.setSelected(activeNameSetIds.contains(nameSet.id));
             nameSetDisplayObjects.add(nameSetDisplayObject);

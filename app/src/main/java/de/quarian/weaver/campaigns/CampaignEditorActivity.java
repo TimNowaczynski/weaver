@@ -1,16 +1,16 @@
 package de.quarian.weaver.campaigns;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -21,18 +21,23 @@ import androidx.viewpager2.widget.ViewPager2;
 import de.quarian.weaver.ActivityPreconditionErrorHandler;
 import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
-import de.quarian.weaver.datamodel.ddo.CampaignListDisplayObject;
+import de.quarian.weaver.datamodel.Theme;
+import de.quarian.weaver.datamodel.ddo.CampaignDisplayObject;
 import de.quarian.weaver.di.DependencyInjector;
 import de.quarian.weaver.di.GlobalHandler;
+import de.quarian.weaver.namesets.ConfigureNameSetsCallbacks;
 import de.quarian.weaver.schedulers.IoScheduler;
 import de.quarian.weaver.service.CampaignService;
 import de.quarian.weaver.theming.SetThemeActivity;
+import de.quarian.weaver.theming.ThemeColorsParcelable;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 
+import static de.quarian.weaver.theming.SetThemeActivity.EXTRA_COLORS;
+
 // TODO: Test Class
-public class CampaignEditorActivity extends AppCompatActivity implements CampaignContext {
+public class CampaignEditorActivity extends AppCompatActivity implements CampaignContext, ConfigureNameSetsCallbacks {
 
     public static class ActivityDependencies {
 
@@ -61,13 +66,29 @@ public class CampaignEditorActivity extends AppCompatActivity implements Campaig
     public static final String EXTRA_MODE = "extra.mode";
 
     public final ActivityDependencies activityDependencies = new ActivityDependencies();
+    private Theme theme;
     private Mode mode;
     private long campaignId = INVALID_CAMPAIGN_ID;
     private TabLayout tabLayout;
     private boolean editorExpanded;
 
+    // TODO: init values
+    private CombinedCampaignDraft combinedCampaignDraft = new CombinedCampaignDraft();
+
     public enum Mode {
         EDIT, NEW
+    }
+
+    @Override
+    public long getCampaignId() {
+        return CampaignContext.NEW_CAMPAIGN_CONTEXT;
+    }
+
+    // In our app flow this also marks when we finished editing
+    @Override
+    public void onNameSetsSelected(final List<Long> nameSetIds) {
+        combinedCampaignDraft.setNameSetIds(nameSetIds);
+        // TODO: store campaign and a) close activity and b) open campaign
     }
 
     @Override
@@ -79,7 +100,10 @@ public class CampaignEditorActivity extends AppCompatActivity implements Campaig
         setUpListeners();
 
         if (mode == Mode.EDIT) {
-            queryCampaign();
+            queryCampaignAndTheme();
+        } else {
+            theme = new Theme();
+            theme.presetId = Theme.PRESET_ID_MODERN;
         }
     }
 
@@ -87,6 +111,7 @@ public class CampaignEditorActivity extends AppCompatActivity implements Campaig
         final String modeString = getIntent().getStringExtra(EXTRA_MODE);
         mode = Mode.valueOf(modeString);
         if(mode == Mode.NEW) {
+            // TODO: init with values
             //final ViewDataBinding viewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_campaign);
             //viewDataBinding.setVariable(, );
         } else {
@@ -94,11 +119,6 @@ public class CampaignEditorActivity extends AppCompatActivity implements Campaig
         }
         setContentView(R.layout.activity_edit_campaign);
         setUpTabs();
-    }
-
-    @Override
-    public long getCampaignId() {
-        return CampaignContext.NEW_CAMPAIGN_CONTEXT;
     }
 
     private void setSupportActionBar() {
@@ -143,12 +163,14 @@ public class CampaignEditorActivity extends AppCompatActivity implements Campaig
             setThemeButton.setOnClickListener((view) -> NavigationController.getInstance().setTheme(this, this.campaignId));
         }
     }
-    private void queryCampaign() {
-        // TODO: query not only campaigns, but all the stuff we need for (!) CampaignDisplayObjects (not the ones for the list)
+
+    private void queryCampaignAndTheme() {
         final Disposable disposable = Observable.just(activityDependencies.campaignService)
                 .subscribeOn(activityDependencies.io)
                 .subscribe((campaignService) -> {
-                    final CampaignListDisplayObject campaignListDisplayObject = campaignService.readCampaign(campaignId);
+                    final CampaignDisplayObject campaignDisplayObject = campaignService.readCampaign(campaignId);
+                    final long campaignId = campaignDisplayObject.getCampaignId();
+                    theme = campaignService.readThemeForCampaign(campaignId);
                     // TODO: implement (post delayed?), data-binding, refactor dependencies into subclasses
                 });
         activityDependencies.globalHandler.postDelayed(disposable::dispose, 500L);
@@ -158,25 +180,16 @@ public class CampaignEditorActivity extends AppCompatActivity implements Campaig
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SetThemeActivity.REQUEST_CODE_EDIT_THEME && data != null) {
-            // TODO: handle result
-            final int actionColor = data.getIntExtra(SetThemeActivity.EXTRA_ACTION_COLOR, Color.BLACK);
-            if (actionColor != Color.BLACK) {
-                Toast.makeText(getBaseContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
-            }
+            final ThemeColorsParcelable themeColorsParcelable = data.getParcelableExtra(EXTRA_COLORS);
+            combinedCampaignDraft.setThemeColorsParcelable(themeColorsParcelable);
         }
-        /*
-        TODO: Set Theme needs to call setResult(code, intent); with intent = colors (done)
-            and then we need to grab those values here to insert both theme and
-            campaign into database OR BETTER: test if eventbus works for bg communication
-            between activities
-         */
     }
 
     public Mode getMode() {
         return mode;
     }
 
-    public void onFABClicked(final View view) {
+    public void onSynopsisFABClicked(final View view) {
         if (editorExpanded) {
             collapseEditor();
         } else {

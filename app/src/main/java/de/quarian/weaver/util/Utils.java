@@ -4,6 +4,8 @@ import android.graphics.Color;
 
 import androidx.annotation.ColorInt;
 
+// This is our place for constants, so I prefer to deactivate WeakerAccess warnings
+@SuppressWarnings("WeakerAccess")
 public class Utils {
 
     private Utils() { }
@@ -30,22 +32,6 @@ public class Utils {
             colorArgb[2] = Color.green(color);
             colorArgb[3] = Color.blue(color);
             return colorArgb;
-        }
-
-        public int alphaOf(@ColorInt final int color) {
-            return 0xFF000000 & color;
-        }
-
-        public int redOf(@ColorInt final int color) {
-            return 0x00FF0000 & color;
-        }
-
-        public int greenOf(@ColorInt final int color) {
-            return 0x0000FF00 & color;
-        }
-
-        public int blueOf(@ColorInt final int color) {
-            return 0x000000FF & color;
         }
     }
 

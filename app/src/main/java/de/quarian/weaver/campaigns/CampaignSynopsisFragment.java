@@ -44,7 +44,7 @@ public class CampaignSynopsisFragment extends Fragment implements CampaignSynops
 
         final CampaignEditorActivity activity = (CampaignEditorActivity) getActivity();
         if (activity != null) {
-            nextButton.setOnClickListener(activity::onFABClicked);
+            nextButton.setOnClickListener(activity::onSynopsisFABClicked);
         }
 
         final CampaignSynopsisEditText campaignSynopsisEditText = view.findViewById(R.id.fragment_synopsis_text);

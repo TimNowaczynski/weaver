@@ -4,9 +4,17 @@ import androidx.annotation.NonNull;
 
 public class NameSetDisplayObject implements Comparable<NameSetDisplayObject> {
 
+    private long id;
     private boolean isSelected;
-
     private String nameSetName;
+
+    public NameSetDisplayObject(final long id) {
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
+    }
 
     public boolean isSelected() {
         return isSelected;

@@ -14,10 +14,8 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import de.quarian.weaver.NavigationController;
 import de.quarian.weaver.R;
 import de.quarian.weaver.campaigns.CampaignContext;
 import de.quarian.weaver.datamodel.NameSet;
@@ -31,7 +29,6 @@ import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 
-// TODO: use this fragment in the ConfigureNameSetsActivity as well
 public class ConfigureNameSetsFragment extends Fragment implements CampaignContext {
 
     public static class FragmentDependencies {
@@ -95,7 +92,7 @@ public class ConfigureNameSetsFragment extends Fragment implements CampaignConte
         nameSetList.setAdapter(adapter);
         readListOfAllNameSets();
 
-        initializeAddNameSetButton(view);
+        initializeConfirmButton(view);
     }
 
     private void readListOfAllNameSets() {
@@ -128,14 +125,20 @@ public class ConfigureNameSetsFragment extends Fragment implements CampaignConte
         adapter.setNameSetDisplayObjects(nameSetDisplayObjects);
     }
 
-    private void initializeAddNameSetButton(@NonNull final View view) {
-        final FloatingActionButton addNameSetButton = view.findViewById(R.id.fragment_configure_name_sets_confirm);
-        addNameSetButton.setOnClickListener((clickedView) -> {
-            final FragmentActivity activity = getActivity();
-            if (activity != null) {
-                NavigationController.getInstance().addNameSetDummy(activity);
-            }
-        });
+    private void initializeConfirmButton(@NonNull final View view) {
+        final FloatingActionButton confirmButton = view.findViewById(R.id.fragment_configure_name_sets_confirm);
+        confirmButton.setOnClickListener((clickedView) -> selectNameSets());
+    }
+
+    private void selectNameSets() {
+        final ConfigureNameSetsCallbacks callbacks = (ConfigureNameSetsCallbacks) getActivity();
+        if (callbacks == null) {
+            throw new RuntimeException("Parent activity must not be null and implement ConfigureNameSetsCallbacks");
+        }
+
+        final List<Long> selectedNameSetIds = adapter.getSelectedNameSetIds();
+        // TODO: ensure we select at least one name set when trying to finish editing
+        callbacks.onNameSetsSelected(selectedNameSetIds);
     }
 
     @Override

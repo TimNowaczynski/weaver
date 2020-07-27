@@ -66,6 +66,11 @@
     <string name="activity_set_theme_cd_apply">Apply</string>
     <string name="activity_set_theme_discard_changes">Discard Changes?</string>
     <string name="activity_set_theme_discard_changes_confirm">Discard</string>
+    <string name="activity_set_theme_pick_action_color">Pick Action Color</string>
+    <string name="activity_set_theme_pick_screen_background_color">Pick Background Color</string>
+    <string name="activity_set_theme_pick_background_text_color">Pick Background Text Color</string>
+    <string name="activity_set_theme_pick_item_background_color">Pick Item Background Color</string>
+    <string name="activity_set_theme_pick_item_text_color">Pick Item Text Color</string>
 
     <string name="activity_character_view_menu_edit_character">Edit Character</string>
 

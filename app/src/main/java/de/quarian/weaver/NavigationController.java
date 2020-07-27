@@ -16,7 +16,6 @@ import de.quarian.weaver.players.PlayerCharacterListActivity;
 import de.quarian.weaver.settings.SettingsActivity;
 import de.quarian.weaver.theming.SetThemeActivity;
 import de.quarian.weaver.dev.DeveloperFunctionsActivity;
-import de.quarian.weaver.namesets.ConfigureNameSetsActivity;
 import de.quarian.weaver.theming.WeaverThemedActivity;
 
 public class NavigationController {
@@ -92,17 +91,6 @@ public class NavigationController {
         final Intent intent = new Intent(activity, SetThemeActivity.class);
         intent.putExtra(WeaverThemedActivity.EXTRA_CAMPAIGN_ID, campaignId);
         activity.startActivityForResult(intent, SetThemeActivity.REQUEST_CODE_EDIT_THEME);
-    }
-
-    public void configureNameSets(final Activity activity, final long campaignId) {
-        final Intent intent = new Intent(activity, ConfigureNameSetsActivity.class);
-        intent.putExtra(ConfigureNameSetsActivity.EXTRA_CAMPAIGN_ID, campaignId);
-        activity.startActivity(intent);
-    }
-
-    public void addNameSetDummy(final Activity activity) {
-        // TODO: check if we longer need this
-        Toast.makeText(activity, R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
     }
 
     public void openSynopsis(final Activity activity, final long campaignId) {
